@@ -33,4 +33,4 @@ Formatting success or successful compilation alone does not establish detection 
 - Explain detection impact and false-positive considerations in the Pull Request.
 - Update durable documentation when architecture or project state changes.
 
-The canonical review workflow runs in MeteSec Forgejo. A future GitHub repository will be a distribution mirror until a contribution-import workflow is explicitly implemented.
+The canonical review workflow runs in internal MeteSec Forgejo. The public GitHub repository is a read-only distribution mirror; GitHub contributions are not canonical until a contribution-import workflow is explicitly implemented.

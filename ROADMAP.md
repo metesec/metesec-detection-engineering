@@ -9,6 +9,7 @@ Status: **in progress**
 - [x] Create canonical public Forgejo repository
 - [x] Establish project handoff, logbook, roadmap, and ADR process
 - [x] Add contribution, security, and licensing baseline
+- [x] Publish a one-way public GitHub distribution mirror
 - [x] Define minimal logical detection manifest
 - [x] Add JSON Schema and valid/invalid examples
 - [ ] Define compact detection-package layout
