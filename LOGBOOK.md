@@ -87,3 +87,30 @@ The repository documented the intended separation between detection intent and t
 ### Result
 
 The repository now has its first executable quality boundary. The next milestone is the compact detection-package layout; Sigma implementation and behavioral tests remain explicitly pending.
+
+## 2026-08-27 — Public GitHub distribution mirror activated
+
+### Decision
+
+- Keep self-hosted Forgejo as the internal canonical authoring and review system.
+- Present GitHub as the only public source-code destination on the MeteSec Website.
+- Mirror only the approved `main` branch from Forgejo to GitHub.
+
+### Changes
+
+- Created public repository `metesec/metesec-detection-engineering` on GitHub.
+- Disabled GitHub Actions, Issues, and Wiki so the mirror cannot become a parallel workflow or deployment path.
+- Performed the initial publication of exact Forgejo `main` revision `03d837931300ce73fd5ac2dd3fb5fe5dc3487b6e`.
+- Configured a Forgejo SSH push mirror filtered to `main` with synchronization on new Forgejo commits and no periodic polling.
+- Registered only the generated public key as a writable deploy key on the single GitHub repository; the private key remains stored by Forgejo.
+
+### Verification
+
+- Forgejo and GitHub initially resolved to the exact same `main` commit.
+- GitHub reported the repository public with `main` as default branch.
+- GitHub Actions reported disabled; Issues and Wiki reported disabled.
+- No GitHub personal access token, Forgejo credential, deployment credential, or infrastructure access was stored in either repository.
+
+### Result
+
+GitHub is the public distribution surface while Forgejo remains canonical. This documentation commit is also the functional test for automatic post-merge synchronization.

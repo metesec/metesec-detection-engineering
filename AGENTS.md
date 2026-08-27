@@ -33,7 +33,9 @@ The architectural rule is: one logical detection has one stable identity but may
 
 - Public Forgejo repository: `metesec/metesec-detection-engineering`
 - Canonical source of truth: MeteSec Forgejo
-- GitHub mirror: planned, not implemented
+- GitHub distribution mirror: public at `https://github.com/metesec/metesec-detection-engineering`
+- Mirror direction: Forgejo `main` to GitHub `main` only; sync on Forgejo commits
+- Mirror authentication: repository-scoped SSH deploy key stored by Forgejo; GitHub Actions, Issues, and Wiki are disabled
 - MeteSec Projects page: implemented and public at `https://metesec.com/projects/detection-engineering/`
 - Current phase: `0.1 — Functional Foundation`
 - Logical manifest contract: version 1 implemented as JSON Schema Draft 2020-12
@@ -47,7 +49,7 @@ The architectural rule is: one logical detection has one stable identity but may
 ## Accepted architecture decisions
 
 - Forgejo is the canonical repository and development workflow.
-- GitHub will be a read-only public distribution mirror, not a deployment dependency.
+- GitHub is the read-only public distribution mirror, not a development source or deployment dependency.
 - Version 1 is Sigma-first but not Sigma-only.
 - Native implementations will be added only for genuine platform-specific behavior.
 - The first supported compilation target will be Microsoft Sentinel KQL.
@@ -111,8 +113,9 @@ Compiler success alone is not proof of detection quality or production readiness
 ## Source and mirror boundaries
 
 - Changes are authored, reviewed, tested, and released from Forgejo.
-- A future GitHub mirror may receive only a successful, approved public main revision.
+- The GitHub mirror receives only the successful, approved public `main` revision.
 - GitHub must receive no Forgejo write credential, cluster credential, registry credential, or infrastructure deployment right.
+- The Forgejo push mirror uses a repository-scoped GitHub deploy key and a `main` branch filter. The private key stays in Forgejo; only its public half is registered on GitHub.
 - Contributions received outside Forgejo require an explicit, documented import workflow before they become canonical.
 
 ## Documentation responsibilities

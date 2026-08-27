@@ -22,11 +22,11 @@ The first working release will focus on a small, complete Sigma detection pack w
 ## Delivery model
 
 - **Canonical source:** self-hosted MeteSec Forgejo
-- **Public distribution:** a future read-only GitHub mirror
+- **Public distribution:** [GitHub read-only mirror](https://github.com/metesec/metesec-detection-engineering)
 - **Project presentation:** the public [MeteSec Projects page](https://metesec.com/projects/detection-engineering/)
 - **Engineering stories:** supporting articles on the MeteSec Blog
 
-Forgejo remains the source of truth. A future GitHub mirror will receive only reviewed public content and will not hold deployment credentials or control the MeteSec infrastructure.
+Forgejo remains the source of truth. GitHub receives only the reviewed public `main` branch through a one-way push mirror and holds no deployment credential or control over MeteSec infrastructure. Public visitors should use GitHub; authoring and review remain internal to Forgejo.
 
 ## Documentation
 
