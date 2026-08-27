@@ -1,0 +1,15 @@
+{
+  "name": "metesec-detection-engineering",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Validation tooling for MeteSec Detection Engineering contracts",
+  "scripts": {
+    "validate:manifests": "node scripts/validate-manifests.mjs"
+  },
+  "devDependencies": {
+    "ajv": "8.17.1"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

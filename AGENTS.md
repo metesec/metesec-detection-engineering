@@ -34,10 +34,13 @@ The architectural rule is: one logical detection has one stable identity but may
 - Public Forgejo repository: `metesec/metesec-detection-engineering`
 - Canonical source of truth: MeteSec Forgejo
 - GitHub mirror: planned, not implemented
-- MeteSec Projects page: planned, not implemented
+- MeteSec Projects page: implemented and public at `https://metesec.com/projects/detection-engineering/`
 - Current phase: `0.1 — Functional Foundation`
-- Detection content: not yet implemented
-- Test framework: not yet implemented
+- Logical manifest contract: version 1 implemented as JSON Schema Draft 2020-12
+- Contract examples: one valid draft and one deliberately invalid stable-state example
+- Structural validation: executable with pinned Ajv `8.17.1`; the valid example is accepted and the invalid example is rejected
+- Detection implementations: not yet implemented
+- Behavioral test framework: not yet implemented
 - CI pipeline: not yet implemented
 - Deployment to any SIEM: not implemented and not authorized by this foundation milestone
 
@@ -128,4 +131,4 @@ After every completed milestone:
 
 ## Immediate next milestone
 
-Define the minimal logical detection manifest, its JSON Schema, and one valid plus one invalid example. Validate them locally before introducing the first Sigma rule.
+Define the compact detection-package layout that links one logical manifest to its implementation and future behavioral evidence. Keep the package small and do not introduce the first Sigma rule until that boundary is documented and locally checked.

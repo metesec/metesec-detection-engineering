@@ -8,6 +8,7 @@ MeteSec Detection Engineering is in its foundation phase. Contributions should r
 2. Check existing Issues and architecture decisions.
 3. Do not submit confidential telemetry, customer information, credentials, or real operational exceptions.
 4. Confirm that any borrowed content permits redistribution and record its lineage and license.
+5. Install the pinned development dependency with `pnpm install --frozen-lockfile` and run `pnpm run validate:manifests` before proposing manifest changes.
 
 ## Detection-quality expectations
 

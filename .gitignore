@@ -12,6 +12,7 @@ dist/*
 build/
 coverage.xml
 .coverage
+node_modules/
 
 # Local configuration and secrets
 .env

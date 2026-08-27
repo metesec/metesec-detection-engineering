@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0001",
+  "title": "Unusual Windows service installation",
+  "description": "Draft logical detection for a newly installed Windows service whose execution path or context warrants investigation.",
+  "hypothesis": {
+    "summary": "An adversary may install a Windows service to establish execution or persistence.",
+    "rationale": "Service creation is legitimate administration but can also provide durable privileged execution when its binary path or creator is unusual.",
+    "detection_goal": "Identify service-install events with sufficient context for an analyst to separate expected administration from suspicious persistence."
+  },
+  "ownership": { "owner": "MeteSec Detection Engineering", "reviewers": [] },
+  "lifecycle": { "status": "draft", "created": "2026-08-27", "modified": "2026-08-27", "review_interval_days": 90 },
+  "severity": "medium",
+  "confidence": "low",
+  "data_sources": [
+    { "name": "Windows System event log", "category": "service installation", "required_fields": ["EventID", "ServiceName", "ImagePath", "AccountName"] }
+  ],
+  "attack": [{ "technique_id": "T1543.003", "tactic": "Persistence" }],
+  "triage": {
+    "summary": "Confirm who created the service, whether its binary is trusted, and whether the change was expected.",
+    "steps": [
+      "Review the service name, image path, account and event timestamp.",
+      "Correlate the creator and binary with approved software or change activity.",
+      "Escalate unexpected privileged services or suspicious binary paths for host investigation."
+    ],
+    "false_positives": ["Approved software installation or endpoint-management activity"]
+  },
+  "validation": {
+    "expected_outcome": "A future implementation should alert on qualifying service creation and exclude documented benign fixtures.",
+    "positive_tests": false,
+    "negative_tests": false
+  },
+  "implementations": []
+}

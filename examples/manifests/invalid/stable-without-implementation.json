@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-9999",
+  "title": "Invalid stable detection example",
+  "description": "This deliberately invalid example claims stable status without an active implementation or completed behavioral tests.",
+  "hypothesis": {
+    "summary": "A stable detection must be backed by executable implementation and tests.",
+    "rationale": "Publishing metadata alone as stable would create an unsupported quality claim.",
+    "detection_goal": "Demonstrate that the schema rejects premature stable status."
+  },
+  "ownership": { "owner": "MeteSec Detection Engineering", "reviewers": [] },
+  "lifecycle": { "status": "stable", "created": "2026-08-27", "modified": "2026-08-27", "review_interval_days": 90 },
+  "severity": "medium",
+  "confidence": "low",
+  "data_sources": [
+    { "name": "Synthetic event stream", "category": "schema demonstration", "required_fields": ["event_type"] }
+  ],
+  "attack": [],
+  "triage": {
+    "summary": "This example exists only to exercise lifecycle validation.",
+    "steps": ["Do not publish or implement this deliberately invalid example."],
+    "false_positives": []
+  },
+  "validation": {
+    "expected_outcome": "The repository validator must reject this document.",
+    "positive_tests": false,
+    "negative_tests": false
+  },
+  "implementations": []
+}
