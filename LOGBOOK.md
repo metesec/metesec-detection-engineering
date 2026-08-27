@@ -54,3 +54,36 @@ The repository name `metesec/metesec-detection-engineering` was available in For
 ### Result
 
 Foundation documentation is ready for its initial commit. The next milestone is the minimal detection-manifest contract and schema.
+
+## 2026-08-27 — Logical detection manifest v1 verified
+
+### Starting state
+
+The repository documented the intended separation between detection intent and technical implementation but had no machine-readable contract, example manifests, or executable validation.
+
+### Changes
+
+- Added the JSON Schema Draft 2020-12 contract for a version 1 logical detection manifest.
+- Defined stable identity, hypothesis, ownership, lifecycle, severity, confidence, telemetry dependencies, ATT&CK mappings, triage, validation state, and implementation references.
+- Added a lifecycle guardrail: `stable` requires at least one active implementation plus completed positive and negative tests.
+- Added a valid draft example using synthetic Windows service-installation context without claiming an implementation exists.
+- Added a deliberately invalid stable example that has no active implementation and no completed behavioral tests.
+- Added a small Node.js validator backed by pinned Ajv `8.17.1` and a reproducible pnpm lockfile.
+- Documented the contract boundary and local validation commands.
+
+### Problems and corrections
+
+- The workspace did not expose Node.js through the ordinary Windows command path. Validation was run with the bundled project runtime added to the process-local path; no system configuration was changed.
+- Ajv strict mode initially rejected nested conditional schema fragments that omitted their explicit object and array types. The schema was corrected rather than weakening strict validation.
+
+### Verification
+
+- The schema compiled successfully under Ajv strict mode.
+- `draft-windows-service-install.json` was accepted as valid.
+- `stable-without-implementation.json` was rejected for missing positive tests, negative tests, and an active implementation.
+- The validation command exited successfully only after both expected outcomes were observed.
+- No real telemetry, customer data, credentials, implementation rule, SIEM query, or deployment configuration was introduced.
+
+### Result
+
+The repository now has its first executable quality boundary. The next milestone is the compact detection-package layout; Sigma implementation and behavioral tests remain explicitly pending.

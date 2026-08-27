@@ -9,8 +9,8 @@ Status: **in progress**
 - [x] Create canonical public Forgejo repository
 - [x] Establish project handoff, logbook, roadmap, and ADR process
 - [x] Add contribution, security, and licensing baseline
-- [ ] Define minimal logical detection manifest
-- [ ] Add JSON Schema and valid/invalid examples
+- [x] Define minimal logical detection manifest
+- [x] Add JSON Schema and valid/invalid examples
 - [ ] Define compact detection-package layout
 - [ ] Add Sigma validation toolchain with pinned dependencies
 - [ ] Implement positive and negative fixture-test model

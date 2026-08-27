@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metesec.com/schemas/logical-detection-manifest-v1.schema.json",
+  "title": "MeteSec logical detection manifest v1",
+  "description": "The source-of-truth contract for one logical detection, independent of its technical implementation.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "id", "title", "description", "hypothesis", "ownership", "lifecycle", "severity", "confidence", "data_sources", "attack", "triage", "validation", "implementations"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "id": { "type": "string", "pattern": "^MSEC-DET-[0-9]{4}$" },
+    "title": { "type": "string", "minLength": 8, "maxLength": 120 },
+    "description": { "type": "string", "minLength": 20, "maxLength": 600 },
+    "hypothesis": { "$ref": "#/$defs/hypothesis" },
+    "ownership": { "$ref": "#/$defs/ownership" },
+    "lifecycle": { "$ref": "#/$defs/lifecycle" },
+    "severity": { "enum": ["informational", "low", "medium", "high", "critical"] },
+    "confidence": { "enum": ["low", "medium", "high"] },
+    "data_sources": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/data_source" } },
+    "attack": { "type": "array", "items": { "$ref": "#/$defs/attack_mapping" } },
+    "triage": { "$ref": "#/$defs/triage" },
+    "validation": { "$ref": "#/$defs/validation" },
+    "implementations": { "type": "array", "items": { "$ref": "#/$defs/implementation" } }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "lifecycle": { "type": "object", "properties": { "status": { "const": "stable" } }, "required": ["status"] } },
+        "required": ["lifecycle"]
+      },
+      "then": {
+        "properties": {
+          "validation": {
+            "type": "object",
+            "properties": { "positive_tests": { "const": true }, "negative_tests": { "const": true } },
+            "required": ["positive_tests", "negative_tests"]
+          },
+          "implementations": {
+            "type": "array",
+            "minItems": 1,
+            "contains": { "type": "object", "properties": { "status": { "const": "active" } }, "required": ["status"] },
+            "minContains": 1
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "hypothesis": {
+      "type": "object", "additionalProperties": false,
+      "required": ["summary", "rationale", "detection_goal"],
+      "properties": {
+        "summary": { "type": "string", "minLength": 15, "maxLength": 300 },
+        "rationale": { "type": "string", "minLength": 20, "maxLength": 600 },
+        "detection_goal": { "type": "string", "minLength": 15, "maxLength": 400 }
+      }
+    },
+    "ownership": {
+      "type": "object", "additionalProperties": false,
+      "required": ["owner", "reviewers"],
+      "properties": {
+        "owner": { "type": "string", "minLength": 2, "maxLength": 80 },
+        "reviewers": { "type": "array", "items": { "type": "string", "minLength": 2, "maxLength": 80 }, "uniqueItems": true }
+      }
+    },
+    "lifecycle": {
+      "type": "object", "additionalProperties": false,
+      "required": ["status", "created", "modified", "review_interval_days"],
+      "properties": {
+        "status": { "enum": ["draft", "experimental", "stable", "deprecated"] },
+        "created": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
+        "modified": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
+        "review_interval_days": { "type": "integer", "minimum": 30, "maximum": 730 }
+      }
+    },
+    "data_source": {
+      "type": "object", "additionalProperties": false,
+      "required": ["name", "category", "required_fields"],
+      "properties": {
+        "name": { "type": "string", "minLength": 3, "maxLength": 100 },
+        "category": { "type": "string", "minLength": 3, "maxLength": 80 },
+        "required_fields": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1, "maxLength": 100 }, "uniqueItems": true }
+      }
+    },
+    "attack_mapping": {
+      "type": "object", "additionalProperties": false,
+      "required": ["technique_id", "tactic"],
+      "properties": {
+        "technique_id": { "type": "string", "pattern": "^T[0-9]{4}(\\.[0-9]{3})?$" },
+        "tactic": { "type": "string", "minLength": 3, "maxLength": 60 }
+      }
+    },
+    "triage": {
+      "type": "object", "additionalProperties": false,
+      "required": ["summary", "steps", "false_positives"],
+      "properties": {
+        "summary": { "type": "string", "minLength": 15, "maxLength": 400 },
+        "steps": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 10, "maxLength": 300 } },
+        "false_positives": { "type": "array", "items": { "type": "string", "minLength": 5, "maxLength": 300 } }
+      }
+    },
+    "validation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["expected_outcome", "positive_tests", "negative_tests"],
+      "properties": {
+        "expected_outcome": { "type": "string", "minLength": 15, "maxLength": 400 },
+        "positive_tests": { "type": "boolean" },
+        "negative_tests": { "type": "boolean" }
+      }
+    },
+    "implementation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["type", "path", "targets", "status"],
+      "properties": {
+        "type": { "enum": ["sigma", "native"] },
+        "path": { "type": "string", "pattern": "^(content/portable/sigma|content/native)/[^\\s]+$" },
+        "targets": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 2, "maxLength": 60 }, "uniqueItems": true },
+        "status": { "enum": ["planned", "active"] }
+      }
+    }
+  }
+}

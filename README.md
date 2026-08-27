@@ -2,8 +2,8 @@
 
 Detection-as-Code reference implementation for portable, tested, and reviewable security detections.
 
-> **Project status: Foundation**  
-> The repository currently establishes its architecture, governance, and delivery model. Detection content and executable validation will be introduced through the milestones in [ROADMAP.md](ROADMAP.md).
+> **Project status: Functional Foundation**
+> The repository now includes the versioned logical-detection contract and executable schema validation. Detection implementations and behavioral tests remain future milestones tracked in [ROADMAP.md](ROADMAP.md).
 
 ## Purpose
 
@@ -23,7 +23,7 @@ The first working release will focus on a small, complete Sigma detection pack w
 
 - **Canonical source:** self-hosted MeteSec Forgejo
 - **Public distribution:** a future read-only GitHub mirror
-- **Project presentation:** a future MeteSec Projects page
+- **Project presentation:** the public [MeteSec Projects page](https://metesec.com/projects/detection-engineering/)
 - **Engineering stories:** supporting articles on the MeteSec Blog
 
 Forgejo remains the source of truth. A future GitHub mirror will receive only reviewed public content and will not hold deployment credentials or control the MeteSec infrastructure.
@@ -36,12 +36,20 @@ Forgejo remains the source of truth. A future GitHub mirror will receive only re
 - [Current project handoff](AGENTS.md)
 - [Chronological project log](LOGBOOK.md)
 - [Architecture decisions](docs/architecture/adr/)
+- [Logical detection manifest v1](docs/contracts/logical-detection-manifest-v1.md)
 
 ## Current milestone
 
 `0.1 — Functional Foundation`
 
-The immediate next step is to define the minimal detection-package contract and its JSON Schema before adding the first real Sigma rule.
+The logical manifest contract is implemented and locally verified. The next step is to define the compact package layout that connects one logical detection to its implementation and future test evidence without creating empty scaffolding.
+
+Run the current contract validation with:
+
+```console
+pnpm install --frozen-lockfile
+pnpm run validate:manifests
+```
 
 ## License
 
