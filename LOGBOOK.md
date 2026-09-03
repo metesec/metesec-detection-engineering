@@ -839,3 +839,14 @@ The first Microsoft Sentinel target renderer now exists as a deterministic,
 reviewable and disabled build step. The next bounded milestone is immutable
 checksummed packaging of the rendered rule, query and provenance files without
 adding live deployment.
+
+### Publication evidence
+
+- Forgejo branch run `#12` passed for exact implementation commit
+  `2bef86404346bb32693a174abb67bd693f70aab7`.
+- Forgejo PR `#7` contained exactly the 17 intended files and merged through the
+  protected `main` branch as
+  `e8bebd5d3e72218b32378cd3e4f850d047d778ad`.
+- Merged-main run `#13` passed.
+- Canonical Forgejo `main` and public GitHub mirror `main` both resolved to exact
+  commit `e8bebd5d3e72218b32378cd3e4f850d047d778ad`.
