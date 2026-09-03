@@ -16,7 +16,7 @@ Status: **in progress**
 - [x] Add Sigma validation toolchain with pinned dependencies
 - [x] Implement positive and negative fixture-test model
 - [x] Add first complete Sigma detection
-- [ ] Grow to five reviewed detections (2 of 5 complete)
+- [ ] Grow to five reviewed detections (3 of 5 complete)
 - [ ] Generate a machine-readable and human-readable catalogue
 - [ ] Add Forgejo validation pipeline
 - [ ] Publish first signed or checksummed release artifact
@@ -41,7 +41,7 @@ Status: **planned**
 - [ ] Package immutable Sentinel release artifacts
 - [x] Clearly document semantic and platform limitations
 
-Preview status: one explicitly bound `SigninLogs` rule compiles to a reviewed Golden query and has passed a separate read-only live query-acceptance probe. General compilation, analytics-rule rendering, packaging, and deployment remain incomplete.
+Preview status: two explicitly bound `SigninLogs` rules compile to reviewed Golden queries and have passed separate read-only live query-acceptance probes. General compilation, analytics-rule rendering, packaging, and deployment remain incomplete.
 
 ## 0.3 — Detection Operations
 

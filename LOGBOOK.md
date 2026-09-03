@@ -317,3 +317,56 @@ The repository had one portable Windows event detection with local synthetic evi
 ### Result
 
 The project now has two complete experimental Sigma packages and its first bounded, reproducible Microsoft Sentinel KQL preview. `MSEC-DET-0002` has separate local behavioral evidence, deterministic compilation evidence, and read-only target query-acceptance evidence; it is not deployed or declared production-ready. Three more reviewed detections remain for the Functional Foundation exit criterion.
+
+## 2026-09-03 — Third detection and positive Sentinel target probe verified locally
+
+### Starting state
+
+The repository had two complete experimental detections. Only the legacy-client identity rule was bound to the Sentinel preview, and its valid live result was negative. The authorized workspace had no Windows event telemetry suitable for validating the service-installation rule.
+
+### Decision
+
+- Add a second precise identity signal from the populated `SigninLogs` table instead of weakening the Windows rule or forcing a noisy web-application event into the catalogue.
+- Detect only a successful sign-in whose risk at sign-in time is `high`; treat the result as an investigation signal rather than proof of compromise.
+- Keep every local behavior example synthetic and store only the positive or negative live-validation outcome, never the operational count or target identity.
+- Preserve compilation, Golden comparison, read-only target acceptance, and deployment as separate claims.
+
+### Source basis
+
+- Microsoft documents `SigninLogs.ResultType` value `0` as success and `RiskLevelDuringSignIn` values including `high`.
+- Microsoft Entra ID Protection describes sign-in risk as the probability that an authentication request was not made by the account owner and recommends investigating risk details, sign-in context, and adjacent activity.
+- MITRE ATT&CK T1078.004 covers adversary use of valid cloud accounts.
+
+### Changes
+
+- Added experimental package `MSEC-DET-0003` for a successful Microsoft Entra sign-in assessed as high risk during sign-in.
+- Added three positive and four negative synthetic fixtures covering case-insensitive high risk, additional investigation context, failed authentication, medium risk, no risk, and a missing risk field.
+- Added an explicit `SigninLogs` Sentinel preview binding and a second reviewed Golden KQL snapshot.
+- Extended the compiler regression test to verify the ordered output and Golden content for both preview detections.
+- Updated the README, Roadmap, package contract, Sentinel compilation guide, and project handoff to record three of five detections and the separate positive live result.
+
+### Problems and corrections
+
+- An initial Application Gateway WAF candidate based on anomaly-score rule `949110` was rejected after a read-only aggregate check showed that it represented a very high-volume threshold event, not a precise attack technique. Microsoft also documents `949110` as the anomaly-score aggregation decision rather than the specific rule that caused the score. No WAF detection was added.
+- A browser tab became stale while refining the WAF query. The stale handle was discarded and the work continued in a fresh query tab; no cloud setting or data was changed.
+- The first high-risk query attempt occurred before the new query editor had finished loading and timed out before execution. The editor was allowed to finish, then the complete query was entered and verified.
+- The first reserved-identity fixture scan used a look-ahead without enabling ripgrep's PCRE2 engine and therefore failed before checking any file. The same scan was rerun with PCRE2 enabled and passed; only reserved example domains and documentation address ranges are present in the synthetic identity fixtures.
+
+### Verification
+
+- Manifest and package validation accepted three catalogue packages and all twenty-one referenced event fixtures.
+- pySigma `1.5.0` structurally accepted three Sigma rules.
+- All twenty-one synthetic expectations passed: nine expected matches and twelve expected non-matches.
+- All three Sentinel compiler unit tests passed, and both generated queries matched their committed Golden snapshots exactly.
+- The exact generated `MSEC-DET-0003` predicate ran in the authorized workspace inside a read-only 30-day aggregate query and returned a positive result. No individual event was opened or copied.
+- The complete repository check, Python bytecode compilation, whitespace validation, and public-safety scan passed.
+
+### Explicitly untouched
+
+- No analytics rule, custom detection, automation rule, connector, workspace setting, identity setting, Conditional Access policy, incident, or other cloud resource was created or changed.
+- No production query row, count, user, IP address, tenant, subscription, or workspace identifier was committed.
+- No commit was pushed, and no Forgejo, GitHub mirror, Website, image, infrastructure, or production rollout changed.
+
+### Result
+
+`MSEC-DET-0003` is the third complete experimental package. It now has synthetic positive and negative behavior evidence, deterministic Sentinel compilation evidence, and a separate positive read-only target-acceptance result. Two reviewed detections remain for the Functional Foundation exit criterion.

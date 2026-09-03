@@ -20,11 +20,15 @@ class SentinelCompilerTests(unittest.TestCase):
     def test_preview_profile_compiles_to_golden_query(self) -> None:
         compiled = compile_profile(REPO_ROOT, PROFILE)
 
-        self.assertEqual([item.detection_id for item in compiled], ["MSEC-DET-0002"])
-        expected = compiled[0].golden.read_text(encoding="utf-8").replace(
-            "\r\n", "\n"
+        self.assertEqual(
+            [item.detection_id for item in compiled],
+            ["MSEC-DET-0002", "MSEC-DET-0003"],
         )
-        self.assertEqual(compiled[0].query, expected)
+        for item in compiled:
+            expected = item.golden.read_text(encoding="utf-8").replace(
+                "\r\n", "\n"
+            )
+            self.assertEqual(item.query, expected)
 
     def test_profile_rejects_repository_path_traversal(self) -> None:
         with TemporaryDirectory() as directory:

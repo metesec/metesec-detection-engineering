@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0003",
+  "title": "Successful high-risk Microsoft Entra sign-in",
+  "description": "Detects a successful Microsoft Entra sign-in that Identity Protection assessed as high risk during the sign-in.",
+  "hypothesis": {
+    "summary": "An adversary may successfully authenticate with a compromised Microsoft Entra account.",
+    "rationale": "A successful sign-in combined with a high sign-in-risk assessment is a strong identity signal that requires prompt investigation, but the risk assessment alone does not prove compromise.",
+    "detection_goal": "Identify successful sign-ins assessed as high risk during sign-in while leaving failed, lower-risk, no-risk, and missing-risk events unmatched."
+  },
+  "ownership": {
+    "owner": "MeteSec Detection Engineering",
+    "reviewers": []
+  },
+  "lifecycle": {
+    "status": "experimental",
+    "created": "2026-09-03",
+    "modified": "2026-09-03",
+    "review_interval_days": 90
+  },
+  "severity": "high",
+  "confidence": "medium",
+  "data_sources": [
+    {
+      "name": "Microsoft Entra sign-in logs",
+      "category": "Identity authentication",
+      "required_fields": ["TimeGenerated", "ResultType", "RiskLevelDuringSignIn", "UserPrincipalName", "IPAddress", "AppDisplayName"]
+    }
+  ],
+  "attack": [
+    {
+      "technique_id": "T1078.004",
+      "tactic": "Initial Access"
+    }
+  ],
+  "triage": {
+    "summary": "Confirm the risk evidence, authentication controls, sign-in context, and adjacent account activity before deciding whether the account is compromised.",
+    "steps": [
+      "Review RiskEventTypes_V2, RiskDetail, risk state, and the Identity Protection record for the sign-in.",
+      "Validate the user, application, source IP and location, device, authentication requirement, MFA result, and Conditional Access result.",
+      "Compare adjacent sign-ins and account activity, then escalate confirmed or unexplained access for session revocation and credential remediation."
+    ],
+    "false_positives": [
+      "A legitimate sign-in that Microsoft Entra assessed as high risk and that subsequent investigation confirms as safe"
+    ]
+  },
+  "validation": {
+    "expected_outcome": "Match a successful sign-in only when RiskLevelDuringSignIn is high; do not match failed sign-ins, lower or absent risk levels, or events without the risk field.",
+    "positive_tests": true,
+    "negative_tests": true
+  },
+  "implementations": [
+    {
+      "type": "sigma",
+      "path": "content/portable/sigma/MSEC-DET-0003/rule.yml",
+      "targets": ["sentinel"],
+      "status": "active"
+    }
+  ]
+}

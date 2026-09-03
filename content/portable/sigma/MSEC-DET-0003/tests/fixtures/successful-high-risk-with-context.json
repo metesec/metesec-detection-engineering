@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "event": {
+    "TimeGenerated": "2026-09-03T09:10:00Z",
+    "ResultType": "0",
+    "RiskLevelDuringSignIn": "high",
+    "UserPrincipalName": "operator@example.invalid",
+    "IPAddress": "198.51.100.12",
+    "AppDisplayName": "Synthetic collaboration service",
+    "RiskEventTypes_V2": "maliciousIPAddress",
+    "RiskDetail": "none",
+    "ConditionalAccessStatus": "success",
+    "AuthenticationRequirement": "multiFactorAuthentication"
+  }
+}

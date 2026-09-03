@@ -46,6 +46,8 @@ The schema deliberately does not define a field vocabulary. Field names belong t
 
 `MSEC-DET-0002` is an experimental identity detection. Its Sigma implementation matches a successful Microsoft Entra sign-in when `ClientAppUsed` reports one of seven selected legacy client categories. Three positive and four negative synthetic cases pass the bounded local evaluator. Its separate Sentinel preview binding and validation boundary are documented in the [Sentinel compilation guide](../tooling/sentinel-compilation.md).
 
+`MSEC-DET-0003` is an experimental identity detection. Its Sigma implementation matches a successful Microsoft Entra sign-in when `RiskLevelDuringSignIn` reports `high`. Three positive and four negative synthetic cases pass the bounded local evaluator. Its separate Sentinel preview binding and validation boundary are documented in the [Sentinel compilation guide](../tooling/sentinel-compilation.md).
+
 ## Validation
 
 Run all current repository checks:
