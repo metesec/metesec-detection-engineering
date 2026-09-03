@@ -1,0 +1,273 @@
+{
+  "schema_version": 1,
+  "source": {
+    "manifests": "catalog/detections/*/manifest.json",
+    "sentinel_preview": "targets/sentinel/preview.json",
+    "sentinel_data_sources": "targets/sentinel/data-sources.json"
+  },
+  "summary": {
+    "detections": 5,
+    "attack_mappings": 5,
+    "attack_techniques": 4,
+    "attack_tactics": 3,
+    "logical_data_sources": 3,
+    "sentinel_preview_bindings": 4,
+    "sentinel_data_source_contracts": 2,
+    "detections_without_sentinel_binding": 1
+  },
+  "attack": {
+    "techniques": [
+      {
+        "technique_id": "T1078.004",
+        "tactics": [
+          "Initial Access"
+        ],
+        "detections": [
+          "MSEC-DET-0002",
+          "MSEC-DET-0003"
+        ]
+      },
+      {
+        "technique_id": "T1098.001",
+        "tactics": [
+          "Persistence"
+        ],
+        "detections": [
+          "MSEC-DET-0004"
+        ]
+      },
+      {
+        "technique_id": "T1098.003",
+        "tactics": [
+          "Privilege Escalation"
+        ],
+        "detections": [
+          "MSEC-DET-0005"
+        ]
+      },
+      {
+        "technique_id": "T1543.003",
+        "tactics": [
+          "Persistence"
+        ],
+        "detections": [
+          "MSEC-DET-0001"
+        ]
+      }
+    ],
+    "tactics": [
+      {
+        "tactic": "Initial Access",
+        "techniques": [
+          "T1078.004"
+        ],
+        "detections": [
+          "MSEC-DET-0002",
+          "MSEC-DET-0003"
+        ]
+      },
+      {
+        "tactic": "Persistence",
+        "techniques": [
+          "T1098.001",
+          "T1543.003"
+        ],
+        "detections": [
+          "MSEC-DET-0001",
+          "MSEC-DET-0004"
+        ]
+      },
+      {
+        "tactic": "Privilege Escalation",
+        "techniques": [
+          "T1098.003"
+        ],
+        "detections": [
+          "MSEC-DET-0005"
+        ]
+      }
+    ]
+  },
+  "data_sources": {
+    "logical": [
+      {
+        "name": "Microsoft Entra audit logs",
+        "category": "Identity directory audit",
+        "detections": [
+          "MSEC-DET-0004",
+          "MSEC-DET-0005"
+        ],
+        "required_fields": [
+          "CorrelationId",
+          "InitiatedBy",
+          "OperationName",
+          "Result",
+          "TargetResources",
+          "TimeGenerated"
+        ]
+      },
+      {
+        "name": "Microsoft Entra sign-in logs",
+        "category": "Identity authentication",
+        "detections": [
+          "MSEC-DET-0002",
+          "MSEC-DET-0003"
+        ],
+        "required_fields": [
+          "AppDisplayName",
+          "ClientAppUsed",
+          "IPAddress",
+          "ResultType",
+          "RiskLevelDuringSignIn",
+          "TimeGenerated",
+          "UserPrincipalName"
+        ]
+      },
+      {
+        "name": "Windows service installation events",
+        "category": "Windows service control manager",
+        "detections": [
+          "MSEC-DET-0001"
+        ],
+        "required_fields": [
+          "Computer",
+          "EventID",
+          "ImagePath",
+          "Provider_Name",
+          "ServiceName"
+        ]
+      }
+    ],
+    "sentinel_contracts": [
+      {
+        "source_id": "MSEC-SDS-0001",
+        "table": "SigninLogs",
+        "display_name": "Microsoft Entra sign-in logs",
+        "detections": [
+          "MSEC-DET-0002",
+          "MSEC-DET-0003"
+        ],
+        "event_time_column": "TimeGenerated",
+        "required_columns": [
+          {
+            "name": "TimeGenerated",
+            "type": "datetime"
+          },
+          {
+            "name": "AppDisplayName",
+            "type": "string"
+          },
+          {
+            "name": "AppId",
+            "type": "string"
+          },
+          {
+            "name": "AuthenticationRequirement",
+            "type": "string"
+          },
+          {
+            "name": "ClientAppUsed",
+            "type": "string"
+          },
+          {
+            "name": "ConditionalAccessStatus",
+            "type": "string"
+          },
+          {
+            "name": "CorrelationId",
+            "type": "string"
+          },
+          {
+            "name": "IPAddress",
+            "type": "string"
+          },
+          {
+            "name": "ResultType",
+            "type": "string"
+          },
+          {
+            "name": "RiskDetail",
+            "type": "string"
+          },
+          {
+            "name": "RiskEventTypes_V2",
+            "type": "dynamic"
+          },
+          {
+            "name": "RiskLevelDuringSignIn",
+            "type": "string"
+          },
+          {
+            "name": "RiskState",
+            "type": "string"
+          },
+          {
+            "name": "UserId",
+            "type": "string"
+          },
+          {
+            "name": "UserPrincipalName",
+            "type": "string"
+          }
+        ],
+        "freshness": {
+          "degraded_after": "PT6H",
+          "unavailable_after": "P1D"
+        }
+      },
+      {
+        "source_id": "MSEC-SDS-0002",
+        "table": "AuditLogs",
+        "display_name": "Microsoft Entra audit logs",
+        "detections": [
+          "MSEC-DET-0004",
+          "MSEC-DET-0005"
+        ],
+        "event_time_column": "TimeGenerated",
+        "required_columns": [
+          {
+            "name": "TimeGenerated",
+            "type": "datetime"
+          },
+          {
+            "name": "CorrelationId",
+            "type": "string"
+          },
+          {
+            "name": "InitiatedBy",
+            "type": "dynamic"
+          },
+          {
+            "name": "LoggedByService",
+            "type": "string"
+          },
+          {
+            "name": "OperationName",
+            "type": "string"
+          },
+          {
+            "name": "Result",
+            "type": "string"
+          },
+          {
+            "name": "TargetResources",
+            "type": "dynamic"
+          }
+        ],
+        "freshness": {
+          "degraded_after": "PT6H",
+          "unavailable_after": "P1D"
+        }
+      }
+    ],
+    "detections_without_sentinel_binding": [
+      {
+        "id": "MSEC-DET-0001",
+        "title": "Windows service installation from a public or temporary path",
+        "data_sources": [
+          "Windows service installation events"
+        ]
+      }
+    ]
+  }
+}

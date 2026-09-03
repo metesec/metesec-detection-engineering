@@ -1008,3 +1008,51 @@ public examples only.
 The next bounded milestone is a deterministic ATT&CK and data-source coverage
 report generated only from the existing public manifests, Sentinel preview and
 data-source contract.
+
+## 2026-09-03 — Deterministic ATT&CK and data-source coverage completed locally
+
+### Starting state
+
+- ATT&CK mappings, logical source requirements, Sentinel bindings and table
+  contracts were correct but distributed across separate source files.
+- The repository had no direct coverage view and no explicit generated record
+  of the intentionally unbound Windows detection.
+- No defensible denominator existed for a percentage coverage score.
+
+### Decision and implementation
+
+- Added one versioned JSON Schema and a deterministic generator that consumes
+  only logical manifests, the Sentinel preview and the Sentinel data-source
+  contract.
+- Added machine-readable `coverage/index.json` and matching human-readable
+  `COVERAGE.md`. Both are tracked generated outputs and fail validation when
+  stale.
+- The report groups five declared mappings into four ATT&CK techniques and three
+  tactics, consolidates three logical sources and their field requirements,
+  records both Sentinel source contracts and exposes `MSEC-DET-0001` as the one
+  detection without a Sentinel preview binding.
+- Deliberately omitted a percentage score because the repository defines no
+  complete ATT&CK, platform or organization-specific denominator.
+- Added six generator tests, ADR-0012, a contract guide and release-pack support.
+
+### Validation boundary
+
+- Coverage is declared repository metadata, not proof of detection quality,
+  live telemetry health, production readiness or complete ATT&CK coverage.
+- The outputs contain no timestamp, target identifier, environment observation,
+  result count or telemetry.
+
+### Validation and correction
+
+- All six coverage generator tests and the standalone stale-output validation
+  passed on the first run.
+- The first aggregate run exposed two release-test assertions placed before the
+  local `packaged` set was created. The resulting `UnboundLocalError` occurred
+  only in the new test code. Moving the assertions below that deterministic set
+  construction corrected the test without changing report or release behavior.
+
+### Result
+
+The public foundation now provides an inspectable ATT&CK and data-source map
+without prescribing customer policy or overstating completeness. The next
+bounded milestone is deterministic lifecycle and review-cadence validation.

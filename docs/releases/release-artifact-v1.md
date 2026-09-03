@@ -10,7 +10,7 @@ The archive contains the public catalogue, logical manifests, schema contracts,
 portable Sigma rules, synthetic positive and negative fixtures, explicit
 Microsoft Sentinel preview bindings, reviewed Golden KQL snapshots, essential
 scope documentation, Sentinel data-source contract, the security policy and the
-Apache-2.0 license.
+generated ATT&CK/data-source coverage report, and the Apache-2.0 license.
 
 Environment observations and derived live-health results are deliberately not
 packaged. They remain temporary inputs owned by the consuming environment.

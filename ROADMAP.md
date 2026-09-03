@@ -57,7 +57,7 @@ Status: **in progress**
 
 - [x] Introduce data-source contracts
 - [x] Keep target rendering consumer-owned instead of publishing deployment bundles
-- [ ] Generate ATT&CK and data-source coverage reports
+- [x] Generate ATT&CK and data-source coverage reports
 - [ ] Introduce lifecycle and review-cadence validation
 - [ ] Add rule-execution and alert-outcome health definitions
 
@@ -67,6 +67,10 @@ local observation evaluator with explicit `ready`, `degraded`, `unavailable`
 and `unknown` states. No live monitor or production-health claim exists.
 Environment-specific tuning and exceptions remain consumer-owned and are not a
 planned public repository contract.
+
+The generated coverage outputs expose four declared ATT&CK techniques, three
+tactics, three logical sources, two Sentinel source contracts and the one
+intentional unbound detection without inventing a completeness score.
 
 ## 0.4 — Native Implementations and Resolution
 

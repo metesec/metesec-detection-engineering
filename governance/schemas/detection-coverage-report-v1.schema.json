@@ -1,0 +1,218 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metesec.com/schemas/detection-coverage-report-v1.schema.json",
+  "title": "MeteSec generated detection coverage report v1",
+  "description": "Deterministic ATT&CK and data-source coverage derived from repository-owned detection and Sentinel contracts.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "source", "summary", "attack", "data_sources"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "source": { "$ref": "#/$defs/source" },
+    "summary": { "$ref": "#/$defs/summary" },
+    "attack": { "$ref": "#/$defs/attack" },
+    "data_sources": { "$ref": "#/$defs/data_sources" }
+  },
+  "$defs": {
+    "detection_id": {
+      "type": "string",
+      "pattern": "^MSEC-DET-[0-9]{4}$"
+    },
+    "detection_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/detection_id" }
+    },
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z_][A-Za-z0-9_]*$"
+    },
+    "duration": {
+      "type": "string",
+      "pattern": "^P(?=.+)(?:[0-9]+D)?(?:T(?=.+)(?:[0-9]+H)?(?:[0-9]+M)?(?:[0-9]+S)?)?$"
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["manifests", "sentinel_preview", "sentinel_data_sources"],
+      "properties": {
+        "manifests": { "const": "catalog/detections/*/manifest.json" },
+        "sentinel_preview": { "const": "targets/sentinel/preview.json" },
+        "sentinel_data_sources": { "const": "targets/sentinel/data-sources.json" }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "detections",
+        "attack_mappings",
+        "attack_techniques",
+        "attack_tactics",
+        "logical_data_sources",
+        "sentinel_preview_bindings",
+        "sentinel_data_source_contracts",
+        "detections_without_sentinel_binding"
+      ],
+      "properties": {
+        "detections": { "type": "integer", "minimum": 1 },
+        "attack_mappings": { "type": "integer", "minimum": 0 },
+        "attack_techniques": { "type": "integer", "minimum": 0 },
+        "attack_tactics": { "type": "integer", "minimum": 0 },
+        "logical_data_sources": { "type": "integer", "minimum": 1 },
+        "sentinel_preview_bindings": { "type": "integer", "minimum": 0 },
+        "sentinel_data_source_contracts": { "type": "integer", "minimum": 0 },
+        "detections_without_sentinel_binding": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "attack": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["techniques", "tactics"],
+      "properties": {
+        "techniques": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/technique" }
+        },
+        "tactics": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/tactic" }
+        }
+      }
+    },
+    "technique": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["technique_id", "tactics", "detections"],
+      "properties": {
+        "technique_id": {
+          "type": "string",
+          "pattern": "^T[0-9]{4}(\\.[0-9]{3})?$"
+        },
+        "tactics": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 3 }
+        },
+        "detections": { "$ref": "#/$defs/detection_ids" }
+      }
+    },
+    "tactic": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["tactic", "techniques", "detections"],
+      "properties": {
+        "tactic": { "type": "string", "minLength": 3 },
+        "techniques": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^T[0-9]{4}(\\.[0-9]{3})?$"
+          }
+        },
+        "detections": { "$ref": "#/$defs/detection_ids" }
+      }
+    },
+    "data_sources": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["logical", "sentinel_contracts", "detections_without_sentinel_binding"],
+      "properties": {
+        "logical": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/logical_source" }
+        },
+        "sentinel_contracts": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/sentinel_contract" }
+        },
+        "detections_without_sentinel_binding": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/unbound_detection" }
+        }
+      }
+    },
+    "logical_source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "category", "detections", "required_fields"],
+      "properties": {
+        "name": { "type": "string", "minLength": 3 },
+        "category": { "type": "string", "minLength": 3 },
+        "detections": { "$ref": "#/$defs/detection_ids" },
+        "required_fields": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/identifier" }
+        }
+      }
+    },
+    "column": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "type"],
+      "properties": {
+        "name": { "$ref": "#/$defs/identifier" },
+        "type": {
+          "enum": ["bool", "datetime", "dynamic", "guid", "int", "long", "real", "string", "timespan"]
+        }
+      }
+    },
+    "freshness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["degraded_after", "unavailable_after"],
+      "properties": {
+        "degraded_after": { "$ref": "#/$defs/duration" },
+        "unavailable_after": { "$ref": "#/$defs/duration" }
+      }
+    },
+    "sentinel_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_id",
+        "table",
+        "display_name",
+        "detections",
+        "event_time_column",
+        "required_columns",
+        "freshness"
+      ],
+      "properties": {
+        "source_id": { "type": "string", "pattern": "^MSEC-SDS-[0-9]{4}$" },
+        "table": { "$ref": "#/$defs/identifier" },
+        "display_name": { "type": "string", "minLength": 1 },
+        "detections": { "$ref": "#/$defs/detection_ids" },
+        "event_time_column": { "$ref": "#/$defs/identifier" },
+        "required_columns": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/column" }
+        },
+        "freshness": { "$ref": "#/$defs/freshness" }
+      }
+    },
+    "unbound_detection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "title", "data_sources"],
+      "properties": {
+        "id": { "$ref": "#/$defs/detection_id" },
+        "title": { "type": "string", "minLength": 8 },
+        "data_sources": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 3 }
+        }
+      }
+    }
+  }
+}

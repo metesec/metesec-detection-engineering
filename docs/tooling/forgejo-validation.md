@@ -73,6 +73,8 @@ The aggregate check now also validates the public Sentinel data-source contract,
 its exact relationship to the preview bindings, and the fail-closed health
 evaluator. It supplies no environment observation, so the pipeline proves the
 contract and evaluator rather than making a live telemetry-health claim.
+The same check regenerates ATT&CK and data-source coverage in memory and rejects
+stale tracked report output.
 
 The live Forgejo pipeline is operational. Branch run `#1` and canonical main run
 `#4` completed the original full aggregate check successfully. Isolated verification run

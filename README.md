@@ -42,6 +42,8 @@ tests and rendering boundary without prescribing customer policy.
 - [Architecture decisions](docs/architecture/adr/)
 - [Generated detection catalogue](CATALOGUE.md)
 - [Machine-readable detection catalogue](catalog/index.json)
+- [Generated ATT&CK and data-source coverage](COVERAGE.md)
+- [Machine-readable coverage report](coverage/index.json)
 - [Logical detection manifest v1](docs/contracts/logical-detection-manifest-v1.md)
 - [Detection package v1](docs/contracts/detection-package-v1.md)
 - [Generated catalogue contract v1](docs/contracts/detection-catalogue-v1.md)
@@ -51,6 +53,7 @@ tests and rendering boundary without prescribing customer policy.
 - [Microsoft Sentinel KQL preview compilation](docs/tooling/sentinel-compilation.md)
 - [Microsoft Sentinel analytics-rule profile v1](docs/contracts/sentinel-analytics-rule-profile-v1.md)
 - [Microsoft Sentinel data-source contract v1](docs/contracts/sentinel-data-source-contract-v1.md)
+- [Generated detection coverage report v1](docs/contracts/detection-coverage-report-v1.md)
 - [Detection Pack release artifact v1](docs/releases/release-artifact-v1.md)
 
 ## Current milestone
@@ -87,6 +90,12 @@ detections, defines required Kusto columns and types, and assesses an explicitly
 supplied environment observation as `ready`, `degraded`, `unavailable` or
 `unknown`. The repository stores no live observation and has no Azure query or
 monitoring client.
+
+The generated coverage report now joins those declarations into one factual
+view: four unique ATT&CK techniques across three tactics, three logical data
+sources, two Sentinel source contracts and one intentionally unbound Sentinel
+detection. It reports exact repository relationships rather than an invented
+coverage percentage and contains no live environment state.
 
 Run the current contract validation with:
 
