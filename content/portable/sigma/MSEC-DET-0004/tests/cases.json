@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "detection_id": "MSEC-DET-0004",
+  "implementation": "content/portable/sigma/MSEC-DET-0004/rule.yml",
+  "cases": [
+    {
+      "id": "successful-credential-addition",
+      "expectation": "match",
+      "fixture": "fixtures/successful-credential-addition.json",
+      "description": "Synthetic successful service-principal credential addition matches."
+    },
+    {
+      "id": "successful-credential-addition-uppercase",
+      "expectation": "match",
+      "fixture": "fixtures/successful-credential-addition-uppercase.json",
+      "description": "Synthetic uppercase operation and result verify case-insensitive Sigma matching."
+    },
+    {
+      "id": "successful-credential-addition-with-context",
+      "expectation": "match",
+      "fixture": "fixtures/successful-credential-addition-with-context.json",
+      "description": "Synthetic credential addition remains a match when audit context is present."
+    },
+    {
+      "id": "failed-credential-addition",
+      "expectation": "no_match",
+      "fixture": "fixtures/failed-credential-addition.json",
+      "description": "Synthetic failed credential addition must not match."
+    },
+    {
+      "id": "successful-credential-removal",
+      "expectation": "no_match",
+      "fixture": "fixtures/successful-credential-removal.json",
+      "description": "Synthetic credential removal is a different operation and must not match."
+    },
+    {
+      "id": "successful-service-principal-update",
+      "expectation": "no_match",
+      "fixture": "fixtures/successful-service-principal-update.json",
+      "description": "Synthetic general service-principal update is intentionally outside this precise rule."
+    },
+    {
+      "id": "credential-addition-missing-result",
+      "expectation": "no_match",
+      "fixture": "fixtures/credential-addition-missing-result.json",
+      "description": "Synthetic credential addition without a result fails closed."
+    }
+  ]
+}

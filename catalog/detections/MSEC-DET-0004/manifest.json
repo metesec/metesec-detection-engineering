@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0004",
+  "title": "Credential added to a Microsoft Entra service principal",
+  "description": "Detects a successful Microsoft Entra audit event that adds authentication credentials to a service principal.",
+  "hypothesis": {
+    "summary": "An adversary may add a credential to a service principal to establish persistent cloud access.",
+    "rationale": "A new certificate or secret can let its holder authenticate as the service principal and inherit the application's effective access, although legitimate provisioning and rotation create the same audit activity.",
+    "detection_goal": "Identify successful service-principal credential additions while leaving failures, credential removals, general updates, and incomplete events unmatched."
+  },
+  "ownership": {
+    "owner": "MeteSec Detection Engineering",
+    "reviewers": []
+  },
+  "lifecycle": {
+    "status": "experimental",
+    "created": "2026-09-03",
+    "modified": "2026-09-03",
+    "review_interval_days": 90
+  },
+  "severity": "high",
+  "confidence": "medium",
+  "data_sources": [
+    {
+      "name": "Microsoft Entra audit logs",
+      "category": "Identity directory audit",
+      "required_fields": ["TimeGenerated", "OperationName", "Result", "InitiatedBy", "TargetResources", "CorrelationId"]
+    }
+  ],
+  "attack": [
+    {
+      "technique_id": "T1098.001",
+      "tactic": "Persistence"
+    }
+  ],
+  "triage": {
+    "summary": "Validate the initiator, target service principal, credential type and lifetime, and the corresponding change record before deciding whether persistence was established.",
+    "steps": [
+      "Identify the initiating user or workload and the target service principal from InitiatedBy and TargetResources.",
+      "Confirm the credential type, creation time, expiration, owner, effective permissions, and whether the change is covered by approved provisioning or rotation.",
+      "Review adjacent application and service-principal changes, then remove unauthorized credentials and investigate the initiating identity when the change is unexplained."
+    ],
+    "false_positives": [
+      "Approved application onboarding, certificate renewal, secret rotation, or automated identity-lifecycle activity"
+    ]
+  },
+  "validation": {
+    "expected_outcome": "Match only a successful Add service principal credentials operation; do not match failures, removals, general updates, or events without a result.",
+    "positive_tests": true,
+    "negative_tests": true
+  },
+  "implementations": [
+    {
+      "type": "sigma",
+      "path": "content/portable/sigma/MSEC-DET-0004/rule.yml",
+      "targets": ["sentinel"],
+      "status": "active"
+    }
+  ]
+}

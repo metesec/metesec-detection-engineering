@@ -1,0 +1,2 @@
+AuditLogs
+| where OperationName =~ "Add service principal credentials" and Result =~ "success"

@@ -1,0 +1,34 @@
+title: Credential Added to a Microsoft Entra Service Principal
+id: a030ecb2-7bec-41f0-93ae-d30de770bf7b
+status: experimental
+description: Detects a successful Microsoft Entra audit event that adds credentials to a service principal.
+references:
+  - https://learn.microsoft.com/en-us/entra/identity/monitoring-health/reference-audit-activities
+  - https://learn.microsoft.com/en-us/entra/architecture/security-operations-applications
+  - https://learn.microsoft.com/en-us/azure/azure-monitor/reference/tables/auditlogs
+  - https://attack.mitre.org/techniques/T1098/001/
+author: MeteSec Detection Engineering
+date: 2026-09-03
+tags:
+  - attack.persistence
+  - attack.privilege-escalation
+  - attack.t1098.001
+logsource:
+  product: azure
+  service: auditlogs
+detection:
+  selection:
+    OperationName: Add service principal credentials
+    Result: success
+  condition: selection
+fields:
+  - TimeGenerated
+  - OperationName
+  - Result
+  - InitiatedBy
+  - TargetResources
+  - CorrelationId
+  - LoggedByService
+falsepositives:
+  - Approved application onboarding, certificate renewal, secret rotation, or automated identity-lifecycle activity.
+level: high

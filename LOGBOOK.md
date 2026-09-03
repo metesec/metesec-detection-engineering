@@ -370,3 +370,56 @@ The repository had two complete experimental detections. Only the legacy-client 
 ### Result
 
 `MSEC-DET-0003` is the third complete experimental package. It now has synthetic positive and negative behavior evidence, deterministic Sentinel compilation evidence, and a separate positive read-only target-acceptance result. Two reviewed detections remain for the Functional Foundation exit criterion.
+
+## 2026-09-03 — Fourth detection for service-principal credentials verified locally and read-only
+
+### Starting state
+
+The repository had three complete experimental detections and two `SigninLogs` rules in the bounded Sentinel preview. A fourth detection still needed a precise hypothesis, executable local evidence, deterministic target output, and separate target validation.
+
+### Decision
+
+- Use the populated Microsoft Entra `AuditLogs` source to represent a different identity behavior rather than adding a third sign-in rule.
+- Detect only the successful `Add service principal credentials` operation; do not alert on every high-volume service-principal update.
+- Treat legitimate onboarding and credential rotation as expected triage paths, while preserving high severity because an unauthorized credential can provide persistent application access.
+- Store no live result count, audit record, initiator, target application, credential detail, or environment identifier.
+
+### Source basis
+
+- Microsoft's Entra audit activity reference lists `Add service principal credentials` under ApplicationManagement.
+- Microsoft's application-security operations guidance classifies credentials added to existing applications as high risk and recommends monitoring application credential changes.
+- Microsoft documents `AuditLogs.OperationName`, `Result`, `InitiatedBy`, `TargetResources`, and `CorrelationId` as audit fields needed for detection and investigation.
+- MITRE ATT&CK T1098.001 describes adding cloud credentials to service principals or applications for persistence and possible privilege escalation.
+
+### Changes
+
+- Added experimental package `MSEC-DET-0004` for a successful credential addition to a Microsoft Entra service principal.
+- Added three positive and four negative synthetic fixtures covering case-insensitive matching, contextual fields, failed additions, removals, general updates, and a missing result.
+- Added an explicit `AuditLogs` Sentinel preview binding and a third reviewed Golden KQL snapshot.
+- Extended the compiler regression test to verify all three ordered target outputs against their corresponding Golden queries.
+- Updated the README, Roadmap, package contract, Sentinel compilation guide, and project handoff to record four of five detections.
+
+### Problems and corrections
+
+- The first keyword summary used Kusto's term-based `has_any` with singular `credential`, which did not match the plural `credentials` token. A neutral top-operation summary exposed the exact documented operation name without inspecting any event row.
+- The first audit-table control query was appended to the existing editor contents by the portal editor and produced a parse error before executing. The editor was explicitly selected and cleared, then the complete query was entered and verified.
+- The broad `Update service principal` operation dominated the aggregate source and was deliberately rejected as too unspecific. The rule uses only the exact credential-addition operation.
+
+### Verification
+
+- Manifest and package validation accepted four catalogue packages and all twenty-eight referenced event fixtures.
+- pySigma `1.5.0` structurally accepted four Sigma rules.
+- All twenty-eight synthetic expectations passed: twelve expected matches and sixteen expected non-matches.
+- All three Sentinel compiler unit tests passed, and all three generated queries matched their committed Golden snapshots exactly.
+- The exact generated `MSEC-DET-0004` predicate ran in the authorized workspace inside a read-only 30-day aggregate query and returned a positive result. No individual audit event was opened or copied.
+- The complete repository check, Python bytecode compilation, whitespace validation, target-identifier scan, and synthetic-data safety scan passed.
+
+### Explicitly untouched
+
+- No analytics rule, custom detection, automation rule, connector, workspace setting, application, service principal, credential, identity policy, incident, or other cloud resource was created or changed.
+- No production query row, result count, initiator, target application, tenant, subscription, or workspace identifier was committed.
+- No push, Forgejo update, GitHub mirror update, Website change, image build, infrastructure change, or production rollout occurred.
+
+### Result
+
+`MSEC-DET-0004` is the fourth complete experimental package. It has local synthetic behavior evidence, deterministic Sentinel compilation evidence, and a separate positive read-only target-acceptance result. One reviewed detection remains for the Functional Foundation exit criterion.
