@@ -523,3 +523,58 @@ The repository contained five complete detection packages and four explicit Sent
 ### Result
 
 The five packages now have one reproducible discovery surface for readers and one schema-controlled index for tooling without creating a second authored source of truth. The next Functional Foundation milestone is the Forgejo validation pipeline.
+
+## 2026-09-03 — Forgejo validation workflow defined and contract-tested locally
+
+### Starting state
+
+All repository checks were available through one local command, but no Forgejo workflow invoked them. A changed manifest, stale catalogue, broken fixture, invalid Sigma source, or changed Sentinel Golden query therefore had no automatic canonical-repository gate.
+
+### Decision
+
+- Run the existing aggregate check instead of creating a second CI-specific validation path.
+- Trigger validation for pushes, pull requests, and deliberate manual runs.
+- Require a runner labelled `docker` and document that it must map to a fresh isolated container without host sockets, unrelated persistent storage, or operational credentials.
+- Give the workflow only read access, remove persisted checkout credentials, reference no secrets, and add no deployment, target-query, release, or publication step.
+- Pin Node.js, pnpm, Python, JavaScript packages, Python packages, and every remote action to reviewed exact versions or immutable commits.
+- Keep local workflow-contract validation separate from an actual Forgejo runner result.
+
+### Source basis
+
+- Forgejo documents `.forgejo/workflows` as its native workflow location and requires a matching online runner label.
+- Forgejo recommends fully qualified action URLs and commit identifiers rather than ambiguous shorthand or movable tags.
+- Forgejo documents that public pull-request content is untrusted, pull-request tokens are read-only, container isolation depends on correct runner configuration, and host runners provide no real isolation.
+
+### Changes
+
+- Added `.forgejo/workflows/validate.yml` with read-only push, pull-request, and manual validation.
+- Pinned the Forgejo checkout, Node setup, and Python setup actions to the exact commits corresponding to reviewed releases.
+- Pinned the CI runtime to Node.js `24.19.0`, pnpm `11.19.0`, and Python `3.12.13`; frozen JavaScript and exact Python dependency files remain authoritative.
+- Added four workflow-contract tests for triggers and runner selection, least privilege and secret absence, immutable remote action references, and the complete pinned command sequence.
+- Added the workflow test to `pnpm run check` and recorded pnpm `11.19.0` as the repository package manager.
+- Added the Forgejo validation guide and updated contributor, README, Roadmap, and handoff documentation.
+
+### Problems and corrections
+
+- The initial read-only action-reference lookup could not reach `data.forgejo.org` from the restricted local sandbox. The same public `git ls-remote` query was repeated through the approved network boundary and resolved the reviewed release tags to full commit identifiers.
+- No local `forgejo-runner`, Actions emulator, or Docker runtime was available. The YAML, safety contract, and complete command path were verified locally, but the documentation and Roadmap explicitly retain a real isolated Forgejo run as pending.
+
+### Verification
+
+- All four Forgejo workflow-contract tests passed.
+- YAML parsing confirmed the push, pull-request, and manual triggers and the single `docker` validation job.
+- The aggregate repository check passed, including five package validations, thirty-five synthetic fixture expectations, catalogue freshness, five Sigma sources, four Sentinel Goldens, and the new workflow contract.
+- Python bytecode compilation and whitespace validation passed.
+- A frozen pnpm installation accepted the existing lockfile and package-manager declaration without changing the dependency graph.
+- The source scan found no workflow secret reference, deployment command, live target query, or known environment identifier.
+
+### Explicitly untouched
+
+- No Forgejo repository setting, runner, branch protection, secret, variable, mirror, or workflow run changed.
+- No detection, fixture, generated catalogue record, Sentinel query, live workspace, cloud resource, or production state changed.
+- No release artifact was generated or published.
+- No commit was pushed.
+
+### Result
+
+The repository now contains a minimal, immutable, secret-free Forgejo validation definition that is enforced by its own local tests. It is not yet an operational release gate; the next milestone is a successful run on a correctly isolated canonical Forgejo runner.

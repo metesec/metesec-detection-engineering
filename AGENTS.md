@@ -46,6 +46,9 @@ The architectural rule is: one logical detection has one stable identity but may
 - Catalogue: five experimental packages: `MSEC-DET-0001` for Windows service installation from selected public-user or temporary paths, `MSEC-DET-0002` for successful Microsoft Entra sign-ins from selected legacy client categories, `MSEC-DET-0003` for successful Microsoft Entra sign-ins assessed as high risk during sign-in, `MSEC-DET-0004` for successful credential additions to Microsoft Entra service principals, and `MSEC-DET-0005` for successful application-role grants to Microsoft Entra service principals
 - Generated discovery catalogue: deterministic `catalog/index.json` and `CATALOGUE.md` are derived from the five manifests, implementation-local fixture indexes, and explicit Sentinel preview profile; neither output contains timestamps, environment identifiers, or live result data
 - Catalogue contract and validation: JSON Schema version 1, three generator tests, and a stale-output gate are included in the aggregate repository check; the current output reports five implementations, fifteen positive cases, twenty negative cases, and four Sentinel preview bindings
+- Forgejo validation definition: `.forgejo/workflows/validate.yml` runs on push, pull request, and manual dispatch using a `docker` runner; it requests read-only contents, removes persisted checkout credentials, references no secrets, pins remote actions by commit, installs exact Node.js `24.19.0`, pnpm `11.19.0`, Python `3.12.13`, JavaScript, and Sigma dependencies, then runs the aggregate repository check
+- Forgejo workflow contract: four local unit tests verify triggers, container-runner selection, permissions, absence of secret and `pull_request_target` use, immutable action references, exact tool versions, frozen installation, and the final check command
+- Forgejo runtime status: workflow YAML and its local contract are verified, but no actual Forgejo runner execution has occurred; it is not yet an operational release gate
 - Portable implementations: five structurally valid Sigma rules, one per package
 - Synthetic evidence: fifteen positive and twenty negative flat event fixtures, all explicitly marked synthetic and all passing locally
 - Package contract tests: eight passing cases cover the valid draft, identity mismatch, missing implementation, implementation traversal, missing evidence index, valid linked evidence, fixture traversal, and invalid event-fixture structure
@@ -59,7 +62,7 @@ The architectural rule is: one logical detection has one stable identity but may
 - Sentinel preview scope: `MSEC-DET-0002` and `MSEC-DET-0003` are explicitly bound to `SigninLogs`, while `MSEC-DET-0004` and `MSEC-DET-0005` are explicitly bound to `AuditLogs`; all four generated KQL queries match committed Golden snapshots
 - Live target probes: authorized read-only workspace checks confirmed populated source fields and accepted all four exact generated predicates; `MSEC-DET-0002` produced a valid negative result, while `MSEC-DET-0003`, `MSEC-DET-0004`, and `MSEC-DET-0005` produced valid positive results, and no raw row, aggregate count, user, device, tenant, subscription, or workspace identifier was stored in the repository
 - `MSEC-DET-0001` remains intentionally unbound because the available target has no suitable Windows event telemetry; it has no Sentinel compatibility claim
-- CI pipeline: not yet implemented
+- CI pipeline: validation-only definition implemented; live Forgejo runner verification remains pending
 - Deployment to any SIEM: not implemented and not authorized by this foundation milestone
 
 ## Accepted architecture decisions
@@ -153,4 +156,4 @@ After every completed milestone:
 
 ## Immediate next milestone
 
-Add the first Forgejo validation pipeline. It must install the pinned toolchains, run the existing aggregate check including catalogue freshness, change no target or production state, and expose a clear pass or failure before a revision can be treated as releasable.
+Verify the validation workflow on the canonical Forgejo repository using a dedicated isolated container runner with no deployment or SIEM secrets. Confirm the runner label, complete pass result, and readable failure output before treating it as a release gate or enabling branch protection.

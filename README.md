@@ -41,6 +41,7 @@ Forgejo remains the source of truth. GitHub receives only the reviewed public `m
 - [Logical detection manifest v1](docs/contracts/logical-detection-manifest-v1.md)
 - [Detection package v1](docs/contracts/detection-package-v1.md)
 - [Generated catalogue contract v1](docs/contracts/detection-catalogue-v1.md)
+- [Forgejo repository validation](docs/tooling/forgejo-validation.md)
 - [Sigma structural validation](docs/tooling/sigma-validation.md)
 - [Local Sigma fixture evaluation](docs/testing/sigma-fixture-evaluation.md)
 - [Microsoft Sentinel KQL preview compilation](docs/tooling/sentinel-compilation.md)
@@ -55,6 +56,8 @@ The Sentinel preview pins the Kusto backend, maps `MSEC-DET-0002` and `MSEC-DET-
 
 The human-readable `CATALOGUE.md` and machine-readable `catalog/index.json` are generated from the manifests, fixture indexes, and explicit Sentinel preview profile. They contain no runtime timestamp or environment identifier, and `pnpm run check` fails when either tracked output is stale.
 
+The Forgejo validation workflow installs the pinned Node.js, pnpm, Python, JavaScript, and Sigma toolchains, then runs that same aggregate check on pushes and pull requests. It is read-only, secret-free, and contains no deployment step. Its definition is locally contract-tested; an actual Forgejo runner result remains required before it becomes an operational release gate.
+
 Run the current contract validation with:
 
 ```console
@@ -65,7 +68,7 @@ pnpm run setup:sigma
 pnpm run check
 ```
 
-See the [generated catalogue contract](docs/contracts/detection-catalogue-v1.md), [Sigma validation guide](docs/tooling/sigma-validation.md), and [Sentinel compilation guide](docs/tooling/sentinel-compilation.md) for the exact scope of each result.
+See the [generated catalogue contract](docs/contracts/detection-catalogue-v1.md), [Forgejo validation guide](docs/tooling/forgejo-validation.md), [Sigma validation guide](docs/tooling/sigma-validation.md), and [Sentinel compilation guide](docs/tooling/sentinel-compilation.md) for the exact scope of each result.
 
 ## License
 

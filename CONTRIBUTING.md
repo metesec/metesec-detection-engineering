@@ -8,7 +8,7 @@ MeteSec Detection Engineering is in its foundation phase. Contributions should r
 2. Check existing Issues and architecture decisions.
 3. Do not submit confidential telemetry, customer information, credentials, or real operational exceptions.
 4. Confirm that any borrowed content permits redistribution and record its lineage and license.
-5. Install the pinned development dependency with `pnpm install --frozen-lockfile` and run `pnpm run validate:manifests` before proposing manifest changes.
+5. Install the pinned development dependencies and run `pnpm run check` before proposing a change.
 
 ## Detection-quality expectations
 
@@ -32,5 +32,6 @@ Formatting success or successful compilation alone does not establish detection 
 - Run the documented validation command.
 - Explain detection impact and false-positive considerations in the Pull Request.
 - Update durable documentation when architecture or project state changes.
+- Treat the Forgejo validation result as required evidence, not as permission to deploy.
 
 The canonical review workflow runs in internal MeteSec Forgejo. The public GitHub repository is a read-only distribution mirror; GitHub contributions are not canonical until a contribution-import workflow is explicitly implemented.

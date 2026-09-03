@@ -18,7 +18,8 @@ Status: **in progress**
 - [x] Add first complete Sigma detection
 - [x] Grow to five reviewed detections (5 of 5 complete)
 - [x] Generate a machine-readable and human-readable catalogue
-- [ ] Add Forgejo validation pipeline
+- [x] Add Forgejo validation pipeline definition
+- [ ] Verify the pipeline on an isolated Forgejo runner
 - [ ] Publish first signed or checksummed release artifact
 
 Exit criteria:
