@@ -2239,3 +2239,95 @@ forty-nine have deterministic disabled Sentinel output and the single
 unsupported Windows Event dependency remains explicit. The next milestone is a
 separate clean-tree reproducibility and protected-main release-readiness review;
 the `v0.4.0` development candidate has not been published as `v1.0.0`.
+
+## 2026-09-04 — Version 1.0.0 release candidate passed local readiness review
+
+### Release boundary and documentation
+
+- Created focused local branch `codex/v1-release-candidate` from the complete
+  fifty-rule pack and changed the development-package version from `0.4.0` to
+  `1.0.0`. No tag or public release was created.
+- Added self-contained `v1.0.0` release notes. They describe fifty experimental
+  Sigma rules, 350 synthetic cases, forty-nine Sentinel preview bindings, the
+  single explicit Windows Event gap and the no-deployment boundary without
+  implying that experimental detections are production ready.
+- Replaced stale five-rule, four-binding, `0.1.x` support and foundation-phase
+  wording in the current README, Security policy, contributor guide, package,
+  lifecycle and Forgejo validation documentation. Historical `v0.1.0` release
+  notes and accepted ADR context remain unchanged.
+- Clarified that the version 1 pack authors only Sigma, that generated KQL is a
+  target projection, and that the ZIP is a curated Detection Pack rather than a
+  complete source checkout.
+
+### Release-builder hardening
+
+- The builder now requires `docs/releases/v<VERSION>.md`; an old release note
+  can no longer satisfy a new package-version build accidentally. Tests require
+  both the `v1.0.0` manifest value and packaged current-version notes.
+- Added `*.local.json` to the ignored local-observation boundary so a common
+  JSON runtime worksheet name is not offered for commit accidentally.
+- Added repository-wide LF checkout normalization through `.gitattributes` so
+  deterministic tracked output compares identically on Windows and Linux.
+
+### Failures found and corrected during the review
+
+- The first build into an external temporary directory produced the archive but
+  then failed while printing its path because the CLI assumed every output was
+  below the repository. Added a bounded path-display helper and regression test;
+  external output directories now complete successfully.
+- The first fresh Windows clone converted generated JSON and Markdown to CRLF,
+  so the byte-exact stale-output tests failed despite equivalent content. The LF
+  attribute above corrected the checkout, and a completely new clone passed the
+  full check.
+- One clone assertion initially expanded the abbreviated commit ID incorrectly
+  and rejected the correct clone. The retry compared against `git rev-parse
+  HEAD` directly and verified exact commit
+  `6209c96dec5a071153f3e732dbd1e61fc144c445`.
+- An initial PowerShell archive scan wrapper had a parser error, and the first
+  sandboxed live `git ls-remote` could not reach Forgejo. The corrected scan
+  completed without findings, and the authorized read-only remote retry
+  confirmed live `main` plus the absence of a `v1.0.0` tag.
+
+### Validation and artifact evidence
+
+- The aggregate repository check passed in the development tree and again in a
+  fresh exact-commit clone. It now contains 85 unit tests plus every manifest,
+  package, Sigma, generated-catalogue, Golden-query, data-source, lifecycle,
+  runtime-health and release gate.
+- All 350 synthetic expectations passed, all forty-nine KQL queries matched
+  their reviewed Goldens and all forty-nine Scheduled-rule bodies rendered in
+  the disabled state.
+- Two final isolated builds from the development tree and two more from the
+  clean clone were byte-identical. `metesec-detection-pack-v1.0.0.zip` is
+  1,040,114 bytes, contains 589 members including 588 manifest-listed sources,
+  and has SHA-256
+  `4565d5001281d0694c3891337fc362b1e8ad0b29b6957433ff6ce5bc7773703d`.
+- The internal manifest reports exactly fifty detections, forty-nine Sentinel
+  preview bindings, one hundred fifty positive cases and two hundred negative
+  cases. The archive uses one correct versioned root and contains the matching
+  release notes.
+- The exact extracted archive contained no suspicious filename, high-confidence
+  credential pattern or missing relative Markdown link in the bounded release
+  scan. This is a scoped release check, not a claim that pattern matching can
+  prove the absence of every possible secret.
+- A live read-only remote check found Forgejo `main` at
+  `a1862b7a62b05c944c7607744608ec0487f3a1b1`, confirmed it is an ancestor of the
+  candidate and found no `v1.0.0` tag. The candidate was twenty commits ahead at
+  the time of review. Live protected-branch settings and future CI results remain
+  publication gates rather than locally completed evidence.
+
+### Explicitly untouched
+
+- No branch was pushed, no protected merge was attempted, no tag or release was
+  created and no mirror policy changed. The public `v0.1.0` release remains
+  unchanged.
+- No Sentinel rule was deployed or enabled, no cloud configuration changed and
+  no raw telemetry, exact live count, environment identifier, customer tuning,
+  native KQL rule or prebuilt target bundle was added.
+
+### Result
+
+The complete fifty-rule `v1.0.0` candidate is locally release-ready and
+reproducible from a clean exact-commit checkout. Public release remains a
+separate protected-main operation with branch, main, tag and anonymous-download
+evidence still required.

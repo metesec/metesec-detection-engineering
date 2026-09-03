@@ -40,10 +40,10 @@ multi-implementation resolver belongs in the active version 1 design.
 - Mirror direction: Forgejo `main` to GitHub `main` only; sync on Forgejo commits
 - Mirror authentication: repository-scoped SSH deploy key stored by Forgejo; GitHub Actions, Issues, and Wiki are disabled
 - MeteSec Projects page: implemented and public at `https://metesec.com/projects/detection-engineering/`
-- Current phase: `0.1 — Functional Foundation`, `0.2 — Microsoft Sentinel Target` and `0.3 — Detection Operations` are complete; `0.4 — Sigma Detection Pack Expansion` is in progress
-- Current development-package version: `0.4.0`; the published `v0.1.0` artifact remains immutable and unchanged
+- Current phase: `0.1 — Functional Foundation`, `0.2 — Microsoft Sentinel Target` and `0.3 — Detection Operations` are complete; the `0.4 — Sigma Detection Pack Expansion` scope and local `v1.0.0` release-readiness review are complete, while protected-main publication remains pending
+- Current development-package version: `1.0.0`; it is a local release candidate and has not been published, while the existing public `v0.1.0` artifact remains immutable and unchanged
 - Version 1 release direction: fifty authored Sigma detections, Microsoft Sentinel as the only supported target, and no native-rule or resolver path in the active roadmap
-- Expansion baseline: all fifty planned Sigma detections are implemented; Waves 1 through 9 are complete, including their bounded live query-acceptance probes, and protected-main release readiness remains a separate milestone
+- Expansion baseline: all fifty planned Sigma detections are implemented; Waves 1 through 9 and their bounded live query-acceptance probes are complete, and the separate local reproducibility and release-readiness review has passed
 - Logical manifest contract: version 1 implemented as JSON Schema Draft 2020-12
 - Contract examples: one valid draft and one deliberately invalid stable-state example
 - Structural validation: executable with pinned Ajv `8.17.1`; the valid example is accepted and the invalid example is rejected
@@ -58,7 +58,7 @@ multi-implementation resolver belongs in the active version 1 design.
 - Branch protection: exact rule `main` disables direct pushes, applies to administrators, blocks rejected reviews and outdated branches, requires zero approvals in the current single-owner phase, and requires exact successful context `Repository validation / Contracts, detections, catalogue, and Sentinel preview (push)`
 - First public release: Forgejo tag and release `v0.1.0` target protected main commit `f33f602a2fb6ecbc98475c6de567aa7d9b810ebe`; the release exposes only `metesec-detection-pack-v0.1.0.zip` and `SHA256SUMS`, hides Forgejo's unchecksummed automatic source archives, and the public ZIP is 133,113 bytes with SHA-256 `547f8a66d64d7fac7dc33670a3c3397c77a2a46b737d619a8c498d5abfb2dfc6`
 - Release contract: the deterministic uncompressed ZIP has 72 members under one versioned root, including an internal manifest with path, normalized size and SHA-256 for each of 71 allowlisted sources; two independent clean builds and an anonymous post-publication download produced the exact same archive digest
-- Local `v0.4.0` candidate: the deterministic release build contains 588 members, including 587 allowlisted sources, all fifty Sigma packages, 350 synthetic fixtures, forty-nine Golden KQL queries and the read-only Sentinel inventory guide; its current size is 1,036,581 bytes and SHA-256 is `45abbc1a60910b84229a0ab4aadec12e8d2b937899eaabd9a79f1a45928f1653`, while the published `v0.1.0` remains unchanged
+- Local `v1.0.0` candidate: the deterministic release build contains 589 members, including 588 allowlisted sources, all fifty Sigma packages, 350 synthetic fixtures, forty-nine Golden KQL queries, version-matched release notes and the read-only Sentinel inventory guide; its current size is 1,040,114 bytes and SHA-256 is `4565d5001281d0694c3891337fc362b1e8ad0b29b6957433ff6ce5bc7773703d`, while the public `v0.1.0` remains unchanged
 - Portable implementations: fifty structurally valid Sigma rules, one per package
 - Synthetic evidence: one hundred fifty positive and two hundred negative flat event fixtures, all explicitly marked synthetic and all passing locally
 - Package contract tests: eight passing cases cover the valid draft, identity mismatch, missing implementation, implementation traversal, missing evidence index, valid linked evidence, fixture traversal, and invalid event-fixture structure
@@ -89,7 +89,7 @@ multi-implementation resolver belongs in the active version 1 design.
 - `MSEC-DET-0001` remains intentionally unbound because the available target has no suitable Windows event telemetry; it has no Sentinel compatibility claim
 - CI pipeline: validation-only Forgejo pipeline is operational for trusted pushes and manual dispatch; public pull-request execution remains intentionally disabled while the dedicated Pod uses Forgejo `host` execution mode without hard per-job container isolation
 - Deployment to any SIEM: not implemented and not authorized by this foundation milestone
-- Current local validation: the complete aggregate repository check passes with 83 unit tests plus all structural, generated-output and Golden gates; all 350 synthetic fixture expectations pass, forty-nine disabled Sentinel rule bodies render successfully and two consecutive deterministic `v0.4.0` release builds produced the same 1,036,581-byte archive and SHA-256 `45abbc1a60910b84229a0ab4aadec12e8d2b937899eaabd9a79f1a45928f1653`
+- Current local validation: the complete aggregate repository check passes in both the development tree and a fresh Git clone with 85 unit tests plus all structural, generated-output and Golden gates; all 350 synthetic fixture expectations pass and forty-nine disabled Sentinel rule bodies render successfully. Four final builds across the development tree and exact clean candidate commit `6209c96dec5a071153f3e732dbd1e61fc144c445` produced the same 1,040,114-byte `v1.0.0` archive and SHA-256 `4565d5001281d0694c3891337fc362b1e8ad0b29b6957433ff6ce5bc7773703d`
 
 ## Accepted architecture decisions
 
@@ -188,11 +188,12 @@ After every completed milestone:
 
 ## Immediate next milestone
 
-Perform the separate reproducibility and protected-main release-readiness review
-for the complete fifty-rule pack before deciding whether to publish `v1.0.0`.
-Verify the intended version transition, release notes, clean-tree rebuild,
-archive checksum and protected-branch workflow without changing the Sigma-only,
-Sentinel-first boundary. Do not add native KQL, deploy or enable Sentinel rules,
-publish a separate target archive or store raw live query output.
+Decide whether to publish the locally verified `v1.0.0` candidate. Publication
+requires the focused branch to pass Forgejo validation, merge only through the
+protected `main` path, pass the canonical-main and annotated-tag runs, reproduce
+the exact reviewed archive from the tag, attach only the ZIP and `SHA256SUMS`,
+and pass anonymous post-publication verification. Do not add native KQL, deploy
+or enable Sentinel rules, publish a separate target archive or store raw live
+query output.
 Keep public pull-request execution disabled until the runner gains hard per-job
 isolation.

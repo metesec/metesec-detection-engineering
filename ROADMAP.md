@@ -87,7 +87,7 @@ observation or runtime assessment is committed.
 
 ## 0.4 — Sigma Detection Pack Expansion
 
-Status: **in progress**
+Status: **release candidate ready; protected publication pending**
 
 - [x] Make Sigma the only authored detection format through version 1
 - [x] Keep Microsoft Sentinel as the only supported and validated target
@@ -105,6 +105,8 @@ Status: **in progress**
 - [x] Pass every applicable manifest, package, Sigma, synthetic-fixture,
   Sentinel compilation, Golden-query, disabled-renderer, source, lifecycle and
   coverage gate
+- [x] Complete the `v1.0.0` version transition, release notes, clean-clone
+  validation and deterministic checksum review
 - [ ] Publish the protected-main `v1.0.0` release after reproducibility and
   checksum verification
 
@@ -122,9 +124,12 @@ cases, a reviewed KQL Golden, an explicit source contract and a disabled
 Scheduled-rule body. All five final predicates passed the bounded read-only live
 query-acceptance probe and returned no match in the current 30-day aggregate
 baseline. No raw row, exact count or identifying result was retained. The
-`v0.4.0` development candidate remains unreleased; the next milestone is the
-separate reproducibility and protected-main release-readiness review for
-`v1.0.0`.
+The local `v1.0.0` candidate passes the complete aggregate check in both the
+development tree and a fresh exact-commit clone. Four final builds produced the
+same 1,040,114-byte archive with 589 members and SHA-256
+`4565d5001281d0694c3891337fc362b1e8ad0b29b6957433ff6ce5bc7773703d`.
+Publication remains a separate protected-main decision requiring green branch,
+main and annotated-tag runs plus final anonymous artifact verification.
 
 ## Future Signal
 
