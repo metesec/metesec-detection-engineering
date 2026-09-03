@@ -34,7 +34,7 @@
       "id": "MSEC-SDS-0002",
       "table": "AuditLogs",
       "display_name": "Microsoft Entra audit logs",
-      "consumers": ["MSEC-DET-0004", "MSEC-DET-0005"],
+      "consumers": ["MSEC-DET-0004", "MSEC-DET-0005", "MSEC-DET-0008", "MSEC-DET-0009"],
       "event_time_column": "TimeGenerated",
       "required_columns": [
         {"name": "TimeGenerated", "type": "datetime"},
@@ -44,6 +44,54 @@
         {"name": "OperationName", "type": "string"},
         {"name": "Result", "type": "string"},
         {"name": "TargetResources", "type": "dynamic"}
+      ],
+      "freshness": {
+        "degraded_after": "PT6H",
+        "unavailable_after": "P1D"
+      }
+    },
+    {
+      "id": "MSEC-SDS-0003",
+      "table": "DeviceProcessEvents",
+      "display_name": "Microsoft Defender for Endpoint process events",
+      "consumers": ["MSEC-DET-0006", "MSEC-DET-0007"],
+      "event_time_column": "Timestamp",
+      "required_columns": [
+        {"name": "TimeGenerated", "type": "datetime"},
+        {"name": "Timestamp", "type": "datetime"},
+        {"name": "AccountDomain", "type": "string"},
+        {"name": "AccountName", "type": "string"},
+        {"name": "AccountSid", "type": "string"},
+        {"name": "DeviceId", "type": "string"},
+        {"name": "DeviceName", "type": "string"},
+        {"name": "FileName", "type": "string"},
+        {"name": "FolderPath", "type": "string"},
+        {"name": "InitiatingProcessFileName", "type": "string"},
+        {"name": "ProcessCommandLine", "type": "string"},
+        {"name": "ReportId", "type": "long"}
+      ],
+      "freshness": {
+        "degraded_after": "PT6H",
+        "unavailable_after": "P1D"
+      }
+    },
+    {
+      "id": "MSEC-SDS-0004",
+      "table": "AADUserRiskEvents",
+      "display_name": "Microsoft Entra user risk events",
+      "consumers": ["MSEC-DET-0010"],
+      "event_time_column": "TimeGenerated",
+      "required_columns": [
+        {"name": "TimeGenerated", "type": "datetime"},
+        {"name": "OperationName", "type": "string"},
+        {"name": "RiskDetail", "type": "string"},
+        {"name": "RiskEventType", "type": "string"},
+        {"name": "RiskLevel", "type": "string"},
+        {"name": "RiskState", "type": "string"},
+        {"name": "Source", "type": "string"},
+        {"name": "UserDisplayName", "type": "string"},
+        {"name": "UserId", "type": "string"},
+        {"name": "UserPrincipalName", "type": "string"}
       ],
       "freshness": {
         "degraded_after": "PT6H",

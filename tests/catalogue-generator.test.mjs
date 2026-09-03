@@ -16,19 +16,25 @@ const catalogue = buildDetectionCatalogue(root);
 test("builds the expected ordered catalogue and aggregate evidence", () => {
   assert.deepEqual(
     catalogue.detections.map((detection) => detection.id),
-    ["MSEC-DET-0001", "MSEC-DET-0002", "MSEC-DET-0003", "MSEC-DET-0004", "MSEC-DET-0005"]
+    [
+      "MSEC-DET-0001", "MSEC-DET-0002", "MSEC-DET-0003", "MSEC-DET-0004", "MSEC-DET-0005",
+      "MSEC-DET-0006", "MSEC-DET-0007", "MSEC-DET-0008", "MSEC-DET-0009", "MSEC-DET-0010"
+    ]
   );
   assert.deepEqual(catalogue.summary, {
-    detections: 5,
-    implementations: 5,
-    positive_cases: 15,
-    negative_cases: 20,
-    sentinel_preview_bindings: 4
+    detections: 10,
+    implementations: 10,
+    positive_cases: 30,
+    negative_cases: 40,
+    sentinel_preview_bindings: 9
   });
   assert.deepEqual(catalogue.detections[0].target_bindings, []);
   assert.deepEqual(
     catalogue.detections.slice(1).map((detection) => detection.target_bindings[0].table),
-    ["SigninLogs", "SigninLogs", "AuditLogs", "AuditLogs"]
+    [
+      "SigninLogs", "SigninLogs", "AuditLogs", "AuditLogs", "DeviceProcessEvents",
+      "DeviceProcessEvents", "AuditLogs", "AuditLogs", "AADUserRiskEvents"
+    ]
   );
 });
 

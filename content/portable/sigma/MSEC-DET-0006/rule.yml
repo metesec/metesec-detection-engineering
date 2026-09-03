@@ -1,0 +1,47 @@
+title: Office Application Starts a Command or Script Interpreter
+id: fc49c51f-7c85-4cdb-bb90-1819bea2c7da
+status: experimental
+description: Detects a Microsoft Office process starting a selected command, script, or signed-binary interpreter.
+references:
+  - https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table
+  - https://attack.mitre.org/techniques/T1059/
+author: MeteSec Detection Engineering
+date: 2026-09-03
+tags:
+  - attack.execution
+  - attack.t1059
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection_parent:
+    InitiatingProcessFileName:
+      - WINWORD.EXE
+      - EXCEL.EXE
+      - POWERPNT.EXE
+      - OUTLOOK.EXE
+  selection_child:
+    FileName:
+      - powershell.exe
+      - pwsh.exe
+      - cmd.exe
+      - wscript.exe
+      - cscript.exe
+      - mshta.exe
+      - rundll32.exe
+      - regsvr32.exe
+  condition: selection_parent and selection_child
+fields:
+  - TimeGenerated
+  - Timestamp
+  - DeviceId
+  - DeviceName
+  - AccountName
+  - InitiatingProcessFileName
+  - FileName
+  - FolderPath
+  - ProcessCommandLine
+  - ReportId
+falsepositives:
+  - Approved Office macros, add-ins, deployment tooling, troubleshooting scripts, and business automation.
+level: high

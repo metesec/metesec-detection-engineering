@@ -20,7 +20,10 @@ The contract follows Microsoft's current
 [entity identifier reference](https://learn.microsoft.com/azure/sentinel/entities-reference),
 [SigninLogs schema](https://learn.microsoft.com/azure/azure-monitor/reference/tables/signinlogs)
 and
-[AuditLogs schema](https://learn.microsoft.com/azure/azure-monitor/reference/tables/auditlogs).
+[AuditLogs schema](https://learn.microsoft.com/azure/azure-monitor/reference/tables/auditlogs),
+[DeviceProcessEvents schema](https://learn.microsoft.com/defender-xdr/advanced-hunting-deviceprocessevents-table)
+and
+[AADUserRiskEvents schema](https://learn.microsoft.com/azure/azure-monitor/reference/tables/aaduserriskevents).
 The rendered request shape follows the stable
 [Scheduled alert-rule REST API](https://learn.microsoft.com/rest/api/securityinsights/alert-rules/create-or-update?view=rest-securityinsights-2025-09-01).
 
@@ -47,7 +50,7 @@ Generated queries are written to `dist/sentinel/<DETECTION-ID>/query.kql`. They 
 
 The separate `targets/sentinel/analytics-rules.json` profile adds explicit
 Scheduled-rule frequency, period, threshold, suppression, event-grouping and
-incident settings to the same four bindings. Validate its JSON Schema and the
+incident settings to the same nine bindings. Validate its JSON Schema and the
 complete renderer with:
 
 ```powershell
@@ -101,9 +104,10 @@ can be derived deterministically from the reviewed sources. The repository still
 contains no Azure client, authentication flow, target scope, deployment command
 or live-write capability.
 
-The read-only live probes for `MSEC-DET-0002` through `MSEC-DET-0005` used only
+The read-only live probes for the nine bound detections used only
 aggregate counts in an existing user-authorized Microsoft Sentinel workspace.
-They established that the bound `SigninLogs` and `AuditLogs` fields were
-queryable and that all four complete enriched queries were accepted. No raw rows, user
+They established that the bound `SigninLogs`, `AuditLogs`,
+`DeviceProcessEvents` and `AADUserRiskEvents` fields were queryable and that all
+nine generated predicates were accepted. No raw rows, user
 identifiers, tenant identifiers, workspace identifiers or result counts are
 stored here. None of these results proves that a detection is production-ready.

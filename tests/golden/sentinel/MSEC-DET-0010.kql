@@ -1,0 +1,5 @@
+AADUserRiskEvents
+| where RiskLevel =~ "high" and (RiskState in~ ("atRisk", "confirmedCompromised"))
+| extend AccountName = tostring(split(UserPrincipalName, "@")[0])
+| extend AccountUPNSuffix = tostring(split(UserPrincipalName, "@")[1])
+| project TimeGenerated, UserPrincipalName, AccountName, AccountUPNSuffix, UserId, UserDisplayName, RiskEventType, RiskLevel, RiskState, RiskDetail, Source, OperationName

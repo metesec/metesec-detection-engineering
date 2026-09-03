@@ -57,6 +57,20 @@ class SentinelDataSourceHealthTests(unittest.TestCase):
                     "latest_event_at": "2026-09-03T11:00:00Z",
                     "columns": self._columns("MSEC-SDS-0002"),
                 },
+                {
+                    "id": "MSEC-SDS-0003",
+                    "table": "DeviceProcessEvents",
+                    "table_exists": True,
+                    "latest_event_at": "2026-09-03T11:45:00Z",
+                    "columns": self._columns("MSEC-SDS-0003"),
+                },
+                {
+                    "id": "MSEC-SDS-0004",
+                    "table": "AADUserRiskEvents",
+                    "table_exists": True,
+                    "latest_event_at": "2026-09-03T11:15:00Z",
+                    "columns": self._columns("MSEC-SDS-0004"),
+                },
             ],
         }
 
@@ -79,14 +93,29 @@ class SentinelDataSourceHealthTests(unittest.TestCase):
                 (
                     "MSEC-SDS-0002",
                     "AuditLogs",
-                    ("MSEC-DET-0004", "MSEC-DET-0005"),
+                    (
+                        "MSEC-DET-0004",
+                        "MSEC-DET-0005",
+                        "MSEC-DET-0008",
+                        "MSEC-DET-0009",
+                    ),
+                ),
+                (
+                    "MSEC-SDS-0003",
+                    "DeviceProcessEvents",
+                    ("MSEC-DET-0006", "MSEC-DET-0007"),
+                ),
+                (
+                    "MSEC-SDS-0004",
+                    "AADUserRiskEvents",
+                    ("MSEC-DET-0010",),
                 ),
             ],
         )
 
     def test_complete_fresh_observation_is_ready(self) -> None:
         assessments = self._assess(self._observation())
-        self.assertEqual([item.status for item in assessments], ["ready", "ready"])
+        self.assertEqual([item.status for item in assessments], ["ready"] * 4)
         self.assertTrue(
             all(item.reasons == ("contract_satisfied",) for item in assessments)
         )
@@ -130,11 +159,11 @@ class SentinelDataSourceHealthTests(unittest.TestCase):
         observation["sources"][1]["latest_event_at"] = None
         assessments = self._assess(observation)
         self.assertEqual(
-            [item.reasons[0] for item in assessments],
+            [item.reasons[0] for item in assessments[:2]],
             ["table_missing", "no_observed_events"],
         )
         self.assertEqual(
-            [item.status for item in assessments],
+            [item.status for item in assessments[:2]],
             ["unavailable", "unavailable"],
         )
 
@@ -142,8 +171,8 @@ class SentinelDataSourceHealthTests(unittest.TestCase):
         observation = self._observation()
         observation["sources"].pop()
         assessments = self._assess(observation)
-        self.assertEqual(assessments[1].status, "unknown")
-        self.assertEqual(assessments[1].reasons, ("observation_missing",))
+        self.assertEqual(assessments[-1].status, "unknown")
+        self.assertEqual(assessments[-1].reasons, ("observation_missing",))
 
     def test_future_event_and_unknown_source_fail_closed(self) -> None:
         future = self._observation()
@@ -158,14 +187,14 @@ class SentinelDataSourceHealthTests(unittest.TestCase):
 
     def test_cli_exit_codes_distinguish_ready_from_unknown(self) -> None:
         observations = [
-            (self._observation(), 0, ["ready", "ready"]),
+            (self._observation(), 0, ["ready"] * 4),
             (
                 {
                     **self._observation(),
                     "sources": self._observation()["sources"][:1],
                 },
                 2,
-                ["ready", "unknown"],
+                ["ready", "unknown", "unknown", "unknown"],
             ),
         ]
         with TemporaryDirectory() as directory:

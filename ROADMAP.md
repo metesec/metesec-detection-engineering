@@ -43,7 +43,8 @@ Status: **complete**
 - [x] Document consumer-owned temporary rendering and deployment handoff
 - [x] Clearly document semantic and platform limitations
 
-Target status: four explicitly bound rules across `SigninLogs` and `AuditLogs`
+Target status: nine explicitly bound rules across `SigninLogs`, `AuditLogs`,
+`DeviceProcessEvents` and `AADUserRiskEvents`
 compile to reviewed Golden queries, have passed separate read-only live
 query-acceptance probes, and render into deterministic disabled Scheduled-rule
 REST bodies with stable rule IDs, governed output fields, entity mappings and
@@ -61,22 +62,23 @@ Status: **complete**
 - [x] Introduce lifecycle and review-cadence validation
 - [x] Add rule-execution and alert-outcome health definitions
 
-Current status: `SigninLogs` and `AuditLogs` have exact field and type
+Current status: `SigninLogs`, `AuditLogs`, `DeviceProcessEvents` and
+`AADUserRiskEvents` have exact field and type
 requirements, freshness expectations, preview-consumer relationships and a
 local observation evaluator with explicit `ready`, `degraded`, `unavailable`
 and `unknown` states. No live monitor or production-health claim exists.
 Environment-specific tuning and exceptions remain consumer-owned and are not a
 planned public repository contract.
 
-The generated coverage outputs expose four declared ATT&CK techniques, three
-tactics, three logical sources, two Sentinel source contracts and the one
+The generated coverage outputs expose six declared ATT&CK techniques, four
+tactics, five logical sources, four Sentinel source contracts and the one
 intentional unbound detection without inventing a completeness score.
 Lifecycle validation now derives review dates from existing manifest fields,
 fails on due or overdue records and can enforce forward-only transitions when a
 consumer supplies a previous catalogue baseline. No runtime status file is
 committed.
 
-Rule-runtime validation now derives the expected four execution schedules from
+Rule-runtime validation now derives the expected nine execution schedules from
 the Sentinel analytics-rule profile and evaluates a consumer-supplied local
 observation as `healthy`, `degraded`, `failed` or `unknown`. Alert and incident
 counts are optional context and never influence health; no Azure client, live
@@ -90,7 +92,7 @@ Status: **in progress**
 - [x] Keep Microsoft Sentinel as the only supported and validated target
 - [x] Inventory available Sentinel tables and candidate fields read-only
 - [ ] Approve a backlog for twenty-five additional detections
-- [ ] Complete Wave 1: 10 of 30 Sigma detections
+- [x] Complete Wave 1: 10 of 30 Sigma detections
 - [ ] Complete Wave 2: 15 of 30 Sigma detections
 - [ ] Complete Wave 3: 20 of 30 Sigma detections
 - [ ] Complete Wave 4: 25 of 30 Sigma detections
@@ -101,13 +103,14 @@ Status: **in progress**
 - [ ] Publish the protected-main `v1.0.0` release after reproducibility and
   checksum verification
 
-Current status: five of thirty Sigma detections exist. Four have explicit
+Current status: ten of thirty Sigma detections exist. Nine have explicit
 Sentinel bindings and one Windows Event detection remains intentionally
 unbound because the available target has no suitable Windows event telemetry.
-The read-only inventory confirmed useful Entra, endpoint, email, network and
-Sentinel operating-data families without returning raw events or storing live
-workspace output in the repository. The next step is a reviewed first wave,
-not a bulk import of untested rules.
+Wave 1 added two Defender endpoint process detections, two Entra audit
+detections and one Entra user-risk detection. Each has three positive and four
+negative synthetic cases, a reviewed KQL Golden, an explicit source contract
+and a disabled Scheduled-rule body. The next step is a separately reviewed
+second wave, not a bulk import of untested rules.
 
 ## Future Signal
 

@@ -1,0 +1,28 @@
+{
+  "schema_version":1,
+  "id":"MSEC-DET-0010",
+  "title":"High-risk Microsoft Entra user risk event remains active",
+  "description":"Detects a high-risk Microsoft Entra Identity Protection user risk event whose state is at risk or confirmed compromised.",
+  "hypothesis": {
+    "summary":"An adversary may be using or preparing to use a compromised Microsoft Entra cloud account.",
+    "rationale":"A high-risk event that remains active is a strong investigation signal, but Identity Protection risk is an assessment and does not by itself prove malicious access.",
+    "detection_goal":"Identify high-risk user risk events that are still at risk or confirmed compromised while leaving lower-risk, remediated, dismissed, and incomplete events unmatched."
+  },
+  "ownership":{"owner":"MeteSec Detection Engineering","reviewers":[]},
+  "lifecycle":{"status":"experimental","created":"2026-09-03","modified":"2026-09-03","review_interval_days":90},
+  "severity":"high",
+  "confidence":"medium",
+  "data_sources":[{"name":"Microsoft Entra user risk events","category":"Identity risk","required_fields":["TimeGenerated","UserId","UserPrincipalName","RiskEventType","RiskLevel","RiskState","OperationName"]}],
+  "attack":[{"technique_id":"T1078.004","tactic":"Initial Access"}],
+  "triage": {
+    "summary":"Review the risk evidence, affected identity, sign-in context, remediation state, and adjacent account activity before determining whether the account is compromised.",
+    "steps":[
+      "Review the risk event type, detail, source, detection time, and Identity Protection investigation record.",
+      "Validate recent sign-ins, MFA and Conditional Access results, device context, user activity, and whether the event has already been remediated.",
+      "Revoke sessions, reset credentials, remove unauthorized authentication methods, and investigate adjacent activity when compromise is confirmed or unexplained."
+    ],
+    "false_positives":["A high-risk event that investigation subsequently confirms as safe or that remediation has not yet updated"]
+  },
+  "validation":{"expected_outcome":"Match only high-risk user risk events in at-risk or confirmed-compromised states; do not match lower-risk, remediated, dismissed, or incomplete events.","positive_tests":true,"negative_tests":true},
+  "implementations":[{"type":"sigma","path":"content/portable/sigma/MSEC-DET-0010/rule.yml","targets":["sentinel"],"status":"active"}]
+}

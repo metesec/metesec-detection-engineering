@@ -1,0 +1,28 @@
+{
+  "schema_version":1,
+  "id":"MSEC-DET-0009",
+  "title":"Security information registered for a Microsoft Entra account",
+  "description":"Detects successful administrator or user registration of security information for a Microsoft Entra account.",
+  "hypothesis": {
+    "summary":"An adversary may register an authentication method on a compromised Microsoft Entra account to retain access.",
+    "rationale":"New security information can add an authentication path to an account, but normal enrollment, device replacement, recovery, and help-desk support create the same operations.",
+    "detection_goal":"Identify successful administrator or user security-information registration while leaving failures, updates, unrelated operations, and incomplete events unmatched."
+  },
+  "ownership":{"owner":"MeteSec Detection Engineering","reviewers":[]},
+  "lifecycle":{"status":"experimental","created":"2026-09-03","modified":"2026-09-03","review_interval_days":90},
+  "severity":"medium",
+  "confidence":"medium",
+  "data_sources":[{"name":"Microsoft Entra audit logs","category":"Identity directory audit","required_fields":["TimeGenerated","OperationName","Result","InitiatedBy","TargetResources","CorrelationId"]}],
+  "attack":[{"technique_id":"T1098.001","tactic":"Persistence"}],
+  "triage": {
+    "summary":"Validate the target account, registered method, initiating identity, authentication context, and user intent before deciding whether access persistence was established.",
+    "steps":[
+      "Identify the target account, initiating user or service, registered method, source context, and registration time.",
+      "Confirm whether the user, help desk, identity team, or approved enrollment workflow initiated the registration.",
+      "Review adjacent sign-ins, authentication-method changes, password resets, and risk events; remove unauthorized methods and contain the account when unexplained."
+    ],
+    "false_positives":["Normal MFA enrollment, device replacement, account recovery, help-desk support, and approved identity lifecycle activity"]
+  },
+  "validation":{"expected_outcome":"Match successful administrator or user security-information registration; do not match failures, updates, unrelated operations, or missing results.","positive_tests":true,"negative_tests":true},
+  "implementations":[{"type":"sigma","path":"content/portable/sigma/MSEC-DET-0009/rule.yml","targets":["sentinel"],"status":"active"}]
+}

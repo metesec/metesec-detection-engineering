@@ -2,11 +2,11 @@
   "schema_version": 1,
   "source": "catalog/detections/*/manifest.json",
   "summary": {
-    "detections": 5,
-    "implementations": 5,
-    "positive_cases": 15,
-    "negative_cases": 20,
-    "sentinel_preview_bindings": 4
+    "detections": 10,
+    "implementations": 10,
+    "positive_cases": 30,
+    "negative_cases": 40,
+    "sentinel_preview_bindings": 9
   },
   "detections": [
     {
@@ -276,6 +276,290 @@
         }
       ],
       "manifest": "catalog/detections/MSEC-DET-0005/manifest.json"
+    },
+    {
+      "id": "MSEC-DET-0006",
+      "title": "Office application starts a command or script interpreter",
+      "description": "Detects a Microsoft Office application starting a selected command, script, or signed-binary interpreter in Microsoft Defender for Endpoint process telemetry.",
+      "lifecycle": {
+        "status": "experimental",
+        "created": "2026-09-03",
+        "modified": "2026-09-03",
+        "review_interval_days": 90
+      },
+      "severity": "high",
+      "confidence": "medium",
+      "attack": [
+        {
+          "technique_id": "T1059",
+          "tactic": "Execution"
+        }
+      ],
+      "data_sources": [
+        {
+          "name": "Microsoft Defender for Endpoint process events",
+          "category": "Endpoint process creation",
+          "required_fields": [
+            "TimeGenerated",
+            "Timestamp",
+            "DeviceId",
+            "DeviceName",
+            "AccountName",
+            "InitiatingProcessFileName",
+            "FileName",
+            "FolderPath",
+            "ProcessCommandLine",
+            "ReportId"
+          ]
+        }
+      ],
+      "validation": {
+        "positive_cases": 3,
+        "negative_cases": 4
+      },
+      "implementations": [
+        {
+          "type": "sigma",
+          "path": "content/portable/sigma/MSEC-DET-0006/rule.yml",
+          "targets": [
+            "sentinel"
+          ],
+          "status": "active"
+        }
+      ],
+      "target_bindings": [
+        {
+          "target": "microsoft-sentinel",
+          "table": "DeviceProcessEvents",
+          "golden": "tests/golden/sentinel/MSEC-DET-0006.kql"
+        }
+      ],
+      "manifest": "catalog/detections/MSEC-DET-0006/manifest.json"
+    },
+    {
+      "id": "MSEC-DET-0007",
+      "title": "PowerShell process uses an encoded-command flag",
+      "description": "Detects Windows PowerShell or PowerShell Core command lines containing selected encoded-command flags in Microsoft Defender for Endpoint process telemetry.",
+      "lifecycle": {
+        "status": "experimental",
+        "created": "2026-09-03",
+        "modified": "2026-09-03",
+        "review_interval_days": 90
+      },
+      "severity": "high",
+      "confidence": "medium",
+      "attack": [
+        {
+          "technique_id": "T1059.001",
+          "tactic": "Execution"
+        }
+      ],
+      "data_sources": [
+        {
+          "name": "Microsoft Defender for Endpoint process events",
+          "category": "Endpoint process creation",
+          "required_fields": [
+            "TimeGenerated",
+            "Timestamp",
+            "DeviceId",
+            "DeviceName",
+            "AccountName",
+            "InitiatingProcessFileName",
+            "FileName",
+            "FolderPath",
+            "ProcessCommandLine",
+            "ReportId"
+          ]
+        }
+      ],
+      "validation": {
+        "positive_cases": 3,
+        "negative_cases": 4
+      },
+      "implementations": [
+        {
+          "type": "sigma",
+          "path": "content/portable/sigma/MSEC-DET-0007/rule.yml",
+          "targets": [
+            "sentinel"
+          ],
+          "status": "active"
+        }
+      ],
+      "target_bindings": [
+        {
+          "target": "microsoft-sentinel",
+          "table": "DeviceProcessEvents",
+          "golden": "tests/golden/sentinel/MSEC-DET-0007.kql"
+        }
+      ],
+      "manifest": "catalog/detections/MSEC-DET-0007/manifest.json"
+    },
+    {
+      "id": "MSEC-DET-0008",
+      "title": "Permanent Microsoft Entra role assignment outside PIM",
+      "description": "Detects a successful permanent Microsoft Entra role assignment made outside Privileged Identity Management.",
+      "lifecycle": {
+        "status": "experimental",
+        "created": "2026-09-03",
+        "modified": "2026-09-03",
+        "review_interval_days": 90
+      },
+      "severity": "high",
+      "confidence": "medium",
+      "attack": [
+        {
+          "technique_id": "T1098.003",
+          "tactic": "Privilege Escalation"
+        }
+      ],
+      "data_sources": [
+        {
+          "name": "Microsoft Entra audit logs",
+          "category": "Identity directory audit",
+          "required_fields": [
+            "TimeGenerated",
+            "OperationName",
+            "Result",
+            "InitiatedBy",
+            "TargetResources",
+            "CorrelationId"
+          ]
+        }
+      ],
+      "validation": {
+        "positive_cases": 3,
+        "negative_cases": 4
+      },
+      "implementations": [
+        {
+          "type": "sigma",
+          "path": "content/portable/sigma/MSEC-DET-0008/rule.yml",
+          "targets": [
+            "sentinel"
+          ],
+          "status": "active"
+        }
+      ],
+      "target_bindings": [
+        {
+          "target": "microsoft-sentinel",
+          "table": "AuditLogs",
+          "golden": "tests/golden/sentinel/MSEC-DET-0008.kql"
+        }
+      ],
+      "manifest": "catalog/detections/MSEC-DET-0008/manifest.json"
+    },
+    {
+      "id": "MSEC-DET-0009",
+      "title": "Security information registered for a Microsoft Entra account",
+      "description": "Detects successful administrator or user registration of security information for a Microsoft Entra account.",
+      "lifecycle": {
+        "status": "experimental",
+        "created": "2026-09-03",
+        "modified": "2026-09-03",
+        "review_interval_days": 90
+      },
+      "severity": "medium",
+      "confidence": "medium",
+      "attack": [
+        {
+          "technique_id": "T1098.001",
+          "tactic": "Persistence"
+        }
+      ],
+      "data_sources": [
+        {
+          "name": "Microsoft Entra audit logs",
+          "category": "Identity directory audit",
+          "required_fields": [
+            "TimeGenerated",
+            "OperationName",
+            "Result",
+            "InitiatedBy",
+            "TargetResources",
+            "CorrelationId"
+          ]
+        }
+      ],
+      "validation": {
+        "positive_cases": 3,
+        "negative_cases": 4
+      },
+      "implementations": [
+        {
+          "type": "sigma",
+          "path": "content/portable/sigma/MSEC-DET-0009/rule.yml",
+          "targets": [
+            "sentinel"
+          ],
+          "status": "active"
+        }
+      ],
+      "target_bindings": [
+        {
+          "target": "microsoft-sentinel",
+          "table": "AuditLogs",
+          "golden": "tests/golden/sentinel/MSEC-DET-0009.kql"
+        }
+      ],
+      "manifest": "catalog/detections/MSEC-DET-0009/manifest.json"
+    },
+    {
+      "id": "MSEC-DET-0010",
+      "title": "High-risk Microsoft Entra user risk event remains active",
+      "description": "Detects a high-risk Microsoft Entra Identity Protection user risk event whose state is at risk or confirmed compromised.",
+      "lifecycle": {
+        "status": "experimental",
+        "created": "2026-09-03",
+        "modified": "2026-09-03",
+        "review_interval_days": 90
+      },
+      "severity": "high",
+      "confidence": "medium",
+      "attack": [
+        {
+          "technique_id": "T1078.004",
+          "tactic": "Initial Access"
+        }
+      ],
+      "data_sources": [
+        {
+          "name": "Microsoft Entra user risk events",
+          "category": "Identity risk",
+          "required_fields": [
+            "TimeGenerated",
+            "UserId",
+            "UserPrincipalName",
+            "RiskEventType",
+            "RiskLevel",
+            "RiskState",
+            "OperationName"
+          ]
+        }
+      ],
+      "validation": {
+        "positive_cases": 3,
+        "negative_cases": 4
+      },
+      "implementations": [
+        {
+          "type": "sigma",
+          "path": "content/portable/sigma/MSEC-DET-0010/rule.yml",
+          "targets": [
+            "sentinel"
+          ],
+          "status": "active"
+        }
+      ],
+      "target_bindings": [
+        {
+          "target": "microsoft-sentinel",
+          "table": "AADUserRiskEvents",
+          "golden": "tests/golden/sentinel/MSEC-DET-0010.kql"
+        }
+      ],
+      "manifest": "catalog/detections/MSEC-DET-0010/manifest.json"
     }
   ]
 }

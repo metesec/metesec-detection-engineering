@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0007",
+  "title": "PowerShell process uses an encoded-command flag",
+  "description": "Detects Windows PowerShell or PowerShell Core command lines containing selected encoded-command flags in Microsoft Defender for Endpoint process telemetry.",
+  "hypothesis": {
+    "summary": "An adversary may use an encoded PowerShell command to obscure execution content.",
+    "rationale": "Encoded PowerShell is frequently used to conceal commands, but administrators, deployment systems, and security products can also use the feature legitimately.",
+    "detection_goal": "Identify PowerShell processes using selected encoded-command flags while leaving other executables, ordinary PowerShell commands, and incomplete events unmatched."
+  },
+  "ownership": {"owner": "MeteSec Detection Engineering", "reviewers": []},
+  "lifecycle": {"status": "experimental", "created": "2026-09-03", "modified": "2026-09-03", "review_interval_days": 90},
+  "severity": "high",
+  "confidence": "medium",
+  "data_sources": [
+    {
+      "name": "Microsoft Defender for Endpoint process events",
+      "category": "Endpoint process creation",
+      "required_fields": ["TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountName", "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"]
+    }
+  ],
+  "attack": [{"technique_id": "T1059.001", "tactic": "Execution"}],
+  "triage": {
+    "summary": "Decode the command safely and determine whether its origin, user, process tree, and subsequent behavior match an approved administrative workflow.",
+    "steps": [
+      "Preserve the original command line and decode the supplied value in an isolated analysis workflow without executing it.",
+      "Review the parent process, account, device, script origin, signer, and related file or network activity.",
+      "Confirm an approved automation or change record; otherwise contain the endpoint and investigate the account and process tree."
+    ],
+    "false_positives": ["Approved software deployment, endpoint management, security tooling, and administrative automation"]
+  },
+  "validation": {
+    "expected_outcome": "Match selected PowerShell executables only when their command line contains an encoded-command flag; do not match ordinary commands, other executables, or missing command lines.",
+    "positive_tests": true,
+    "negative_tests": true
+  },
+  "implementations": [{"type": "sigma", "path": "content/portable/sigma/MSEC-DET-0007/rule.yml", "targets": ["sentinel"], "status": "active"}]
+}

@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"TimeGenerated":"2026-09-03T12:20:00Z","UserId":"00000000-0000-4000-8000-000000000010","UserPrincipalName":"synthetic-user@lab.example","RiskEventType":"syntheticRisk","RiskLevel":"HIGH","RiskState":"ATRISK","OperationName":"Synthetic risk event"}}

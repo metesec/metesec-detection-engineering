@@ -6,17 +6,35 @@
     "sentinel_data_sources": "targets/sentinel/data-sources.json"
   },
   "summary": {
-    "detections": 5,
-    "attack_mappings": 5,
-    "attack_techniques": 4,
-    "attack_tactics": 3,
-    "logical_data_sources": 3,
-    "sentinel_preview_bindings": 4,
-    "sentinel_data_source_contracts": 2,
+    "detections": 10,
+    "attack_mappings": 10,
+    "attack_techniques": 6,
+    "attack_tactics": 4,
+    "logical_data_sources": 5,
+    "sentinel_preview_bindings": 9,
+    "sentinel_data_source_contracts": 4,
     "detections_without_sentinel_binding": 1
   },
   "attack": {
     "techniques": [
+      {
+        "technique_id": "T1059",
+        "tactics": [
+          "Execution"
+        ],
+        "detections": [
+          "MSEC-DET-0006"
+        ]
+      },
+      {
+        "technique_id": "T1059.001",
+        "tactics": [
+          "Execution"
+        ],
+        "detections": [
+          "MSEC-DET-0007"
+        ]
+      },
       {
         "technique_id": "T1078.004",
         "tactics": [
@@ -24,7 +42,8 @@
         ],
         "detections": [
           "MSEC-DET-0002",
-          "MSEC-DET-0003"
+          "MSEC-DET-0003",
+          "MSEC-DET-0010"
         ]
       },
       {
@@ -33,7 +52,8 @@
           "Persistence"
         ],
         "detections": [
-          "MSEC-DET-0004"
+          "MSEC-DET-0004",
+          "MSEC-DET-0009"
         ]
       },
       {
@@ -42,7 +62,8 @@
           "Privilege Escalation"
         ],
         "detections": [
-          "MSEC-DET-0005"
+          "MSEC-DET-0005",
+          "MSEC-DET-0008"
         ]
       },
       {
@@ -57,13 +78,25 @@
     ],
     "tactics": [
       {
+        "tactic": "Execution",
+        "techniques": [
+          "T1059",
+          "T1059.001"
+        ],
+        "detections": [
+          "MSEC-DET-0006",
+          "MSEC-DET-0007"
+        ]
+      },
+      {
         "tactic": "Initial Access",
         "techniques": [
           "T1078.004"
         ],
         "detections": [
           "MSEC-DET-0002",
-          "MSEC-DET-0003"
+          "MSEC-DET-0003",
+          "MSEC-DET-0010"
         ]
       },
       {
@@ -74,7 +107,8 @@
         ],
         "detections": [
           "MSEC-DET-0001",
-          "MSEC-DET-0004"
+          "MSEC-DET-0004",
+          "MSEC-DET-0009"
         ]
       },
       {
@@ -83,7 +117,8 @@
           "T1098.003"
         ],
         "detections": [
-          "MSEC-DET-0005"
+          "MSEC-DET-0005",
+          "MSEC-DET-0008"
         ]
       }
     ]
@@ -91,11 +126,33 @@
   "data_sources": {
     "logical": [
       {
+        "name": "Microsoft Defender for Endpoint process events",
+        "category": "Endpoint process creation",
+        "detections": [
+          "MSEC-DET-0006",
+          "MSEC-DET-0007"
+        ],
+        "required_fields": [
+          "AccountName",
+          "DeviceId",
+          "DeviceName",
+          "FileName",
+          "FolderPath",
+          "InitiatingProcessFileName",
+          "ProcessCommandLine",
+          "ReportId",
+          "TimeGenerated",
+          "Timestamp"
+        ]
+      },
+      {
         "name": "Microsoft Entra audit logs",
         "category": "Identity directory audit",
         "detections": [
           "MSEC-DET-0004",
-          "MSEC-DET-0005"
+          "MSEC-DET-0005",
+          "MSEC-DET-0008",
+          "MSEC-DET-0009"
         ],
         "required_fields": [
           "CorrelationId",
@@ -120,6 +177,22 @@
           "ResultType",
           "RiskLevelDuringSignIn",
           "TimeGenerated",
+          "UserPrincipalName"
+        ]
+      },
+      {
+        "name": "Microsoft Entra user risk events",
+        "category": "Identity risk",
+        "detections": [
+          "MSEC-DET-0010"
+        ],
+        "required_fields": [
+          "OperationName",
+          "RiskEventType",
+          "RiskLevel",
+          "RiskState",
+          "TimeGenerated",
+          "UserId",
           "UserPrincipalName"
         ]
       },
@@ -221,7 +294,9 @@
         "display_name": "Microsoft Entra audit logs",
         "detections": [
           "MSEC-DET-0004",
-          "MSEC-DET-0005"
+          "MSEC-DET-0005",
+          "MSEC-DET-0008",
+          "MSEC-DET-0009"
         ],
         "event_time_column": "TimeGenerated",
         "required_columns": [
@@ -252,6 +327,125 @@
           {
             "name": "TargetResources",
             "type": "dynamic"
+          }
+        ],
+        "freshness": {
+          "degraded_after": "PT6H",
+          "unavailable_after": "P1D"
+        }
+      },
+      {
+        "source_id": "MSEC-SDS-0003",
+        "table": "DeviceProcessEvents",
+        "display_name": "Microsoft Defender for Endpoint process events",
+        "detections": [
+          "MSEC-DET-0006",
+          "MSEC-DET-0007"
+        ],
+        "event_time_column": "Timestamp",
+        "required_columns": [
+          {
+            "name": "TimeGenerated",
+            "type": "datetime"
+          },
+          {
+            "name": "Timestamp",
+            "type": "datetime"
+          },
+          {
+            "name": "AccountDomain",
+            "type": "string"
+          },
+          {
+            "name": "AccountName",
+            "type": "string"
+          },
+          {
+            "name": "AccountSid",
+            "type": "string"
+          },
+          {
+            "name": "DeviceId",
+            "type": "string"
+          },
+          {
+            "name": "DeviceName",
+            "type": "string"
+          },
+          {
+            "name": "FileName",
+            "type": "string"
+          },
+          {
+            "name": "FolderPath",
+            "type": "string"
+          },
+          {
+            "name": "InitiatingProcessFileName",
+            "type": "string"
+          },
+          {
+            "name": "ProcessCommandLine",
+            "type": "string"
+          },
+          {
+            "name": "ReportId",
+            "type": "long"
+          }
+        ],
+        "freshness": {
+          "degraded_after": "PT6H",
+          "unavailable_after": "P1D"
+        }
+      },
+      {
+        "source_id": "MSEC-SDS-0004",
+        "table": "AADUserRiskEvents",
+        "display_name": "Microsoft Entra user risk events",
+        "detections": [
+          "MSEC-DET-0010"
+        ],
+        "event_time_column": "TimeGenerated",
+        "required_columns": [
+          {
+            "name": "TimeGenerated",
+            "type": "datetime"
+          },
+          {
+            "name": "OperationName",
+            "type": "string"
+          },
+          {
+            "name": "RiskDetail",
+            "type": "string"
+          },
+          {
+            "name": "RiskEventType",
+            "type": "string"
+          },
+          {
+            "name": "RiskLevel",
+            "type": "string"
+          },
+          {
+            "name": "RiskState",
+            "type": "string"
+          },
+          {
+            "name": "Source",
+            "type": "string"
+          },
+          {
+            "name": "UserDisplayName",
+            "type": "string"
+          },
+          {
+            "name": "UserId",
+            "type": "string"
+          },
+          {
+            "name": "UserPrincipalName",
+            "type": "string"
           }
         ],
         "freshness": {

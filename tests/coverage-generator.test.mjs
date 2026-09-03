@@ -15,13 +15,13 @@ const report = buildCoverageReport(root);
 
 test("builds exact aggregate coverage without percentages", () => {
   assert.deepEqual(report.summary, {
-    detections: 5,
-    attack_mappings: 5,
-    attack_techniques: 4,
-    attack_tactics: 3,
-    logical_data_sources: 3,
-    sentinel_preview_bindings: 4,
-    sentinel_data_source_contracts: 2,
+    detections: 10,
+    attack_mappings: 10,
+    attack_techniques: 6,
+    attack_tactics: 4,
+    logical_data_sources: 5,
+    sentinel_preview_bindings: 9,
+    sentinel_data_source_contracts: 4,
     detections_without_sentinel_binding: 1,
   });
   assert.equal(JSON.stringify(report).includes("percent"), false);
@@ -31,15 +31,17 @@ test("aggregates ATT&CK techniques and tactics deterministically", () => {
   assert.deepEqual(
     report.attack.techniques.map((item) => [item.technique_id, item.detections]),
     [
-      ["T1078.004", ["MSEC-DET-0002", "MSEC-DET-0003"]],
-      ["T1098.001", ["MSEC-DET-0004"]],
-      ["T1098.003", ["MSEC-DET-0005"]],
+      ["T1059", ["MSEC-DET-0006"]],
+      ["T1059.001", ["MSEC-DET-0007"]],
+      ["T1078.004", ["MSEC-DET-0002", "MSEC-DET-0003", "MSEC-DET-0010"]],
+      ["T1098.001", ["MSEC-DET-0004", "MSEC-DET-0009"]],
+      ["T1098.003", ["MSEC-DET-0005", "MSEC-DET-0008"]],
       ["T1543.003", ["MSEC-DET-0001"]],
     ],
   );
   assert.deepEqual(
     report.attack.tactics.map((item) => item.tactic),
-    ["Initial Access", "Persistence", "Privilege Escalation"],
+    ["Execution", "Initial Access", "Persistence", "Privilege Escalation"],
   );
 });
 
@@ -87,8 +89,20 @@ test("retains exact Sentinel contract relationships", () => {
       {
         source_id: "MSEC-SDS-0002",
         table: "AuditLogs",
-        detections: ["MSEC-DET-0004", "MSEC-DET-0005"],
+        detections: ["MSEC-DET-0004", "MSEC-DET-0005", "MSEC-DET-0008", "MSEC-DET-0009"],
         required_columns: 7,
+      },
+      {
+        source_id: "MSEC-SDS-0003",
+        table: "DeviceProcessEvents",
+        detections: ["MSEC-DET-0006", "MSEC-DET-0007"],
+        required_columns: 12,
+      },
+      {
+        source_id: "MSEC-SDS-0004",
+        table: "AADUserRiskEvents",
+        detections: ["MSEC-DET-0010"],
+        required_columns: 10,
       },
     ],
   );

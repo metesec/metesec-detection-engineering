@@ -26,12 +26,22 @@ EXPECTED_IDS = [
     "MSEC-DET-0003",
     "MSEC-DET-0004",
     "MSEC-DET-0005",
+    "MSEC-DET-0006",
+    "MSEC-DET-0007",
+    "MSEC-DET-0008",
+    "MSEC-DET-0009",
+    "MSEC-DET-0010",
 ]
 EXPECTED_RULE_IDS = {
     "MSEC-DET-0002": "249adb3e-5bd1-5348-82ba-00a0ade97c7d",
     "MSEC-DET-0003": "f336023f-4aa7-582e-99f5-da072f591623",
     "MSEC-DET-0004": "014e057f-ad92-56c5-801f-0e3f00689d90",
     "MSEC-DET-0005": "395d6ea0-0706-511c-878b-e430c44f8c55",
+    "MSEC-DET-0006": "d93b2104-9ec4-514e-bfe9-7b5c8a61a58e",
+    "MSEC-DET-0007": "946f440a-507f-5d6d-b8aa-16242f00c4cd",
+    "MSEC-DET-0008": "e6278947-b6ee-55ec-b967-c70b930158b0",
+    "MSEC-DET-0009": "f2d6f91c-fd6e-5a33-9912-853e8f438c10",
+    "MSEC-DET-0010": "7ff5a2bc-a328-5335-9e16-d5554513fe83",
 }
 SIGNIN_ENTITY_MAPPINGS = [
     {
@@ -88,6 +98,33 @@ AUDIT_ENTITY_MAPPINGS = [
         ],
     },
 ]
+DEVICE_ENTITY_MAPPINGS = [
+    {
+        "entityType": "Account",
+        "fieldMappings": [
+            {"identifier": "Name", "columnName": "AccountName"},
+        ],
+    },
+]
+AUDIT_ACCOUNT_ENTITY_MAPPINGS = [
+    *AUDIT_ENTITY_MAPPINGS[:3],
+    {
+        "entityType": "Account",
+        "fieldMappings": [
+            {"identifier": "AadUserId", "columnName": "TargetObjectId"},
+        ],
+    },
+]
+RISK_ENTITY_MAPPINGS = [
+    {
+        "entityType": "Account",
+        "fieldMappings": [
+            {"identifier": "Name", "columnName": "AccountName"},
+            {"identifier": "UPNSuffix", "columnName": "AccountUPNSuffix"},
+            {"identifier": "AadUserId", "columnName": "UserId"},
+        ],
+    },
+]
 
 
 class SentinelRuleRendererTests(unittest.TestCase):
@@ -95,7 +132,7 @@ class SentinelRuleRendererTests(unittest.TestCase):
     def setUpClass(cls) -> None:
         cls.rendered = render_profile(REPO_ROOT, PROFILE)
 
-    def test_current_profile_renders_four_disabled_scheduled_rules(self) -> None:
+    def test_current_profile_renders_nine_disabled_scheduled_rules(self) -> None:
         self.assertEqual(
             [item.detection_id for item in self.rendered],
             EXPECTED_IDS,
@@ -125,6 +162,11 @@ class SentinelRuleRendererTests(unittest.TestCase):
             "MSEC-DET-0003": ("High", ["InitialAccess"], ["T1078"]),
             "MSEC-DET-0004": ("High", ["Persistence"], ["T1098"]),
             "MSEC-DET-0005": ("Medium", ["PrivilegeEscalation"], ["T1098"]),
+            "MSEC-DET-0006": ("High", ["Execution"], ["T1059"]),
+            "MSEC-DET-0007": ("High", ["Execution"], ["T1059"]),
+            "MSEC-DET-0008": ("High", ["PrivilegeEscalation"], ["T1098"]),
+            "MSEC-DET-0009": ("Medium", ["Persistence"], ["T1098"]),
+            "MSEC-DET-0010": ("High", ["InitialAccess"], ["T1078"]),
         }
         for item in self.rendered:
             properties = item.request_body["properties"]
@@ -150,11 +192,17 @@ class SentinelRuleRendererTests(unittest.TestCase):
 
     def test_output_columns_drive_exact_entity_mappings(self) -> None:
         for item in self.rendered:
-            expected = (
-                SIGNIN_ENTITY_MAPPINGS
-                if item.detection_id in {"MSEC-DET-0002", "MSEC-DET-0003"}
-                else AUDIT_ENTITY_MAPPINGS
-            )
+            expected = {
+                "MSEC-DET-0002": SIGNIN_ENTITY_MAPPINGS,
+                "MSEC-DET-0003": SIGNIN_ENTITY_MAPPINGS,
+                "MSEC-DET-0004": AUDIT_ENTITY_MAPPINGS,
+                "MSEC-DET-0005": AUDIT_ENTITY_MAPPINGS,
+                "MSEC-DET-0006": DEVICE_ENTITY_MAPPINGS,
+                "MSEC-DET-0007": DEVICE_ENTITY_MAPPINGS,
+                "MSEC-DET-0008": AUDIT_ACCOUNT_ENTITY_MAPPINGS,
+                "MSEC-DET-0009": AUDIT_ACCOUNT_ENTITY_MAPPINGS,
+                "MSEC-DET-0010": RISK_ENTITY_MAPPINGS,
+            }[item.detection_id]
             properties = item.request_body["properties"]
             self.assertEqual(properties["entityMappings"], expected)
             self.assertEqual(item.render_manifest["source"]["entity_mappings"], expected)

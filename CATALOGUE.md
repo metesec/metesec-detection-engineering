@@ -6,10 +6,10 @@ This index is generated deterministically from the versioned detection manifests
 
 ## Summary
 
-- Detection packages: **5**
-- Implementations: **5**
-- Synthetic evidence: **15 positive / 20 negative cases**
-- Sentinel preview bindings: **4**
+- Detection packages: **10**
+- Implementations: **10**
+- Synthetic evidence: **30 positive / 40 negative cases**
+- Sentinel preview bindings: **9**
 
 ## Coverage
 
@@ -20,6 +20,11 @@ This index is generated deterministically from the versioned detection manifests
 | [`MSEC-DET-0003`](catalog/detections/MSEC-DET-0003/manifest.json) | Successful high-risk Microsoft Entra sign-in | experimental | high | `T1078.004` | Microsoft Entra sign-in logs | 3 positive / 4 negative | `SigninLogs` |
 | [`MSEC-DET-0004`](catalog/detections/MSEC-DET-0004/manifest.json) | Credential added to a Microsoft Entra service principal | experimental | high | `T1098.001` | Microsoft Entra audit logs | 3 positive / 4 negative | `AuditLogs` |
 | [`MSEC-DET-0005`](catalog/detections/MSEC-DET-0005/manifest.json) | Application role granted to a Microsoft Entra service principal | experimental | medium | `T1098.003` | Microsoft Entra audit logs | 3 positive / 4 negative | `AuditLogs` |
+| [`MSEC-DET-0006`](catalog/detections/MSEC-DET-0006/manifest.json) | Office application starts a command or script interpreter | experimental | high | `T1059` | Microsoft Defender for Endpoint process events | 3 positive / 4 negative | `DeviceProcessEvents` |
+| [`MSEC-DET-0007`](catalog/detections/MSEC-DET-0007/manifest.json) | PowerShell process uses an encoded-command flag | experimental | high | `T1059.001` | Microsoft Defender for Endpoint process events | 3 positive / 4 negative | `DeviceProcessEvents` |
+| [`MSEC-DET-0008`](catalog/detections/MSEC-DET-0008/manifest.json) | Permanent Microsoft Entra role assignment outside PIM | experimental | high | `T1098.003` | Microsoft Entra audit logs | 3 positive / 4 negative | `AuditLogs` |
+| [`MSEC-DET-0009`](catalog/detections/MSEC-DET-0009/manifest.json) | Security information registered for a Microsoft Entra account | experimental | medium | `T1098.001` | Microsoft Entra audit logs | 3 positive / 4 negative | `AuditLogs` |
+| [`MSEC-DET-0010`](catalog/detections/MSEC-DET-0010/manifest.json) | High-risk Microsoft Entra user risk event remains active | experimental | high | `T1078.004` | Microsoft Entra user risk events | 3 positive / 4 negative | `AADUserRiskEvents` |
 
 ## Records
 
@@ -96,3 +101,78 @@ Detects a successful Microsoft Entra audit event that grants an application role
 - Sentinel preview:
   - Table `AuditLogs`; [reviewed Golden query](tests/golden/sentinel/MSEC-DET-0005.kql)
 - Source: [catalog/detections/MSEC-DET-0005/manifest.json](catalog/detections/MSEC-DET-0005/manifest.json)
+
+### MSEC-DET-0006 — Office application starts a command or script interpreter
+
+Detects a Microsoft Office application starting a selected command, script, or signed-binary interpreter in Microsoft Defender for Endpoint process telemetry.
+
+- Lifecycle: `experimental`; created 2026-09-03; review every 90 days
+- Severity / confidence: `high` / `medium`
+- ATT&CK: `T1059` (Execution)
+- Data sources: Microsoft Defender for Endpoint process events (Endpoint process creation)
+- Synthetic evidence: 3 positive and 4 negative cases
+- Implementations:
+  - [content/portable/sigma/MSEC-DET-0006/rule.yml](content/portable/sigma/MSEC-DET-0006/rule.yml) — `active`; targets `sentinel`
+- Sentinel preview:
+  - Table `DeviceProcessEvents`; [reviewed Golden query](tests/golden/sentinel/MSEC-DET-0006.kql)
+- Source: [catalog/detections/MSEC-DET-0006/manifest.json](catalog/detections/MSEC-DET-0006/manifest.json)
+
+### MSEC-DET-0007 — PowerShell process uses an encoded-command flag
+
+Detects Windows PowerShell or PowerShell Core command lines containing selected encoded-command flags in Microsoft Defender for Endpoint process telemetry.
+
+- Lifecycle: `experimental`; created 2026-09-03; review every 90 days
+- Severity / confidence: `high` / `medium`
+- ATT&CK: `T1059.001` (Execution)
+- Data sources: Microsoft Defender for Endpoint process events (Endpoint process creation)
+- Synthetic evidence: 3 positive and 4 negative cases
+- Implementations:
+  - [content/portable/sigma/MSEC-DET-0007/rule.yml](content/portable/sigma/MSEC-DET-0007/rule.yml) — `active`; targets `sentinel`
+- Sentinel preview:
+  - Table `DeviceProcessEvents`; [reviewed Golden query](tests/golden/sentinel/MSEC-DET-0007.kql)
+- Source: [catalog/detections/MSEC-DET-0007/manifest.json](catalog/detections/MSEC-DET-0007/manifest.json)
+
+### MSEC-DET-0008 — Permanent Microsoft Entra role assignment outside PIM
+
+Detects a successful permanent Microsoft Entra role assignment made outside Privileged Identity Management.
+
+- Lifecycle: `experimental`; created 2026-09-03; review every 90 days
+- Severity / confidence: `high` / `medium`
+- ATT&CK: `T1098.003` (Privilege Escalation)
+- Data sources: Microsoft Entra audit logs (Identity directory audit)
+- Synthetic evidence: 3 positive and 4 negative cases
+- Implementations:
+  - [content/portable/sigma/MSEC-DET-0008/rule.yml](content/portable/sigma/MSEC-DET-0008/rule.yml) — `active`; targets `sentinel`
+- Sentinel preview:
+  - Table `AuditLogs`; [reviewed Golden query](tests/golden/sentinel/MSEC-DET-0008.kql)
+- Source: [catalog/detections/MSEC-DET-0008/manifest.json](catalog/detections/MSEC-DET-0008/manifest.json)
+
+### MSEC-DET-0009 — Security information registered for a Microsoft Entra account
+
+Detects successful administrator or user registration of security information for a Microsoft Entra account.
+
+- Lifecycle: `experimental`; created 2026-09-03; review every 90 days
+- Severity / confidence: `medium` / `medium`
+- ATT&CK: `T1098.001` (Persistence)
+- Data sources: Microsoft Entra audit logs (Identity directory audit)
+- Synthetic evidence: 3 positive and 4 negative cases
+- Implementations:
+  - [content/portable/sigma/MSEC-DET-0009/rule.yml](content/portable/sigma/MSEC-DET-0009/rule.yml) — `active`; targets `sentinel`
+- Sentinel preview:
+  - Table `AuditLogs`; [reviewed Golden query](tests/golden/sentinel/MSEC-DET-0009.kql)
+- Source: [catalog/detections/MSEC-DET-0009/manifest.json](catalog/detections/MSEC-DET-0009/manifest.json)
+
+### MSEC-DET-0010 — High-risk Microsoft Entra user risk event remains active
+
+Detects a high-risk Microsoft Entra Identity Protection user risk event whose state is at risk or confirmed compromised.
+
+- Lifecycle: `experimental`; created 2026-09-03; review every 90 days
+- Severity / confidence: `high` / `medium`
+- ATT&CK: `T1078.004` (Initial Access)
+- Data sources: Microsoft Entra user risk events (Identity risk)
+- Synthetic evidence: 3 positive and 4 negative cases
+- Implementations:
+  - [content/portable/sigma/MSEC-DET-0010/rule.yml](content/portable/sigma/MSEC-DET-0010/rule.yml) — `active`; targets `sentinel`
+- Sentinel preview:
+  - Table `AADUserRiskEvents`; [reviewed Golden query](tests/golden/sentinel/MSEC-DET-0010.kql)
+- Source: [catalog/detections/MSEC-DET-0010/manifest.json](catalog/detections/MSEC-DET-0010/manifest.json)

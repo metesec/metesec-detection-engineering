@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "detection_id": "MSEC-DET-0006",
+  "implementation": "content/portable/sigma/MSEC-DET-0006/rule.yml",
+  "cases": [
+    {"id": "word-starts-powershell", "expectation": "match", "fixture": "fixtures/word-starts-powershell.json", "description": "Synthetic Word process starts PowerShell."},
+    {"id": "excel-starts-command-shell", "expectation": "match", "fixture": "fixtures/excel-starts-command-shell.json", "description": "Synthetic Excel process starts the Windows command shell."},
+    {"id": "outlook-starts-mshta-with-context", "expectation": "match", "fixture": "fixtures/outlook-starts-mshta-with-context.json", "description": "Synthetic Outlook process starts mshta with investigation context."},
+    {"id": "explorer-starts-powershell", "expectation": "no_match", "fixture": "fixtures/explorer-starts-powershell.json", "description": "Synthetic PowerShell execution has an unrelated parent."},
+    {"id": "word-starts-browser", "expectation": "no_match", "fixture": "fixtures/word-starts-browser.json", "description": "Synthetic Word process starts a non-selected child."},
+    {"id": "missing-parent", "expectation": "no_match", "fixture": "fixtures/missing-parent.json", "description": "Synthetic event without the parent field fails closed."},
+    {"id": "missing-child", "expectation": "no_match", "fixture": "fixtures/missing-child.json", "description": "Synthetic event without the child field fails closed."}
+  ]
+}
