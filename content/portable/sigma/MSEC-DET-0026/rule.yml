@@ -1,0 +1,36 @@
+title: Successful Microsoft Entra ROPC Sign-in
+id: b87688fd-6605-485c-ad56-cce9ae950970
+status: experimental
+description: Detects a successful Microsoft Entra sign-in that used the resource owner password credentials authentication protocol.
+references:
+  - https://learn.microsoft.com/en-us/entra/architecture/security-operations-applications
+  - https://learn.microsoft.com/en-us/azure/azure-monitor/reference/tables/signinlogs
+  - https://attack.mitre.org/techniques/T1078/004/
+author: MeteSec Detection Engineering
+date: 2026-09-03
+tags:
+  - attack.initial-access
+  - attack.t1078.004
+logsource:
+  product: azure
+  service: signinlogs
+detection:
+  selection_success:
+    ResultType: '0'
+  selection_protocol:
+    AuthenticationProtocol: ropc
+  condition: selection_success and selection_protocol
+fields:
+  - TimeGenerated
+  - UserPrincipalName
+  - IPAddress
+  - AppDisplayName
+  - AppId
+  - AuthenticationProtocol
+  - AuthenticationRequirement
+  - ConditionalAccessStatus
+  - UserId
+  - CorrelationId
+falsepositives:
+  - Approved automated testing or documented legacy applications that still require ROPC.
+level: medium

@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0029",
+  "title": "Account added to the local Administrators group",
+  "description": "Detects net.exe, net1.exe or PowerShell adding an account to the built-in local Administrators group.",
+  "hypothesis": {
+    "summary": "An adversary may add an account to the local Administrators group to retain elevated access.",
+    "rationale": "MITRE documents local group membership changes through net localgroup and PowerShell under additional local accounts, while Microsoft warns that Administrators members have full control; approved provisioning can produce the same event.",
+    "detection_goal": "Identify net or PowerShell commands that add a member to the built-in Administrators group using English, German or well-known SID notation while leaving group queries and non-privileged groups unmatched."
+  },
+  "ownership": {
+    "owner": "MeteSec Detection Engineering",
+    "reviewers": []
+  },
+  "lifecycle": {
+    "status": "experimental",
+    "created": "2026-09-03",
+    "modified": "2026-09-03",
+    "review_interval_days": 90
+  },
+  "severity": "high",
+  "confidence": "medium",
+  "data_sources": [
+    {
+      "name": "Microsoft Defender for Endpoint process events",
+      "category": "Endpoint process creation",
+      "required_fields": ["TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountName", "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"]
+    }
+  ],
+  "attack": [
+    {"technique_id": "T1098.007", "tactic": "Persistence"},
+    {"technique_id": "T1098.007", "tactic": "Privilege Escalation"}
+  ],
+  "triage": {
+    "summary": "Identify the added member and change initiator, then confirm the privilege grant against an approved access request.",
+    "steps": [
+      "Review the full command line, device, initiating account, parent process and added member.",
+      "Confirm the endpoint role, expected local Administrators baseline and an approved joiner, support or deployment change.",
+      "Remove unauthorized membership, disable suspicious accounts and investigate subsequent privileged activity."
+    ],
+    "false_positives": [
+      "Approved endpoint provisioning, support access and software-management workflows"
+    ]
+  },
+  "validation": {
+    "expected_outcome": "Match net or PowerShell membership additions to the local Administrators group; do not match queries, removals, other groups, other binaries or incomplete commands.",
+    "positive_tests": true,
+    "negative_tests": true
+  },
+  "implementations": [
+    {
+      "type": "sigma",
+      "path": "content/portable/sigma/MSEC-DET-0029/rule.yml",
+      "targets": ["sentinel"],
+      "status": "active"
+    }
+  ]
+}

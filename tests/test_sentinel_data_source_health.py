@@ -88,7 +88,7 @@ class SentinelDataSourceHealthTests(unittest.TestCase):
                 (
                     "MSEC-SDS-0001",
                     "SigninLogs",
-                    ("MSEC-DET-0002", "MSEC-DET-0003"),
+                    ("MSEC-DET-0002", "MSEC-DET-0003", "MSEC-DET-0026"),
                 ),
                 (
                     "MSEC-SDS-0002",
@@ -121,6 +121,10 @@ class SentinelDataSourceHealthTests(unittest.TestCase):
                         "MSEC-DET-0023",
                         "MSEC-DET-0024",
                         "MSEC-DET-0025",
+                        "MSEC-DET-0027",
+                        "MSEC-DET-0028",
+                        "MSEC-DET-0029",
+                        "MSEC-DET-0030",
                     ),
                 ),
                 (

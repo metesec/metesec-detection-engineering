@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0030",
+  "title": "NTDSutil creates Active Directory installation media",
+  "description": "Detects ntdsutil.exe commands that activate the NTDS instance and create installation media through IFM.",
+  "hypothesis": {
+    "summary": "An adversary may use NTDSutil IFM to create a copy of the Active Directory database for offline credential extraction.",
+    "rationale": "MITRE records ntdsutil.exe as a method for copying NTDS.dit, Microsoft documents IFM as an elevated installation-media function and SigmaHQ detects the same command family; legitimate domain-controller provisioning remains possible.",
+    "detection_goal": "Identify ntdsutil.exe commands that activate NTDS and create full, RODC or SYSVOL installation media through IFM while leaving unrelated maintenance and incomplete fragments unmatched."
+  },
+  "ownership": {
+    "owner": "MeteSec Detection Engineering",
+    "reviewers": []
+  },
+  "lifecycle": {
+    "status": "experimental",
+    "created": "2026-09-03",
+    "modified": "2026-09-03",
+    "review_interval_days": 90
+  },
+  "severity": "high",
+  "confidence": "high",
+  "data_sources": [
+    {
+      "name": "Microsoft Defender for Endpoint process events",
+      "category": "Endpoint process creation",
+      "required_fields": ["TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountName", "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"]
+    }
+  ],
+  "attack": [
+    {"technique_id": "T1003.003", "tactic": "Credential Access"}
+  ],
+  "triage": {
+    "summary": "Treat the event as domain-controller-sensitive, identify the output path and verify that an approved IFM operation explains it.",
+    "steps": [
+      "Review the command line, device role, account, initiating process and installation-media destination.",
+      "Confirm a documented domain-controller deployment or recovery change with the responsible directory-services owner.",
+      "Inspect access to the output, subsequent archive or transfer activity and related credential access; contain the host and rotate exposed credentials when unauthorized."
+    ],
+    "false_positives": [
+      "Approved Active Directory domain-controller installation, recovery or backup preparation using IFM"
+    ]
+  },
+  "validation": {
+    "expected_outcome": "Match ntdsutil IFM creation for full, RODC or SYSVOL media after activating NTDS; do not match unrelated maintenance, incomplete fragments, other binaries or absent evidence.",
+    "positive_tests": true,
+    "negative_tests": true
+  },
+  "implementations": [
+    {
+      "type": "sigma",
+      "path": "content/portable/sigma/MSEC-DET-0030/rule.yml",
+      "targets": ["sentinel"],
+      "status": "active"
+    }
+  ]
+}

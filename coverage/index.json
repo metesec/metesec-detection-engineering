@@ -6,12 +6,12 @@
     "sentinel_data_sources": "targets/sentinel/data-sources.json"
   },
   "summary": {
-    "detections": 25,
-    "attack_mappings": 31,
-    "attack_techniques": 19,
+    "detections": 30,
+    "attack_mappings": 39,
+    "attack_techniques": 23,
     "attack_tactics": 10,
     "logical_data_sources": 5,
-    "sentinel_preview_bindings": 24,
+    "sentinel_preview_bindings": 29,
     "sentinel_data_source_contracts": 4,
     "detections_without_sentinel_binding": 1
   },
@@ -36,12 +36,32 @@
         ]
       },
       {
+        "technique_id": "T1003.003",
+        "tactics": [
+          "Credential Access"
+        ],
+        "detections": [
+          "MSEC-DET-0030"
+        ]
+      },
+      {
         "technique_id": "T1047",
         "tactics": [
           "Execution"
         ],
         "detections": [
           "MSEC-DET-0024"
+        ]
+      },
+      {
+        "technique_id": "T1053.005",
+        "tactics": [
+          "Execution",
+          "Persistence",
+          "Privilege Escalation"
+        ],
+        "detections": [
+          "MSEC-DET-0028"
         ]
       },
       {
@@ -70,7 +90,8 @@
         "detections": [
           "MSEC-DET-0002",
           "MSEC-DET-0003",
-          "MSEC-DET-0010"
+          "MSEC-DET-0010",
+          "MSEC-DET-0026"
         ]
       },
       {
@@ -94,6 +115,16 @@
           "MSEC-DET-0008",
           "MSEC-DET-0015",
           "MSEC-DET-0021"
+        ]
+      },
+      {
+        "technique_id": "T1098.007",
+        "tactics": [
+          "Persistence",
+          "Privilege Escalation"
+        ],
+        "detections": [
+          "MSEC-DET-0029"
         ]
       },
       {
@@ -132,6 +163,15 @@
         ],
         "detections": [
           "MSEC-DET-0013"
+        ]
+      },
+      {
+        "technique_id": "T1218.011",
+        "tactics": [
+          "Stealth"
+        ],
+        "detections": [
+          "MSEC-DET-0027"
         ]
       },
       {
@@ -216,12 +256,14 @@
         "techniques": [
           "T1003.001",
           "T1003.002",
+          "T1003.003",
           "T1556.006"
         ],
         "detections": [
           "MSEC-DET-0011",
           "MSEC-DET-0022",
-          "MSEC-DET-0023"
+          "MSEC-DET-0023",
+          "MSEC-DET-0030"
         ]
       },
       {
@@ -256,6 +298,7 @@
         "tactic": "Execution",
         "techniques": [
           "T1047",
+          "T1053.005",
           "T1059",
           "T1059.001",
           "T1197"
@@ -264,7 +307,8 @@
           "MSEC-DET-0006",
           "MSEC-DET-0007",
           "MSEC-DET-0024",
-          "MSEC-DET-0025"
+          "MSEC-DET-0025",
+          "MSEC-DET-0028"
         ]
       },
       {
@@ -284,14 +328,17 @@
         "detections": [
           "MSEC-DET-0002",
           "MSEC-DET-0003",
-          "MSEC-DET-0010"
+          "MSEC-DET-0010",
+          "MSEC-DET-0026"
         ]
       },
       {
         "tactic": "Persistence",
         "techniques": [
+          "T1053.005",
           "T1098.001",
           "T1098.003",
+          "T1098.007",
           "T1197",
           "T1543.003",
           "T1556.006"
@@ -302,13 +349,17 @@
           "MSEC-DET-0009",
           "MSEC-DET-0021",
           "MSEC-DET-0022",
-          "MSEC-DET-0025"
+          "MSEC-DET-0025",
+          "MSEC-DET-0028",
+          "MSEC-DET-0029"
         ]
       },
       {
         "tactic": "Privilege Escalation",
         "techniques": [
+          "T1053.005",
           "T1098.003",
+          "T1098.007",
           "T1484.002"
         ],
         "detections": [
@@ -316,16 +367,20 @@
           "MSEC-DET-0008",
           "MSEC-DET-0015",
           "MSEC-DET-0019",
-          "MSEC-DET-0021"
+          "MSEC-DET-0021",
+          "MSEC-DET-0028",
+          "MSEC-DET-0029"
         ]
       },
       {
         "tactic": "Stealth",
         "techniques": [
-          "T1197"
+          "T1197",
+          "T1218.011"
         ],
         "detections": [
-          "MSEC-DET-0025"
+          "MSEC-DET-0025",
+          "MSEC-DET-0027"
         ]
       }
     ]
@@ -347,7 +402,11 @@
           "MSEC-DET-0020",
           "MSEC-DET-0023",
           "MSEC-DET-0024",
-          "MSEC-DET-0025"
+          "MSEC-DET-0025",
+          "MSEC-DET-0027",
+          "MSEC-DET-0028",
+          "MSEC-DET-0029",
+          "MSEC-DET-0030"
         ],
         "required_fields": [
           "AccountName",
@@ -391,10 +450,12 @@
         "category": "Identity authentication",
         "detections": [
           "MSEC-DET-0002",
-          "MSEC-DET-0003"
+          "MSEC-DET-0003",
+          "MSEC-DET-0026"
         ],
         "required_fields": [
           "AppDisplayName",
+          "AuthenticationProtocol",
           "ClientAppUsed",
           "IPAddress",
           "ResultType",
@@ -441,7 +502,8 @@
         "display_name": "Microsoft Entra sign-in logs",
         "detections": [
           "MSEC-DET-0002",
-          "MSEC-DET-0003"
+          "MSEC-DET-0003",
+          "MSEC-DET-0026"
         ],
         "event_time_column": "TimeGenerated",
         "required_columns": [
@@ -455,6 +517,10 @@
           },
           {
             "name": "AppId",
+            "type": "string"
+          },
+          {
+            "name": "AuthenticationProtocol",
             "type": "string"
           },
           {
@@ -578,7 +644,11 @@
           "MSEC-DET-0020",
           "MSEC-DET-0023",
           "MSEC-DET-0024",
-          "MSEC-DET-0025"
+          "MSEC-DET-0025",
+          "MSEC-DET-0027",
+          "MSEC-DET-0028",
+          "MSEC-DET-0029",
+          "MSEC-DET-0030"
         ],
         "event_time_column": "Timestamp",
         "required_columns": [

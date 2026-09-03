@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"FileName":"ntdsutil.exe","ProcessCommandLine":"ntdsutil.exe \"activate instance ntds\" \"files\" \"info\" q q"}}

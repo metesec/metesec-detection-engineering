@@ -2,11 +2,11 @@
   "schema_version": 1,
   "source": "catalog/detections/*/manifest.json",
   "summary": {
-    "detections": 25,
-    "implementations": 25,
-    "positive_cases": 75,
-    "negative_cases": 100,
-    "sentinel_preview_bindings": 24
+    "detections": 30,
+    "implementations": 30,
+    "positive_cases": 90,
+    "negative_cases": 120,
+    "sentinel_preview_bindings": 29
   },
   "detections": [
     {
@@ -1454,6 +1454,309 @@
         }
       ],
       "manifest": "catalog/detections/MSEC-DET-0025/manifest.json"
+    },
+    {
+      "id": "MSEC-DET-0026",
+      "title": "Successful Microsoft Entra ROPC sign-in",
+      "description": "Detects a successful Microsoft Entra sign-in that used the resource owner password credentials authentication protocol.",
+      "lifecycle": {
+        "status": "experimental",
+        "created": "2026-09-03",
+        "modified": "2026-09-03",
+        "review_interval_days": 90
+      },
+      "severity": "medium",
+      "confidence": "high",
+      "attack": [
+        {
+          "technique_id": "T1078.004",
+          "tactic": "Initial Access"
+        }
+      ],
+      "data_sources": [
+        {
+          "name": "Microsoft Entra sign-in logs",
+          "category": "Identity authentication",
+          "required_fields": [
+            "TimeGenerated",
+            "ResultType",
+            "AuthenticationProtocol",
+            "UserPrincipalName",
+            "IPAddress",
+            "AppDisplayName"
+          ]
+        }
+      ],
+      "validation": {
+        "positive_cases": 3,
+        "negative_cases": 4
+      },
+      "implementations": [
+        {
+          "type": "sigma",
+          "path": "content/portable/sigma/MSEC-DET-0026/rule.yml",
+          "targets": [
+            "sentinel"
+          ],
+          "status": "active"
+        }
+      ],
+      "target_bindings": [
+        {
+          "target": "microsoft-sentinel",
+          "table": "SigninLogs",
+          "golden": "tests/golden/sentinel/MSEC-DET-0026.kql"
+        }
+      ],
+      "manifest": "catalog/detections/MSEC-DET-0026/manifest.json"
+    },
+    {
+      "id": "MSEC-DET-0027",
+      "title": "Rundll32 invokes inline script through MSHTML",
+      "description": "Detects rundll32 command lines that invoke JavaScript or VBScript through the MSHTML RunHTMLApplication export.",
+      "lifecycle": {
+        "status": "experimental",
+        "created": "2026-09-03",
+        "modified": "2026-09-03",
+        "review_interval_days": 90
+      },
+      "severity": "high",
+      "confidence": "high",
+      "attack": [
+        {
+          "technique_id": "T1218.011",
+          "tactic": "Stealth"
+        }
+      ],
+      "data_sources": [
+        {
+          "name": "Microsoft Defender for Endpoint process events",
+          "category": "Endpoint process creation",
+          "required_fields": [
+            "TimeGenerated",
+            "Timestamp",
+            "DeviceId",
+            "DeviceName",
+            "AccountName",
+            "InitiatingProcessFileName",
+            "FileName",
+            "FolderPath",
+            "ProcessCommandLine",
+            "ReportId"
+          ]
+        }
+      ],
+      "validation": {
+        "positive_cases": 3,
+        "negative_cases": 4
+      },
+      "implementations": [
+        {
+          "type": "sigma",
+          "path": "content/portable/sigma/MSEC-DET-0027/rule.yml",
+          "targets": [
+            "sentinel"
+          ],
+          "status": "active"
+        }
+      ],
+      "target_bindings": [
+        {
+          "target": "microsoft-sentinel",
+          "table": "DeviceProcessEvents",
+          "golden": "tests/golden/sentinel/MSEC-DET-0027.kql"
+        }
+      ],
+      "manifest": "catalog/detections/MSEC-DET-0027/manifest.json"
+    },
+    {
+      "id": "MSEC-DET-0028",
+      "title": "Scheduled task created on a remote Windows system",
+      "description": "Detects schtasks.exe creating a scheduled task while targeting a remote computer through the /s option.",
+      "lifecycle": {
+        "status": "experimental",
+        "created": "2026-09-03",
+        "modified": "2026-09-03",
+        "review_interval_days": 90
+      },
+      "severity": "medium",
+      "confidence": "medium",
+      "attack": [
+        {
+          "technique_id": "T1053.005",
+          "tactic": "Execution"
+        },
+        {
+          "technique_id": "T1053.005",
+          "tactic": "Persistence"
+        },
+        {
+          "technique_id": "T1053.005",
+          "tactic": "Privilege Escalation"
+        }
+      ],
+      "data_sources": [
+        {
+          "name": "Microsoft Defender for Endpoint process events",
+          "category": "Endpoint process creation",
+          "required_fields": [
+            "TimeGenerated",
+            "Timestamp",
+            "DeviceId",
+            "DeviceName",
+            "AccountName",
+            "InitiatingProcessFileName",
+            "FileName",
+            "FolderPath",
+            "ProcessCommandLine",
+            "ReportId"
+          ]
+        }
+      ],
+      "validation": {
+        "positive_cases": 3,
+        "negative_cases": 4
+      },
+      "implementations": [
+        {
+          "type": "sigma",
+          "path": "content/portable/sigma/MSEC-DET-0028/rule.yml",
+          "targets": [
+            "sentinel"
+          ],
+          "status": "active"
+        }
+      ],
+      "target_bindings": [
+        {
+          "target": "microsoft-sentinel",
+          "table": "DeviceProcessEvents",
+          "golden": "tests/golden/sentinel/MSEC-DET-0028.kql"
+        }
+      ],
+      "manifest": "catalog/detections/MSEC-DET-0028/manifest.json"
+    },
+    {
+      "id": "MSEC-DET-0029",
+      "title": "Account added to the local Administrators group",
+      "description": "Detects net.exe, net1.exe or PowerShell adding an account to the built-in local Administrators group.",
+      "lifecycle": {
+        "status": "experimental",
+        "created": "2026-09-03",
+        "modified": "2026-09-03",
+        "review_interval_days": 90
+      },
+      "severity": "high",
+      "confidence": "medium",
+      "attack": [
+        {
+          "technique_id": "T1098.007",
+          "tactic": "Persistence"
+        },
+        {
+          "technique_id": "T1098.007",
+          "tactic": "Privilege Escalation"
+        }
+      ],
+      "data_sources": [
+        {
+          "name": "Microsoft Defender for Endpoint process events",
+          "category": "Endpoint process creation",
+          "required_fields": [
+            "TimeGenerated",
+            "Timestamp",
+            "DeviceId",
+            "DeviceName",
+            "AccountName",
+            "InitiatingProcessFileName",
+            "FileName",
+            "FolderPath",
+            "ProcessCommandLine",
+            "ReportId"
+          ]
+        }
+      ],
+      "validation": {
+        "positive_cases": 3,
+        "negative_cases": 4
+      },
+      "implementations": [
+        {
+          "type": "sigma",
+          "path": "content/portable/sigma/MSEC-DET-0029/rule.yml",
+          "targets": [
+            "sentinel"
+          ],
+          "status": "active"
+        }
+      ],
+      "target_bindings": [
+        {
+          "target": "microsoft-sentinel",
+          "table": "DeviceProcessEvents",
+          "golden": "tests/golden/sentinel/MSEC-DET-0029.kql"
+        }
+      ],
+      "manifest": "catalog/detections/MSEC-DET-0029/manifest.json"
+    },
+    {
+      "id": "MSEC-DET-0030",
+      "title": "NTDSutil creates Active Directory installation media",
+      "description": "Detects ntdsutil.exe commands that activate the NTDS instance and create installation media through IFM.",
+      "lifecycle": {
+        "status": "experimental",
+        "created": "2026-09-03",
+        "modified": "2026-09-03",
+        "review_interval_days": 90
+      },
+      "severity": "high",
+      "confidence": "high",
+      "attack": [
+        {
+          "technique_id": "T1003.003",
+          "tactic": "Credential Access"
+        }
+      ],
+      "data_sources": [
+        {
+          "name": "Microsoft Defender for Endpoint process events",
+          "category": "Endpoint process creation",
+          "required_fields": [
+            "TimeGenerated",
+            "Timestamp",
+            "DeviceId",
+            "DeviceName",
+            "AccountName",
+            "InitiatingProcessFileName",
+            "FileName",
+            "FolderPath",
+            "ProcessCommandLine",
+            "ReportId"
+          ]
+        }
+      ],
+      "validation": {
+        "positive_cases": 3,
+        "negative_cases": 4
+      },
+      "implementations": [
+        {
+          "type": "sigma",
+          "path": "content/portable/sigma/MSEC-DET-0030/rule.yml",
+          "targets": [
+            "sentinel"
+          ],
+          "status": "active"
+        }
+      ],
+      "target_bindings": [
+        {
+          "target": "microsoft-sentinel",
+          "table": "DeviceProcessEvents",
+          "golden": "tests/golden/sentinel/MSEC-DET-0030.kql"
+        }
+      ],
+      "manifest": "catalog/detections/MSEC-DET-0030/manifest.json"
     }
   ]
 }

@@ -6,10 +6,10 @@ This index is generated deterministically from the versioned detection manifests
 
 ## Summary
 
-- Detection packages: **25**
-- Implementations: **25**
-- Synthetic evidence: **75 positive / 100 negative cases**
-- Sentinel preview bindings: **24**
+- Detection packages: **30**
+- Implementations: **30**
+- Synthetic evidence: **90 positive / 120 negative cases**
+- Sentinel preview bindings: **29**
 
 ## Coverage
 
@@ -40,6 +40,11 @@ This index is generated deterministically from the versioned detection manifests
 | [`MSEC-DET-0023`](catalog/detections/MSEC-DET-0023/manifest.json) | Reg.exe exports the SAM or SECURITY registry hive | experimental | high | `T1003.002` | Microsoft Defender for Endpoint process events | 3 positive / 4 negative | `DeviceProcessEvents` |
 | [`MSEC-DET-0024`](catalog/detections/MSEC-DET-0024/manifest.json) | Remote process creation through Windows WMI or CIM | experimental | medium | `T1047` | Microsoft Defender for Endpoint process events | 3 positive / 4 negative | `DeviceProcessEvents` |
 | [`MSEC-DET-0025`](catalog/detections/MSEC-DET-0025/manifest.json) | BITSAdmin creates a remote file-transfer job | experimental | medium | `T1197`, `T1197`, `T1197` | Microsoft Defender for Endpoint process events | 3 positive / 4 negative | `DeviceProcessEvents` |
+| [`MSEC-DET-0026`](catalog/detections/MSEC-DET-0026/manifest.json) | Successful Microsoft Entra ROPC sign-in | experimental | medium | `T1078.004` | Microsoft Entra sign-in logs | 3 positive / 4 negative | `SigninLogs` |
+| [`MSEC-DET-0027`](catalog/detections/MSEC-DET-0027/manifest.json) | Rundll32 invokes inline script through MSHTML | experimental | high | `T1218.011` | Microsoft Defender for Endpoint process events | 3 positive / 4 negative | `DeviceProcessEvents` |
+| [`MSEC-DET-0028`](catalog/detections/MSEC-DET-0028/manifest.json) | Scheduled task created on a remote Windows system | experimental | medium | `T1053.005`, `T1053.005`, `T1053.005` | Microsoft Defender for Endpoint process events | 3 positive / 4 negative | `DeviceProcessEvents` |
+| [`MSEC-DET-0029`](catalog/detections/MSEC-DET-0029/manifest.json) | Account added to the local Administrators group | experimental | high | `T1098.007`, `T1098.007` | Microsoft Defender for Endpoint process events | 3 positive / 4 negative | `DeviceProcessEvents` |
+| [`MSEC-DET-0030`](catalog/detections/MSEC-DET-0030/manifest.json) | NTDSutil creates Active Directory installation media | experimental | high | `T1003.003` | Microsoft Defender for Endpoint process events | 3 positive / 4 negative | `DeviceProcessEvents` |
 
 ## Records
 
@@ -416,3 +421,78 @@ Detects bitsadmin.exe command lines that create a BITS transfer involving an HTT
 - Sentinel preview:
   - Table `DeviceProcessEvents`; [reviewed Golden query](tests/golden/sentinel/MSEC-DET-0025.kql)
 - Source: [catalog/detections/MSEC-DET-0025/manifest.json](catalog/detections/MSEC-DET-0025/manifest.json)
+
+### MSEC-DET-0026 — Successful Microsoft Entra ROPC sign-in
+
+Detects a successful Microsoft Entra sign-in that used the resource owner password credentials authentication protocol.
+
+- Lifecycle: `experimental`; created 2026-09-03; review every 90 days
+- Severity / confidence: `medium` / `high`
+- ATT&CK: `T1078.004` (Initial Access)
+- Data sources: Microsoft Entra sign-in logs (Identity authentication)
+- Synthetic evidence: 3 positive and 4 negative cases
+- Implementations:
+  - [content/portable/sigma/MSEC-DET-0026/rule.yml](content/portable/sigma/MSEC-DET-0026/rule.yml) — `active`; targets `sentinel`
+- Sentinel preview:
+  - Table `SigninLogs`; [reviewed Golden query](tests/golden/sentinel/MSEC-DET-0026.kql)
+- Source: [catalog/detections/MSEC-DET-0026/manifest.json](catalog/detections/MSEC-DET-0026/manifest.json)
+
+### MSEC-DET-0027 — Rundll32 invokes inline script through MSHTML
+
+Detects rundll32 command lines that invoke JavaScript or VBScript through the MSHTML RunHTMLApplication export.
+
+- Lifecycle: `experimental`; created 2026-09-03; review every 90 days
+- Severity / confidence: `high` / `high`
+- ATT&CK: `T1218.011` (Stealth)
+- Data sources: Microsoft Defender for Endpoint process events (Endpoint process creation)
+- Synthetic evidence: 3 positive and 4 negative cases
+- Implementations:
+  - [content/portable/sigma/MSEC-DET-0027/rule.yml](content/portable/sigma/MSEC-DET-0027/rule.yml) — `active`; targets `sentinel`
+- Sentinel preview:
+  - Table `DeviceProcessEvents`; [reviewed Golden query](tests/golden/sentinel/MSEC-DET-0027.kql)
+- Source: [catalog/detections/MSEC-DET-0027/manifest.json](catalog/detections/MSEC-DET-0027/manifest.json)
+
+### MSEC-DET-0028 — Scheduled task created on a remote Windows system
+
+Detects schtasks.exe creating a scheduled task while targeting a remote computer through the /s option.
+
+- Lifecycle: `experimental`; created 2026-09-03; review every 90 days
+- Severity / confidence: `medium` / `medium`
+- ATT&CK: `T1053.005` (Execution), `T1053.005` (Persistence), `T1053.005` (Privilege Escalation)
+- Data sources: Microsoft Defender for Endpoint process events (Endpoint process creation)
+- Synthetic evidence: 3 positive and 4 negative cases
+- Implementations:
+  - [content/portable/sigma/MSEC-DET-0028/rule.yml](content/portable/sigma/MSEC-DET-0028/rule.yml) — `active`; targets `sentinel`
+- Sentinel preview:
+  - Table `DeviceProcessEvents`; [reviewed Golden query](tests/golden/sentinel/MSEC-DET-0028.kql)
+- Source: [catalog/detections/MSEC-DET-0028/manifest.json](catalog/detections/MSEC-DET-0028/manifest.json)
+
+### MSEC-DET-0029 — Account added to the local Administrators group
+
+Detects net.exe, net1.exe or PowerShell adding an account to the built-in local Administrators group.
+
+- Lifecycle: `experimental`; created 2026-09-03; review every 90 days
+- Severity / confidence: `high` / `medium`
+- ATT&CK: `T1098.007` (Persistence), `T1098.007` (Privilege Escalation)
+- Data sources: Microsoft Defender for Endpoint process events (Endpoint process creation)
+- Synthetic evidence: 3 positive and 4 negative cases
+- Implementations:
+  - [content/portable/sigma/MSEC-DET-0029/rule.yml](content/portable/sigma/MSEC-DET-0029/rule.yml) — `active`; targets `sentinel`
+- Sentinel preview:
+  - Table `DeviceProcessEvents`; [reviewed Golden query](tests/golden/sentinel/MSEC-DET-0029.kql)
+- Source: [catalog/detections/MSEC-DET-0029/manifest.json](catalog/detections/MSEC-DET-0029/manifest.json)
+
+### MSEC-DET-0030 — NTDSutil creates Active Directory installation media
+
+Detects ntdsutil.exe commands that activate the NTDS instance and create installation media through IFM.
+
+- Lifecycle: `experimental`; created 2026-09-03; review every 90 days
+- Severity / confidence: `high` / `high`
+- ATT&CK: `T1003.003` (Credential Access)
+- Data sources: Microsoft Defender for Endpoint process events (Endpoint process creation)
+- Synthetic evidence: 3 positive and 4 negative cases
+- Implementations:
+  - [content/portable/sigma/MSEC-DET-0030/rule.yml](content/portable/sigma/MSEC-DET-0030/rule.yml) — `active`; targets `sentinel`
+- Sentinel preview:
+  - Table `DeviceProcessEvents`; [reviewed Golden query](tests/golden/sentinel/MSEC-DET-0030.kql)
+- Source: [catalog/detections/MSEC-DET-0030/manifest.json](catalog/detections/MSEC-DET-0030/manifest.json)

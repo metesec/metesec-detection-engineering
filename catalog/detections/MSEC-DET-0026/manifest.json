@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0026",
+  "title": "Successful Microsoft Entra ROPC sign-in",
+  "description": "Detects a successful Microsoft Entra sign-in that used the resource owner password credentials authentication protocol.",
+  "hypothesis": {
+    "summary": "An adversary may use a captured password through the ROPC flow to obtain access without an interactive browser session.",
+    "rationale": "Microsoft recommends avoiding ROPC because the application handles the user password and explicitly recommends monitoring successful ROPC sign-ins; authorized test automation or a documented legacy workload can still use the protocol.",
+    "detection_goal": "Identify successful sign-ins whose recorded authentication protocol is ROPC while leaving failed attempts and other authentication protocols unmatched."
+  },
+  "ownership": {
+    "owner": "MeteSec Detection Engineering",
+    "reviewers": []
+  },
+  "lifecycle": {
+    "status": "experimental",
+    "created": "2026-09-03",
+    "modified": "2026-09-03",
+    "review_interval_days": 90
+  },
+  "severity": "medium",
+  "confidence": "high",
+  "data_sources": [
+    {
+      "name": "Microsoft Entra sign-in logs",
+      "category": "Identity authentication",
+      "required_fields": ["TimeGenerated", "ResultType", "AuthenticationProtocol", "UserPrincipalName", "IPAddress", "AppDisplayName"]
+    }
+  ],
+  "attack": [
+    {
+      "technique_id": "T1078.004",
+      "tactic": "Initial Access"
+    }
+  ],
+  "triage": {
+    "summary": "Confirm that the application and user are explicitly approved for ROPC, then investigate the source and adjacent authentication activity.",
+    "steps": [
+      "Review the account, application, source IP, authentication requirement, Conditional Access result and correlation identifier.",
+      "Confirm a documented ROPC dependency and owner; treat unexpected use by privileged accounts or unfamiliar applications as higher priority.",
+      "Inspect nearby failures, risk events, token use and account changes; revoke sessions and reset credentials when compromise is suspected."
+    ],
+    "false_positives": [
+      "Approved automated testing or documented legacy applications that still require ROPC"
+    ]
+  },
+  "validation": {
+    "expected_outcome": "Match successful ROPC sign-ins; do not match failed ROPC attempts, other protocols, incomplete events or unrelated records.",
+    "positive_tests": true,
+    "negative_tests": true
+  },
+  "implementations": [
+    {
+      "type": "sigma",
+      "path": "content/portable/sigma/MSEC-DET-0026/rule.yml",
+      "targets": ["sentinel"],
+      "status": "active"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "detection_id": "MSEC-DET-0029",
+  "implementation": "content/portable/sigma/MSEC-DET-0029/rule.yml",
+  "cases": [
+    {"id": "net-add-administrators", "expectation": "match", "fixture": "fixtures/net-add-administrators.json", "description": "Synthetic net command adds an account to Administrators."},
+    {"id": "net1-add-administratoren", "expectation": "match", "fixture": "fixtures/net1-add-administratoren.json", "description": "Synthetic localized net1 command adds an account to Administratoren."},
+    {"id": "powershell-add-by-sid", "expectation": "match", "fixture": "fixtures/powershell-add-by-sid.json", "description": "Synthetic PowerShell command adds a member through the well-known group SID."},
+    {"id": "net-add-users", "expectation": "no_match", "fixture": "fixtures/net-add-users.json", "description": "Synthetic addition to Users is outside the rule."},
+    {"id": "net-query-administrators", "expectation": "no_match", "fixture": "fixtures/net-query-administrators.json", "description": "Synthetic group membership query does not add an account."},
+    {"id": "powershell-get-members", "expectation": "no_match", "fixture": "fixtures/powershell-get-members.json", "description": "Synthetic PowerShell query does not add a member."},
+    {"id": "other-process", "expectation": "no_match", "fixture": "fixtures/other-process.json", "description": "Synthetic other process with matching words is outside the rule."}
+  ]
+}

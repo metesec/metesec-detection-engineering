@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"FileName":"powershell.exe","ProcessCommandLine":"powershell.exe Add-LocalGroupMember -SID S-1-5-32-544 -Member synthetic-user","DeviceName":"synthetic-device","AccountName":"synthetic-admin"}}

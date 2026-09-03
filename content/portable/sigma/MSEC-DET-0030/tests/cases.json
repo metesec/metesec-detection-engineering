@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "detection_id": "MSEC-DET-0030",
+  "implementation": "content/portable/sigma/MSEC-DET-0030/rule.yml",
+  "cases": [
+    {"id": "short-instance-create-full", "expectation": "match", "fixture": "fixtures/short-instance-create-full.json", "description": "Synthetic NTDSutil command uses the abbreviated instance selector and creates full media."},
+    {"id": "full-instance-create-full", "expectation": "match", "fixture": "fixtures/full-instance-create-full.json", "description": "Synthetic NTDSutil command uses the full instance selector and creates full media."},
+    {"id": "create-rodc-with-context", "expectation": "match", "fixture": "fixtures/create-rodc-with-context.json", "description": "Synthetic NTDSutil command creates RODC media with bounded endpoint context."},
+    {"id": "activate-without-create", "expectation": "no_match", "fixture": "fixtures/activate-without-create.json", "description": "Synthetic NTDSutil maintenance lacks a media creation command."},
+    {"id": "create-without-instance", "expectation": "no_match", "fixture": "fixtures/create-without-instance.json", "description": "Synthetic IFM fragment lacks explicit NTDS instance activation."},
+    {"id": "other-process", "expectation": "no_match", "fixture": "fixtures/other-process.json", "description": "Synthetic other process with matching text is outside the rule."},
+    {"id": "ordinary-ntdsutil", "expectation": "no_match", "fixture": "fixtures/ordinary-ntdsutil.json", "description": "Synthetic ordinary NTDSutil maintenance does not create IFM media."}
+  ]
+}

@@ -6,12 +6,13 @@
       "id": "MSEC-SDS-0001",
       "table": "SigninLogs",
       "display_name": "Microsoft Entra sign-in logs",
-      "consumers": ["MSEC-DET-0002", "MSEC-DET-0003"],
+      "consumers": ["MSEC-DET-0002", "MSEC-DET-0003", "MSEC-DET-0026"],
       "event_time_column": "TimeGenerated",
       "required_columns": [
         {"name": "TimeGenerated", "type": "datetime"},
         {"name": "AppDisplayName", "type": "string"},
         {"name": "AppId", "type": "string"},
+        {"name": "AuthenticationProtocol", "type": "string"},
         {"name": "AuthenticationRequirement", "type": "string"},
         {"name": "ClientAppUsed", "type": "string"},
         {"name": "ConditionalAccessStatus", "type": "string"},
@@ -54,7 +55,7 @@
       "id": "MSEC-SDS-0003",
       "table": "DeviceProcessEvents",
       "display_name": "Microsoft Defender for Endpoint process events",
-      "consumers": ["MSEC-DET-0006", "MSEC-DET-0007", "MSEC-DET-0011", "MSEC-DET-0012", "MSEC-DET-0013", "MSEC-DET-0016", "MSEC-DET-0017", "MSEC-DET-0018", "MSEC-DET-0020", "MSEC-DET-0023", "MSEC-DET-0024", "MSEC-DET-0025"],
+      "consumers": ["MSEC-DET-0006", "MSEC-DET-0007", "MSEC-DET-0011", "MSEC-DET-0012", "MSEC-DET-0013", "MSEC-DET-0016", "MSEC-DET-0017", "MSEC-DET-0018", "MSEC-DET-0020", "MSEC-DET-0023", "MSEC-DET-0024", "MSEC-DET-0025", "MSEC-DET-0027", "MSEC-DET-0028", "MSEC-DET-0029", "MSEC-DET-0030"],
       "event_time_column": "Timestamp",
       "required_columns": [
         {"name": "TimeGenerated", "type": "datetime"},

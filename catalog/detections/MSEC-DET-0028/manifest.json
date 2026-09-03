@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0028",
+  "title": "Scheduled task created on a remote Windows system",
+  "description": "Detects schtasks.exe creating a scheduled task while targeting a remote computer through the /s option.",
+  "hypothesis": {
+    "summary": "An adversary may create a scheduled task on another Windows system to execute code remotely or establish persistence.",
+    "rationale": "Microsoft documents /s as the remote-system selector for schtasks /create and MITRE records scheduled-task creation for execution, persistence and privilege escalation; legitimate remote administration can use the same syntax.",
+    "detection_goal": "Identify schtasks.exe commands that combine /create with a remote /s target while leaving local task creation, remote queries and unrelated processes unmatched."
+  },
+  "ownership": {
+    "owner": "MeteSec Detection Engineering",
+    "reviewers": []
+  },
+  "lifecycle": {
+    "status": "experimental",
+    "created": "2026-09-03",
+    "modified": "2026-09-03",
+    "review_interval_days": 90
+  },
+  "severity": "medium",
+  "confidence": "medium",
+  "data_sources": [
+    {
+      "name": "Microsoft Defender for Endpoint process events",
+      "category": "Endpoint process creation",
+      "required_fields": ["TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountName", "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"]
+    }
+  ],
+  "attack": [
+    {"technique_id": "T1053.005", "tactic": "Execution"},
+    {"technique_id": "T1053.005", "tactic": "Persistence"},
+    {"technique_id": "T1053.005", "tactic": "Privilege Escalation"}
+  ],
+  "triage": {
+    "summary": "Resolve the source administrator, remote target and task definition, then validate the action against an approved change.",
+    "steps": [
+      "Review the complete command line, source device, account, initiating process, remote computer and task name.",
+      "Inspect the task action, trigger, run-as identity and the target system's subsequent process activity.",
+      "Confirm a documented deployment or administration workflow; remove unauthorized tasks and contain affected systems when malicious."
+    ],
+    "false_positives": [
+      "Approved remote administration, software deployment and maintenance workflows"
+    ]
+  },
+  "validation": {
+    "expected_outcome": "Match remote schtasks create commands; do not match local task creation, remote query or deletion, other processes or incomplete commands.",
+    "positive_tests": true,
+    "negative_tests": true
+  },
+  "implementations": [
+    {
+      "type": "sigma",
+      "path": "content/portable/sigma/MSEC-DET-0028/rule.yml",
+      "targets": ["sentinel"],
+      "status": "active"
+    }
+  ]
+}

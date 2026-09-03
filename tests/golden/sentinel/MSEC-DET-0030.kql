@@ -1,0 +1,3 @@
+DeviceProcessEvents
+| where FileName =~ "ntdsutil.exe" and (ProcessCommandLine contains "ac i ntds" or ProcessCommandLine contains "activate instance ntds") and ProcessCommandLine contains "ifm" and (ProcessCommandLine contains "create full" or ProcessCommandLine contains "create rodc" or ProcessCommandLine contains "create sysvol")
+| project TimeGenerated, Timestamp, DeviceId, DeviceName, AccountDomain, AccountName, AccountSid, InitiatingProcessFileName, FileName, FolderPath, ProcessCommandLine, ReportId

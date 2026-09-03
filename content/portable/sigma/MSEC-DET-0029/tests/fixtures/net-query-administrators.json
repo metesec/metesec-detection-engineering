@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"FileName":"net.exe","ProcessCommandLine":"net.exe localgroup Administrators"}}

@@ -1,0 +1,3 @@
+DeviceProcessEvents
+| where (((FileName in~ ("net.exe", "net1.exe")) and (ProcessCommandLine contains "localgroup" and ProcessCommandLine contains "/add")) or ((FileName in~ ("powershell.exe", "pwsh.exe")) and ProcessCommandLine contains "Add-LocalGroupMember")) and (ProcessCommandLine contains "Administrators" or ProcessCommandLine contains "Administratoren" or ProcessCommandLine contains "S-1-5-32-544")
+| project TimeGenerated, Timestamp, DeviceId, DeviceName, AccountDomain, AccountName, AccountSid, InitiatingProcessFileName, FileName, FolderPath, ProcessCommandLine, ReportId

@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"FileName":"schtasks.exe","ProcessCommandLine":"schtasks.exe /query /s synthetic-host /tn SyntheticTask"}}

@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "detection_id": "MSEC-DET-0027",
+  "implementation": "content/portable/sigma/MSEC-DET-0027/rule.yml",
+  "cases": [
+    {"id": "javascript-runhtmlapplication", "expectation": "match", "fixture": "fixtures/javascript-runhtmlapplication.json", "description": "Synthetic rundll32 command invokes JavaScript through MSHTML."},
+    {"id": "vbscript-runhtmlapplication", "expectation": "match", "fixture": "fixtures/vbscript-runhtmlapplication.json", "description": "Synthetic rundll32 command invokes VBScript through MSHTML."},
+    {"id": "mixed-case-with-context", "expectation": "match", "fixture": "fixtures/mixed-case-with-context.json", "description": "Synthetic command proves case-insensitive matching with endpoint context."},
+    {"id": "javascript-without-export", "expectation": "no_match", "fixture": "fixtures/javascript-without-export.json", "description": "Synthetic inline script lacks RunHTMLApplication."},
+    {"id": "mshtml-without-script-prefix", "expectation": "no_match", "fixture": "fixtures/mshtml-without-script-prefix.json", "description": "Synthetic rundll32 command lacks an inline script prefix."},
+    {"id": "other-process", "expectation": "no_match", "fixture": "fixtures/other-process.json", "description": "Synthetic other binary with the same text is outside the rule."},
+    {"id": "ordinary-rundll32", "expectation": "no_match", "fixture": "fixtures/ordinary-rundll32.json", "description": "Synthetic ordinary rundll32 export invocation does not match."}
+  ]
+}

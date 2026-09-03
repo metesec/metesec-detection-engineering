@@ -15,12 +15,12 @@ const report = buildCoverageReport(root);
 
 test("builds exact aggregate coverage without percentages", () => {
   assert.deepEqual(report.summary, {
-    detections: 25,
-    attack_mappings: 31,
-    attack_techniques: 19,
+    detections: 30,
+    attack_mappings: 39,
+    attack_techniques: 23,
     attack_tactics: 10,
     logical_data_sources: 5,
-    sentinel_preview_bindings: 24,
+    sentinel_preview_bindings: 29,
     sentinel_data_source_contracts: 4,
     detections_without_sentinel_binding: 1,
   });
@@ -33,16 +33,20 @@ test("aggregates ATT&CK techniques and tactics deterministically", () => {
     [
       ["T1003.001", ["MSEC-DET-0011"]],
       ["T1003.002", ["MSEC-DET-0023"]],
+      ["T1003.003", ["MSEC-DET-0030"]],
       ["T1047", ["MSEC-DET-0024"]],
+      ["T1053.005", ["MSEC-DET-0028"]],
       ["T1059", ["MSEC-DET-0006"]],
       ["T1059.001", ["MSEC-DET-0007"]],
-      ["T1078.004", ["MSEC-DET-0002", "MSEC-DET-0003", "MSEC-DET-0010"]],
+      ["T1078.004", ["MSEC-DET-0002", "MSEC-DET-0003", "MSEC-DET-0010", "MSEC-DET-0026"]],
       ["T1098.001", ["MSEC-DET-0004", "MSEC-DET-0009"]],
       ["T1098.003", ["MSEC-DET-0005", "MSEC-DET-0008", "MSEC-DET-0015", "MSEC-DET-0021"]],
+      ["T1098.007", ["MSEC-DET-0029"]],
       ["T1105", ["MSEC-DET-0020"]],
       ["T1197", ["MSEC-DET-0025"]],
       ["T1218.005", ["MSEC-DET-0012"]],
       ["T1218.010", ["MSEC-DET-0013"]],
+      ["T1218.011", ["MSEC-DET-0027"]],
       ["T1484.002", ["MSEC-DET-0019"]],
       ["T1490", ["MSEC-DET-0016"]],
       ["T1543.003", ["MSEC-DET-0001"]],
@@ -62,11 +66,12 @@ test("aggregates logical sources and exposes the explicit Sentinel gap", () => {
   const signIns = report.data_sources.logical.find(
     (item) => item.name === "Microsoft Entra sign-in logs",
   );
-  assert.deepEqual(signIns.detections, ["MSEC-DET-0002", "MSEC-DET-0003"]);
+  assert.deepEqual(signIns.detections, ["MSEC-DET-0002", "MSEC-DET-0003", "MSEC-DET-0026"]);
   assert.deepEqual(
     signIns.required_fields,
     [
       "AppDisplayName",
+      "AuthenticationProtocol",
       "ClientAppUsed",
       "IPAddress",
       "ResultType",
@@ -96,8 +101,8 @@ test("retains exact Sentinel contract relationships", () => {
       {
         source_id: "MSEC-SDS-0001",
         table: "SigninLogs",
-        detections: ["MSEC-DET-0002", "MSEC-DET-0003"],
-        required_columns: 15,
+        detections: ["MSEC-DET-0002", "MSEC-DET-0003", "MSEC-DET-0026"],
+        required_columns: 16,
       },
       {
         source_id: "MSEC-SDS-0002",
@@ -108,7 +113,7 @@ test("retains exact Sentinel contract relationships", () => {
       {
         source_id: "MSEC-SDS-0003",
         table: "DeviceProcessEvents",
-        detections: ["MSEC-DET-0006", "MSEC-DET-0007", "MSEC-DET-0011", "MSEC-DET-0012", "MSEC-DET-0013", "MSEC-DET-0016", "MSEC-DET-0017", "MSEC-DET-0018", "MSEC-DET-0020", "MSEC-DET-0023", "MSEC-DET-0024", "MSEC-DET-0025"],
+        detections: ["MSEC-DET-0006", "MSEC-DET-0007", "MSEC-DET-0011", "MSEC-DET-0012", "MSEC-DET-0013", "MSEC-DET-0016", "MSEC-DET-0017", "MSEC-DET-0018", "MSEC-DET-0020", "MSEC-DET-0023", "MSEC-DET-0024", "MSEC-DET-0025", "MSEC-DET-0027", "MSEC-DET-0028", "MSEC-DET-0029", "MSEC-DET-0030"],
         required_columns: 12,
       },
       {
