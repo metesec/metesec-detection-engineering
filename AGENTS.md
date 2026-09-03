@@ -37,8 +37,8 @@ The architectural rule is: one logical detection has one stable identity but may
 - Mirror direction: Forgejo `main` to GitHub `main` only; sync on Forgejo commits
 - Mirror authentication: repository-scoped SSH deploy key stored by Forgejo; GitHub Actions, Issues, and Wiki are disabled
 - MeteSec Projects page: implemented and public at `https://metesec.com/projects/detection-engineering/`
-- Current phase: `0.1 — Functional Foundation` and `0.2 — Microsoft Sentinel Target` complete; `0.3 — Detection Operations` is planned
-- Current development-package version: `0.2.0`; the published `v0.1.0` artifact remains immutable and unchanged
+- Current phase: `0.1 — Functional Foundation` and `0.2 — Microsoft Sentinel Target` complete; `0.3 — Detection Operations` is in progress
+- Current development-package version: `0.3.0`; the published `v0.1.0` artifact remains immutable and unchanged
 - Logical manifest contract: version 1 implemented as JSON Schema Draft 2020-12
 - Contract examples: one valid draft and one deliberately invalid stable-state example
 - Structural validation: executable with pinned Ajv `8.17.1`; the valid example is accepted and the invalid example is rejected
@@ -67,6 +67,8 @@ The architectural rule is: one logical detection has one stable identity but may
 - Sentinel analytics-rule profile: version 1 JSON Schema and executable loader bind exactly the same four detections to explicit schedule, threshold, suppression, event-grouping and incident settings; missing, additional, duplicated, reordered, active or malformed entries fail closed
 - Sentinel analytics-rule renderer: all four bindings produce deterministic Microsoft SecurityInsights API `2025-09-01` Scheduled-rule request bodies plus separate provenance manifests; logical metadata comes from `manifest.json`, KQL and entity mappings come from the reviewed compiler output contract, stable rule UUIDs derive from the immutable detection ID, and every rendered rule is disabled
 - Sentinel entity output: the two sign-in rules return normalized Account, IP and CloudApplication fields; the two audit rules return initiating Account, IP and application fields plus the target service-principal name and object ID; only semantically correct columns are mapped as Sentinel entities
+- Sentinel data-source contract: version 1 covers `SigninLogs` and `AuditLogs` with stable source IDs, exact preview consumers, event-time columns, required Kusto fields and types, and explicit six-hour degraded and one-day unavailable reference thresholds
+- Data-source observation evaluator: a separate uncommitted observation can produce only `ready`, `degraded`, `unavailable` or `unknown`; missing observations are never treated as healthy, schema or binding drift fails closed, and eight unit tests cover structure, freshness, missing tables, missing or mistyped fields, future timestamps, unknown sources and CLI exit behavior
 - Renderer output boundary: each ignored `dist/sentinel/<DETECTION-ID>/` directory contains `query.kql`, `analytics-rule.json` and `render-manifest.json`; no Azure resource scope, tenant identifier, credential, HTTP client, authentication flow, deployment command or live-write capability exists
 - Renderer publication: Forgejo PR `#7` merged through protected `main` as `e8bebd5d3e72218b32378cd3e4f850d047d778ad`; branch run `#12` and merged-main run `#13` passed, and the GitHub distribution mirror resolved to the exact same commit
 - Live target probes: authorized read-only workspace checks confirmed populated source fields and accepted all four complete enriched queries in bounded aggregate form; no raw row, aggregate count, user, device, tenant, subscription or workspace identifier is stored in the repository
@@ -83,6 +85,7 @@ The architectural rule is: one logical detection has one stable identity but may
 - The first supported compilation target is Microsoft Sentinel KQL, introduced through a bounded non-production preview profile with explicit table bindings.
 - Sentinel output columns and entity mappings are governed together by the version 2 preview profile and the complete generated KQL remains Golden-reviewed.
 - Consumers render ignored temporary Sentinel files inside their own controlled pipeline; the project publishes no separate prebuilt Sentinel target archive and implements no Azure deployment client.
+- Data-source health is evaluated separately from detection results; an empty or missing observation cannot become a healthy zero.
 - Detection-local tests live beside the implementation; reusable test code lives centrally.
 - Generated build output is never a manually edited source of truth.
 - Package v1 uses the logical manifest as its only authored metadata source; no second package descriptor duplicates identity or lifecycle data.
@@ -167,8 +170,8 @@ After every completed milestone:
 
 ## Immediate next milestone
 
-Start `0.3 — Detection Operations` with an executable data-source contract for
-the currently supported `SigninLogs` and `AuditLogs` telemetry. Define required
-fields, freshness expectations and an explicit unavailable or degraded state
-without adding deployment or production-health claims. Keep public pull-request
-execution disabled until the runner gains hard per-job isolation.
+Add versioned public exception objects with mandatory owner, reason, bounded
+scope, creation time and expiry. Use only reserved synthetic values in examples,
+reject expired or open-ended exceptions, and keep customer-specific exceptions
+outside the public repository. Keep public pull-request execution disabled until
+the runner gains hard per-job isolation.

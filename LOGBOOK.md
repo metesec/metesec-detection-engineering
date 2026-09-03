@@ -922,3 +922,71 @@ Account, IP and CloudApplication entities while remaining deterministic,
 disabled and deployment-free. The next bounded milestone is an executable
 data-source contract for `SigninLogs` and `AuditLogs`, including required fields,
 freshness expectations and explicit degraded or unavailable states.
+
+## 2026-09-03 — Executable Sentinel data-source health contract completed locally
+
+### Starting state
+
+- The Sentinel target had four verified rule bindings but no aggregated target
+  contract for required table columns, Kusto types or telemetry freshness.
+- A zero-result detection could not be distinguished structurally from missing
+  or stale telemetry.
+- No Azure client, scheduled monitor or environment observation belonged in the
+  public repository.
+
+### Decision and implementation
+
+- Advanced the development package to `0.3.0` and started Detection Operations
+  with two stable source identities: `MSEC-SDS-0001` for `SigninLogs` and
+  `MSEC-SDS-0002` for `AuditLogs`.
+- Added JSON Schema contracts for the public data-source definition and a
+  separate environment-local observation format.
+- Each source now declares its exact preview consumers, event-time field, full
+  required Kusto column and type set, and explicit reference freshness limits.
+- The initial reference thresholds mark data older than six hours degraded and
+  data older than one day unavailable. Documentation makes clear that these are
+  reviewable project assumptions, not Microsoft guarantees or production SLAs.
+- Added a fail-closed evaluator with four states: `ready`, `degraded`,
+  `unavailable` and `unknown`. A missing observation is always unknown; a missing
+  table, empty source or data beyond the final threshold is unavailable; stale,
+  missing-field or type-mismatched input is degraded.
+- Added a CLI that validates the public contract without claiming live health,
+  or evaluates a separately supplied uncommitted observation in text or JSON.
+  Exit codes distinguish ready, non-ready and structurally invalid input.
+- Added the contract to the general source Detection Pack allowlist and scope.
+  This does not create the rejected separate Sentinel target artifact.
+- Added ADR-0010 plus the public contract guide, README, release-contract and
+  Roadmap updates. Environment observations are explicitly excluded from source.
+
+### Validation and corrections
+
+- Added eight evaluator tests for exact preview relationships, ready input,
+  missing and mistyped columns, both freshness transitions, missing or empty
+  tables, unknown input, future timestamps, unknown sources and CLI exit codes.
+- The first strict Ajv compile rejected the observation Schema because the
+  conditional `maxItems` rule did not repeat the array type in its subschema.
+  Adding the explicit type aligned the conditional with strict JSON Schema mode;
+  the corrected contract validator passed.
+- The complete aggregate repository check passed, including all pre-existing
+  manifests, packages, catalogues, five Sigma sources, thirty-five synthetic
+  fixture expectations, four Sentinel Goldens, disabled rule rendering, both
+  new schemas, both source relationships, all eight health tests and the
+  deterministic release-builder tests.
+
+### Explicitly untouched
+
+- No workspace was queried for this milestone and no live health state, event
+  time, count, row, user, tenant, subscription or workspace identifier was stored.
+- No Sentinel rule, connector, Azure resource, credential, scheduler, alert,
+  deployment command or production setting changed.
+- No real customer exception or operational threshold was added.
+- The published `v0.1.0` artifact, Forgejo configuration, runners, GitHub mirror,
+  Website and production infrastructure remained unchanged.
+
+### Result
+
+The repository can now tell the difference between a usable source and missing,
+stale or structurally incompatible telemetry without confusing any of those
+conditions with a clean detection result. The next bounded Detection Operations
+milestone is a versioned exception object with mandatory expiry and synthetic
+public examples only.

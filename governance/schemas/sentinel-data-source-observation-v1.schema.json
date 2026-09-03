@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metesec.com/schemas/sentinel-data-source-observation-v1.schema.json",
+  "title": "MeteSec Microsoft Sentinel data-source observation v1",
+  "description": "Environment-local table, column, and freshness observations consumed by the data-source evaluator.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "target", "observed_at", "sources"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "target": { "const": "microsoft-sentinel" },
+    "observed_at": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(?:\\.[0-9]+)?Z$"
+    },
+    "sources": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/source" }
+    }
+  },
+  "$defs": {
+    "column": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "type"],
+      "properties": {
+        "name": { "type": "string", "pattern": "^[A-Za-z_][A-Za-z0-9_]*$" },
+        "type": {
+          "enum": ["bool", "datetime", "dynamic", "guid", "int", "long", "real", "string", "timespan"]
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "table", "table_exists", "latest_event_at", "columns"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^MSEC-SDS-[0-9]{4}$" },
+        "table": { "type": "string", "pattern": "^[A-Za-z_][A-Za-z0-9_]*$" },
+        "table_exists": { "type": "boolean" },
+        "latest_event_at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(?:\\.[0-9]+)?Z$"
+            },
+            { "type": "null" }
+          ]
+        },
+        "columns": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/column" }
+        }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "table_exists": { "const": false } } },
+          "then": {
+            "properties": {
+              "latest_event_at": { "type": "null" },
+              "columns": { "type": "array", "maxItems": 0 }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -23,6 +23,7 @@ EXACT_SOURCES = (
     "catalog/index.json",
     "targets/sentinel/preview.json",
     "targets/sentinel/analytics-rules.json",
+    "targets/sentinel/data-sources.json",
     "docs/testing/sigma-fixture-evaluation.md",
     "docs/tooling/sentinel-compilation.md",
 )
@@ -131,6 +132,7 @@ def build_release(repo_root: Path, output_dir: Path) -> tuple[Path, Path]:
             "portable_sigma": True,
             "synthetic_fixture_evidence": True,
             "sentinel_preview": True,
+            "sentinel_data_source_contract": True,
             "siem_deployment": False,
         },
         "files": manifest_files,

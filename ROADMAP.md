@@ -53,14 +53,19 @@ implements no deployment.
 
 ## 0.3 — Detection Operations
 
-Status: **planned**
+Status: **in progress**
 
-- [ ] Introduce data-source contracts
-- [ ] Add deployment bundles by detection ID
+- [x] Introduce data-source contracts
+- [x] Keep target rendering consumer-owned instead of publishing deployment bundles
 - [ ] Add versioned exception objects with expiry
 - [ ] Generate ATT&CK and data-source coverage reports
 - [ ] Introduce lifecycle and review-cadence validation
-- [ ] Add telemetry-health definitions
+- [ ] Add rule-execution and alert-outcome health definitions
+
+Current status: `SigninLogs` and `AuditLogs` have exact field and type
+requirements, freshness expectations, preview-consumer relationships and a
+local observation evaluator with explicit `ready`, `degraded`, `unavailable`
+and `unknown` states. No live monitor or production-health claim exists.
 
 ## 0.4 — Native Implementations and Resolution
 

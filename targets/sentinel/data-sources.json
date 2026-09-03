@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "target": "microsoft-sentinel",
+  "sources": [
+    {
+      "id": "MSEC-SDS-0001",
+      "table": "SigninLogs",
+      "display_name": "Microsoft Entra sign-in logs",
+      "consumers": ["MSEC-DET-0002", "MSEC-DET-0003"],
+      "event_time_column": "TimeGenerated",
+      "required_columns": [
+        {"name": "TimeGenerated", "type": "datetime"},
+        {"name": "AppDisplayName", "type": "string"},
+        {"name": "AppId", "type": "string"},
+        {"name": "AuthenticationRequirement", "type": "string"},
+        {"name": "ClientAppUsed", "type": "string"},
+        {"name": "ConditionalAccessStatus", "type": "string"},
+        {"name": "CorrelationId", "type": "string"},
+        {"name": "IPAddress", "type": "string"},
+        {"name": "ResultType", "type": "string"},
+        {"name": "RiskDetail", "type": "string"},
+        {"name": "RiskEventTypes_V2", "type": "dynamic"},
+        {"name": "RiskLevelDuringSignIn", "type": "string"},
+        {"name": "RiskState", "type": "string"},
+        {"name": "UserId", "type": "string"},
+        {"name": "UserPrincipalName", "type": "string"}
+      ],
+      "freshness": {
+        "degraded_after": "PT6H",
+        "unavailable_after": "P1D"
+      }
+    },
+    {
+      "id": "MSEC-SDS-0002",
+      "table": "AuditLogs",
+      "display_name": "Microsoft Entra audit logs",
+      "consumers": ["MSEC-DET-0004", "MSEC-DET-0005"],
+      "event_time_column": "TimeGenerated",
+      "required_columns": [
+        {"name": "TimeGenerated", "type": "datetime"},
+        {"name": "CorrelationId", "type": "string"},
+        {"name": "InitiatedBy", "type": "dynamic"},
+        {"name": "LoggedByService", "type": "string"},
+        {"name": "OperationName", "type": "string"},
+        {"name": "Result", "type": "string"},
+        {"name": "TargetResources", "type": "dynamic"}
+      ],
+      "freshness": {
+        "degraded_after": "PT6H",
+        "unavailable_after": "P1D"
+      }
+    }
+  ]
+}

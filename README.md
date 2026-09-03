@@ -2,8 +2,8 @@
 
 Detection-as-Code reference implementation for portable, tested, and reviewable security detections.
 
-> **Project status: Microsoft Sentinel Target — complete**
-> Four explicitly mapped detections compile to reviewed KQL and render as deterministic, disabled Microsoft Sentinel Scheduled-rule request bodies with governed output columns and entities. Azure deployment remains intentionally consumer-owned and outside this repository.
+> **Project status: Detection Operations — in progress**
+> The Sentinel target is complete and four mapped detections render as deterministic, disabled Scheduled rules. The first operations contract now distinguishes usable telemetry from degraded, unavailable or unknown data without adding Azure access.
 
 ## Purpose
 
@@ -46,11 +46,12 @@ Forgejo remains the source of truth. GitHub receives only the reviewed public `m
 - [Local Sigma fixture evaluation](docs/testing/sigma-fixture-evaluation.md)
 - [Microsoft Sentinel KQL preview compilation](docs/tooling/sentinel-compilation.md)
 - [Microsoft Sentinel analytics-rule profile v1](docs/contracts/sentinel-analytics-rule-profile-v1.md)
+- [Microsoft Sentinel data-source contract v1](docs/contracts/sentinel-data-source-contract-v1.md)
 - [Detection Pack release artifact v1](docs/releases/release-artifact-v1.md)
 
 ## Current milestone
 
-`0.2 — Microsoft Sentinel Target` (complete)
+`0.3 — Detection Operations` (in progress)
 
 The logical manifest, compact package contract, pinned pySigma boundary, and bounded local fixture evaluator are implemented and locally verified. `MSEC-DET-0001` covers unusual Windows service installation paths. `MSEC-DET-0002` covers successful sign-ins from reported legacy client categories. `MSEC-DET-0003` covers successful Microsoft Entra sign-ins assessed as high risk during sign-in. `MSEC-DET-0004` covers successful credential additions to Microsoft Entra service principals. `MSEC-DET-0005` covers successful application-role grants to Microsoft Entra service principals. Together they have fifteen positive and twenty negative synthetic cases.
 
@@ -76,6 +77,13 @@ query and provenance files remain ignored temporary output. Consumers render
 and deploy them inside their own reviewed pipeline; no separate prebuilt
 Sentinel target archive or deployment client is shipped here.
 
+The first Detection Operations capability is an executable data-source contract
+for `SigninLogs` and `AuditLogs`. It links both tables to their exact consuming
+detections, defines required Kusto columns and types, and assesses an explicitly
+supplied environment observation as `ready`, `degraded`, `unavailable` or
+`unknown`. The repository stores no live observation and has no Azure query or
+monitoring client.
+
 Run the current contract validation with:
 
 ```console
@@ -88,7 +96,7 @@ pnpm run render:sentinel
 pnpm run build:release
 ```
 
-See the [generated catalogue contract](docs/contracts/detection-catalogue-v1.md), [Forgejo validation guide](docs/tooling/forgejo-validation.md), [Sigma validation guide](docs/tooling/sigma-validation.md), and [Sentinel compilation guide](docs/tooling/sentinel-compilation.md) for the exact scope of each result.
+See the [generated catalogue contract](docs/contracts/detection-catalogue-v1.md), [Forgejo validation guide](docs/tooling/forgejo-validation.md), [Sigma validation guide](docs/tooling/sigma-validation.md), [Sentinel compilation guide](docs/tooling/sentinel-compilation.md), and [Sentinel data-source contract](docs/contracts/sentinel-data-source-contract-v1.md) for the exact scope of each result.
 
 ## License
 

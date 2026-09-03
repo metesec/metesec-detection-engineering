@@ -42,9 +42,10 @@ class ReleaseBuilderTests(unittest.TestCase):
                 manifest_name = f"{expected_root}/RELEASE-MANIFEST.json"
                 manifest = json.loads(archive.read(manifest_name))
                 self.assertEqual(manifest["format_version"], 1)
-                self.assertEqual(manifest["release"], "v0.2.0")
+                self.assertEqual(manifest["release"], "v0.3.0")
                 self.assertEqual(manifest["summary"]["detections"], 5)
                 self.assertEqual(manifest["summary"]["sentinel_preview_bindings"], 4)
+                self.assertTrue(manifest["scope"]["sentinel_data_source_contract"])
                 self.assertFalse(manifest["scope"]["siem_deployment"])
 
                 declared = {item["path"]: item for item in manifest["files"]}
