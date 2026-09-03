@@ -4,7 +4,7 @@ The roadmap describes intended capability, not current implementation. Verified 
 
 ## 0.1 — Functional Foundation
 
-Status: **in progress**
+Status: **complete**
 
 - [x] Create canonical public Forgejo repository
 - [x] Establish project handoff, logbook, roadmap, and ADR process
@@ -20,7 +20,7 @@ Status: **in progress**
 - [x] Generate a machine-readable and human-readable catalogue
 - [x] Add Forgejo validation pipeline definition
 - [x] Verify the pipeline on a dedicated restricted Forgejo runner
-- [ ] Publish first signed or checksummed release artifact
+- [x] Publish first signed or checksummed release artifact
 
 Exit criteria:
 

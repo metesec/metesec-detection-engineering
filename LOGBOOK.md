@@ -660,3 +660,100 @@ The canonical Forgejo repository now has a proven validation-only pipeline with
 both successful main execution and readable rejection behavior. It can be used
 for trusted changes; public pull-request execution remains out of scope until
 hard job isolation is implemented.
+
+## 2026-09-03 — Protected main and first checksummed release published
+
+### Starting state
+
+The dedicated Forgejo runner had proven trusted push validation, but `main` still
+accepted direct pushes and the repository had no bounded release artifact.
+
+### Decision
+
+- Protect exact branch `main`, disable direct pushes, apply the rule to
+  administrators and require the exact proven validation context.
+- Keep required approvals at zero for the current single-owner phase, while
+  blocking rejected reviews and branches that are behind `main`.
+- Publish version `0.1.0` as a deterministic, uncompressed ZIP plus
+  `SHA256SUMS`; do not place a publisher credential on the host-mode runner.
+- Include only allowlisted public detection sources and state explicitly that
+  the Sentinel material is preview output rather than a deployment bundle.
+
+### Protected activation
+
+- Read-only checks confirmed no existing branch-protection rule and healthy
+  Forgejo and PostgreSQL workloads.
+- A new logical Forgejo database dump was created at
+  `/var/backups/metesec/detection-release-20260903T124250Z`. The dump and its
+  checksum file are root-owned; the directory is mode `700`, the dump is mode
+  `600`, `sha256sum --check` passed and PostgreSQL `pg_restore --list` read the
+  complete archive from a transient `/dev/shm` copy that was removed afterward.
+- The first backup command was rejected before mutation because PowerShell
+  interpreted a remote shell timestamp expression locally. Later list checks
+  showed that stdin was not a suitable seekable archive source and that the
+  PostgreSQL container's `/tmp` is read-only. The corrected command used a
+  concrete backup path and the writable transient memory mount; the protected
+  backup itself remained valid throughout.
+- Forgejo stored exact rule `main` with direct push disabled, status checking
+  enabled, one exact required context, zero approvals, rejected-review and
+  outdated-branch blocking, and administrator enforcement.
+
+### Release implementation and verification
+
+- Added `scripts/build_release.py`, three release-builder tests, a workflow
+  candidate-build step, release-format documentation, ADR-0007 and version
+  `v0.1.0` release notes.
+- The builder accepts only explicit source paths, rejects symlinks, traversal,
+  missing or non-UTF-8 input, normalizes text to LF, sorts all members, fixes ZIP
+  timestamps and modes, stores without platform-dependent compression and emits
+  no runtime or workstation metadata.
+- The archive contains 72 members beneath one versioned root. Its internal
+  manifest records path, normalized size and SHA-256 for each of 71 source files.
+- The complete local aggregate repository check passed. Two separate clean
+  checkouts of commit `6bafe3c1d7a7e5cb58b707b9cd3364b8e84e7ad3`
+  produced byte-identical artifacts.
+- Release branch Actions run `#7` passed. Pull Request `#5` merged through the
+  protected path as `f33f602a2fb6ecbc98475c6de567aa7d9b810ebe`.
+  Canonical main run `#8` and annotated-tag run `#9` passed.
+- A clean build from the exact merge commit matched the branch artifact with
+  SHA-256 `547f8a66d64d7fac7dc33670a3c3397c77a2a46b737d619a8c498d5abfb2dfc6`.
+- Forgejo release `v0.1.0` publishes exactly the 133,113-byte ZIP and the
+  100-byte `SHA256SUMS`; automatic source archive links are hidden. Anonymous
+  downloads returned the exact digest, and the downloaded internal manifest
+  reported five detections, four Sentinel preview bindings and no SIEM deployment.
+- The GitHub one-way mirror received the exact protected main commit. Its
+  existing main-only policy was not broadened to mirror Forgejo release tags.
+
+### Problems and corrections
+
+- The first Actions-status poll treated Forgejo's returned collection as one
+  PowerShell object and falsely reached its local timeout after run `#7` had
+  already succeeded. Explicit pipeline selection then confirmed the exact green
+  status; no repository state changed during the failed poll.
+- The first merge guard used the same collection expression and stopped before
+  issuing the merge request. The corrected guard selected the newest status,
+  rechecked the branch rule and head/base SHAs, and only then merged.
+- The first draft-release verification counted Forgejo's asset collection
+  incorrectly. Its rollback deleted the complete draft and attachments before a
+  corrected draft/upload/verify/publish pass created release ID `1`.
+- The first post-publication internal-manifest one-liner had a local quoting
+  error after the ZIP checksum had already passed. Temporary downloads were
+  removed; a fresh anonymous download then passed both checksum and manifest
+  validation with explicit native-process failure handling.
+
+### Explicitly untouched
+
+- No SIEM deployment, live query, cloud resource, production detection,
+  customer data, protected credential or public pull-request execution changed.
+- No signing identity was invented. SHA-256 provides integrity but not an
+  authorship signature.
+- The dedicated Runner, Blog Runner, Website, infrastructure deployment and
+  GitHub main-only mirror policy were unchanged.
+
+### Result
+
+The `0.1 — Functional Foundation` exit criteria are complete. Canonical `main`
+is protected by the proven validation result, and the first reproducible public
+Detection Pack can be verified independently. The next milestone is a generic
+Sentinel analytics-rule renderer built from the existing explicit preview
+bindings without deployment capability.

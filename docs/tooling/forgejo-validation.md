@@ -71,10 +71,26 @@ versions, or a command that no longer runs the complete repository validation.
 It also requires the deterministic release candidate build after validation.
 
 The live Forgejo pipeline is operational. Branch run `#1` and canonical main run
-`#4` completed the full aggregate check successfully. Isolated verification run
+`#4` completed the original full aggregate check successfully. Isolated verification run
 `#2` changed only the valid example's schema version and failed with the direct
 message `valid/draft-windows-service-install.json: /schema_version must be equal
 to constant`; cleanup run `#3` restored the valid source and passed. These runs
 prove dispatch, toolchain, pass behavior, failure behavior and readable output.
 They do not add SIEM deployment capability or make `host` mode safe for public
 pull-request code.
+
+## Protected main and release evidence
+
+Forgejo protects exact branch `main`. Direct pushes are disabled, the rule applies
+to administrators, rejected reviews and outdated branches block merging, and the
+current single-owner phase requires zero approvals. A merge requires the exact
+successful status context `Repository validation / Contracts, detections,
+catalogue, and Sentinel preview (push)`.
+
+Release branch run `#7` validated commit
+`6bafe3c1d7a7e5cb58b707b9cd3364b8e84e7ad3`. Pull Request `#5` then merged only
+through the protected path. Canonical main run `#8` validated merge commit
+`f33f602a2fb6ecbc98475c6de567aa7d9b810ebe`, and tag run `#9` validated the same
+commit through annotated tag `v0.1.0`. The workflow generated the deterministic
+candidate but held no publication credential; a trusted operator uploaded the
+two locally and independently verified assets after all three results passed.
