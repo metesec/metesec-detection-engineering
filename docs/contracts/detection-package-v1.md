@@ -44,6 +44,8 @@ The schema deliberately does not define a field vocabulary. Field names belong t
 
 `MSEC-DET-0001` is an experimental Windows service-installation detection. Its Sigma implementation matches Service Control Manager event 7045 when `ImagePath` contains one of three selected public-user or temporary path fragments. Three positive and four negative synthetic cases pass the bounded local evaluator. The package makes no compilation or target-validation claim.
 
+`MSEC-DET-0002` is an experimental identity detection. Its Sigma implementation matches a successful Microsoft Entra sign-in when `ClientAppUsed` reports one of seven selected legacy client categories. Three positive and four negative synthetic cases pass the bounded local evaluator. Its separate Sentinel preview binding and validation boundary are documented in the [Sentinel compilation guide](../tooling/sentinel-compilation.md).
+
 ## Validation
 
 Run all current repository checks:

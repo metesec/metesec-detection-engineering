@@ -43,16 +43,20 @@ The architectural rule is: one logical detection has one stable identity but may
 - Structural validation: executable with pinned Ajv `8.17.1`; the valid example is accepted and the invalid example is rejected
 - Detection package contract: version 1 documented and enforced through executable filesystem relationship validation
 - Fixture-set contract: version 1 schema implemented for future implementation-local positive and negative evidence indexes
-- Catalogue: one experimental package, `MSEC-DET-0001`, for Windows service installation from selected public-user or temporary paths
-- Portable implementations: one structurally valid Sigma rule for `MSEC-DET-0001`; no compiled target query exists
-- Synthetic evidence: three positive and four negative flat event fixtures, all explicitly marked synthetic and all passing locally
+- Catalogue: two experimental packages: `MSEC-DET-0001` for Windows service installation from selected public-user or temporary paths and `MSEC-DET-0002` for successful Microsoft Entra sign-ins from selected legacy client categories
+- Portable implementations: two structurally valid Sigma rules, one per package
+- Synthetic evidence: six positive and eight negative flat event fixtures, all explicitly marked synthetic and all passing locally
 - Package contract tests: eight passing cases cover the valid draft, identity mismatch, missing implementation, implementation traversal, missing evidence index, valid linked evidence, fixture traversal, and invalid event-fixture structure
-- Sigma parser toolchain: pySigma `1.5.0` plus every observed transitive dependency is pinned in `requirements-sigma.lock`; verified with Python `3.12.13`
-- Sigma structural validation: exact-version gate, two-sided in-memory parser self-test, and automatic Package v1 `rule.yml` discovery validate one source containing one rule
+- Sigma parser and target toolchain: pySigma `1.5.0`, pySigma Kusto backend `1.0.1`, and every required transitive dependency are pinned in `requirements-sigma.lock`; verified with Python `3.12.13`
+- Sigma structural validation: exact-version gate, two-sided in-memory parser self-test, and automatic Package v1 `rule.yml` discovery validate two sources containing two rules
 - Sigma validation tests: six passing cases cover valid, missing-condition, malformed-YAML, parser-health, Package v1 discovery, and UTF-8 file paths
 - Behavioral test framework: implemented as a deliberately bounded local evaluator over pySigma's condition tree
 - Evaluator boundary: flat synthetic events; string and number field comparisons; Sigma wildcard strings; case-insensitive string matching; Boolean `and`, `or`, and unary `not`; unsupported behavior fails closed
-- Evaluator tests: six passing unit cases plus seven passing committed fixture expectations
+- Evaluator tests: six passing unit cases plus fourteen passing committed fixture expectations
+- Sentinel preview compiler: explicit profile binding, safe table-name validation, repository-contained paths, active-manifest relationship check, and deterministic Azure Monitor pipeline output are implemented
+- Sentinel preview scope: only `MSEC-DET-0002` is bound, to public table contract `SigninLogs`; its generated KQL matches one committed Golden snapshot
+- Live target probe: an authorized read-only workspace check confirmed populated source fields and accepted the exact generated predicate; the result was negative and no raw row, aggregate count, user, device, tenant, subscription, or workspace identifier was stored in the repository
+- `MSEC-DET-0001` remains intentionally unbound because the available target has no suitable Windows event telemetry; it has no Sentinel compatibility claim
 - CI pipeline: not yet implemented
 - Deployment to any SIEM: not implemented and not authorized by this foundation milestone
 
@@ -62,7 +66,7 @@ The architectural rule is: one logical detection has one stable identity but may
 - GitHub is the read-only public distribution mirror, not a development source or deployment dependency.
 - Version 1 is Sigma-first but not Sigma-only.
 - Native implementations will be added only for genuine platform-specific behavior.
-- The first supported compilation target will be Microsoft Sentinel KQL.
+- The first supported compilation target is Microsoft Sentinel KQL, introduced through a bounded non-production preview profile with explicit table bindings.
 - Detection-local tests live beside the implementation; reusable test code lives centrally.
 - Generated build output is never a manually edited source of truth.
 - Package v1 uses the logical manifest as its only authored metadata source; no second package descriptor duplicates identity or lifecycle data.
@@ -145,4 +149,4 @@ After every completed milestone:
 
 ## Immediate next milestone
 
-Review and extend the Functional Foundation toward its five-detection exit criterion using the same package and evidence boundary. Do not claim Sentinel compatibility until a later target milestone adds pinned conversion dependencies, KQL snapshots, and target validation.
+Review and extend the Functional Foundation toward its five-detection exit criterion using the same package and evidence boundary. Extend the Sentinel preview only when a rule has a reviewed explicit table binding, Golden query, and separately recorded target validation; do not deploy from the preview.

@@ -254,3 +254,66 @@ The repository now has a pinned and executable Sigma structural-validation bound
 ### Result
 
 `MSEC-DET-0001` is the repository's first complete experimental Sigma package with executable local behavior evidence. The next Functional Foundation work is to repeat the reviewed package pattern toward five detections before target compilation and deployment are claimed.
+
+## 2026-09-03 — Second detection and bounded Sentinel preview verified locally and read-only
+
+### Starting state
+
+The repository had one portable Windows event detection with local synthetic evidence but no target compiler, table binding, Golden KQL, or target-platform validation. The authorized Microsoft Sentinel environment contained real data but no Windows event table suitable for `MSEC-DET-0001`.
+
+### Decision
+
+- Keep `MSEC-DET-0001` unchanged and make no target claim where its required telemetry is absent.
+- Add a second detection that uses a populated Sentinel-native identity table rather than manufacturing a positive result for the first rule.
+- Bind target tables explicitly in a non-production preview profile; never let the compiler guess a workspace table.
+- Keep compiler success, local fixture behavior, read-only target acceptance, and deployment as separate claims.
+- Store no production row, result count, target identifier, user, device, address, or customer value in the public repository.
+
+### Source basis
+
+- Microsoft documents `SigninLogs.ClientAppUsed` as the reported client used for sign-in activity and `ResultType` value `0` as success.
+- Microsoft's legacy-authentication workbook treats specific mail-protocol client categories such as Exchange ActiveSync as legacy authentication indicators requiring review.
+- The official Sigma plugin directory and Kusto backend identify the Azure Monitor processing pipeline as an available KQL compilation route.
+
+### Changes
+
+- Added experimental package `MSEC-DET-0002` for a successful Microsoft Entra sign-in from one of seven selected legacy client categories.
+- Added three positive and four negative synthetic fixtures covering successful legacy categories, failed legacy activity, modern browser and desktop clients, and a missing client category.
+- Pinned pySigma Kusto backend `1.0.1` beside pySigma `1.5.0`.
+- Added a bounded Sentinel preview profile that maps only `MSEC-DET-0002` to `SigninLogs` and records no tenant or workspace value.
+- Added deterministic Python compilation with an exact backend-version gate, safe Kusto table identifiers, repository path containment, active-manifest relationship validation, and exactly-one-query enforcement.
+- Added one reviewed Golden KQL snapshot, three compiler tests, a no-write Golden verification command, and an ignored local `dist` build command.
+- Added ADR-0006 and a tooling guide explaining why target table bindings are explicit and why the preview is not a deployment claim.
+- Updated the aggregate project check, README, Roadmap, package documentation, and handoff.
+
+### Problems and corrections
+
+- Azure CLI and the Azure PowerShell modules were unavailable locally. No system tool was installed; the target check used the already authenticated Microsoft security portal in read-only mode.
+- The temporarily installed generic Sigma CLI could produce a predicate without a table but refused both Azure Monitor and Sentinel ASIM conversion because it could not infer the query table. The repository compiler now passes the reviewed `SigninLogs` binding directly to the Python pipeline; the unused CLI and its extra dependencies were removed from the local environment and are not part of the lock.
+- The first browser query edit appended the new text to the preceding aggregate query and produced a syntax error before any data query ran. The separate test editor was cleared through its own select-all action, the complete query text was verified, and the corrected query then executed.
+- A service-action coverage query returned no applicable rows, confirming that the available target could not validate `MSEC-DET-0001`; the rule was not weakened or remapped to force a result.
+- One local Sigma validation invocation included a stale executable path. The Sigma validation and fixture commands still completed, but the invocation itself was treated as invalid and was not used as final evidence.
+- The first aggregate project check resolved Windows' unusable `python` alias instead of the repository virtual environment. The same unchanged check was rerun with `.venv\\Scripts` first on the process-local path and passed.
+
+### Verification
+
+- Manifest validation accepted both catalogue packages and retained rejection of the deliberately invalid stable example.
+- Package validation accepted two packages and all eight package-contract unit tests passed.
+- pySigma `1.5.0` structurally accepted two rules and all six parser tests passed.
+- All six bounded-evaluator unit tests passed.
+- All fourteen committed synthetic expectations passed: six positive and eight negative.
+- All three Sentinel compiler tests passed, including rejection of repository traversal and an unsafe table value.
+- Generated KQL matched the committed Golden snapshot exactly and the ignored local build wrote `dist/sentinel/MSEC-DET-0002/query.kql`.
+- A read-only 30-day target control confirmed that the relevant `SigninLogs` fields were populated. The exact generated detection predicate was accepted and returned a valid negative aggregate result. No raw event or operational value was copied into the repository.
+- The complete repository check passed after the process-local Python correction.
+
+### Explicitly untouched
+
+- No analytics rule, custom detection, automation rule, connector, workspace setting, identity setting, exception, alert, incident, or other cloud resource was created or changed.
+- No production query result or target identifier was committed.
+- No positive activity was simulated against the environment.
+- No commit, push, Forgejo update, GitHub mirror update, Website change, or production rollout occurred.
+
+### Result
+
+The project now has two complete experimental Sigma packages and its first bounded, reproducible Microsoft Sentinel KQL preview. `MSEC-DET-0002` has separate local behavioral evidence, deterministic compilation evidence, and read-only target query-acceptance evidence; it is not deployed or declared production-ready. Three more reviewed detections remain for the Functional Foundation exit criterion.

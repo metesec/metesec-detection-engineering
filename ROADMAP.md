@@ -16,7 +16,7 @@ Status: **in progress**
 - [x] Add Sigma validation toolchain with pinned dependencies
 - [x] Implement positive and negative fixture-test model
 - [x] Add first complete Sigma detection
-- [ ] Grow to five reviewed detections
+- [ ] Grow to five reviewed detections (2 of 5 complete)
 - [ ] Generate a machine-readable and human-readable catalogue
 - [ ] Add Forgejo validation pipeline
 - [ ] Publish first signed or checksummed release artifact
@@ -33,13 +33,15 @@ Exit criteria:
 
 Status: **planned**
 
-- [ ] Pin pySigma and Microsoft Sentinel backend/pipeline dependencies
+- [x] Pin pySigma and Microsoft Sentinel Kusto backend/pipeline dependencies
 - [ ] Compile declared Sigma implementations to KQL
 - [ ] Add approved Golden snapshots for generated queries
 - [ ] Add a generic Sentinel analytics-rule renderer
-- [ ] Define a non-production target profile
+- [x] Define a non-production target profile
 - [ ] Package immutable Sentinel release artifacts
-- [ ] Clearly document semantic and platform limitations
+- [x] Clearly document semantic and platform limitations
+
+Preview status: one explicitly bound `SigninLogs` rule compiles to a reviewed Golden query and has passed a separate read-only live query-acceptance probe. General compilation, analytics-rule rendering, packaging, and deployment remain incomplete.
 
 ## 0.3 — Detection Operations
 

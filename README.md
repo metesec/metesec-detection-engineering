@@ -3,7 +3,7 @@
 Detection-as-Code reference implementation for portable, tested, and reviewable security detections.
 
 > **Project status: Functional Foundation**
-> The repository now includes the versioned logical-detection contract, the compact package contract, executable relationship validation, a pinned pySigma parser boundary, and its first locally tested experimental Sigma detection. Target compilation and SIEM validation remain future milestones tracked in [ROADMAP.md](ROADMAP.md).
+> The repository now includes the versioned logical-detection contract, the compact package contract, executable relationship validation, two locally tested experimental Sigma detections, and a bounded Microsoft Sentinel KQL preview for one explicitly mapped rule. Deployment remains a future milestone tracked in [ROADMAP.md](ROADMAP.md).
 
 ## Purpose
 
@@ -40,12 +40,15 @@ Forgejo remains the source of truth. GitHub receives only the reviewed public `m
 - [Detection package v1](docs/contracts/detection-package-v1.md)
 - [Sigma structural validation](docs/tooling/sigma-validation.md)
 - [Local Sigma fixture evaluation](docs/testing/sigma-fixture-evaluation.md)
+- [Microsoft Sentinel KQL preview compilation](docs/tooling/sentinel-compilation.md)
 
 ## Current milestone
 
 `0.1 — Functional Foundation`
 
-The logical manifest, compact package contract, pinned pySigma boundary, and bounded local fixture evaluator are implemented and locally verified. `MSEC-DET-0001` contains one experimental Sigma rule with three positive and four negative synthetic cases. This proves the documented local subset only; no KQL or target-SIEM result exists yet.
+The logical manifest, compact package contract, pinned pySigma boundary, and bounded local fixture evaluator are implemented and locally verified. `MSEC-DET-0001` covers unusual Windows service installation paths. `MSEC-DET-0002` covers successful sign-ins from reported legacy client categories. Together they have six positive and eight negative synthetic cases.
+
+The Sentinel preview pins the Kusto backend, maps only `MSEC-DET-0002` to `SigninLogs`, and verifies its generated KQL against a committed Golden snapshot. A separate authorized read-only target probe confirmed that the table and required fields were populated and that the generated predicate was accepted. No raw telemetry or target identifiers are stored, and this result is not a deployment or production-readiness claim.
 
 Run the current contract validation with:
 
@@ -57,7 +60,7 @@ pnpm run setup:sigma
 pnpm run check
 ```
 
-See the [Sigma validation guide](docs/tooling/sigma-validation.md) for POSIX activation and the exact scope of the result.
+See the [Sigma validation guide](docs/tooling/sigma-validation.md) and [Sentinel compilation guide](docs/tooling/sentinel-compilation.md) for the exact scope of each result.
 
 ## License
 

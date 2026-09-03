@@ -1,0 +1,41 @@
+title: Successful Sign-in from a Legacy Client Category
+id: 00045eff-abcd-4f5d-8641-c556eb5d2cfa
+status: experimental
+description: Detects a successful Microsoft Entra sign-in reported through a selected legacy client category.
+references:
+  - https://learn.microsoft.com/en-us/entra/identity/monitoring-health/workbook-legacy-authentication
+  - https://learn.microsoft.com/en-us/azure/azure-monitor/reference/tables/signinlogs
+  - https://attack.mitre.org/techniques/T1078/004/
+author: MeteSec Detection Engineering
+date: 2026-09-03
+tags:
+  - attack.initial-access
+  - attack.persistence
+  - attack.t1078.004
+logsource:
+  product: azure
+  service: signinlogs
+detection:
+  selection_success:
+    ResultType: '0'
+  selection_legacy_client:
+    ClientAppUsed:
+      - Exchange ActiveSync
+      - IMAP
+      - MAPI
+      - POP
+      - SMTP
+      - Authenticated SMTP
+      - Other clients
+  condition: selection_success and selection_legacy_client
+fields:
+  - TimeGenerated
+  - UserPrincipalName
+  - IPAddress
+  - AppDisplayName
+  - ClientAppUsed
+  - AuthenticationRequirement
+  - ConditionalAccessStatus
+falsepositives:
+  - Approved applications, devices, or migration exceptions that still use a reported legacy client category.
+level: medium

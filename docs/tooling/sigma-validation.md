@@ -1,13 +1,13 @@
 # Sigma structural validation
 
-The repository pins `pySigma 1.5.0` as its portable Sigma parser. This milestone validates source structure only. It does not compile a query, execute detection logic, prove fixture behavior, or contact a SIEM.
+The repository pins `pySigma 1.5.0` as its portable Sigma parser. This validator checks source structure only. It does not compile a query, execute detection logic, prove fixture behavior, or contact a SIEM.
 
 ## Environment
 
 - Python 3.10 or newer is required by pySigma.
 - The checked lock was resolved and verified with Python 3.12.13.
-- `requirements-sigma.lock` pins the direct pySigma requirement and every dependency observed in that environment.
-- `sigma-cli` and target backends are intentionally absent until the first compilation-target milestone.
+- `requirements-sigma.lock` pins the direct pySigma and Kusto-backend requirements plus every required dependency in that environment.
+- Target compilation uses the pinned Kusto backend through the repository's explicit Python entry point; `sigma-cli` is not required.
 
 Create an isolated environment and install the exact lock:
 
@@ -58,6 +58,4 @@ Structural validation is only the first layer. The first real detection must sep
 
 - [SigmaHQ pySigma](https://github.com/SigmaHQ/pySigma)
 - [pySigma on PyPI](https://pypi.org/project/pySigma/)
-- [SigmaHQ sigma-cli](https://github.com/SigmaHQ/sigma-cli)
-
-The CLI is listed for the future conversion milestone, not as an installed capability of the current repository.
+- [pySigma Kusto backend](https://github.com/AttackIQ/pySigma-backend-kusto)
