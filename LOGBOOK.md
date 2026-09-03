@@ -162,3 +162,43 @@ The repository had an executable logical-manifest schema and two contract exampl
 ### Result
 
 The repository now has a compact, executable package boundary and its first real logical catalogue entry without overstating implementation readiness. The next milestone is the pinned Sigma validation toolchain.
+
+## 2026-09-03 — Pinned Sigma structural validation verified locally
+
+### Starting state
+
+The repository could validate logical manifests and package relationships but had no installed or pinned Sigma parser. A future `rule.yml` could therefore exist without an executable Sigma syntax and structure check.
+
+### Decision
+
+- Pin pySigma as the smallest vendor-neutral parsing boundary required by the current milestone.
+- Defer `sigma-cli`, conversion backends, processing pipelines, KQL output, and SIEM connectivity until a real target-compilation milestone uses them.
+- Require an exact pySigma runtime version and pin every transitive dependency observed during the verified resolution.
+- Make a zero-rule validation run meaningful through a two-sided parser self-test while explicitly refusing to treat it as a detection implementation or behavioral result.
+
+### Changes
+
+- Added `requirements-sigma.lock` with pySigma `1.5.0` and all resolved direct and transitive packages fixed to exact versions.
+- Added reusable Sigma validation code for UTF-8 sources, collected pySigma parser errors, Package v1 source discovery, and parser health verification.
+- Added a command that rejects the wrong pySigma version, proves a valid synthetic rule parses, proves a deliberately invalid synthetic rule fails, and validates every future `content/portable/sigma/<ID>/rule.yml` entry point.
+- Added six standard-library unit tests for valid input, missing condition, malformed YAML, parser-health behavior, exact Package v1 discovery, and UTF-8 file validation.
+- Added setup and validation commands to the existing pnpm workflow and documented the structural-only boundary.
+- Updated the README, Roadmap, and project handoff to mark the pinned parser milestone complete and retain the first real Sigma implementation as the next milestone.
+
+### Problems and corrections
+
+- The first package-index query encountered the sandboxed network boundary and returned no distributions. The same read-only query succeeded after the approved network retry and confirmed pySigma `1.5.0` and sigma-cli `3.1.0` as the available current releases.
+- Sigma CLI was considered but deliberately not installed: its present role is conversion and plugin-backed target output, neither of which this milestone implements.
+
+### Verification
+
+- pySigma `1.5.0` installed successfully in the repository-local ignored virtual environment under Python `3.12.13`.
+- All six Sigma-validation unit tests passed.
+- The valid in-memory parser probe produced exactly one rule and the deliberately invalid probe was rejected for its missing condition.
+- Repository Sigma validation passed with zero source files and printed the explicit no-behavior-claim notice.
+- `pip check` reported no broken requirements.
+- No Sigma implementation, fixture evidence, local evaluator, compiled query, target backend, deployment configuration, customer data, production telemetry, SIEM change, push, mirror update, Website change, or production rollout was introduced.
+
+### Result
+
+The repository now has a pinned and executable Sigma structural-validation boundary without overstating rule, behavior, compiler, or target readiness. The next milestone is the first portable implementation and explicitly synthetic positive and negative evidence for `MSEC-DET-0001`.

@@ -45,6 +45,9 @@ The architectural rule is: one logical detection has one stable identity but may
 - Fixture-set contract: version 1 schema implemented for future implementation-local positive and negative evidence indexes
 - Catalogue: one real draft package, `MSEC-DET-0001`, with a valid logical manifest and no implementation claim
 - Package contract tests: seven passing cases cover the valid draft, identity mismatch, missing implementation, implementation traversal, missing evidence index, valid linked evidence, and fixture traversal
+- Sigma parser toolchain: pySigma `1.5.0` plus every observed transitive dependency is pinned in `requirements-sigma.lock`; verified with Python `3.12.13`
+- Sigma structural validation: exact-version gate, two-sided in-memory parser self-test, and automatic Package v1 `rule.yml` discovery are executable
+- Sigma validation tests: six passing cases cover valid, missing-condition, malformed-YAML, parser-health, Package v1 discovery, and UTF-8 file paths
 - Detection implementations: not yet implemented
 - Behavioral test framework: not yet implemented
 - CI pipeline: not yet implemented
@@ -139,4 +142,4 @@ After every completed milestone:
 
 ## Immediate next milestone
 
-Pin and verify the Sigma validation toolchain without adding target compilation or SIEM deployment. Then introduce the first portable implementation for `MSEC-DET-0001` with explicitly synthetic fixtures and a documented local-evaluator boundary.
+Introduce the first portable implementation for `MSEC-DET-0001` with explicitly synthetic positive and negative fixtures and a documented local-evaluator boundary. Keep local behavioral evidence separate from later target compilation and SIEM validation.

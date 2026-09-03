@@ -13,7 +13,7 @@ Status: **in progress**
 - [x] Define minimal logical detection manifest
 - [x] Add JSON Schema and valid/invalid examples
 - [x] Define compact detection-package layout
-- [ ] Add Sigma validation toolchain with pinned dependencies
+- [x] Add Sigma validation toolchain with pinned dependencies
 - [ ] Implement positive and negative fixture-test model
 - [ ] Add first complete Sigma detection
 - [ ] Grow to five reviewed detections

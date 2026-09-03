@@ -1,0 +1,18 @@
+# Resolved from the direct requirement pySigma==1.5.0 with Python 3.12.13.
+# Direct and transitive dependencies are exact so validation does not drift.
+certifi==2026.7.22
+charset-normalizer==3.5.1
+diskcache==5.6.3
+diskcache-stubs==5.6.3.6.20240818
+idna==3.19
+Jinja2==3.1.6
+jq==1.12.0
+MarkupSafe==3.0.3
+packaging==26.3
+pyparsing==3.3.2
+pySigma==1.5.0
+PyYAML==6.0.3
+requests==2.34.2
+types-PyYAML==6.0.12.20260815
+typing_extensions==4.16.0
+urllib3==2.7.0
