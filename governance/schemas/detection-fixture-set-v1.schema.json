@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metesec.com/schemas/detection-fixture-set-v1.schema.json",
+  "title": "MeteSec detection fixture set v1",
+  "description": "Machine-readable expectations that bind synthetic event fixtures to one detection implementation.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "detection_id", "implementation", "cases"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "detection_id": { "type": "string", "pattern": "^MSEC-DET-[0-9]{4}$" },
+    "implementation": {
+      "type": "string",
+      "pattern": "^(content/portable/sigma|content/native)/[^\\s]+$"
+    },
+    "cases": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/case" }
+    }
+  },
+  "$defs": {
+    "case": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "expectation", "fixture", "description"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]{2,63}$"
+        },
+        "expectation": {
+          "enum": ["match", "no_match"]
+        },
+        "fixture": {
+          "type": "string",
+          "pattern": "^fixtures/[^\\s]+\\.json$"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 300
+        }
+      }
+    }
+  }
+}

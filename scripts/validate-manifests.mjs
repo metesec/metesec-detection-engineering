@@ -8,12 +8,18 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const schemaPath = path.join(root, "governance", "schemas", "logical-detection-manifest-v1.schema.json");
 const validDirectory = path.join(root, "examples", "manifests", "valid");
 const invalidDirectory = path.join(root, "examples", "manifests", "invalid");
+const catalogDirectory = path.join(root, "catalog", "detections");
 
 const readJson = (file) => JSON.parse(fs.readFileSync(file, "utf8"));
 const jsonFiles = (directory) => fs.readdirSync(directory)
   .filter((name) => name.endsWith(".json"))
   .sort()
   .map((name) => path.join(directory, name));
+const jsonFilesRecursive = (directory) => fs.readdirSync(directory, { withFileTypes: true })
+  .flatMap((entry) => entry.isDirectory()
+    ? jsonFilesRecursive(path.join(directory, entry.name))
+    : (entry.name.endsWith(".json") ? [path.join(directory, entry.name)] : []))
+  .sort();
 const formatErrors = (errors = []) => errors
   .map((error) => `${error.instancePath || "/"} ${error.message}`)
   .join("; ");
@@ -22,9 +28,13 @@ const ajv = new Ajv2020({ allErrors: true, strict: true });
 const validate = ajv.compile(readJson(schemaPath));
 const validExamples = jsonFiles(validDirectory);
 const invalidExamples = jsonFiles(invalidDirectory);
+const catalogManifests = jsonFilesRecursive(catalogDirectory);
 
 if (validExamples.length === 0 || invalidExamples.length === 0) {
   throw new Error("Expected at least one valid and one invalid manifest example.");
+}
+if (catalogManifests.length === 0) {
+  throw new Error("Expected at least one catalogue manifest.");
 }
 
 let failed = false;
@@ -34,6 +44,15 @@ for (const file of validExamples) {
     console.error(`FAIL valid/${path.basename(file)}: ${formatErrors(validate.errors)}`);
   } else {
     console.log(`PASS valid/${path.basename(file)}`);
+  }
+}
+
+for (const file of catalogManifests) {
+  if (!validate(readJson(file))) {
+    failed = true;
+    console.error(`FAIL catalog/${path.relative(catalogDirectory, file)}: ${formatErrors(validate.errors)}`);
+  } else {
+    console.log(`PASS catalog/${path.relative(catalogDirectory, file)}`);
   }
 }
 
@@ -49,5 +68,5 @@ for (const file of invalidExamples) {
 if (failed) {
   process.exitCode = 1;
 } else {
-  console.log(`Manifest contract verified: ${validExamples.length} valid accepted, ${invalidExamples.length} invalid rejected.`);
+  console.log(`Manifest contract verified: ${validExamples.length} valid accepted, ${invalidExamples.length} invalid rejected, ${catalogManifests.length} catalogue manifest(s) accepted.`);
 }

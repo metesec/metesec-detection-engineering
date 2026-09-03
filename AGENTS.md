@@ -1,6 +1,6 @@
 # MeteSec Detection Engineering — Project Handoff
 
-Last updated: 2026-08-27 (Europe/Berlin)
+Last updated: 2026-09-03 (Europe/Berlin)
 
 Read this file completely before changing the repository, its pipeline, public mirror, schemas, or detection content. Keep `LOGBOOK.md` and `ROADMAP.md` accurate after every completed and verified milestone.
 
@@ -41,6 +41,10 @@ The architectural rule is: one logical detection has one stable identity but may
 - Logical manifest contract: version 1 implemented as JSON Schema Draft 2020-12
 - Contract examples: one valid draft and one deliberately invalid stable-state example
 - Structural validation: executable with pinned Ajv `8.17.1`; the valid example is accepted and the invalid example is rejected
+- Detection package contract: version 1 documented and enforced through executable filesystem relationship validation
+- Fixture-set contract: version 1 schema implemented for future implementation-local positive and negative evidence indexes
+- Catalogue: one real draft package, `MSEC-DET-0001`, with a valid logical manifest and no implementation claim
+- Package contract tests: seven passing cases cover the valid draft, identity mismatch, missing implementation, implementation traversal, missing evidence index, valid linked evidence, and fixture traversal
 - Detection implementations: not yet implemented
 - Behavioral test framework: not yet implemented
 - CI pipeline: not yet implemented
@@ -55,6 +59,7 @@ The architectural rule is: one logical detection has one stable identity but may
 - The first supported compilation target will be Microsoft Sentinel KQL.
 - Detection-local tests live beside the implementation; reusable test code lives centrally.
 - Generated build output is never a manually edited source of truth.
+- Package v1 uses the logical manifest as its only authored metadata source; no second package descriptor duplicates identity or lifecycle data.
 - ATT&CK is metadata, not the primary physical folder structure.
 - Environment overlays may change approved configuration but never detection logic.
 - The large enterprise architecture remains a target model; directories are created only when functionality exists.
@@ -134,4 +139,4 @@ After every completed milestone:
 
 ## Immediate next milestone
 
-Define the compact detection-package layout that links one logical manifest to its implementation and future behavioral evidence. Keep the package small and do not introduce the first Sigma rule until that boundary is documented and locally checked.
+Pin and verify the Sigma validation toolchain without adding target compilation or SIEM deployment. Then introduce the first portable implementation for `MSEC-DET-0001` with explicitly synthetic fixtures and a documented local-evaluator boundary.

@@ -12,7 +12,7 @@ Status: **in progress**
 - [x] Publish a one-way public GitHub distribution mirror
 - [x] Define minimal logical detection manifest
 - [x] Add JSON Schema and valid/invalid examples
-- [ ] Define compact detection-package layout
+- [x] Define compact detection-package layout
 - [ ] Add Sigma validation toolchain with pinned dependencies
 - [ ] Implement positive and negative fixture-test model
 - [ ] Add first complete Sigma detection

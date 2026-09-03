@@ -3,7 +3,7 @@
 Detection-as-Code reference implementation for portable, tested, and reviewable security detections.
 
 > **Project status: Functional Foundation**
-> The repository now includes the versioned logical-detection contract and executable schema validation. Detection implementations and behavioral tests remain future milestones tracked in [ROADMAP.md](ROADMAP.md).
+> The repository now includes the versioned logical-detection contract, the compact package contract, executable relationship validation, and its first real catalogue draft. Detection implementations and executable behavioral tests remain future milestones tracked in [ROADMAP.md](ROADMAP.md).
 
 ## Purpose
 
@@ -37,18 +37,19 @@ Forgejo remains the source of truth. GitHub receives only the reviewed public `m
 - [Chronological project log](LOGBOOK.md)
 - [Architecture decisions](docs/architecture/adr/)
 - [Logical detection manifest v1](docs/contracts/logical-detection-manifest-v1.md)
+- [Detection package v1](docs/contracts/detection-package-v1.md)
 
 ## Current milestone
 
 `0.1 — Functional Foundation`
 
-The logical manifest contract is implemented and locally verified. The next step is to define the compact package layout that connects one logical detection to its implementation and future test evidence without creating empty scaffolding.
+The logical manifest and compact package contracts are implemented and locally verified. `MSEC-DET-0001` is a real catalogue draft with no implementation claim. The next step is to pin the Sigma validation toolchain before adding its first portable rule.
 
 Run the current contract validation with:
 
 ```console
 pnpm install --frozen-lockfile
-pnpm run validate:manifests
+pnpm run check
 ```
 
 ## License

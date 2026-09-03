@@ -4,7 +4,10 @@
   "private": true,
   "description": "Validation tooling for MeteSec Detection Engineering contracts",
   "scripts": {
-    "validate:manifests": "node scripts/validate-manifests.mjs"
+    "validate:manifests": "node scripts/validate-manifests.mjs",
+    "test:package-contract": "node --test tests/package-contract.test.mjs",
+    "validate:packages": "node scripts/validate-packages.mjs",
+    "check": "pnpm run validate:manifests && pnpm run test:package-contract && pnpm run validate:packages"
   },
   "devDependencies": {
     "ajv": "8.17.1"

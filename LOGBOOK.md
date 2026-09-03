@@ -114,3 +114,51 @@ The repository now has its first executable quality boundary. The next milestone
 ### Result
 
 GitHub is the public distribution surface while Forgejo remains canonical. This documentation commit is also the functional test for automatic post-merge synchronization.
+
+## 2026-09-03 — Compact detection package v1 verified locally
+
+### Starting state
+
+The repository had an executable logical-manifest schema and two contract examples, but no real catalogue package, implementation relationship checks, fixture index contract, or package-level test suite.
+
+### Decision
+
+- Keep the logical manifest as the only authored source for detection identity, intent, lifecycle, telemetry requirements, triage, and implementation references.
+- Define Package v1 as an executable filesystem contract rather than introducing a second descriptor with duplicated metadata.
+- Allow a compact draft package to contain only `catalog/detections/<ID>/manifest.json`.
+- Create implementation and fixture directories only when real executable behavior exists.
+- Keep structural package integrity, local behavioral fixture results, and target-platform validation as separate claims.
+
+### Changes
+
+- Added the first real catalogue draft at `catalog/detections/MSEC-DET-0001/manifest.json` for unusual Windows service installation.
+- Added `docs/contracts/detection-package-v1.md` with the compact Sigma layout and eight enforced relationship rules.
+- Added the machine-readable fixture-set v1 schema for future implementation-local `tests/cases.json` indexes.
+- Added a reusable package-contract module and a catalogue validator that checks directory identity, manifest validity, implementation type and path, file existence, evidence claims, fixture identity, unique case IDs, expected case categories, and fixture containment.
+- Extended manifest validation to cover real catalogue manifests in addition to valid and deliberately invalid examples.
+- Added seven package-contract tests, including repository and fixture path traversal rejection.
+- Added one `pnpm run check` command for manifest validation, package-contract tests, and live catalogue validation.
+- Updated the README and Roadmap to mark the compact package layout complete and identify the pinned Sigma validation toolchain as the next step.
+
+### Reference input
+
+- Reviewed the user-provided Microsoft Sentinel tables reference as a useful future source for Sentinel telemetry contracts, synthetic target fixtures, field checks, and KQL work.
+- Did not copy the document into the repository because Package v1 remains platform-neutral, the document is intentionally Sentinel-specific, and it correctly identifies the live target-workspace schema as the final authority.
+
+### Problems and corrections
+
+- Dependency installation first encountered the sandboxed network boundary. The unchanged frozen lockfile then installed successfully after the approved network retry.
+- The first two aggregate `pnpm run check` attempts could not resolve `node` from the ordinary Windows command path. No repository code failed. The existing bundled Node directory was added only to the process-local path, after which the documented aggregate command passed unchanged.
+
+### Verification
+
+- Ajv strict mode compiled both version 1 schemas.
+- The valid manifest example and real `MSEC-DET-0001` catalogue manifest were accepted; the deliberately invalid stable manifest remained rejected.
+- All seven package-contract tests passed, including valid linked positive/negative evidence and both implementation and fixture traversal rejection.
+- Live catalogue validation accepted exactly one draft package with zero implementations.
+- `git diff --check` passed and a scoped public-safety scan found no credential, private key, customer, tenant, subscription, or synthetic-domain value in the new catalogue, contract, validator, or tests.
+- No Sigma rule, behavioral evaluator, compiled query, deployment configuration, customer data, production telemetry, SIEM change, commit, push, mirror update, Website change, or production rollout occurred.
+
+### Result
+
+The repository now has a compact, executable package boundary and its first real logical catalogue entry without overstating implementation readiness. The next milestone is the pinned Sigma validation toolchain.
