@@ -37,7 +37,8 @@ The architectural rule is: one logical detection has one stable identity but may
 - Mirror direction: Forgejo `main` to GitHub `main` only; sync on Forgejo commits
 - Mirror authentication: repository-scoped SSH deploy key stored by Forgejo; GitHub Actions, Issues, and Wiki are disabled
 - MeteSec Projects page: implemented and public at `https://metesec.com/projects/detection-engineering/`
-- Current phase: `0.1 — Functional Foundation` complete; `0.2 — Microsoft Sentinel Target` is next
+- Current phase: `0.1 — Functional Foundation` complete; `0.2 — Microsoft Sentinel Target` is in progress
+- Current development-package version: `0.2.0`; the published `v0.1.0` artifact remains immutable and unchanged
 - Logical manifest contract: version 1 implemented as JSON Schema Draft 2020-12
 - Contract examples: one valid draft and one deliberately invalid stable-state example
 - Structural validation: executable with pinned Ajv `8.17.1`; the valid example is accepted and the invalid example is rejected
@@ -63,6 +64,9 @@ The architectural rule is: one logical detection has one stable identity but may
 - Evaluator tests: six passing unit cases plus thirty-five passing committed fixture expectations
 - Sentinel preview compiler: explicit profile binding, safe table-name validation, repository-contained paths, active-manifest relationship check, and deterministic Azure Monitor pipeline output are implemented
 - Sentinel preview scope: `MSEC-DET-0002` and `MSEC-DET-0003` are explicitly bound to `SigninLogs`, while `MSEC-DET-0004` and `MSEC-DET-0005` are explicitly bound to `AuditLogs`; all four generated KQL queries match committed Golden snapshots
+- Sentinel analytics-rule profile: version 1 JSON Schema and executable loader bind exactly the same four detections to explicit schedule, threshold, suppression, event-grouping and incident settings; missing, additional, duplicated, reordered, active or malformed entries fail closed
+- Sentinel analytics-rule renderer: all four bindings produce deterministic Microsoft SecurityInsights API `2025-09-01` Scheduled-rule request bodies plus separate provenance manifests; logical metadata comes from `manifest.json`, KQL comes from the reviewed compiler output, stable rule UUIDs derive from the immutable detection ID, and every rendered rule is disabled
+- Renderer output boundary: each ignored `dist/sentinel/<DETECTION-ID>/` directory contains `query.kql`, `analytics-rule.json` and `render-manifest.json`; no Azure resource scope, tenant identifier, credential, HTTP client, authentication flow, deployment command or live-write capability exists
 - Live target probes: authorized read-only workspace checks confirmed populated source fields and accepted all four exact generated predicates; `MSEC-DET-0002` produced a valid negative result, while `MSEC-DET-0003`, `MSEC-DET-0004`, and `MSEC-DET-0005` produced valid positive results, and no raw row, aggregate count, user, device, tenant, subscription, or workspace identifier was stored in the repository
 - `MSEC-DET-0001` remains intentionally unbound because the available target has no suitable Windows event telemetry; it has no Sentinel compatibility claim
 - CI pipeline: validation-only Forgejo pipeline is operational for trusted pushes and manual dispatch; public pull-request execution remains intentionally disabled while the dedicated Pod uses Forgejo `host` execution mode without hard per-job container isolation
@@ -159,4 +163,7 @@ After every completed milestone:
 
 ## Immediate next milestone
 
-Build the first generic Microsoft Sentinel analytics-rule renderer from the existing explicit preview bindings, without deployment or live-write capability. Keep public pull-request execution disabled until the runner gains hard per-job isolation.
+Package the rendered Microsoft Sentinel rule, query and provenance files into an
+immutable checksummed target artifact without adding deployment or live-write
+capability. Keep public pull-request execution disabled until the runner gains
+hard per-job isolation.

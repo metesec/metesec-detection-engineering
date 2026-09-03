@@ -22,6 +22,7 @@ EXACT_SOURCES = (
     "CATALOGUE.md",
     "catalog/index.json",
     "targets/sentinel/preview.json",
+    "targets/sentinel/analytics-rules.json",
     "docs/testing/sigma-fixture-evaluation.md",
     "docs/tooling/sentinel-compilation.md",
 )

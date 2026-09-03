@@ -2,8 +2,8 @@
 
 Detection-as-Code reference implementation for portable, tested, and reviewable security detections.
 
-> **Project status: Functional Foundation**
-> The repository now includes the versioned logical-detection contract, the compact package contract, executable relationship validation, five locally tested experimental Sigma detections, a deterministic generated catalogue, and a bounded Microsoft Sentinel KQL preview for four explicitly mapped rules. Deployment remains a future milestone tracked in [ROADMAP.md](ROADMAP.md).
+> **Project status: Microsoft Sentinel Target — in progress**
+> The functional foundation is complete. Four explicitly mapped detections now compile to reviewed KQL and render as deterministic, disabled Microsoft Sentinel Scheduled-rule request bodies with no Azure write path. Deployment remains a future milestone tracked in [ROADMAP.md](ROADMAP.md).
 
 ## Purpose
 
@@ -45,11 +45,12 @@ Forgejo remains the source of truth. GitHub receives only the reviewed public `m
 - [Sigma structural validation](docs/tooling/sigma-validation.md)
 - [Local Sigma fixture evaluation](docs/testing/sigma-fixture-evaluation.md)
 - [Microsoft Sentinel KQL preview compilation](docs/tooling/sentinel-compilation.md)
+- [Microsoft Sentinel analytics-rule profile v1](docs/contracts/sentinel-analytics-rule-profile-v1.md)
 - [Detection Pack release artifact v1](docs/releases/release-artifact-v1.md)
 
 ## Current milestone
 
-`0.1 — Functional Foundation`
+`0.2 — Microsoft Sentinel Target` (in progress)
 
 The logical manifest, compact package contract, pinned pySigma boundary, and bounded local fixture evaluator are implemented and locally verified. `MSEC-DET-0001` covers unusual Windows service installation paths. `MSEC-DET-0002` covers successful sign-ins from reported legacy client categories. `MSEC-DET-0003` covers successful Microsoft Entra sign-ins assessed as high risk during sign-in. `MSEC-DET-0004` covers successful credential additions to Microsoft Entra service principals. `MSEC-DET-0005` covers successful application-role grants to Microsoft Entra service principals. Together they have fifteen positive and twenty negative synthetic cases.
 
@@ -64,6 +65,15 @@ Detection Pack, its synthetic evidence and the bounded four-rule Sentinel previe
 It includes an internal per-file digest manifest and is published together with a
 separate `SHA256SUMS` file. It is not a deployment bundle.
 
+The four preview-bound detections also render into complete Scheduled-rule REST
+request bodies through the versioned Sentinel analytics-rule profile. Logical
+metadata continues to come from each detection manifest, KQL must match its
+reviewed Golden query, and each stable Sentinel rule UUID is derived from the
+immutable detection ID. Every rendered rule is disabled and contains no Azure
+scope or credential. The generated rule, query and provenance files remain
+ignored local build output; immutable Sentinel packaging is the next target
+milestone.
+
 Run the current contract validation with:
 
 ```console
@@ -72,6 +82,7 @@ python -m venv .venv
 .venv\Scripts\activate
 pnpm run setup:sigma
 pnpm run check
+pnpm run render:sentinel
 pnpm run build:release
 ```
 

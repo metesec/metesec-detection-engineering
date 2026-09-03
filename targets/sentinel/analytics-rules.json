@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "target": "microsoft-sentinel",
+  "api_version": "2025-09-01",
+  "source_profile": "targets/sentinel/preview.json",
+  "rules": [
+    {
+      "id": "MSEC-DET-0002",
+      "enabled": false,
+      "query_frequency": "PT1H",
+      "query_period": "PT1H",
+      "trigger_operator": "GreaterThan",
+      "trigger_threshold": 0,
+      "suppression_duration": "PT1H",
+      "suppression_enabled": false,
+      "event_grouping": "AlertPerResult",
+      "create_incident": true,
+      "incident_lookback": "PT5H"
+    },
+    {
+      "id": "MSEC-DET-0003",
+      "enabled": false,
+      "query_frequency": "PT5M",
+      "query_period": "PT5M",
+      "trigger_operator": "GreaterThan",
+      "trigger_threshold": 0,
+      "suppression_duration": "PT1H",
+      "suppression_enabled": false,
+      "event_grouping": "AlertPerResult",
+      "create_incident": true,
+      "incident_lookback": "PT5H"
+    },
+    {
+      "id": "MSEC-DET-0004",
+      "enabled": false,
+      "query_frequency": "PT5M",
+      "query_period": "PT5M",
+      "trigger_operator": "GreaterThan",
+      "trigger_threshold": 0,
+      "suppression_duration": "PT1H",
+      "suppression_enabled": false,
+      "event_grouping": "AlertPerResult",
+      "create_incident": true,
+      "incident_lookback": "PT5H"
+    },
+    {
+      "id": "MSEC-DET-0005",
+      "enabled": false,
+      "query_frequency": "PT5M",
+      "query_period": "PT5M",
+      "trigger_operator": "GreaterThan",
+      "trigger_threshold": 0,
+      "suppression_duration": "PT1H",
+      "suppression_enabled": false,
+      "event_grouping": "AlertPerResult",
+      "create_incident": true,
+      "incident_lookback": "PT5H"
+    }
+  ]
+}
