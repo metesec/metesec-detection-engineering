@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0020",
+  "title": "Certutil requests remote content through URL cache",
+  "description": "Detects certutil command lines that combine a remote URL with URL-cache or split options commonly used to retrieve content. Legitimate certificate administration can use the same utility.",
+  "hypothesis": {
+    "summary": "An adversary may abuse certutil to transfer a payload or supporting content to a Windows endpoint.",
+    "rationale": "Microsoft documents certutil URL-cache functionality and MITRE records adversary use of certutil for ingress tool transfer; PKI and support workflows may also fetch remote certificate material.",
+    "detection_goal": "Identify certutil commands that combine HTTP, HTTPS or FTP URLs with URL-cache or split switches while leaving local certificate inspection and URL commands without the selected transfer switches unmatched."
+  },
+  "ownership": {
+    "owner": "MeteSec Detection Engineering",
+    "reviewers": []
+  },
+  "lifecycle": {
+    "status": "experimental",
+    "created": "2026-09-03",
+    "modified": "2026-09-03",
+    "review_interval_days": 90
+  },
+  "severity": "medium",
+  "confidence": "medium",
+  "data_sources": [
+    {
+      "name": "Microsoft Defender for Endpoint process events",
+      "category": "Endpoint process creation",
+      "required_fields": ["TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountName", "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"]
+    }
+  ],
+  "attack": [
+    {
+      "technique_id": "T1105",
+      "tactic": "Command and Control"
+    }
+  ],
+  "triage": {
+    "summary": "Resolve the remote source, destination, parent process and resulting file, then determine whether PKI or support work authorized the transfer.",
+    "steps": [
+      "Review the complete command line, URL, destination path, parent process, account and device.",
+      "Inspect the downloaded file's hash, signer, type and subsequent execution or persistence activity.",
+      "Confirm whether certificate enrollment, trust-list maintenance or support tooling approved the source and command; contain unexplained payload activity."
+    ],
+    "false_positives": [
+      "Approved certificate enrollment, certificate-chain retrieval, trust-list maintenance and vendor support workflows"
+    ]
+  },
+  "validation": {
+    "expected_outcome": "Match certutil with a selected transfer switch and remote URL; do not match local certificate inspection, unrelated processes or remote URLs without those switches.",
+    "positive_tests": true,
+    "negative_tests": true
+  },
+  "implementations": [
+    {
+      "type": "sigma",
+      "path": "content/portable/sigma/MSEC-DET-0020/rule.yml",
+      "targets": ["sentinel"],
+      "status": "active"
+    }
+  ]
+}

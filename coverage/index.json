@@ -6,12 +6,12 @@
     "sentinel_data_sources": "targets/sentinel/data-sources.json"
   },
   "summary": {
-    "detections": 15,
-    "attack_mappings": 15,
-    "attack_techniques": 10,
-    "attack_tactics": 6,
+    "detections": 20,
+    "attack_mappings": 21,
+    "attack_techniques": 15,
+    "attack_tactics": 9,
     "logical_data_sources": 5,
-    "sentinel_preview_bindings": 14,
+    "sentinel_preview_bindings": 19,
     "sentinel_data_source_contracts": 4,
     "detections_without_sentinel_binding": 1
   },
@@ -77,6 +77,15 @@
         ]
       },
       {
+        "technique_id": "T1105",
+        "tactics": [
+          "Command and Control"
+        ],
+        "detections": [
+          "MSEC-DET-0020"
+        ]
+      },
+      {
         "technique_id": "T1218.005",
         "tactics": [
           "Defense Evasion"
@@ -92,6 +101,25 @@
         ],
         "detections": [
           "MSEC-DET-0013"
+        ]
+      },
+      {
+        "technique_id": "T1484.002",
+        "tactics": [
+          "Defense Impairment",
+          "Privilege Escalation"
+        ],
+        "detections": [
+          "MSEC-DET-0019"
+        ]
+      },
+      {
+        "technique_id": "T1490",
+        "tactics": [
+          "Impact"
+        ],
+        "detections": [
+          "MSEC-DET-0016"
         ]
       },
       {
@@ -111,9 +139,36 @@
         "detections": [
           "MSEC-DET-0014"
         ]
+      },
+      {
+        "technique_id": "T1685",
+        "tactics": [
+          "Defense Impairment"
+        ],
+        "detections": [
+          "MSEC-DET-0018"
+        ]
+      },
+      {
+        "technique_id": "T1685.005",
+        "tactics": [
+          "Defense Impairment"
+        ],
+        "detections": [
+          "MSEC-DET-0017"
+        ]
       }
     ],
     "tactics": [
+      {
+        "tactic": "Command and Control",
+        "techniques": [
+          "T1105"
+        ],
+        "detections": [
+          "MSEC-DET-0020"
+        ]
+      },
       {
         "tactic": "Credential Access",
         "techniques": [
@@ -137,6 +192,19 @@
         ]
       },
       {
+        "tactic": "Defense Impairment",
+        "techniques": [
+          "T1484.002",
+          "T1685",
+          "T1685.005"
+        ],
+        "detections": [
+          "MSEC-DET-0017",
+          "MSEC-DET-0018",
+          "MSEC-DET-0019"
+        ]
+      },
+      {
         "tactic": "Execution",
         "techniques": [
           "T1059",
@@ -145,6 +213,15 @@
         "detections": [
           "MSEC-DET-0006",
           "MSEC-DET-0007"
+        ]
+      },
+      {
+        "tactic": "Impact",
+        "techniques": [
+          "T1490"
+        ],
+        "detections": [
+          "MSEC-DET-0016"
         ]
       },
       {
@@ -173,12 +250,14 @@
       {
         "tactic": "Privilege Escalation",
         "techniques": [
-          "T1098.003"
+          "T1098.003",
+          "T1484.002"
         ],
         "detections": [
           "MSEC-DET-0005",
           "MSEC-DET-0008",
-          "MSEC-DET-0015"
+          "MSEC-DET-0015",
+          "MSEC-DET-0019"
         ]
       }
     ]
@@ -193,7 +272,11 @@
           "MSEC-DET-0007",
           "MSEC-DET-0011",
           "MSEC-DET-0012",
-          "MSEC-DET-0013"
+          "MSEC-DET-0013",
+          "MSEC-DET-0016",
+          "MSEC-DET-0017",
+          "MSEC-DET-0018",
+          "MSEC-DET-0020"
         ],
         "required_fields": [
           "AccountName",
@@ -217,7 +300,8 @@
           "MSEC-DET-0008",
           "MSEC-DET-0009",
           "MSEC-DET-0014",
-          "MSEC-DET-0015"
+          "MSEC-DET-0015",
+          "MSEC-DET-0019"
         ],
         "required_fields": [
           "CorrelationId",
@@ -364,7 +448,8 @@
           "MSEC-DET-0008",
           "MSEC-DET-0009",
           "MSEC-DET-0014",
-          "MSEC-DET-0015"
+          "MSEC-DET-0015",
+          "MSEC-DET-0019"
         ],
         "event_time_column": "TimeGenerated",
         "required_columns": [
@@ -411,7 +496,11 @@
           "MSEC-DET-0007",
           "MSEC-DET-0011",
           "MSEC-DET-0012",
-          "MSEC-DET-0013"
+          "MSEC-DET-0013",
+          "MSEC-DET-0016",
+          "MSEC-DET-0017",
+          "MSEC-DET-0018",
+          "MSEC-DET-0020"
         ],
         "event_time_column": "Timestamp",
         "required_columns": [

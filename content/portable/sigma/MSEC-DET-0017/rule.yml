@@ -1,0 +1,45 @@
+title: Process Attempts to Clear a Windows Event Log
+id: 292fc4bd-1eeb-46b6-b2ad-ae2c7ff8c80e
+status: experimental
+description: Detects wevtutil or PowerShell attempting to clear a Windows event log. Process telemetry does not prove that the operation succeeded.
+references:
+  - https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/wevtutil
+  - https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table
+  - https://attack.mitre.org/detectionstrategies/DET0532/
+  - https://attack.mitre.org/techniques/T1685/005/
+author: MeteSec Detection Engineering
+date: 2026-09-03
+tags:
+  - attack.defense-impairment
+  - attack.t1685.005
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  image_wevtutil:
+    FileName: wevtutil.exe
+  command_wevtutil_clear:
+    ProcessCommandLine|contains:
+      - ' cl '
+      - ' clear-log '
+  image_powershell:
+    FileName:
+      - powershell.exe
+      - pwsh.exe
+  command_powershell_clear:
+    ProcessCommandLine|contains: Clear-EventLog
+  condition: (image_wevtutil and command_wevtutil_clear) or (image_powershell and command_powershell_clear)
+fields:
+  - TimeGenerated
+  - Timestamp
+  - DeviceId
+  - DeviceName
+  - AccountName
+  - InitiatingProcessFileName
+  - FileName
+  - FolderPath
+  - ProcessCommandLine
+  - ReportId
+falsepositives:
+  - Approved image preparation, laboratory resets, log maintenance, and troubleshooting.
+level: high

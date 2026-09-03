@@ -43,7 +43,7 @@ Status: **complete**
 - [x] Document consumer-owned temporary rendering and deployment handoff
 - [x] Clearly document semantic and platform limitations
 
-Target status: fourteen explicitly bound rules across `SigninLogs`, `AuditLogs`,
+Target status: nineteen explicitly bound rules across `SigninLogs`, `AuditLogs`,
 `DeviceProcessEvents` and `AADUserRiskEvents`
 compile to reviewed Golden queries, have passed separate read-only live
 query-acceptance probes, and render into deterministic disabled Scheduled-rule
@@ -70,7 +70,7 @@ and `unknown` states. No live monitor or production-health claim exists.
 Environment-specific tuning and exceptions remain consumer-owned and are not a
 planned public repository contract.
 
-The generated coverage outputs expose ten declared ATT&CK techniques, six
+The generated coverage outputs expose fifteen declared ATT&CK techniques, nine
 tactics, five logical sources, four Sentinel source contracts and the one
 intentional unbound detection without inventing a completeness score.
 Lifecycle validation now derives review dates from existing manifest fields,
@@ -78,7 +78,7 @@ fails on due or overdue records and can enforce forward-only transitions when a
 consumer supplies a previous catalogue baseline. No runtime status file is
 committed.
 
-Rule-runtime validation now derives the expected fourteen execution schedules from
+Rule-runtime validation now derives the expected nineteen execution schedules from
 the Sentinel analytics-rule profile and evaluates a consumer-supplied local
 observation as `healthy`, `degraded`, `failed` or `unknown`. Alert and incident
 counts are optional context and never influence health; no Azure client, live
@@ -94,7 +94,7 @@ Status: **in progress**
 - [ ] Approve a backlog for twenty-five additional detections
 - [x] Complete Wave 1: 10 of 30 Sigma detections
 - [x] Complete Wave 2: 15 of 30 Sigma detections
-- [ ] Complete Wave 3: 20 of 30 Sigma detections
+- [x] Complete Wave 3: 20 of 30 Sigma detections
 - [ ] Complete Wave 4: 25 of 30 Sigma detections
 - [ ] Complete Wave 5: 30 of 30 Sigma detections
 - [ ] Pass every applicable manifest, package, Sigma, synthetic-fixture,
@@ -103,14 +103,16 @@ Status: **in progress**
 - [ ] Publish the protected-main `v1.0.0` release after reproducibility and
   checksum verification
 
-Current status: fifteen of thirty Sigma detections exist. Fourteen have explicit
+Current status: twenty of thirty Sigma detections exist. Nineteen have explicit
 Sentinel bindings and one Windows Event detection remains intentionally
 unbound because the available target has no suitable Windows event telemetry.
-Wave 2 added three Defender endpoint process detections and two Entra audit
-detections. Each has three positive and four negative synthetic cases, a
+Wave 3 added four Defender endpoint process detections and one Entra audit
+detection: recovery inhibition, event-log clearing, Defender weakening,
+federation-trust modification and certutil remote transfer. Each has three positive and four negative synthetic cases, a
 reviewed KQL Golden, an explicit source contract and a disabled Scheduled-rule
-body. All five predicates passed a bounded read-only target query. The next step
-is a separately reviewed third wave, not a bulk import of untested rules.
+body. All five predicates passed a bounded read-only target query and had no
+match in the current 30-day aggregate baseline. The next step is a separately
+reviewed fourth wave, not a bulk import of untested rules.
 
 ## Future Signal
 

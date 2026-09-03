@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"FileName":"wevtutil.exe","ProcessCommandLine":"wevtutil.exe clear-log Security /bu:C:\\Temp\\security.evtx"}}

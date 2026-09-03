@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"FileName":"bcdedit.exe","ProcessCommandLine":"bcdedit.exe /set {default} recoveryenabled no"}}

@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"FileName":"vssadmin.exe","ProcessCommandLine":"vssadmin.exe delete shadows /all /quiet"}}

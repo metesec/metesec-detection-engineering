@@ -100,6 +100,7 @@ class SentinelDataSourceHealthTests(unittest.TestCase):
                         "MSEC-DET-0009",
                         "MSEC-DET-0014",
                         "MSEC-DET-0015",
+                        "MSEC-DET-0019",
                     ),
                 ),
                 (
@@ -111,6 +112,10 @@ class SentinelDataSourceHealthTests(unittest.TestCase):
                         "MSEC-DET-0011",
                         "MSEC-DET-0012",
                         "MSEC-DET-0013",
+                        "MSEC-DET-0016",
+                        "MSEC-DET-0017",
+                        "MSEC-DET-0018",
+                        "MSEC-DET-0020",
                     ),
                 ),
                 (

@@ -74,6 +74,11 @@ class SentinelRuntimeHealthTests(unittest.TestCase):
                         "MSEC-DET-0013",
                         "MSEC-DET-0014",
                         "MSEC-DET-0015",
+                        "MSEC-DET-0016",
+                        "MSEC-DET-0017",
+                        "MSEC-DET-0018",
+                        "MSEC-DET-0019",
+                        "MSEC-DET-0020",
                     )
                 ],
             ],
@@ -109,12 +114,17 @@ class SentinelRuntimeHealthTests(unittest.TestCase):
                 ("MSEC-DET-0013", "PT5M"),
                 ("MSEC-DET-0014", "PT5M"),
                 ("MSEC-DET-0015", "PT5M"),
+                ("MSEC-DET-0016", "PT5M"),
+                ("MSEC-DET-0017", "PT5M"),
+                ("MSEC-DET-0018", "PT5M"),
+                ("MSEC-DET-0019", "PT5M"),
+                ("MSEC-DET-0020", "PT5M"),
             ],
         )
 
     def test_fresh_successful_rules_are_healthy_even_with_zero_alerts(self) -> None:
         assessments = self._assess(self._observation())
-        self.assertEqual([item.status for item in assessments], ["healthy"] * 14)
+        self.assertEqual([item.status for item in assessments], ["healthy"] * 19)
         self.assertTrue(
             all(item.reasons == ("execution_healthy",) for item in assessments)
         )
@@ -219,14 +229,14 @@ class SentinelRuntimeHealthTests(unittest.TestCase):
 
     def test_cli_distinguishes_healthy_from_nonhealthy(self) -> None:
         observations = [
-            (self._observation(), 0, {"healthy": 14, "unknown": 0}),
+            (self._observation(), 0, {"healthy": 19, "unknown": 0}),
             (
                 {
                     **self._observation(),
                     "rules": copy.deepcopy(self._observation()["rules"][:-1]),
                 },
                 2,
-                {"healthy": 13, "unknown": 1},
+                {"healthy": 18, "unknown": 1},
             ),
         ]
         with TemporaryDirectory() as directory:

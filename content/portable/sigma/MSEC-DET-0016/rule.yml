@@ -1,0 +1,60 @@
+title: Native Windows Utility Attempts to Inhibit System Recovery
+id: cc787796-dd74-42d2-88e8-1ccece9d4fad
+status: experimental
+description: Detects selected native Windows utilities attempting to delete recovery data or weaken recovery settings. Process telemetry does not prove that the action succeeded.
+references:
+  - https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-find-ransomware
+  - https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table
+  - https://attack.mitre.org/techniques/T1490/
+author: MeteSec Detection Engineering
+date: 2026-09-03
+tags:
+  - attack.impact
+  - attack.t1490
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  image_vssadmin:
+    FileName: vssadmin.exe
+  command_delete:
+    ProcessCommandLine|contains: delete
+  command_shadows:
+    ProcessCommandLine|contains: shadows
+  image_wmic:
+    FileName: wmic.exe
+  command_shadowcopy:
+    ProcessCommandLine|contains: shadowcopy
+  image_wbadmin:
+    FileName: wbadmin.exe
+  command_catalog:
+    ProcessCommandLine|contains: catalog
+  image_bcdedit:
+    FileName: bcdedit.exe
+  command_recoveryenabled:
+    ProcessCommandLine|contains: recoveryenabled
+  command_no:
+    ProcessCommandLine|contains: ' no'
+  command_bootstatuspolicy:
+    ProcessCommandLine|contains: bootstatuspolicy
+  command_ignorefailures:
+    ProcessCommandLine|contains: ignoreallfailures
+  image_reagentc:
+    FileName: reagentc.exe
+  command_disable:
+    ProcessCommandLine|contains: /disable
+  condition: (image_vssadmin and command_delete and command_shadows) or (image_wmic and command_shadowcopy and command_delete) or (image_wbadmin and command_delete and command_catalog) or (image_bcdedit and command_recoveryenabled and command_no) or (image_bcdedit and command_bootstatuspolicy and command_ignorefailures) or (image_reagentc and command_disable)
+fields:
+  - TimeGenerated
+  - Timestamp
+  - DeviceId
+  - DeviceName
+  - AccountName
+  - InitiatingProcessFileName
+  - FileName
+  - FolderPath
+  - ProcessCommandLine
+  - ReportId
+falsepositives:
+  - Approved backup retirement, disaster-recovery testing, system imaging, and operating-system maintenance.
+level: high

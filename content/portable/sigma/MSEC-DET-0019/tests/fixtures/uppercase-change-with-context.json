@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"TimeGenerated":"2026-09-03T13:15:00Z","OperationName":"SET FEDERATION SETTINGS ON DOMAIN","Result":"SUCCESS","CorrelationId":"00000000-0000-4000-8000-000000001900","LoggedByService":"Core Directory"}}

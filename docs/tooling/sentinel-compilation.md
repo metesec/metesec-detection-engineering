@@ -50,7 +50,7 @@ Generated queries are written to `dist/sentinel/<DETECTION-ID>/query.kql`. They 
 
 The separate `targets/sentinel/analytics-rules.json` profile adds explicit
 Scheduled-rule frequency, period, threshold, suppression, event-grouping and
-incident settings to the same fourteen bindings. Validate its JSON Schema and the
+incident settings to the same nineteen bindings. Validate its JSON Schema and the
 complete renderer with:
 
 ```powershell
@@ -76,6 +76,12 @@ The logical manifest remains authoritative for the full sub-technique, which is
 also retained in the render manifest. Entity mappings are derived only from the
 version 2 output contract and use columns returned by the exact Golden query.
 Alert overrides and custom details remain out of scope.
+
+ATT&CK's current `Defense Impairment` tactic is retained exactly in the logical
+manifest and render provenance. Microsoft SecurityInsights API `2025-09-01`
+does not expose that tactic in its `AttackTactic` enum. The renderer therefore
+omits only that unsupported target tactic instead of mislabeling it as
+`DefenseEvasion`; supported tactics on the same rule remain present.
 
 ## Consumer-owned pipeline handoff
 
@@ -104,10 +110,10 @@ can be derived deterministically from the reviewed sources. The repository still
 contains no Azure client, authentication flow, target scope, deployment command
 or live-write capability.
 
-The read-only live probes for the fourteen bound detections used only
+The read-only live probes for the nineteen bound detections used only
 aggregate counts in an existing user-authorized Microsoft Sentinel workspace.
 They established that the bound `SigninLogs`, `AuditLogs`,
 `DeviceProcessEvents` and `AADUserRiskEvents` fields were queryable and that all
-fourteen generated predicates were accepted. No raw rows, user
+nineteen generated predicates were accepted. No raw rows, user
 identifiers, tenant identifiers, workspace identifiers or result counts are
 stored here. None of these results proves that a detection is production-ready.

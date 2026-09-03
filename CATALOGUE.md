@@ -6,10 +6,10 @@ This index is generated deterministically from the versioned detection manifests
 
 ## Summary
 
-- Detection packages: **15**
-- Implementations: **15**
-- Synthetic evidence: **45 positive / 60 negative cases**
-- Sentinel preview bindings: **14**
+- Detection packages: **20**
+- Implementations: **20**
+- Synthetic evidence: **60 positive / 80 negative cases**
+- Sentinel preview bindings: **19**
 
 ## Coverage
 
@@ -30,6 +30,11 @@ This index is generated deterministically from the versioned detection manifests
 | [`MSEC-DET-0013`](catalog/detections/MSEC-DET-0013/manifest.json) | Regsvr32 references a remote scriptlet or DLL | experimental | medium | `T1218.010` | Microsoft Defender for Endpoint process events | 3 positive / 4 negative | `DeviceProcessEvents` |
 | [`MSEC-DET-0014`](catalog/detections/MSEC-DET-0014/manifest.json) | Microsoft Entra Conditional Access policy deleted | experimental | medium | `T1556.009` | Microsoft Entra audit logs | 3 positive / 4 negative | `AuditLogs` |
 | [`MSEC-DET-0015`](catalog/detections/MSEC-DET-0015/manifest.json) | Owner added to a Microsoft Entra application or service principal | experimental | medium | `T1098.003` | Microsoft Entra audit logs | 3 positive / 4 negative | `AuditLogs` |
+| [`MSEC-DET-0016`](catalog/detections/MSEC-DET-0016/manifest.json) | Native Windows utility attempts to inhibit system recovery | experimental | high | `T1490` | Microsoft Defender for Endpoint process events | 3 positive / 4 negative | `DeviceProcessEvents` |
+| [`MSEC-DET-0017`](catalog/detections/MSEC-DET-0017/manifest.json) | Process attempts to clear a Windows event log | experimental | high | `T1685.005` | Microsoft Defender for Endpoint process events | 3 positive / 4 negative | `DeviceProcessEvents` |
+| [`MSEC-DET-0018`](catalog/detections/MSEC-DET-0018/manifest.json) | PowerShell attempts to weaken Microsoft Defender Antivirus | experimental | high | `T1685` | Microsoft Defender for Endpoint process events | 3 positive / 4 negative | `DeviceProcessEvents` |
+| [`MSEC-DET-0019`](catalog/detections/MSEC-DET-0019/manifest.json) | Microsoft Entra federation trust configuration changed | experimental | high | `T1484.002`, `T1484.002` | Microsoft Entra audit logs | 3 positive / 4 negative | `AuditLogs` |
+| [`MSEC-DET-0020`](catalog/detections/MSEC-DET-0020/manifest.json) | Certutil requests remote content through URL cache | experimental | medium | `T1105` | Microsoft Defender for Endpoint process events | 3 positive / 4 negative | `DeviceProcessEvents` |
 
 ## Records
 
@@ -256,3 +261,78 @@ Detects a successful Microsoft Entra audit operation that adds an owner to an ap
 - Sentinel preview:
   - Table `AuditLogs`; [reviewed Golden query](tests/golden/sentinel/MSEC-DET-0015.kql)
 - Source: [catalog/detections/MSEC-DET-0015/manifest.json](catalog/detections/MSEC-DET-0015/manifest.json)
+
+### MSEC-DET-0016 — Native Windows utility attempts to inhibit system recovery
+
+Detects selected native Windows utilities attempting to delete shadow copies or backup catalogues, disable the Windows Recovery Environment, or weaken boot recovery. Process telemetry shows an attempt, not whether the change succeeded.
+
+- Lifecycle: `experimental`; created 2026-09-03; review every 90 days
+- Severity / confidence: `high` / `high`
+- ATT&CK: `T1490` (Impact)
+- Data sources: Microsoft Defender for Endpoint process events (Endpoint process creation)
+- Synthetic evidence: 3 positive and 4 negative cases
+- Implementations:
+  - [content/portable/sigma/MSEC-DET-0016/rule.yml](content/portable/sigma/MSEC-DET-0016/rule.yml) — `active`; targets `sentinel`
+- Sentinel preview:
+  - Table `DeviceProcessEvents`; [reviewed Golden query](tests/golden/sentinel/MSEC-DET-0016.kql)
+- Source: [catalog/detections/MSEC-DET-0016/manifest.json](catalog/detections/MSEC-DET-0016/manifest.json)
+
+### MSEC-DET-0017 — Process attempts to clear a Windows event log
+
+Detects wevtutil or PowerShell attempting to clear a Windows event log. Process telemetry shows the command attempt and does not prove that the log was cleared.
+
+- Lifecycle: `experimental`; created 2026-09-03; review every 90 days
+- Severity / confidence: `high` / `high`
+- ATT&CK: `T1685.005` (Defense Impairment)
+- Data sources: Microsoft Defender for Endpoint process events (Endpoint process creation)
+- Synthetic evidence: 3 positive and 4 negative cases
+- Implementations:
+  - [content/portable/sigma/MSEC-DET-0017/rule.yml](content/portable/sigma/MSEC-DET-0017/rule.yml) — `active`; targets `sentinel`
+- Sentinel preview:
+  - Table `DeviceProcessEvents`; [reviewed Golden query](tests/golden/sentinel/MSEC-DET-0017.kql)
+- Source: [catalog/detections/MSEC-DET-0017/manifest.json](catalog/detections/MSEC-DET-0017/manifest.json)
+
+### MSEC-DET-0018 — PowerShell attempts to weaken Microsoft Defender Antivirus
+
+Detects PowerShell Defender cmdlets attempting to disable selected protection features or add antivirus exclusions. Process telemetry shows the command attempt and not the resulting Defender state.
+
+- Lifecycle: `experimental`; created 2026-09-03; review every 90 days
+- Severity / confidence: `high` / `medium`
+- ATT&CK: `T1685` (Defense Impairment)
+- Data sources: Microsoft Defender for Endpoint process events (Endpoint process creation)
+- Synthetic evidence: 3 positive and 4 negative cases
+- Implementations:
+  - [content/portable/sigma/MSEC-DET-0018/rule.yml](content/portable/sigma/MSEC-DET-0018/rule.yml) — `active`; targets `sentinel`
+- Sentinel preview:
+  - Table `DeviceProcessEvents`; [reviewed Golden query](tests/golden/sentinel/MSEC-DET-0018.kql)
+- Source: [catalog/detections/MSEC-DET-0018/manifest.json](catalog/detections/MSEC-DET-0018/manifest.json)
+
+### MSEC-DET-0019 — Microsoft Entra federation trust configuration changed
+
+Detects successful Microsoft Entra audit operations that change domain federation settings or domain authentication configuration.
+
+- Lifecycle: `experimental`; created 2026-09-03; review every 90 days
+- Severity / confidence: `high` / `high`
+- ATT&CK: `T1484.002` (Privilege Escalation), `T1484.002` (Defense Impairment)
+- Data sources: Microsoft Entra audit logs (Identity directory audit)
+- Synthetic evidence: 3 positive and 4 negative cases
+- Implementations:
+  - [content/portable/sigma/MSEC-DET-0019/rule.yml](content/portable/sigma/MSEC-DET-0019/rule.yml) — `active`; targets `sentinel`
+- Sentinel preview:
+  - Table `AuditLogs`; [reviewed Golden query](tests/golden/sentinel/MSEC-DET-0019.kql)
+- Source: [catalog/detections/MSEC-DET-0019/manifest.json](catalog/detections/MSEC-DET-0019/manifest.json)
+
+### MSEC-DET-0020 — Certutil requests remote content through URL cache
+
+Detects certutil command lines that combine a remote URL with URL-cache or split options commonly used to retrieve content. Legitimate certificate administration can use the same utility.
+
+- Lifecycle: `experimental`; created 2026-09-03; review every 90 days
+- Severity / confidence: `medium` / `medium`
+- ATT&CK: `T1105` (Command and Control)
+- Data sources: Microsoft Defender for Endpoint process events (Endpoint process creation)
+- Synthetic evidence: 3 positive and 4 negative cases
+- Implementations:
+  - [content/portable/sigma/MSEC-DET-0020/rule.yml](content/portable/sigma/MSEC-DET-0020/rule.yml) — `active`; targets `sentinel`
+- Sentinel preview:
+  - Table `DeviceProcessEvents`; [reviewed Golden query](tests/golden/sentinel/MSEC-DET-0020.kql)
+- Source: [catalog/detections/MSEC-DET-0020/manifest.json](catalog/detections/MSEC-DET-0020/manifest.json)

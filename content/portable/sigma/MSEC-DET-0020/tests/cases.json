@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "detection_id": "MSEC-DET-0020",
+  "implementation": "content/portable/sigma/MSEC-DET-0020/rule.yml",
+  "cases": [
+    {"id": "urlcache-https", "expectation": "match", "fixture": "fixtures/urlcache-https.json", "description": "Synthetic certutil URL-cache command requests HTTPS content."},
+    {"id": "split-http", "expectation": "match", "fixture": "fixtures/split-http.json", "description": "Synthetic certutil split command requests HTTP content."},
+    {"id": "uppercase-ftp-with-context", "expectation": "match", "fixture": "fixtures/uppercase-ftp-with-context.json", "description": "Synthetic uppercase FTP transfer includes bounded endpoint context."},
+    {"id": "local-cert-inspection", "expectation": "no_match", "fixture": "fixtures/local-cert-inspection.json", "description": "Synthetic local certificate inspection is outside the rule."},
+    {"id": "remote-without-transfer-switch", "expectation": "no_match", "fixture": "fixtures/remote-without-transfer-switch.json", "description": "Synthetic remote URL without a selected transfer switch does not match."},
+    {"id": "urlcache-local-file", "expectation": "no_match", "fixture": "fixtures/urlcache-local-file.json", "description": "Synthetic local URL-cache operation has no remote URL."},
+    {"id": "other-process-complete-pattern", "expectation": "no_match", "fixture": "fixtures/other-process-complete-pattern.json", "description": "Synthetic unrelated process containing the full pattern fails closed."}
+  ]
+}

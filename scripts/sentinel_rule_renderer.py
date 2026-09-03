@@ -50,6 +50,10 @@ _TACTICS = {
     "Persistence": "Persistence",
     "Privilege Escalation": "PrivilegeEscalation",
     "Defense Evasion": "DefenseEvasion",
+    # ATT&CK introduced Defense Impairment after the Sentinel 2025-09-01
+    # AttackTactic enum was published. Keep the source mapping exact and omit
+    # only that unsupported target tactic instead of mislabeling it.
+    "Defense Impairment": None,
     "Credential Access": "CredentialAccess",
     "Discovery": "Discovery",
     "Lateral Movement": "LateralMovement",
@@ -275,7 +279,7 @@ def _target_tactics(attack: object, detection_id: str) -> tuple[list[str], list[
             raise SentinelRuleRenderError(f"{detection_id}: unsupported Sentinel tactic {tactic!r}")
         sentinel_tactic = _TACTICS[str(tactic)]
         base_technique = technique.split(".", maxsplit=1)[0]
-        if sentinel_tactic not in tactics:
+        if sentinel_tactic is not None and sentinel_tactic not in tactics:
             tactics.append(sentinel_tactic)
         if base_technique not in techniques:
             techniques.append(base_technique)

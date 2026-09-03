@@ -15,12 +15,12 @@ const report = buildCoverageReport(root);
 
 test("builds exact aggregate coverage without percentages", () => {
   assert.deepEqual(report.summary, {
-    detections: 15,
-    attack_mappings: 15,
-    attack_techniques: 10,
-    attack_tactics: 6,
+    detections: 20,
+    attack_mappings: 21,
+    attack_techniques: 15,
+    attack_tactics: 9,
     logical_data_sources: 5,
-    sentinel_preview_bindings: 14,
+    sentinel_preview_bindings: 19,
     sentinel_data_source_contracts: 4,
     detections_without_sentinel_binding: 1,
   });
@@ -37,15 +37,20 @@ test("aggregates ATT&CK techniques and tactics deterministically", () => {
       ["T1078.004", ["MSEC-DET-0002", "MSEC-DET-0003", "MSEC-DET-0010"]],
       ["T1098.001", ["MSEC-DET-0004", "MSEC-DET-0009"]],
       ["T1098.003", ["MSEC-DET-0005", "MSEC-DET-0008", "MSEC-DET-0015"]],
+      ["T1105", ["MSEC-DET-0020"]],
       ["T1218.005", ["MSEC-DET-0012"]],
       ["T1218.010", ["MSEC-DET-0013"]],
+      ["T1484.002", ["MSEC-DET-0019"]],
+      ["T1490", ["MSEC-DET-0016"]],
       ["T1543.003", ["MSEC-DET-0001"]],
       ["T1556.009", ["MSEC-DET-0014"]],
+      ["T1685", ["MSEC-DET-0018"]],
+      ["T1685.005", ["MSEC-DET-0017"]],
     ],
   );
   assert.deepEqual(
     report.attack.tactics.map((item) => item.tactic),
-    ["Credential Access", "Defense Evasion", "Execution", "Initial Access", "Persistence", "Privilege Escalation"],
+    ["Command and Control", "Credential Access", "Defense Evasion", "Defense Impairment", "Execution", "Impact", "Initial Access", "Persistence", "Privilege Escalation"],
   );
 });
 
@@ -93,13 +98,13 @@ test("retains exact Sentinel contract relationships", () => {
       {
         source_id: "MSEC-SDS-0002",
         table: "AuditLogs",
-        detections: ["MSEC-DET-0004", "MSEC-DET-0005", "MSEC-DET-0008", "MSEC-DET-0009", "MSEC-DET-0014", "MSEC-DET-0015"],
+        detections: ["MSEC-DET-0004", "MSEC-DET-0005", "MSEC-DET-0008", "MSEC-DET-0009", "MSEC-DET-0014", "MSEC-DET-0015", "MSEC-DET-0019"],
         required_columns: 7,
       },
       {
         source_id: "MSEC-SDS-0003",
         table: "DeviceProcessEvents",
-        detections: ["MSEC-DET-0006", "MSEC-DET-0007", "MSEC-DET-0011", "MSEC-DET-0012", "MSEC-DET-0013"],
+        detections: ["MSEC-DET-0006", "MSEC-DET-0007", "MSEC-DET-0011", "MSEC-DET-0012", "MSEC-DET-0013", "MSEC-DET-0016", "MSEC-DET-0017", "MSEC-DET-0018", "MSEC-DET-0020"],
         required_columns: 12,
       },
       {

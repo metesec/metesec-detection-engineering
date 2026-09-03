@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0017",
+  "title": "Process attempts to clear a Windows event log",
+  "description": "Detects wevtutil or PowerShell attempting to clear a Windows event log. Process telemetry shows the command attempt and does not prove that the log was cleared.",
+  "hypothesis": {
+    "summary": "An adversary may clear Windows event logs to remove investigation evidence.",
+    "rationale": "MITRE documents event-log clearing through wevtutil and PowerShell as indicator blocking, while administrators may use the same commands during approved maintenance or image preparation.",
+    "detection_goal": "Identify explicit wevtutil clear-log and PowerShell Clear-EventLog commands while leaving log queries, exports and unrelated PowerShell commands unmatched."
+  },
+  "ownership": {
+    "owner": "MeteSec Detection Engineering",
+    "reviewers": []
+  },
+  "lifecycle": {
+    "status": "experimental",
+    "created": "2026-09-03",
+    "modified": "2026-09-03",
+    "review_interval_days": 90
+  },
+  "severity": "high",
+  "confidence": "high",
+  "data_sources": [
+    {
+      "name": "Microsoft Defender for Endpoint process events",
+      "category": "Endpoint process creation",
+      "required_fields": ["TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountName", "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"]
+    }
+  ],
+  "attack": [
+    {
+      "technique_id": "T1685.005",
+      "tactic": "Defense Impairment"
+    }
+  ],
+  "triage": {
+    "summary": "Determine which log was targeted, who launched the command and whether the action belongs to an approved administrative workflow.",
+    "steps": [
+      "Review the complete command, target log, parent process, account, device and nearby process activity.",
+      "Confirm whether maintenance, image preparation, testing or troubleshooting authorized the clearing operation.",
+      "Preserve remaining telemetry and inspect for defense tampering, credential access or destructive activity before and after the command."
+    ],
+    "false_positives": [
+      "Approved image preparation, laboratory resets, log maintenance and troubleshooting"
+    ]
+  },
+  "validation": {
+    "expected_outcome": "Match explicit wevtutil and PowerShell log-clearing attempts; do not claim success and do not match log query, export or unrelated PowerShell activity.",
+    "positive_tests": true,
+    "negative_tests": true
+  },
+  "implementations": [
+    {
+      "type": "sigma",
+      "path": "content/portable/sigma/MSEC-DET-0017/rule.yml",
+      "targets": ["sentinel"],
+      "status": "active"
+    }
+  ]
+}

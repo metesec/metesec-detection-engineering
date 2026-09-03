@@ -1,0 +1,3 @@
+DeviceProcessEvents
+| where (FileName =~ "wevtutil.exe" and (ProcessCommandLine contains " cl " or ProcessCommandLine contains " clear-log ")) or ((FileName in~ ("powershell.exe", "pwsh.exe")) and ProcessCommandLine contains "Clear-EventLog")
+| project TimeGenerated, Timestamp, DeviceId, DeviceName, AccountDomain, AccountName, AccountSid, InitiatingProcessFileName, FileName, FolderPath, ProcessCommandLine, ReportId

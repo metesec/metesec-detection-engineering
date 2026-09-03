@@ -1,0 +1,46 @@
+title: Certutil Requests Remote Content Through URL Cache
+id: 8f09d5eb-7a91-474b-b005-6c3ad54b09fd
+status: experimental
+description: Detects certutil combining a remote URL with URL-cache or split options that can retrieve content.
+references:
+  - https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/certutil
+  - https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table
+  - https://attack.mitre.org/software/S0160/
+  - https://attack.mitre.org/techniques/T1105/
+author: MeteSec Detection Engineering
+date: 2026-09-03
+tags:
+  - attack.command-and-control
+  - attack.t1105
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  image:
+    FileName: certutil.exe
+  command_remote:
+    ProcessCommandLine|contains:
+      - http://
+      - https://
+      - ftp://
+  command_transfer:
+    ProcessCommandLine|contains:
+      - '-urlcache'
+      - '/urlcache'
+      - '-split'
+      - '/split'
+  condition: image and command_remote and command_transfer
+fields:
+  - TimeGenerated
+  - Timestamp
+  - DeviceId
+  - DeviceName
+  - AccountName
+  - InitiatingProcessFileName
+  - FileName
+  - FolderPath
+  - ProcessCommandLine
+  - ReportId
+falsepositives:
+  - Approved certificate enrollment, certificate-chain retrieval, trust-list maintenance, and vendor support workflows.
+level: medium

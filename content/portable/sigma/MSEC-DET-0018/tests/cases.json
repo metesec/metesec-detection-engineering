@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "detection_id": "MSEC-DET-0018",
+  "implementation": "content/portable/sigma/MSEC-DET-0018/rule.yml",
+  "cases": [
+    {"id": "disable-realtime-monitoring", "expectation": "match", "fixture": "fixtures/disable-realtime-monitoring.json", "description": "Synthetic Set-MpPreference command attempts to disable real-time monitoring."},
+    {"id": "add-process-exclusion", "expectation": "match", "fixture": "fixtures/add-process-exclusion.json", "description": "Synthetic Add-MpPreference command attempts to add a process exclusion."},
+    {"id": "exclusion-path-with-context", "expectation": "match", "fixture": "fixtures/exclusion-path-with-context.json", "description": "Synthetic Defender exclusion command includes bounded endpoint context."},
+    {"id": "defender-status-query", "expectation": "no_match", "fixture": "fixtures/defender-status-query.json", "description": "Synthetic Defender status query is outside the rule."},
+    {"id": "enable-realtime-monitoring", "expectation": "no_match", "fixture": "fixtures/enable-realtime-monitoring.json", "description": "Synthetic command setting the disable switch false does not match."},
+    {"id": "other-preference", "expectation": "no_match", "fixture": "fixtures/other-preference.json", "description": "Synthetic unrelated Defender preference is outside the rule."},
+    {"id": "other-process-defender-command", "expectation": "no_match", "fixture": "fixtures/other-process-defender-command.json", "description": "Synthetic non-PowerShell process containing the pattern fails closed."}
+  ]
+}

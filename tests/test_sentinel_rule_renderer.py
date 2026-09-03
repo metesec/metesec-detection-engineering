@@ -36,6 +36,11 @@ EXPECTED_IDS = [
     "MSEC-DET-0013",
     "MSEC-DET-0014",
     "MSEC-DET-0015",
+    "MSEC-DET-0016",
+    "MSEC-DET-0017",
+    "MSEC-DET-0018",
+    "MSEC-DET-0019",
+    "MSEC-DET-0020",
 ]
 EXPECTED_RULE_IDS = {
     "MSEC-DET-0002": "249adb3e-5bd1-5348-82ba-00a0ade97c7d",
@@ -52,6 +57,11 @@ EXPECTED_RULE_IDS = {
     "MSEC-DET-0013": "927ef83f-8be3-57e8-a3df-823c7bf58fa2",
     "MSEC-DET-0014": "ae998d96-08ea-5450-b11c-90e22f12617e",
     "MSEC-DET-0015": "1744748d-113d-55e9-9e16-d3e5da54bef0",
+    "MSEC-DET-0016": "97ff01f7-43f9-5fba-9790-4eb49f30f006",
+    "MSEC-DET-0017": "b1f2169b-f1b7-5b26-8cca-645aca9aea9b",
+    "MSEC-DET-0018": "f8e1357b-e280-5024-b0d8-a585a276d485",
+    "MSEC-DET-0019": "6b550a1b-fcdd-5357-848f-31fd31820c25",
+    "MSEC-DET-0020": "69c1dc01-b17a-5ed3-b893-03ac105ec17c",
 }
 SIGNIN_ENTITY_MAPPINGS = [
     {
@@ -143,7 +153,7 @@ class SentinelRuleRendererTests(unittest.TestCase):
     def setUpClass(cls) -> None:
         cls.rendered = render_profile(REPO_ROOT, PROFILE)
 
-    def test_current_profile_renders_fourteen_disabled_scheduled_rules(self) -> None:
+    def test_current_profile_renders_nineteen_disabled_scheduled_rules(self) -> None:
         self.assertEqual(
             [item.detection_id for item in self.rendered],
             EXPECTED_IDS,
@@ -183,6 +193,11 @@ class SentinelRuleRendererTests(unittest.TestCase):
             "MSEC-DET-0013": ("Medium", ["DefenseEvasion"], ["T1218"]),
             "MSEC-DET-0014": ("Medium", ["DefenseEvasion"], ["T1556"]),
             "MSEC-DET-0015": ("Medium", ["PrivilegeEscalation"], ["T1098"]),
+            "MSEC-DET-0016": ("High", ["Impact"], ["T1490"]),
+            "MSEC-DET-0017": ("High", [], ["T1685"]),
+            "MSEC-DET-0018": ("High", [], ["T1685"]),
+            "MSEC-DET-0019": ("High", ["PrivilegeEscalation"], ["T1484"]),
+            "MSEC-DET-0020": ("Medium", ["CommandAndControl"], ["T1105"]),
         }
         for item in self.rendered:
             properties = item.request_body["properties"]
@@ -223,6 +238,11 @@ class SentinelRuleRendererTests(unittest.TestCase):
                 "MSEC-DET-0013": DEVICE_ENTITY_MAPPINGS,
                 "MSEC-DET-0014": AUDIT_INITIATOR_ENTITY_MAPPINGS,
                 "MSEC-DET-0015": AUDIT_INITIATOR_ENTITY_MAPPINGS,
+                "MSEC-DET-0016": DEVICE_ENTITY_MAPPINGS,
+                "MSEC-DET-0017": DEVICE_ENTITY_MAPPINGS,
+                "MSEC-DET-0018": DEVICE_ENTITY_MAPPINGS,
+                "MSEC-DET-0019": AUDIT_INITIATOR_ENTITY_MAPPINGS,
+                "MSEC-DET-0020": DEVICE_ENTITY_MAPPINGS,
             }[item.detection_id]
             properties = item.request_body["properties"]
             self.assertEqual(properties["entityMappings"], expected)
@@ -246,6 +266,32 @@ class SentinelRuleRendererTests(unittest.TestCase):
             owner_change.request_body["properties"]["entityMappings"],
             AUDIT_INITIATOR_ENTITY_MAPPINGS,
         )
+
+    def test_current_attack_tactic_is_not_mislabeled_for_older_sentinel_enum(self) -> None:
+        defense_impairment = {
+            item.detection_id: item
+            for item in self.rendered
+            if item.detection_id in {"MSEC-DET-0017", "MSEC-DET-0018", "MSEC-DET-0019"}
+        }
+        self.assertEqual(
+            defense_impairment["MSEC-DET-0017"].request_body["properties"]["tactics"],
+            [],
+        )
+        self.assertEqual(
+            defense_impairment["MSEC-DET-0018"].request_body["properties"]["tactics"],
+            [],
+        )
+        self.assertEqual(
+            defense_impairment["MSEC-DET-0019"].request_body["properties"]["tactics"],
+            ["PrivilegeEscalation"],
+        )
+        for item in defense_impairment.values():
+            source_tactics = {
+                mapping["tactic"]
+                for mapping in item.render_manifest["source"]["attack"]
+            }
+            self.assertIn("Defense Impairment", source_tactics)
+            self.assertNotIn("DefenseEvasion", item.request_body["properties"]["tactics"])
 
     def test_renderer_rejects_query_that_differs_from_golden(self) -> None:
         source_profile = REPO_ROOT / "targets" / "sentinel" / "preview.json"
