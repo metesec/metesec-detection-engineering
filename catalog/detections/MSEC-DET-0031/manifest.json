@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0031",
+  "title": "Suspicious process spawned by a web server",
+  "description": "Detects command interpreters and administrative utilities spawned directly by common web-server processes.",
+  "hypothesis": {
+    "summary": "A compromised web application or web shell may launch a command interpreter or administrative utility from its web-server worker process.",
+    "rationale": "Microsoft identifies abnormal child processes of IIS workers as a useful web-shell signal, MITRE describes web shells as a persistence mechanism and SigmaHQ maintains a comparable process-creation analytic; some applications legitimately launch child tools.",
+    "detection_goal": "Identify selected command interpreters and administrative utilities whose direct initiating process is a common web server while leaving ordinary web-server child processes and the same tools from unrelated parents unmatched."
+  },
+  "ownership": {
+    "owner": "MeteSec Detection Engineering",
+    "reviewers": []
+  },
+  "lifecycle": {
+    "status": "experimental",
+    "created": "2026-09-03",
+    "modified": "2026-09-03",
+    "review_interval_days": 90
+  },
+  "severity": "high",
+  "confidence": "medium",
+  "data_sources": [
+    {
+      "name": "Microsoft Defender for Endpoint process events",
+      "category": "Endpoint process creation",
+      "required_fields": ["TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountName", "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"]
+    }
+  ],
+  "attack": [
+    {"technique_id": "T1505.003", "tactic": "Persistence"}
+  ],
+  "triage": {
+    "summary": "Establish whether the parent is an expected web workload, then investigate the child command and any related web-facing activity as a possible post-exploitation chain.",
+    "steps": [
+      "Review the parent and child image, complete command line, account, device role and application-pool or service context.",
+      "Correlate the process with inbound web requests, recent web-root or configuration changes, module loads and files created by the web-server process.",
+      "Confirm any documented application behavior with the service owner; isolate the server and preserve web and endpoint evidence when the child process is unexplained."
+    ],
+    "false_positives": [
+      "Approved web applications, deployment agents, monitoring components or server-management workflows that intentionally launch the selected tools"
+    ]
+  },
+  "validation": {
+    "expected_outcome": "Match selected command and administrative child processes from common web servers; do not match ordinary children, unrelated parents or unsupported web-server processes.",
+    "positive_tests": true,
+    "negative_tests": true
+  },
+  "implementations": [
+    {
+      "type": "sigma",
+      "path": "content/portable/sigma/MSEC-DET-0031/rule.yml",
+      "targets": ["sentinel"],
+      "status": "active"
+    }
+  ]
+}

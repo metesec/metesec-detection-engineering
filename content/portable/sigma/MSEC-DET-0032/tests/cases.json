@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "detection_id": "MSEC-DET-0032",
+  "implementation": "content/portable/sigma/MSEC-DET-0032/rule.yml",
+  "cases": [
+    {"id": "clear-with-confirmation", "expectation": "match", "fixture": "fixtures/clear-with-confirmation.json", "description": "Synthetic Auditpol command clears audit policy with confirmation suppression."},
+    {"id": "clear-uppercase", "expectation": "match", "fixture": "fixtures/clear-uppercase.json", "description": "Synthetic uppercase clear command verifies case-insensitive matching."},
+    {"id": "remove-all-users-with-context", "expectation": "match", "fixture": "fixtures/remove-all-users-with-context.json", "description": "Synthetic Auditpol command removes all per-user audit policies with endpoint context."},
+    {"id": "policy-query", "expectation": "no_match", "fixture": "fixtures/policy-query.json", "description": "Synthetic Auditpol query does not modify policy."},
+    {"id": "policy-enable", "expectation": "no_match", "fixture": "fixtures/policy-enable.json", "description": "Synthetic Auditpol command enables a selected category."},
+    {"id": "remove-one-user", "expectation": "no_match", "fixture": "fixtures/remove-one-user.json", "description": "Synthetic removal of one named user's audit policy is outside the all-user condition."},
+    {"id": "other-process", "expectation": "no_match", "fixture": "fixtures/other-process.json", "description": "Synthetic other process carrying the same arguments remains outside the rule."}
+  ]
+}

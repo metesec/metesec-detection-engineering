@@ -6,10 +6,10 @@ This index is generated deterministically from the versioned detection manifests
 
 ## Summary
 
-- Detection packages: **30**
-- Implementations: **30**
-- Synthetic evidence: **90 positive / 120 negative cases**
-- Sentinel preview bindings: **29**
+- Detection packages: **35**
+- Implementations: **35**
+- Synthetic evidence: **105 positive / 140 negative cases**
+- Sentinel preview bindings: **34**
 
 ## Coverage
 
@@ -45,6 +45,11 @@ This index is generated deterministically from the versioned detection manifests
 | [`MSEC-DET-0028`](catalog/detections/MSEC-DET-0028/manifest.json) | Scheduled task created on a remote Windows system | experimental | medium | `T1053.005`, `T1053.005`, `T1053.005` | Microsoft Defender for Endpoint process events | 3 positive / 4 negative | `DeviceProcessEvents` |
 | [`MSEC-DET-0029`](catalog/detections/MSEC-DET-0029/manifest.json) | Account added to the local Administrators group | experimental | high | `T1098.007`, `T1098.007` | Microsoft Defender for Endpoint process events | 3 positive / 4 negative | `DeviceProcessEvents` |
 | [`MSEC-DET-0030`](catalog/detections/MSEC-DET-0030/manifest.json) | NTDSutil creates Active Directory installation media | experimental | high | `T1003.003` | Microsoft Defender for Endpoint process events | 3 positive / 4 negative | `DeviceProcessEvents` |
+| [`MSEC-DET-0031`](catalog/detections/MSEC-DET-0031/manifest.json) | Suspicious process spawned by a web server | experimental | high | `T1505.003` | Microsoft Defender for Endpoint process events | 3 positive / 4 negative | `DeviceProcessEvents` |
+| [`MSEC-DET-0032`](catalog/detections/MSEC-DET-0032/manifest.json) | Windows audit policy cleared through Auditpol | experimental | high | `T1685.001` | Microsoft Defender for Endpoint process events | 3 positive / 4 negative | `DeviceProcessEvents` |
+| [`MSEC-DET-0033`](catalog/detections/MSEC-DET-0033/manifest.json) | Windows Firewall profile disabled | experimental | high | `T1686.003` | Microsoft Defender for Endpoint process events | 3 positive / 4 negative | `DeviceProcessEvents` |
+| [`MSEC-DET-0034`](catalog/detections/MSEC-DET-0034/manifest.json) | Remote Windows service creation through SC | experimental | high | `T1543.003`, `T1543.003` | Microsoft Defender for Endpoint process events | 3 positive / 4 negative | `DeviceProcessEvents` |
+| [`MSEC-DET-0035`](catalog/detections/MSEC-DET-0035/manifest.json) | Certutil decodes Base64 or hexadecimal content | experimental | medium | `T1140` | Microsoft Defender for Endpoint process events | 3 positive / 4 negative | `DeviceProcessEvents` |
 
 ## Records
 
@@ -496,3 +501,78 @@ Detects ntdsutil.exe commands that activate the NTDS instance and create install
 - Sentinel preview:
   - Table `DeviceProcessEvents`; [reviewed Golden query](tests/golden/sentinel/MSEC-DET-0030.kql)
 - Source: [catalog/detections/MSEC-DET-0030/manifest.json](catalog/detections/MSEC-DET-0030/manifest.json)
+
+### MSEC-DET-0031 — Suspicious process spawned by a web server
+
+Detects command interpreters and administrative utilities spawned directly by common web-server processes.
+
+- Lifecycle: `experimental`; created 2026-09-03; review every 90 days
+- Severity / confidence: `high` / `medium`
+- ATT&CK: `T1505.003` (Persistence)
+- Data sources: Microsoft Defender for Endpoint process events (Endpoint process creation)
+- Synthetic evidence: 3 positive and 4 negative cases
+- Implementations:
+  - [content/portable/sigma/MSEC-DET-0031/rule.yml](content/portable/sigma/MSEC-DET-0031/rule.yml) — `active`; targets `sentinel`
+- Sentinel preview:
+  - Table `DeviceProcessEvents`; [reviewed Golden query](tests/golden/sentinel/MSEC-DET-0031.kql)
+- Source: [catalog/detections/MSEC-DET-0031/manifest.json](catalog/detections/MSEC-DET-0031/manifest.json)
+
+### MSEC-DET-0032 — Windows audit policy cleared through Auditpol
+
+Detects auditpol.exe commands that clear the system audit policy or remove all per-user audit policies.
+
+- Lifecycle: `experimental`; created 2026-09-03; review every 90 days
+- Severity / confidence: `high` / `high`
+- ATT&CK: `T1685.001` (Defense Impairment)
+- Data sources: Microsoft Defender for Endpoint process events (Endpoint process creation)
+- Synthetic evidence: 3 positive and 4 negative cases
+- Implementations:
+  - [content/portable/sigma/MSEC-DET-0032/rule.yml](content/portable/sigma/MSEC-DET-0032/rule.yml) — `active`; targets `sentinel`
+- Sentinel preview:
+  - Table `DeviceProcessEvents`; [reviewed Golden query](tests/golden/sentinel/MSEC-DET-0032.kql)
+- Source: [catalog/detections/MSEC-DET-0032/manifest.json](catalog/detections/MSEC-DET-0032/manifest.json)
+
+### MSEC-DET-0033 — Windows Firewall profile disabled
+
+Detects Netsh or PowerShell commands that disable one or more Windows Firewall profiles.
+
+- Lifecycle: `experimental`; created 2026-09-03; review every 90 days
+- Severity / confidence: `high` / `medium`
+- ATT&CK: `T1686.003` (Defense Impairment)
+- Data sources: Microsoft Defender for Endpoint process events (Endpoint process creation)
+- Synthetic evidence: 3 positive and 4 negative cases
+- Implementations:
+  - [content/portable/sigma/MSEC-DET-0033/rule.yml](content/portable/sigma/MSEC-DET-0033/rule.yml) — `active`; targets `sentinel`
+- Sentinel preview:
+  - Table `DeviceProcessEvents`; [reviewed Golden query](tests/golden/sentinel/MSEC-DET-0033.kql)
+- Source: [catalog/detections/MSEC-DET-0033/manifest.json](catalog/detections/MSEC-DET-0033/manifest.json)
+
+### MSEC-DET-0034 — Remote Windows service creation through SC
+
+Detects sc.exe commands that target a remote Windows host and request creation of a service.
+
+- Lifecycle: `experimental`; created 2026-09-03; review every 90 days
+- Severity / confidence: `high` / `medium`
+- ATT&CK: `T1543.003` (Persistence), `T1543.003` (Privilege Escalation)
+- Data sources: Microsoft Defender for Endpoint process events (Endpoint process creation)
+- Synthetic evidence: 3 positive and 4 negative cases
+- Implementations:
+  - [content/portable/sigma/MSEC-DET-0034/rule.yml](content/portable/sigma/MSEC-DET-0034/rule.yml) — `active`; targets `sentinel`
+- Sentinel preview:
+  - Table `DeviceProcessEvents`; [reviewed Golden query](tests/golden/sentinel/MSEC-DET-0034.kql)
+- Source: [catalog/detections/MSEC-DET-0034/manifest.json](catalog/detections/MSEC-DET-0034/manifest.json)
+
+### MSEC-DET-0035 — Certutil decodes Base64 or hexadecimal content
+
+Detects certutil.exe using decode or decodehex to transform encoded file content.
+
+- Lifecycle: `experimental`; created 2026-09-03; review every 90 days
+- Severity / confidence: `medium` / `medium`
+- ATT&CK: `T1140` (Stealth)
+- Data sources: Microsoft Defender for Endpoint process events (Endpoint process creation)
+- Synthetic evidence: 3 positive and 4 negative cases
+- Implementations:
+  - [content/portable/sigma/MSEC-DET-0035/rule.yml](content/portable/sigma/MSEC-DET-0035/rule.yml) — `active`; targets `sentinel`
+- Sentinel preview:
+  - Table `DeviceProcessEvents`; [reviewed Golden query](tests/golden/sentinel/MSEC-DET-0035.kql)
+- Source: [catalog/detections/MSEC-DET-0035/manifest.json](catalog/detections/MSEC-DET-0035/manifest.json)

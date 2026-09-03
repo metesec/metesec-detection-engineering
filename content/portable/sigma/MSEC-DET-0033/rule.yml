@@ -1,0 +1,52 @@
+title: Windows Firewall Profile Disabled
+id: a46792f3-81a8-492d-9413-3b90611f411f
+status: experimental
+description: Detects Netsh or PowerShell commands that disable one or more Windows Firewall profiles.
+references:
+  - https://attack.mitre.org/techniques/T1686/003/
+  - https://learn.microsoft.com/en-us/windows/security/operating-system-security/network-security/windows-firewall/configure-with-command-line
+  - https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table
+author: MeteSec Detection Engineering
+date: 2026-09-03
+tags:
+  - attack.defense-impairment
+  - attack.t1686.003
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection_netsh_image:
+    FileName: netsh.exe
+  selection_netsh_disable:
+    ProcessCommandLine|contains|all:
+      - 'advfirewall'
+      - ' set '
+      - ' state '
+      - ' off'
+  selection_powershell_image:
+    FileName:
+      - powershell.exe
+      - pwsh.exe
+  selection_powershell_command:
+    ProcessCommandLine|contains|all:
+      - 'Set-NetFirewallProfile'
+      - '-Enabled'
+  selection_powershell_false:
+    ProcessCommandLine|contains:
+      - 'False'
+      - '$false'
+  condition: (selection_netsh_image and selection_netsh_disable) or (selection_powershell_image and selection_powershell_command and selection_powershell_false)
+fields:
+  - TimeGenerated
+  - Timestamp
+  - DeviceId
+  - DeviceName
+  - AccountName
+  - InitiatingProcessFileName
+  - FileName
+  - FolderPath
+  - ProcessCommandLine
+  - ReportId
+falsepositives:
+  - Approved troubleshooting, security-product installation, or controlled firewall-policy maintenance.
+level: high

@@ -19,3 +19,4 @@ Accepted records are not silently rewritten. A later decision supersedes the ear
 - [ADR-0013: Evaluate lifecycle at validation time](ADR-0013-runtime-lifecycle-assessment.md)
 - [ADR-0014: Separate rule execution health from alert volume](ADR-0014-separate-execution-health-from-alert-volume.md)
 - [ADR-0015: Sigma-only authoring and Sentinel-first validation for version 1](ADR-0015-sigma-only-sentinel-first-v1.md)
+- [ADR-0016: Expand the version 1 release target to fifty Sigma rules](ADR-0016-fifty-rule-v1-release-target.md)

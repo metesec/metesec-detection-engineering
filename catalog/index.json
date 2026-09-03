@@ -2,11 +2,11 @@
   "schema_version": 1,
   "source": "catalog/detections/*/manifest.json",
   "summary": {
-    "detections": 30,
-    "implementations": 30,
-    "positive_cases": 90,
-    "negative_cases": 120,
-    "sentinel_preview_bindings": 29
+    "detections": 35,
+    "implementations": 35,
+    "positive_cases": 105,
+    "negative_cases": 140,
+    "sentinel_preview_bindings": 34
   },
   "detections": [
     {
@@ -1757,6 +1757,305 @@
         }
       ],
       "manifest": "catalog/detections/MSEC-DET-0030/manifest.json"
+    },
+    {
+      "id": "MSEC-DET-0031",
+      "title": "Suspicious process spawned by a web server",
+      "description": "Detects command interpreters and administrative utilities spawned directly by common web-server processes.",
+      "lifecycle": {
+        "status": "experimental",
+        "created": "2026-09-03",
+        "modified": "2026-09-03",
+        "review_interval_days": 90
+      },
+      "severity": "high",
+      "confidence": "medium",
+      "attack": [
+        {
+          "technique_id": "T1505.003",
+          "tactic": "Persistence"
+        }
+      ],
+      "data_sources": [
+        {
+          "name": "Microsoft Defender for Endpoint process events",
+          "category": "Endpoint process creation",
+          "required_fields": [
+            "TimeGenerated",
+            "Timestamp",
+            "DeviceId",
+            "DeviceName",
+            "AccountName",
+            "InitiatingProcessFileName",
+            "FileName",
+            "FolderPath",
+            "ProcessCommandLine",
+            "ReportId"
+          ]
+        }
+      ],
+      "validation": {
+        "positive_cases": 3,
+        "negative_cases": 4
+      },
+      "implementations": [
+        {
+          "type": "sigma",
+          "path": "content/portable/sigma/MSEC-DET-0031/rule.yml",
+          "targets": [
+            "sentinel"
+          ],
+          "status": "active"
+        }
+      ],
+      "target_bindings": [
+        {
+          "target": "microsoft-sentinel",
+          "table": "DeviceProcessEvents",
+          "golden": "tests/golden/sentinel/MSEC-DET-0031.kql"
+        }
+      ],
+      "manifest": "catalog/detections/MSEC-DET-0031/manifest.json"
+    },
+    {
+      "id": "MSEC-DET-0032",
+      "title": "Windows audit policy cleared through Auditpol",
+      "description": "Detects auditpol.exe commands that clear the system audit policy or remove all per-user audit policies.",
+      "lifecycle": {
+        "status": "experimental",
+        "created": "2026-09-03",
+        "modified": "2026-09-03",
+        "review_interval_days": 90
+      },
+      "severity": "high",
+      "confidence": "high",
+      "attack": [
+        {
+          "technique_id": "T1685.001",
+          "tactic": "Defense Impairment"
+        }
+      ],
+      "data_sources": [
+        {
+          "name": "Microsoft Defender for Endpoint process events",
+          "category": "Endpoint process creation",
+          "required_fields": [
+            "TimeGenerated",
+            "Timestamp",
+            "DeviceId",
+            "DeviceName",
+            "AccountName",
+            "InitiatingProcessFileName",
+            "FileName",
+            "FolderPath",
+            "ProcessCommandLine",
+            "ReportId"
+          ]
+        }
+      ],
+      "validation": {
+        "positive_cases": 3,
+        "negative_cases": 4
+      },
+      "implementations": [
+        {
+          "type": "sigma",
+          "path": "content/portable/sigma/MSEC-DET-0032/rule.yml",
+          "targets": [
+            "sentinel"
+          ],
+          "status": "active"
+        }
+      ],
+      "target_bindings": [
+        {
+          "target": "microsoft-sentinel",
+          "table": "DeviceProcessEvents",
+          "golden": "tests/golden/sentinel/MSEC-DET-0032.kql"
+        }
+      ],
+      "manifest": "catalog/detections/MSEC-DET-0032/manifest.json"
+    },
+    {
+      "id": "MSEC-DET-0033",
+      "title": "Windows Firewall profile disabled",
+      "description": "Detects Netsh or PowerShell commands that disable one or more Windows Firewall profiles.",
+      "lifecycle": {
+        "status": "experimental",
+        "created": "2026-09-03",
+        "modified": "2026-09-03",
+        "review_interval_days": 90
+      },
+      "severity": "high",
+      "confidence": "medium",
+      "attack": [
+        {
+          "technique_id": "T1686.003",
+          "tactic": "Defense Impairment"
+        }
+      ],
+      "data_sources": [
+        {
+          "name": "Microsoft Defender for Endpoint process events",
+          "category": "Endpoint process creation",
+          "required_fields": [
+            "TimeGenerated",
+            "Timestamp",
+            "DeviceId",
+            "DeviceName",
+            "AccountName",
+            "InitiatingProcessFileName",
+            "FileName",
+            "FolderPath",
+            "ProcessCommandLine",
+            "ReportId"
+          ]
+        }
+      ],
+      "validation": {
+        "positive_cases": 3,
+        "negative_cases": 4
+      },
+      "implementations": [
+        {
+          "type": "sigma",
+          "path": "content/portable/sigma/MSEC-DET-0033/rule.yml",
+          "targets": [
+            "sentinel"
+          ],
+          "status": "active"
+        }
+      ],
+      "target_bindings": [
+        {
+          "target": "microsoft-sentinel",
+          "table": "DeviceProcessEvents",
+          "golden": "tests/golden/sentinel/MSEC-DET-0033.kql"
+        }
+      ],
+      "manifest": "catalog/detections/MSEC-DET-0033/manifest.json"
+    },
+    {
+      "id": "MSEC-DET-0034",
+      "title": "Remote Windows service creation through SC",
+      "description": "Detects sc.exe commands that target a remote Windows host and request creation of a service.",
+      "lifecycle": {
+        "status": "experimental",
+        "created": "2026-09-03",
+        "modified": "2026-09-03",
+        "review_interval_days": 90
+      },
+      "severity": "high",
+      "confidence": "medium",
+      "attack": [
+        {
+          "technique_id": "T1543.003",
+          "tactic": "Persistence"
+        },
+        {
+          "technique_id": "T1543.003",
+          "tactic": "Privilege Escalation"
+        }
+      ],
+      "data_sources": [
+        {
+          "name": "Microsoft Defender for Endpoint process events",
+          "category": "Endpoint process creation",
+          "required_fields": [
+            "TimeGenerated",
+            "Timestamp",
+            "DeviceId",
+            "DeviceName",
+            "AccountName",
+            "InitiatingProcessFileName",
+            "FileName",
+            "FolderPath",
+            "ProcessCommandLine",
+            "ReportId"
+          ]
+        }
+      ],
+      "validation": {
+        "positive_cases": 3,
+        "negative_cases": 4
+      },
+      "implementations": [
+        {
+          "type": "sigma",
+          "path": "content/portable/sigma/MSEC-DET-0034/rule.yml",
+          "targets": [
+            "sentinel"
+          ],
+          "status": "active"
+        }
+      ],
+      "target_bindings": [
+        {
+          "target": "microsoft-sentinel",
+          "table": "DeviceProcessEvents",
+          "golden": "tests/golden/sentinel/MSEC-DET-0034.kql"
+        }
+      ],
+      "manifest": "catalog/detections/MSEC-DET-0034/manifest.json"
+    },
+    {
+      "id": "MSEC-DET-0035",
+      "title": "Certutil decodes Base64 or hexadecimal content",
+      "description": "Detects certutil.exe using decode or decodehex to transform encoded file content.",
+      "lifecycle": {
+        "status": "experimental",
+        "created": "2026-09-03",
+        "modified": "2026-09-03",
+        "review_interval_days": 90
+      },
+      "severity": "medium",
+      "confidence": "medium",
+      "attack": [
+        {
+          "technique_id": "T1140",
+          "tactic": "Stealth"
+        }
+      ],
+      "data_sources": [
+        {
+          "name": "Microsoft Defender for Endpoint process events",
+          "category": "Endpoint process creation",
+          "required_fields": [
+            "TimeGenerated",
+            "Timestamp",
+            "DeviceId",
+            "DeviceName",
+            "AccountName",
+            "InitiatingProcessFileName",
+            "FileName",
+            "FolderPath",
+            "ProcessCommandLine",
+            "ReportId"
+          ]
+        }
+      ],
+      "validation": {
+        "positive_cases": 3,
+        "negative_cases": 4
+      },
+      "implementations": [
+        {
+          "type": "sigma",
+          "path": "content/portable/sigma/MSEC-DET-0035/rule.yml",
+          "targets": [
+            "sentinel"
+          ],
+          "status": "active"
+        }
+      ],
+      "target_bindings": [
+        {
+          "target": "microsoft-sentinel",
+          "table": "DeviceProcessEvents",
+          "golden": "tests/golden/sentinel/MSEC-DET-0035.kql"
+        }
+      ],
+      "manifest": "catalog/detections/MSEC-DET-0035/manifest.json"
     }
   ]
 }

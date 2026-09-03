@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"FileName":"synthetic.exe","ProcessCommandLine":"synthetic.exe sc.exe \\\\synthetic-host create SyntheticSvc"}}

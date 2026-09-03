@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0034",
+  "title": "Remote Windows service creation through SC",
+  "description": "Detects sc.exe commands that target a remote Windows host and request creation of a service.",
+  "hypothesis": {
+    "summary": "An adversary with administrative credentials may create a service on a remote Windows host to execute a payload with elevated privileges or maintain persistence.",
+    "rationale": "Microsoft documents SC's UNC server target and create operation, and MITRE describes sc.exe service creation as a persistence and privilege-escalation mechanism; enterprise administration can use the same interface.",
+    "detection_goal": "Identify sc.exe commands that combine a remote UNC target with the service create operation while leaving local creation, remote queries and other remote service actions unmatched."
+  },
+  "ownership": {
+    "owner": "MeteSec Detection Engineering",
+    "reviewers": []
+  },
+  "lifecycle": {
+    "status": "experimental",
+    "created": "2026-09-03",
+    "modified": "2026-09-03",
+    "review_interval_days": 90
+  },
+  "severity": "high",
+  "confidence": "medium",
+  "data_sources": [
+    {
+      "name": "Microsoft Defender for Endpoint process events",
+      "category": "Endpoint process creation",
+      "required_fields": ["TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountName", "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"]
+    }
+  ],
+  "attack": [
+    {"technique_id": "T1543.003", "tactic": "Persistence"},
+    {"technique_id": "T1543.003", "tactic": "Privilege Escalation"}
+  ],
+  "triage": {
+    "summary": "Identify the source and target hosts, service configuration and supplied binary path, then validate the activity against an approved remote-administration workflow.",
+    "steps": [
+      "Review the complete SC command, source device, account, remote target, service name, binary path and parent process.",
+      "Inspect the target for service installation, start activity, dropped payloads, network logons and execution under SYSTEM.",
+      "Confirm an approved deployment or support change with the responsible owner; remove the service, isolate affected hosts and rotate exposed credentials when unauthorized."
+    ],
+    "false_positives": [
+      "Approved remote software deployment, support and service administration through SC"
+    ]
+  },
+  "validation": {
+    "expected_outcome": "Match remote service-create commands through SC; do not match local creation, remote query or delete actions, or another process carrying similar text.",
+    "positive_tests": true,
+    "negative_tests": true
+  },
+  "implementations": [
+    {
+      "type": "sigma",
+      "path": "content/portable/sigma/MSEC-DET-0034/rule.yml",
+      "targets": ["sentinel"],
+      "status": "active"
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"FileName":"sc.exe","ProcessCommandLine":"sc.exe \\\\synthetic-host create SyntheticSvc start= auto binPath= C:\\Synthetic\\payload.exe","DeviceName":"synthetic-source","AccountName":"synthetic-admin"}}

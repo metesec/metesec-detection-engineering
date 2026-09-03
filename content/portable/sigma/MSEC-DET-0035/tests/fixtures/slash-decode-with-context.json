@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"FileName":"certutil.exe","ProcessCommandLine":"certutil.exe /decode synthetic.cer synthetic.exe","DeviceName":"synthetic-device","AccountName":"synthetic-user"}}

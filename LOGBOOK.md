@@ -1780,3 +1780,109 @@ twenty-nine have deterministic disabled Sentinel output and the single
 unsupported Windows Event dependency remains explicit. The next bounded work
 is `v1.0.0` release readiness and protected-main publication, not further rule
 expansion.
+
+## 2026-09-03 — Sigma expansion Wave 6 reached 35 of 50 locally
+
+### Scope decision and selection gate
+
+- The user extended the version 1 target from thirty to fifty authored Sigma
+  detections while retaining Microsoft Sentinel as the only supported target.
+  ADR-0016 records the new count and delays release-readiness review until the
+  complete fifty-rule pack is verified; it does not change the Sigma-only,
+  Sentinel-first authoring model.
+- Candidate selection stayed on the confirmed `DeviceProcessEvents` contract.
+  Current Microsoft product and command documentation, current MITRE ATT&CK
+  technique pages and relevant SigmaHQ precedents were reviewed before
+  implementation.
+- A local-account-creation candidate was tested but deferred because process
+  telemetry proves only that a command was attempted. Without object-change
+  telemetry it would overstate successful account creation.
+- No upstream detection file was copied. Each final predicate, manifest,
+  triage guide and fixture set was authored for this repository's bounded
+  Sigma and Sentinel contracts.
+
+### Detection packages and reviewed basis
+
+- Added `MSEC-DET-0031` for selected command interpreters and administrative
+  utilities spawned directly by common web-server processes, mapped to
+  `T1505.003`. Microsoft documents unusual IIS worker-process children as a
+  web-shell detection signal; the portable rule also uses a reviewed SigmaHQ
+  precedent while retaining an explicit false-positive boundary.
+- Added `MSEC-DET-0032` for `auditpol.exe /clear` or removal of all per-user
+  audit policies, mapped to `T1685.001`. Microsoft documents the exact command
+  forms and ATT&CK identifies audit-policy clearing as indicator blocking.
+- Added `MSEC-DET-0033` for Netsh or PowerShell disabling Windows Firewall
+  profiles, mapped to `T1686.003`. The selected command forms come from current
+  Microsoft Windows Firewall guidance.
+- Added `MSEC-DET-0034` for `sc.exe` targeting a remote host and creating a
+  service, mapped to `T1543.003` under Persistence and Privilege Escalation.
+  Local service creation is deliberately excluded from this rule.
+- Added `MSEC-DET-0035` for Certutil decoding Base64 or hexadecimal content,
+  mapped to `T1140`. Microsoft documents `-decode` and `-decodehex`; ATT&CK and
+  a current SigmaHQ precedent support the selected behavior.
+- Each package contains one manifest, one Sigma source, three positive and four
+  negative synthetic fixtures. The catalogue now contains thirty-five rules
+  and 245 fixture expectations.
+
+### Sentinel contracts and generated coverage
+
+- Added five `DeviceProcessEvents` bindings, five reviewed Golden KQL files and
+  five disabled five-minute Scheduled-rule configurations. Thirty-four of
+  thirty-five detections now have deterministic Sentinel output.
+- The existing endpoint output contract already contained every required
+  process field, so no schema field was invented or added solely for Wave 6.
+  Each new binding maps only the observed account name as a supported entity.
+- Current ATT&CK `Defense Impairment` and `Stealth` source tactics remain exact
+  in the logical manifests and renderer provenance. Because the selected
+  Microsoft SecurityInsights API target enum does not expose those values,
+  they are omitted from target tactics rather than relabeled.
+- Regenerated the catalogue and coverage outputs. Coverage now records
+  forty-five ATT&CK mappings across twenty-seven techniques and ten tactics,
+  five logical data sources, four Sentinel source contracts and one explicit
+  target gap.
+
+### Read-only live validation
+
+- Six candidate predicates were submitted as bounded read-only 30-day
+  aggregate queries in the existing authorized security workspace. All six
+  queries completed successfully and had no match in the current baseline.
+- The five final predicates became `MSEC-DET-0031` through `MSEC-DET-0035`; the
+  sixth was the deferred local-account-creation candidate. A negative baseline
+  is only query-acceptance and coarse environment evidence. It does not prove
+  completeness, performance, future noise level or production readiness.
+- No raw event, exact count, identity, device, address, tenant, subscription,
+  workspace, customer value, copied result or screenshot was stored.
+
+### Validation and correction
+
+- The first remote-service predicate treated any backslash in an `sc.exe`
+  command as remote syntax. Its negative local-service fixture correctly
+  failed. The rule was narrowed to the documented `sc.exe \\\\host` or
+  `sc \\\\host` command prefix before any generated output was accepted.
+- Catalogue, compiler, renderer, data-source, coverage, lifecycle, runtime and
+  release assertions were advanced to the exact Wave 6 totals. The complete
+  aggregate repository check passed 83 unit tests plus every structural,
+  generated-output and Golden gate.
+- All 245 synthetic fixture expectations passed. All thirty-four compiled KQL
+  queries matched their reviewed Golden snapshots and all thirty-four disabled
+  Sentinel Scheduled-rule bodies rendered successfully.
+- Two consecutive local `v0.4.0` builds were byte-identical. The candidate is
+  755,380 bytes, contains 423 ZIP members including 422 allowlisted sources,
+  and has SHA-256
+  `11c1e14fa469207878af684c572f3bf51026ec8e68b00989e525d6faf285ef44`.
+
+### Explicitly untouched
+
+- No Sentinel analytics rule was deployed or enabled and no cloud
+  configuration was changed.
+- No environment-specific exception, allowlist, tuning overlay, raw live data,
+  native KQL detection or separate prebuilt Sentinel target artifact was added.
+- No commit was pushed. Forgejo, the GitHub mirror and the immutable published
+  `v0.1.0` release remain unchanged.
+
+### Result
+
+Wave 6 is complete locally: thirty-five of fifty planned Sigma detections now
+exist, thirty-four have deterministic disabled Sentinel output and the single
+unsupported Windows Event dependency remains explicit. Wave 7 is the next
+bounded five-rule milestone toward 40 of 50.

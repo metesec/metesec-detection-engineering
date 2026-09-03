@@ -1,0 +1,41 @@
+title: Certutil Decodes Base64 or Hexadecimal Content
+id: 64fa5e5e-575e-4da9-a0b1-9a32917c3462
+status: experimental
+description: Detects certutil.exe using decode or decodehex to transform encoded file content.
+references:
+  - https://attack.mitre.org/techniques/T1140/
+  - https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/certutil
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_certutil_decode.yml
+  - https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table
+author: MeteSec Detection Engineering
+date: 2026-09-03
+tags:
+  - attack.stealth
+  - attack.t1140
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection_image:
+    FileName: certutil.exe
+  selection_decode:
+    ProcessCommandLine|contains:
+      - '-decode '
+      - '/decode '
+      - '-decodehex '
+      - '/decodehex '
+  condition: selection_image and selection_decode
+fields:
+  - TimeGenerated
+  - Timestamp
+  - DeviceId
+  - DeviceName
+  - AccountName
+  - InitiatingProcessFileName
+  - FileName
+  - FolderPath
+  - ProcessCommandLine
+  - ReportId
+falsepositives:
+  - Approved PKI, certificate-support, malware-analysis, or file-conversion workflows that intentionally decode content with Certutil.
+level: medium

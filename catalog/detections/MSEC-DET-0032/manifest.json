@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0032",
+  "title": "Windows audit policy cleared through Auditpol",
+  "description": "Detects auditpol.exe commands that clear the system audit policy or remove all per-user audit policies.",
+  "hypothesis": {
+    "summary": "An adversary with administrative access may clear Windows audit policy to prevent security-relevant activity from being recorded.",
+    "rationale": "Microsoft documents that auditpol /clear disables system auditing for all subcategories, and MITRE explicitly identifies auditpol /clear and /remove /allusers as Windows logging impairment behavior.",
+    "detection_goal": "Identify Auditpol commands that clear the system audit policy or remove every per-user audit policy while leaving policy queries, enablement and removal of one named user unmatched."
+  },
+  "ownership": {
+    "owner": "MeteSec Detection Engineering",
+    "reviewers": []
+  },
+  "lifecycle": {
+    "status": "experimental",
+    "created": "2026-09-03",
+    "modified": "2026-09-03",
+    "review_interval_days": 90
+  },
+  "severity": "high",
+  "confidence": "high",
+  "data_sources": [
+    {
+      "name": "Microsoft Defender for Endpoint process events",
+      "category": "Endpoint process creation",
+      "required_fields": ["TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountName", "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"]
+    }
+  ],
+  "attack": [
+    {"technique_id": "T1685.001", "tactic": "Defense Impairment"}
+  ],
+  "triage": {
+    "summary": "Treat a complete audit-policy reset as high impact and confirm an explicit operating-system or security-baseline change before accepting it.",
+    "steps": [
+      "Review the complete Auditpol command, account, elevation, parent process, device role and any remote-session context.",
+      "Check approved maintenance, image-build, recovery and security-baseline changes and compare the effective audit policy with the expected configuration.",
+      "Investigate subsequent logging gaps and related defense-impairment commands; restore policy and contain the endpoint when the reset is unauthorized."
+    ],
+    "false_positives": [
+      "Approved audit-policy reset, operating-system recovery, image preparation or security-baseline maintenance"
+    ]
+  },
+  "validation": {
+    "expected_outcome": "Match Auditpol system-policy clear and all-user removal commands; do not match policy inspection, normal enablement, another binary or removal of one user.",
+    "positive_tests": true,
+    "negative_tests": true
+  },
+  "implementations": [
+    {
+      "type": "sigma",
+      "path": "content/portable/sigma/MSEC-DET-0032/rule.yml",
+      "targets": ["sentinel"],
+      "status": "active"
+    }
+  ]
+}

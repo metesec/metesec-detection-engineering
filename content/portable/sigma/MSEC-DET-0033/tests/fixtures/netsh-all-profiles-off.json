@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"FileName":"netsh.exe","ProcessCommandLine":"netsh.exe advfirewall set allprofiles state off"}}

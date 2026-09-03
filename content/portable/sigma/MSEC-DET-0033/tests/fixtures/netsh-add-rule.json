@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"FileName":"netsh.exe","ProcessCommandLine":"netsh.exe advfirewall firewall add rule name=Synthetic dir=in action=allow program=synthetic.exe"}}

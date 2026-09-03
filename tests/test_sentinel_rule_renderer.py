@@ -51,6 +51,11 @@ EXPECTED_IDS = [
     "MSEC-DET-0028",
     "MSEC-DET-0029",
     "MSEC-DET-0030",
+    "MSEC-DET-0031",
+    "MSEC-DET-0032",
+    "MSEC-DET-0033",
+    "MSEC-DET-0034",
+    "MSEC-DET-0035",
 ]
 EXPECTED_RULE_IDS = {
     "MSEC-DET-0002": "249adb3e-5bd1-5348-82ba-00a0ade97c7d",
@@ -82,6 +87,11 @@ EXPECTED_RULE_IDS = {
     "MSEC-DET-0028": "4d1f6ff8-728a-5b8c-9e0f-afee0a5ea803",
     "MSEC-DET-0029": "5a58ba42-f707-5c18-97e4-3fd52be8772c",
     "MSEC-DET-0030": "0574fb14-9e43-53d5-8651-775cabebf006",
+    "MSEC-DET-0031": "847b9e91-09cf-5fed-83e5-82dfb9d48286",
+    "MSEC-DET-0032": "f035bc04-83d7-5fea-be4a-acbcc0ae9f7e",
+    "MSEC-DET-0033": "40b747a2-7eca-5be7-9db9-a9ad96a92f6b",
+    "MSEC-DET-0034": "e97b2c50-09f7-56cd-a4c7-7b592653fdae",
+    "MSEC-DET-0035": "bf9bf449-c952-50c6-9494-89bc93024ceb",
 }
 SIGNIN_ENTITY_MAPPINGS = [
     {
@@ -173,7 +183,7 @@ class SentinelRuleRendererTests(unittest.TestCase):
     def setUpClass(cls) -> None:
         cls.rendered = render_profile(REPO_ROOT, PROFILE)
 
-    def test_current_profile_renders_twenty_nine_disabled_scheduled_rules(self) -> None:
+    def test_current_profile_renders_thirty_four_disabled_scheduled_rules(self) -> None:
         self.assertEqual(
             [item.detection_id for item in self.rendered],
             EXPECTED_IDS,
@@ -236,6 +246,15 @@ class SentinelRuleRendererTests(unittest.TestCase):
                 ["T1098"],
             ),
             "MSEC-DET-0030": ("High", ["CredentialAccess"], ["T1003"]),
+            "MSEC-DET-0031": ("High", ["Persistence"], ["T1505"]),
+            "MSEC-DET-0032": ("High", [], ["T1685"]),
+            "MSEC-DET-0033": ("High", [], ["T1686"]),
+            "MSEC-DET-0034": (
+                "High",
+                ["Persistence", "PrivilegeEscalation"],
+                ["T1543"],
+            ),
+            "MSEC-DET-0035": ("Medium", [], ["T1140"]),
         }
         for item in self.rendered:
             properties = item.request_body["properties"]
@@ -291,6 +310,11 @@ class SentinelRuleRendererTests(unittest.TestCase):
                 "MSEC-DET-0028": DEVICE_ENTITY_MAPPINGS,
                 "MSEC-DET-0029": DEVICE_ENTITY_MAPPINGS,
                 "MSEC-DET-0030": DEVICE_ENTITY_MAPPINGS,
+                "MSEC-DET-0031": DEVICE_ENTITY_MAPPINGS,
+                "MSEC-DET-0032": DEVICE_ENTITY_MAPPINGS,
+                "MSEC-DET-0033": DEVICE_ENTITY_MAPPINGS,
+                "MSEC-DET-0034": DEVICE_ENTITY_MAPPINGS,
+                "MSEC-DET-0035": DEVICE_ENTITY_MAPPINGS,
             }[item.detection_id]
             properties = item.request_body["properties"]
             self.assertEqual(properties["entityMappings"], expected)

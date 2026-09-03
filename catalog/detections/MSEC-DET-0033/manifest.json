@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0033",
+  "title": "Windows Firewall profile disabled",
+  "description": "Detects Netsh or PowerShell commands that disable one or more Windows Firewall profiles.",
+  "hypothesis": {
+    "summary": "An adversary may disable Windows Firewall profiles to remove host-level network restrictions before remote access, command and control, or lateral movement.",
+    "rationale": "Microsoft recommends keeping Windows Firewall enabled and documents the exact Netsh and PowerShell disable commands, while MITRE identifies disabling Windows host-firewall profiles as defense impairment.",
+    "detection_goal": "Identify Netsh and PowerShell commands that set Windows Firewall profile state to disabled while leaving profile enablement and ordinary firewall-rule administration unmatched."
+  },
+  "ownership": {
+    "owner": "MeteSec Detection Engineering",
+    "reviewers": []
+  },
+  "lifecycle": {
+    "status": "experimental",
+    "created": "2026-09-03",
+    "modified": "2026-09-03",
+    "review_interval_days": 90
+  },
+  "severity": "high",
+  "confidence": "medium",
+  "data_sources": [
+    {
+      "name": "Microsoft Defender for Endpoint process events",
+      "category": "Endpoint process creation",
+      "required_fields": ["TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountName", "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"]
+    }
+  ],
+  "attack": [
+    {"technique_id": "T1686.003", "tactic": "Defense Impairment"}
+  ],
+  "triage": {
+    "summary": "Determine which firewall profiles were disabled, who initiated the change and whether the endpoint became newly reachable or initiated unusual traffic.",
+    "steps": [
+      "Review the command line, account, elevation, parent process, endpoint role and affected firewall profiles.",
+      "Confirm an approved troubleshooting, security-tool deployment or policy-maintenance change and inspect the effective firewall state.",
+      "Correlate with remote access, listening services and subsequent network connections; restore policy and contain unexplained activity."
+    ],
+    "false_positives": [
+      "Approved troubleshooting, security-product installation and controlled firewall-policy maintenance"
+    ]
+  },
+  "validation": {
+    "expected_outcome": "Match Netsh or PowerShell commands that disable Windows Firewall profiles; do not match profile enablement, normal rule creation or another binary.",
+    "positive_tests": true,
+    "negative_tests": true
+  },
+  "implementations": [
+    {
+      "type": "sigma",
+      "path": "content/portable/sigma/MSEC-DET-0033/rule.yml",
+      "targets": ["sentinel"],
+      "status": "active"
+    }
+  ]
+}

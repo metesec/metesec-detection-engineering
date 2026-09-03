@@ -988,6 +988,86 @@
           {"entity_type": "Account", "field_mappings": [{"identifier": "Name", "column": "AccountName"}]}
         ]
       }
+    },
+    {
+      "id": "MSEC-DET-0031",
+      "implementation": "content/portable/sigma/MSEC-DET-0031/rule.yml",
+      "query_table": "DeviceProcessEvents",
+      "golden": "tests/golden/sentinel/MSEC-DET-0031.kql",
+      "output": {
+        "extend": [],
+        "columns": [
+          "TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountDomain", "AccountName", "AccountSid",
+          "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"
+        ],
+        "entity_mappings": [
+          {"entity_type": "Account", "field_mappings": [{"identifier": "Name", "column": "AccountName"}]}
+        ]
+      }
+    },
+    {
+      "id": "MSEC-DET-0032",
+      "implementation": "content/portable/sigma/MSEC-DET-0032/rule.yml",
+      "query_table": "DeviceProcessEvents",
+      "golden": "tests/golden/sentinel/MSEC-DET-0032.kql",
+      "output": {
+        "extend": [],
+        "columns": [
+          "TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountDomain", "AccountName", "AccountSid",
+          "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"
+        ],
+        "entity_mappings": [
+          {"entity_type": "Account", "field_mappings": [{"identifier": "Name", "column": "AccountName"}]}
+        ]
+      }
+    },
+    {
+      "id": "MSEC-DET-0033",
+      "implementation": "content/portable/sigma/MSEC-DET-0033/rule.yml",
+      "query_table": "DeviceProcessEvents",
+      "golden": "tests/golden/sentinel/MSEC-DET-0033.kql",
+      "output": {
+        "extend": [],
+        "columns": [
+          "TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountDomain", "AccountName", "AccountSid",
+          "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"
+        ],
+        "entity_mappings": [
+          {"entity_type": "Account", "field_mappings": [{"identifier": "Name", "column": "AccountName"}]}
+        ]
+      }
+    },
+    {
+      "id": "MSEC-DET-0034",
+      "implementation": "content/portable/sigma/MSEC-DET-0034/rule.yml",
+      "query_table": "DeviceProcessEvents",
+      "golden": "tests/golden/sentinel/MSEC-DET-0034.kql",
+      "output": {
+        "extend": [],
+        "columns": [
+          "TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountDomain", "AccountName", "AccountSid",
+          "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"
+        ],
+        "entity_mappings": [
+          {"entity_type": "Account", "field_mappings": [{"identifier": "Name", "column": "AccountName"}]}
+        ]
+      }
+    },
+    {
+      "id": "MSEC-DET-0035",
+      "implementation": "content/portable/sigma/MSEC-DET-0035/rule.yml",
+      "query_table": "DeviceProcessEvents",
+      "golden": "tests/golden/sentinel/MSEC-DET-0035.kql",
+      "output": {
+        "extend": [],
+        "columns": [
+          "TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountDomain", "AccountName", "AccountSid",
+          "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"
+        ],
+        "entity_mappings": [
+          {"entity_type": "Account", "field_mappings": [{"identifier": "Name", "column": "AccountName"}]}
+        ]
+      }
     }
   ]
 }

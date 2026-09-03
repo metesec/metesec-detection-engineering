@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"FileName":"SC.EXE","ProcessCommandLine":"SC.EXE \\\\SYNTHETIC-HOST CREATE SyntheticSvc binPath= C:\\Synthetic\\payload.exe"}}

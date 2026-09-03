@@ -1,0 +1,3 @@
+DeviceProcessEvents
+| where FileName =~ "sc.exe" and (ProcessCommandLine contains "sc.exe \\" or ProcessCommandLine contains "sc \\") and ProcessCommandLine contains " create "
+| project TimeGenerated, Timestamp, DeviceId, DeviceName, AccountDomain, AccountName, AccountSid, InitiatingProcessFileName, FileName, FolderPath, ProcessCommandLine, ReportId
