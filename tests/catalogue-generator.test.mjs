@@ -24,15 +24,16 @@ test("builds the expected ordered catalogue and aggregate evidence", () => {
       "MSEC-DET-0021", "MSEC-DET-0022", "MSEC-DET-0023", "MSEC-DET-0024", "MSEC-DET-0025",
       "MSEC-DET-0026", "MSEC-DET-0027", "MSEC-DET-0028", "MSEC-DET-0029", "MSEC-DET-0030",
       "MSEC-DET-0031", "MSEC-DET-0032", "MSEC-DET-0033", "MSEC-DET-0034", "MSEC-DET-0035",
-      "MSEC-DET-0036", "MSEC-DET-0037", "MSEC-DET-0038", "MSEC-DET-0039", "MSEC-DET-0040"
+      "MSEC-DET-0036", "MSEC-DET-0037", "MSEC-DET-0038", "MSEC-DET-0039", "MSEC-DET-0040",
+      "MSEC-DET-0041", "MSEC-DET-0042", "MSEC-DET-0043", "MSEC-DET-0044", "MSEC-DET-0045"
     ]
   );
   assert.deepEqual(catalogue.summary, {
-    detections: 40,
-    implementations: 40,
-    positive_cases: 120,
-    negative_cases: 160,
-    sentinel_preview_bindings: 39
+    detections: 45,
+    implementations: 45,
+    positive_cases: 135,
+    negative_cases: 180,
+    sentinel_preview_bindings: 44
   });
   assert.deepEqual(catalogue.detections[0].target_bindings, []);
   assert.deepEqual(
@@ -45,7 +46,8 @@ test("builds the expected ordered catalogue and aggregate evidence", () => {
       "AuditLogs", "AuditLogs", "DeviceProcessEvents", "DeviceProcessEvents", "DeviceProcessEvents",
       "SigninLogs", "DeviceProcessEvents", "DeviceProcessEvents", "DeviceProcessEvents", "DeviceProcessEvents",
       "DeviceProcessEvents", "DeviceProcessEvents", "DeviceProcessEvents", "DeviceProcessEvents", "DeviceProcessEvents",
-      "DeviceProcessEvents", "DeviceProcessEvents", "DeviceProcessEvents", "DeviceProcessEvents", "DeviceRegistryEvents"
+      "DeviceProcessEvents", "DeviceProcessEvents", "DeviceProcessEvents", "DeviceProcessEvents", "DeviceRegistryEvents",
+      "DeviceProcessEvents", "DeviceProcessEvents", "DeviceProcessEvents", "DeviceProcessEvents", "DeviceProcessEvents"
     ]
   );
 });

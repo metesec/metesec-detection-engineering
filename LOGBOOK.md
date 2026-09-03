@@ -1991,3 +1991,95 @@ Wave 7 is complete locally: forty of fifty planned Sigma detections now exist,
 thirty-nine have deterministic disabled Sentinel output and the single
 unsupported Windows Event dependency remains explicit. Wave 8 is the next
 bounded five-rule milestone toward 45 of 50.
+
+## 2026-09-03 — Sigma expansion Wave 8 reached 45 of 50 locally
+
+### Scope decision and research gate
+
+- Retained the Sigma-only, Sentinel-first version 1 boundary and selected five
+  non-duplicate Windows process mechanisms that use the existing confirmed
+  `DeviceProcessEvents` contract.
+- Reviewed the current MITRE ATT&CK sub-technique pages, official Microsoft
+  process-schema or application-control guidance and relevant SigmaHQ
+  precedents before authoring the repository-specific rules. No upstream rule
+  file was copied.
+- Kept all five rules experimental and disabled. The predicates deliberately
+  combine tool identity with a meaningful behavior marker where a generic
+  executable launch would be too noisy.
+
+### Detection packages
+
+- Added `MSEC-DET-0041` for any child process directly created by `cmstp.exe`,
+  mapped to `T1218.003`. This follows the high-confidence child-process
+  mechanism rather than treating every CMSTP launch as malicious.
+- Added `MSEC-DET-0042` for Odbcconf commands combining the documented `REGSVR`
+  action with a DLL reference, mapped to `T1218.008`. Both executable name and
+  original filename metadata are supported.
+- Added `MSEC-DET-0043` for Msiexec commands that combine HTTP or HTTPS with an
+  MSI reference, mapped to `T1218.007` and `T1105`. Local MSI installation and
+  unrelated web references remain negative cases.
+- Added `MSEC-DET-0044` for InstallUtil commands referencing
+  HTTP, HTTPS or FTP content, mapped to `T1218.004` and `T1105`. Local and UNC
+  assembly paths remain outside this bounded rule.
+- Added `MSEC-DET-0045` for `msbuild.exe` directly spawning one of eight selected
+  command, script or signed proxy-execution processes, mapped to `T1127.001`
+  under Execution and current Stealth. Expected compiler children such as
+  `csc.exe` and `vbc.exe` remain explicit negative cases.
+- Each package contains one manifest, one Sigma rule, three positive and four
+  negative synthetic fixtures. The catalogue now contains forty-five rules and
+  315 fixture expectations.
+
+### Sentinel contracts and generated coverage
+
+- Added five `DeviceProcessEvents` preview bindings, five reviewed Golden KQL
+  files and five disabled five-minute Scheduled-rule configurations. Forty-four
+  of forty-five detections now have deterministic Sentinel output.
+- Extended only the existing process-source consumer relationship. The current
+  source contract already contained every required field, including
+  `ProcessVersionInfoOriginalFileName`, so no speculative table or column was
+  introduced.
+- Regenerated the catalogue and coverage outputs. Coverage now records sixty
+  ATT&CK mappings across thirty-five techniques and eleven tactics, six logical
+  data sources, five Sentinel source contracts and one explicit target gap.
+
+### Validation and reproducibility
+
+- Advanced catalogue, compiler, renderer, data-source, coverage, lifecycle,
+  runtime-health and release assertions to the exact Wave 8 totals. The complete
+  aggregate repository check passed 83 unit tests plus every structural,
+  generated-output and Golden gate.
+- All 315 synthetic fixture expectations passed. All forty-four compiled KQL
+  queries matched their reviewed Golden snapshots and all forty-four disabled
+  Sentinel Scheduled-rule bodies rendered successfully.
+- Two consecutive local `v0.4.0` builds were byte-identical. The candidate is
+  935,115 bytes, contains 533 ZIP members including 532 allowlisted sources, and
+  has SHA-256
+  `e68926d53051f888f1a1d1e263896986f0bdb307f36cf32c367252b80253df04`.
+
+### Live-validation boundary
+
+- The five Wave 8 predicates were prepared for the same bounded 30-day
+  aggregate query-acceptance probe used by earlier waves. The existing Defender
+  browser sessions could not be attached by the available browser controller,
+  and no authenticated Azure CLI was installed.
+- No live query was executed, no result was inferred and no raw row, exact
+  count, user, device, tenant, subscription or workspace identifier was
+  accessed or stored. Live acceptance for `MSEC-DET-0041` through
+  `MSEC-DET-0045` therefore remains explicitly pending.
+
+### Explicitly untouched
+
+- No Sentinel analytics rule was deployed or enabled and no cloud
+  configuration was changed.
+- No environment-specific exception, allowlist, tuning overlay, raw live data,
+  native KQL detection or separate prebuilt Sentinel target artifact was added.
+- No commit was pushed. Forgejo, the GitHub mirror and the immutable published
+  `v0.1.0` release remain unchanged.
+
+### Result
+
+Wave 8 is locally implemented and fully reproducible: forty-five of fifty
+planned Sigma detections now exist, forty-four have deterministic disabled
+Sentinel output and the single unsupported Windows Event dependency remains
+explicit. The bounded live acceptance probe for the five new predicates is the
+remaining Wave 8 gate before Wave 9 research begins.

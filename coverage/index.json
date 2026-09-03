@@ -6,12 +6,12 @@
     "sentinel_data_sources": "targets/sentinel/data-sources.json"
   },
   "summary": {
-    "detections": 40,
-    "attack_mappings": 52,
-    "attack_techniques": 30,
+    "detections": 45,
+    "attack_mappings": 60,
+    "attack_techniques": 35,
     "attack_tactics": 11,
     "logical_data_sources": 6,
-    "sentinel_preview_bindings": 39,
+    "sentinel_preview_bindings": 44,
     "sentinel_data_source_contracts": 5,
     "detections_without_sentinel_binding": 1
   },
@@ -144,7 +144,19 @@
           "Command and Control"
         ],
         "detections": [
-          "MSEC-DET-0020"
+          "MSEC-DET-0020",
+          "MSEC-DET-0043",
+          "MSEC-DET-0044"
+        ]
+      },
+      {
+        "technique_id": "T1127.001",
+        "tactics": [
+          "Execution",
+          "Stealth"
+        ],
+        "detections": [
+          "MSEC-DET-0045"
         ]
       },
       {
@@ -168,12 +180,48 @@
         ]
       },
       {
+        "technique_id": "T1218.003",
+        "tactics": [
+          "Stealth"
+        ],
+        "detections": [
+          "MSEC-DET-0041"
+        ]
+      },
+      {
+        "technique_id": "T1218.004",
+        "tactics": [
+          "Stealth"
+        ],
+        "detections": [
+          "MSEC-DET-0044"
+        ]
+      },
+      {
         "technique_id": "T1218.005",
         "tactics": [
           "Defense Evasion"
         ],
         "detections": [
           "MSEC-DET-0012"
+        ]
+      },
+      {
+        "technique_id": "T1218.007",
+        "tactics": [
+          "Stealth"
+        ],
+        "detections": [
+          "MSEC-DET-0043"
+        ]
+      },
+      {
+        "technique_id": "T1218.008",
+        "tactics": [
+          "Stealth"
+        ],
+        "detections": [
+          "MSEC-DET-0042"
         ]
       },
       {
@@ -317,7 +365,9 @@
           "T1105"
         ],
         "detections": [
-          "MSEC-DET-0020"
+          "MSEC-DET-0020",
+          "MSEC-DET-0043",
+          "MSEC-DET-0044"
         ]
       },
       {
@@ -377,6 +427,7 @@
           "T1053.005",
           "T1059",
           "T1059.001",
+          "T1127.001",
           "T1197"
         ],
         "detections": [
@@ -385,7 +436,8 @@
           "MSEC-DET-0024",
           "MSEC-DET-0025",
           "MSEC-DET-0028",
-          "MSEC-DET-0039"
+          "MSEC-DET-0039",
+          "MSEC-DET-0045"
         ]
       },
       {
@@ -472,14 +524,24 @@
       {
         "tactic": "Stealth",
         "techniques": [
+          "T1127.001",
           "T1140",
           "T1197",
+          "T1218.003",
+          "T1218.004",
+          "T1218.007",
+          "T1218.008",
           "T1218.011"
         ],
         "detections": [
           "MSEC-DET-0025",
           "MSEC-DET-0027",
-          "MSEC-DET-0035"
+          "MSEC-DET-0035",
+          "MSEC-DET-0041",
+          "MSEC-DET-0042",
+          "MSEC-DET-0043",
+          "MSEC-DET-0044",
+          "MSEC-DET-0045"
         ]
       }
     ]
@@ -514,7 +576,12 @@
           "MSEC-DET-0036",
           "MSEC-DET-0037",
           "MSEC-DET-0038",
-          "MSEC-DET-0039"
+          "MSEC-DET-0039",
+          "MSEC-DET-0041",
+          "MSEC-DET-0042",
+          "MSEC-DET-0043",
+          "MSEC-DET-0044",
+          "MSEC-DET-0045"
         ],
         "required_fields": [
           "AccountName",
@@ -787,7 +854,12 @@
           "MSEC-DET-0036",
           "MSEC-DET-0037",
           "MSEC-DET-0038",
-          "MSEC-DET-0039"
+          "MSEC-DET-0039",
+          "MSEC-DET-0041",
+          "MSEC-DET-0042",
+          "MSEC-DET-0043",
+          "MSEC-DET-0044",
+          "MSEC-DET-0045"
         ],
         "event_time_column": "Timestamp",
         "required_columns": [

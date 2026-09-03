@@ -50,7 +50,7 @@ Generated queries are written to `dist/sentinel/<DETECTION-ID>/query.kql`. They 
 
 The separate `targets/sentinel/analytics-rules.json` profile adds explicit
 Scheduled-rule frequency, period, threshold, suppression, event-grouping and
-incident settings to the same thirty-nine bindings. Validate its JSON Schema and the
+incident settings to the same forty-four bindings. Validate its JSON Schema and the
 complete renderer with:
 
 ```powershell
@@ -110,10 +110,11 @@ can be derived deterministically from the reviewed sources. The repository still
 contains no Azure client, authentication flow, target scope, deployment command
 or live-write capability.
 
-The read-only live probes for the thirty-nine bound detections used only
+The completed read-only live probes for the first thirty-nine bound detections used only
 aggregate counts in an existing user-authorized Microsoft Sentinel workspace.
 They established that the bound `SigninLogs`, `AuditLogs`,
 `DeviceProcessEvents`, `DeviceRegistryEvents` and `AADUserRiskEvents` fields were queryable and that all
-thirty-nine generated predicates were accepted. No raw rows, user
+those thirty-nine generated predicates were accepted. The five Wave 8 predicates
+still await the same bounded live acceptance check. No raw rows, user
 identifiers, tenant identifiers, workspace identifiers or result counts are
 stored here. None of these results proves that a detection is production-ready.

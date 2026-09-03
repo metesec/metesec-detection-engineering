@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"FileName":"dotnet.exe","ProcessVersionInfoOriginalFileName":"dotnet.exe","ProcessCommandLine":"dotnet.exe https://example.invalid/synthetic.dll"}}

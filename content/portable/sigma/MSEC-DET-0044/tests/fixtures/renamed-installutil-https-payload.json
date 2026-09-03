@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"FileName":"dotnet-helper.exe","ProcessVersionInfoOriginalFileName":"InstallUtil.exe","ProcessCommandLine":"dotnet-helper.exe https://example.invalid/synthetic.dll"}}

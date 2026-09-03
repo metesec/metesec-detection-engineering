@@ -6,10 +6,10 @@ This index is generated deterministically from the versioned detection manifests
 
 ## Summary
 
-- Detection packages: **40**
-- Implementations: **40**
-- Synthetic evidence: **120 positive / 160 negative cases**
-- Sentinel preview bindings: **39**
+- Detection packages: **45**
+- Implementations: **45**
+- Synthetic evidence: **135 positive / 180 negative cases**
+- Sentinel preview bindings: **44**
 
 ## Coverage
 
@@ -55,6 +55,11 @@ This index is generated deterministically from the versioned detection manifests
 | [`MSEC-DET-0038`](catalog/detections/MSEC-DET-0038/manifest.json) | WinRM host spawns a suspicious child process | experimental | high | `T1021.006` | Microsoft Defender for Endpoint process events | 3 positive / 4 negative | `DeviceProcessEvents` |
 | [`MSEC-DET-0039`](catalog/detections/MSEC-DET-0039/manifest.json) | PowerShell download-and-execute cradle | experimental | high | `T1059.001` | Microsoft Defender for Endpoint process events | 3 positive / 4 negative | `DeviceProcessEvents` |
 | [`MSEC-DET-0040`](catalog/detections/MSEC-DET-0040/manifest.json) | Accessibility feature IFEO debugger hijack | experimental | high | `T1546.008`, `T1546.008` | Microsoft Defender for Endpoint registry events | 3 positive / 4 negative | `DeviceRegistryEvents` |
+| [`MSEC-DET-0041`](catalog/detections/MSEC-DET-0041/manifest.json) | CMSTP spawns a child process | experimental | high | `T1218.003` | Microsoft Defender for Endpoint process events | 3 positive / 4 negative | `DeviceProcessEvents` |
+| [`MSEC-DET-0042`](catalog/detections/MSEC-DET-0042/manifest.json) | Odbcconf registers a DLL with REGSVR | experimental | medium | `T1218.008` | Microsoft Defender for Endpoint process events | 3 positive / 4 negative | `DeviceProcessEvents` |
+| [`MSEC-DET-0043`](catalog/detections/MSEC-DET-0043/manifest.json) | Msiexec installs a remote web package | experimental | medium | `T1218.007`, `T1105` | Microsoft Defender for Endpoint process events | 3 positive / 4 negative | `DeviceProcessEvents` |
+| [`MSEC-DET-0044`](catalog/detections/MSEC-DET-0044/manifest.json) | InstallUtil references a remote payload | experimental | medium | `T1218.004`, `T1105` | Microsoft Defender for Endpoint process events | 3 positive / 4 negative | `DeviceProcessEvents` |
+| [`MSEC-DET-0045`](catalog/detections/MSEC-DET-0045/manifest.json) | MSBuild spawns a suspicious child process | experimental | high | `T1127.001`, `T1127.001` | Microsoft Defender for Endpoint process events | 3 positive / 4 negative | `DeviceProcessEvents` |
 
 ## Records
 
@@ -656,3 +661,78 @@ Detects a Debugger value set under an Image File Execution Options key for a Win
 - Sentinel preview:
   - Table `DeviceRegistryEvents`; [reviewed Golden query](tests/golden/sentinel/MSEC-DET-0040.kql)
 - Source: [catalog/detections/MSEC-DET-0040/manifest.json](catalog/detections/MSEC-DET-0040/manifest.json)
+
+### MSEC-DET-0041 — CMSTP spawns a child process
+
+Detects a child process created by the Microsoft Connection Manager Profile Installer executable.
+
+- Lifecycle: `experimental`; created 2026-09-03; review every 90 days
+- Severity / confidence: `high` / `high`
+- ATT&CK: `T1218.003` (Stealth)
+- Data sources: Microsoft Defender for Endpoint process events (Endpoint process creation)
+- Synthetic evidence: 3 positive and 4 negative cases
+- Implementations:
+  - [content/portable/sigma/MSEC-DET-0041/rule.yml](content/portable/sigma/MSEC-DET-0041/rule.yml) — `active`; targets `sentinel`
+- Sentinel preview:
+  - Table `DeviceProcessEvents`; [reviewed Golden query](tests/golden/sentinel/MSEC-DET-0041.kql)
+- Source: [catalog/detections/MSEC-DET-0041/manifest.json](catalog/detections/MSEC-DET-0041/manifest.json)
+
+### MSEC-DET-0042 — Odbcconf registers a DLL with REGSVR
+
+Detects Odbcconf use of the REGSVR action to register a DLL.
+
+- Lifecycle: `experimental`; created 2026-09-03; review every 90 days
+- Severity / confidence: `medium` / `medium`
+- ATT&CK: `T1218.008` (Stealth)
+- Data sources: Microsoft Defender for Endpoint process events (Endpoint process creation)
+- Synthetic evidence: 3 positive and 4 negative cases
+- Implementations:
+  - [content/portable/sigma/MSEC-DET-0042/rule.yml](content/portable/sigma/MSEC-DET-0042/rule.yml) — `active`; targets `sentinel`
+- Sentinel preview:
+  - Table `DeviceProcessEvents`; [reviewed Golden query](tests/golden/sentinel/MSEC-DET-0042.kql)
+- Source: [catalog/detections/MSEC-DET-0042/manifest.json](catalog/detections/MSEC-DET-0042/manifest.json)
+
+### MSEC-DET-0043 — Msiexec installs a remote web package
+
+Detects Msiexec execution that references an MSI package over HTTP or HTTPS.
+
+- Lifecycle: `experimental`; created 2026-09-03; review every 90 days
+- Severity / confidence: `medium` / `medium`
+- ATT&CK: `T1218.007` (Stealth), `T1105` (Command and Control)
+- Data sources: Microsoft Defender for Endpoint process events (Endpoint process creation)
+- Synthetic evidence: 3 positive and 4 negative cases
+- Implementations:
+  - [content/portable/sigma/MSEC-DET-0043/rule.yml](content/portable/sigma/MSEC-DET-0043/rule.yml) — `active`; targets `sentinel`
+- Sentinel preview:
+  - Table `DeviceProcessEvents`; [reviewed Golden query](tests/golden/sentinel/MSEC-DET-0043.kql)
+- Source: [catalog/detections/MSEC-DET-0043/manifest.json](catalog/detections/MSEC-DET-0043/manifest.json)
+
+### MSEC-DET-0044 — InstallUtil references a remote payload
+
+Detects InstallUtil execution that references content over HTTP, HTTPS or FTP.
+
+- Lifecycle: `experimental`; created 2026-09-03; review every 90 days
+- Severity / confidence: `medium` / `medium`
+- ATT&CK: `T1218.004` (Stealth), `T1105` (Command and Control)
+- Data sources: Microsoft Defender for Endpoint process events (Endpoint process creation)
+- Synthetic evidence: 3 positive and 4 negative cases
+- Implementations:
+  - [content/portable/sigma/MSEC-DET-0044/rule.yml](content/portable/sigma/MSEC-DET-0044/rule.yml) — `active`; targets `sentinel`
+- Sentinel preview:
+  - Table `DeviceProcessEvents`; [reviewed Golden query](tests/golden/sentinel/MSEC-DET-0044.kql)
+- Source: [catalog/detections/MSEC-DET-0044/manifest.json](catalog/detections/MSEC-DET-0044/manifest.json)
+
+### MSEC-DET-0045 — MSBuild spawns a suspicious child process
+
+Detects MSBuild creating a selected command, script or signed proxy-execution process.
+
+- Lifecycle: `experimental`; created 2026-09-03; review every 90 days
+- Severity / confidence: `high` / `medium`
+- ATT&CK: `T1127.001` (Execution), `T1127.001` (Stealth)
+- Data sources: Microsoft Defender for Endpoint process events (Endpoint process creation)
+- Synthetic evidence: 3 positive and 4 negative cases
+- Implementations:
+  - [content/portable/sigma/MSEC-DET-0045/rule.yml](content/portable/sigma/MSEC-DET-0045/rule.yml) — `active`; targets `sentinel`
+- Sentinel preview:
+  - Table `DeviceProcessEvents`; [reviewed Golden query](tests/golden/sentinel/MSEC-DET-0045.kql)
+- Source: [catalog/detections/MSEC-DET-0045/manifest.json](catalog/detections/MSEC-DET-0045/manifest.json)

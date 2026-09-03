@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0044",
+  "title": "InstallUtil references a remote payload",
+  "description": "Detects InstallUtil execution that references content over HTTP, HTTPS or FTP.",
+  "hypothesis": {
+    "summary": "An adversary may use InstallUtil to retrieve or execute remote .NET content while proxying through a signed Microsoft binary.",
+    "rationale": "MITRE documents InstallUtil proxy execution, SigmaHQ maintains a remote-download analytic using the same protocol markers, and Microsoft lists InstallUtil among applications that can bypass application-control policies if allowed.",
+    "detection_goal": "Identify InstallUtil commands containing a remote HTTP, HTTPS or FTP reference while leaving local assembly installation, unrelated executables and incomplete commands unmatched."
+  },
+  "ownership": {"owner": "MeteSec Detection Engineering", "reviewers": []},
+  "lifecycle": {"status": "experimental", "created": "2026-09-03", "modified": "2026-09-03", "review_interval_days": 90},
+  "severity": "medium",
+  "confidence": "medium",
+  "data_sources": [
+    {"name": "Microsoft Defender for Endpoint process events", "category": "Endpoint process creation", "required_fields": ["TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountName", "InitiatingProcessFileName", "FileName", "ProcessVersionInfoOriginalFileName", "FolderPath", "ProcessCommandLine", "ReportId"]}
+  ],
+  "attack": [
+    {"technique_id": "T1218.004", "tactic": "Stealth"},
+    {"technique_id": "T1105", "tactic": "Command and Control"}
+  ],
+  "triage": {
+    "summary": "Inspect the remote reference and .NET installer context; InstallUtil is legitimate but usually should not consume internet-hosted content directly.",
+    "steps": [
+      "Review the complete command, URL, effective original filename, parent process, account and endpoint role.",
+      "Correlate the URL with network, file and .NET assembly activity, then inspect downloaded content, signer, hash and installer callbacks.",
+      "Confirm a documented development or deployment workflow; otherwise contain the endpoint and investigate the source and follow-on behavior."
+    ],
+    "false_positives": ["Approved .NET build, test or deployment workflows that intentionally pass a remote assembly or installer resource to InstallUtil"]
+  },
+  "validation": {"expected_outcome": "Match InstallUtil commands containing HTTP, HTTPS or FTP references; do not match local assemblies, unrelated processes or missing command lines.", "positive_tests": true, "negative_tests": true},
+  "implementations": [{"type": "sigma", "path": "content/portable/sigma/MSEC-DET-0044/rule.yml", "targets": ["sentinel"], "status": "active"}]
+}

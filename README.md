@@ -2,8 +2,8 @@
 
 Detection-as-Code reference implementation for portable, tested, and reviewable security detections.
 
-> **Project status: Sigma Detection Pack Expansion — 40 of 50 rules implemented**
-> Microsoft Sentinel is the only supported target, with thirty-nine current rules rendering as deterministic, disabled Scheduled rules and one explicit unsupported Windows Event dependency.
+> **Project status: Sigma Detection Pack Expansion — 45 of 50 rules implemented**
+> Microsoft Sentinel is the only supported target, with forty-four current rules rendering as deterministic, disabled Scheduled rules and one explicit unsupported Windows Event dependency.
 
 ## Purpose
 
@@ -73,15 +73,15 @@ A read-only Sentinel source inventory has now confirmed candidate Entra,
 endpoint, email, network and Sentinel operating-data families. The inventory
 returned only table metadata, selected schema fields and coarse freshness
 states; no raw event, identity, device, tenant, subscription, workspace or
-customer value is stored in this repository. Seven bounded implementation waves
+customer value is stored in this repository. Eight bounded implementation waves
 have now selected only sources whose fields are available and whose behavior can
 be expressed and tested faithfully in Sigma. Wave 7 also introduced the first
 explicit `DeviceRegistryEvents` contract after its required fields and current
 target availability were verified read-only.
 
-The logical manifest, compact package contract, pinned pySigma boundary, and bounded local fixture evaluator are implemented and locally verified. The catalogue now contains forty authored Sigma detections. Wave 7 adds ProcDump targeting authentication processes, suspicious Fodhelper and WinRM child processes, PowerShell download-and-execute cradles, and accessibility-feature IFEO debugger hijacking. Together the catalogue has one hundred twenty positive and one hundred sixty negative synthetic cases.
+The logical manifest, compact package contract, pinned pySigma boundary, and bounded local fixture evaluator are implemented and locally verified. The catalogue now contains forty-five authored Sigma detections. Wave 8 adds CMSTP child-process execution, Odbcconf DLL registration, remote MSI installation, remote InstallUtil content and suspicious MSBuild children. Together the catalogue has one hundred thirty-five positive and one hundred eighty negative synthetic cases.
 
-The Sentinel preview pins the Kusto backend and binds thirty-nine detections across `SigninLogs`, `AuditLogs`, `DeviceProcessEvents`, `DeviceRegistryEvents` and `AADUserRiskEvents`; all thirty-nine generated KQL queries match committed Golden snapshots. Separate authorized read-only target probes accepted every generated predicate in bounded aggregate form. A positive or negative live result is only query-acceptance evidence: no raw telemetry, exact result count, target identifier or identifying result is stored, and no result is a deployment or production-readiness claim. Wave 7's PowerShell predicate had a small non-zero aggregate baseline across several devices and is explicitly tuning-required; the result does not label those events malicious.
+The Sentinel preview pins the Kusto backend and binds forty-four detections across `SigninLogs`, `AuditLogs`, `DeviceProcessEvents`, `DeviceRegistryEvents` and `AADUserRiskEvents`; all forty-four generated KQL queries match committed Golden snapshots. Separate authorized read-only target probes accepted the first thirty-nine generated predicates in bounded aggregate form. Wave 8's five predicates are structurally and behaviorally verified but still await a live query-acceptance probe because the available Defender browser sessions could not be attached and no authenticated command-line client was available. A positive or negative live result is only query-acceptance evidence: no raw telemetry, exact result count, target identifier or identifying result is stored, and no result is a deployment or production-readiness claim.
 
 The human-readable `CATALOGUE.md` and machine-readable `catalog/index.json` are generated from the manifests, fixture indexes, and explicit Sentinel preview profile. They contain no runtime timestamp or environment identifier, and `pnpm run check` fails when either tracked output is stale.
 
@@ -92,7 +92,7 @@ Detection Pack, its synthetic evidence and the bounded four-rule Sentinel previe
 It includes an internal per-file digest manifest and is published together with a
 separate `SHA256SUMS` file. It is not a deployment bundle.
 
-The thirty-nine preview-bound detections also render into complete Scheduled-rule REST
+The forty-four preview-bound detections also render into complete Scheduled-rule REST
 request bodies through the versioned Sentinel analytics-rule profile. Logical
 metadata continues to come from each detection manifest, KQL must match its
 reviewed Golden query, and each stable Sentinel rule UUID is derived from the
@@ -111,7 +111,7 @@ supplied environment observation as `ready`, `degraded`, `unavailable` or
 monitoring client.
 
 The generated coverage report now joins those declarations into one factual
-view: thirty unique ATT&CK techniques across eleven tactics, six logical data
+view: thirty-five unique ATT&CK techniques across eleven tactics, six logical data
 sources, five Sentinel source contracts and one intentionally unbound Sentinel
 detection. It reports exact repository relationships rather than an invented
 coverage percentage and contains no live environment state.
@@ -122,7 +122,7 @@ interval, rejects future or contradictory dates, and fails when a review is due
 or overdue. An optional previous catalogue enables forward-only status and
 identity checks without embedding Git or Forgejo access in the tool.
 
-The final operations contract derives expected rule executions from the thirty-nine
+The final operations contract derives expected rule executions from the forty-four
 Sentinel schedules. A consumer-supplied local observation distinguishes
 `healthy`, `degraded`, `failed` and `unknown` rules using explicit missed-run
 boundaries. Optional alert and incident counts are informational only: a

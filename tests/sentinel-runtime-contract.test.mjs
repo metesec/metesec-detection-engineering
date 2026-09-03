@@ -71,6 +71,11 @@ test("machine Sentinel runtime assessment satisfies its versioned schema", (cont
       rule("MSEC-DET-0038", "2026-09-03T11:59:00Z"),
       rule("MSEC-DET-0039", "2026-09-03T11:59:00Z"),
       rule("MSEC-DET-0040", "2026-09-03T11:59:00Z"),
+      rule("MSEC-DET-0041", "2026-09-03T11:59:00Z"),
+      rule("MSEC-DET-0042", "2026-09-03T11:59:00Z"),
+      rule("MSEC-DET-0043", "2026-09-03T11:59:00Z"),
+      rule("MSEC-DET-0044", "2026-09-03T11:59:00Z"),
+      rule("MSEC-DET-0045", "2026-09-03T11:59:00Z"),
     ],
   };
   const observationSchema = JSON.parse(
@@ -110,8 +115,8 @@ test("machine Sentinel runtime assessment satisfies its versioned schema", (cont
   const validate = new Ajv2020({ allErrors: true, strict: true }).compile(schema);
   assert.equal(validate(assessment), true, JSON.stringify(validate.errors));
   assert.deepEqual(assessment.summary, {
-    rules: 39,
-    healthy: 39,
+    rules: 44,
+    healthy: 44,
     degraded: 0,
     failed: 0,
     unknown: 0,

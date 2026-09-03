@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"InitiatingProcessFileName":"cmstp.exe","FileName":"rundll32.exe","ProcessCommandLine":"rundll32.exe synthetic.dll,EntryPoint"}}

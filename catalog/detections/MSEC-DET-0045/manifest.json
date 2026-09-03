@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0045",
+  "title": "MSBuild spawns a suspicious child process",
+  "description": "Detects MSBuild creating a selected command, script or signed proxy-execution process.",
+  "hypothesis": {
+    "summary": "An adversary may execute inline or embedded code through MSBuild and create a command, script or proxy-execution child process.",
+    "rationale": "MITRE documents MSBuild proxy execution and recommends monitoring unusual child-process behavior; Microsoft lists MSBuild among applications that can bypass application-control policies if allowed. A bounded child list is more useful than alerting on every developer build.",
+    "detection_goal": "Identify selected command, script and signed proxy-execution processes directly created by MSBuild while leaving expected compiler children, unrelated parent processes and incomplete events unmatched."
+  },
+  "ownership": {"owner": "MeteSec Detection Engineering", "reviewers": []},
+  "lifecycle": {"status": "experimental", "created": "2026-09-03", "modified": "2026-09-03", "review_interval_days": 90},
+  "severity": "high",
+  "confidence": "medium",
+  "data_sources": [
+    {"name": "Microsoft Defender for Endpoint process events", "category": "Endpoint process creation", "required_fields": ["TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountName", "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"]}
+  ],
+  "attack": [
+    {"technique_id": "T1127.001", "tactic": "Execution"},
+    {"technique_id": "T1127.001", "tactic": "Stealth"}
+  ],
+  "triage": {
+    "summary": "Treat the behavior as tuning-required until the build project and spawned tool are explained; developer systems and build agents can create legitimate command children.",
+    "steps": [
+      "Review the child command, MSBuild parent command, project file, account, device role, working paths and signer context.",
+      "Inspect the project or inline task for embedded code and correlate network activity, file writes, persistence and follow-on processes.",
+      "Confirm the build with the repository and pipeline owner; scope any exception to a reviewed project, runner and command pattern rather than MSBuild globally."
+    ],
+    "false_positives": ["Approved build scripts, custom tasks or CI jobs that intentionally invoke command or script interpreters", "Developer tooling that legitimately launches one of the selected signed Windows utilities from MSBuild"]
+  },
+  "validation": {"expected_outcome": "Match selected command, script or proxy-execution children directly spawned by MSBuild; do not match normal compiler children, another parent or missing parent context.", "positive_tests": true, "negative_tests": true},
+  "implementations": [{"type": "sigma", "path": "content/portable/sigma/MSEC-DET-0045/rule.yml", "targets": ["sentinel"], "status": "active"}]
+}

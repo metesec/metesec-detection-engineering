@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"FileName":"curl.exe","ProcessVersionInfoOriginalFileName":"curl.exe","ProcessCommandLine":"curl.exe https://example.invalid/synthetic.msi"}}

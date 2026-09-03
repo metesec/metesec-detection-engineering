@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"InitiatingProcessFileName":"msbuild.exe","FileName":"mshta.exe","ProcessCommandLine":"mshta.exe C:\\Temp\\synthetic.hta"}}

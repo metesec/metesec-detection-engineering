@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0041",
+  "title": "CMSTP spawns a child process",
+  "description": "Detects a child process created by the Microsoft Connection Manager Profile Installer executable.",
+  "hypothesis": {
+    "summary": "An adversary may use CMSTP to proxy execution through a signed Windows binary.",
+    "rationale": "MITRE documents CMSTP proxy execution and SigmaHQ maintains a stable high-severity child-process analytic for this behavior; normal profile installation rarely requires CMSTP to create arbitrary child processes.",
+    "detection_goal": "Identify any process whose direct initiating process is cmstp.exe while leaving CMSTP launch events, unrelated parent processes and incomplete events unmatched."
+  },
+  "ownership": {"owner": "MeteSec Detection Engineering", "reviewers": []},
+  "lifecycle": {"status": "experimental", "created": "2026-09-03", "modified": "2026-09-03", "review_interval_days": 90},
+  "severity": "high",
+  "confidence": "high",
+  "data_sources": [
+    {"name": "Microsoft Defender for Endpoint process events", "category": "Endpoint process creation", "required_fields": ["TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountName", "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"]}
+  ],
+  "attack": [{"technique_id": "T1218.003", "tactic": "Stealth"}],
+  "triage": {
+    "summary": "Treat a CMSTP child process as a high-confidence proxy-execution signal and verify whether the profile installation and spawned program were explicitly approved.",
+    "steps": [
+      "Review the child image, command line, signer, account, device role and the complete CMSTP parent command.",
+      "Inspect the referenced INF or profile package and correlate file creation, network retrieval, persistence and follow-on processes.",
+      "Confirm an approved Connection Manager deployment; otherwise isolate the endpoint and investigate the originating file and user activity."
+    ],
+    "false_positives": ["Rare approved Connection Manager profile packages that intentionally invoke a helper process"]
+  },
+  "validation": {"expected_outcome": "Match processes directly spawned by cmstp.exe; do not match CMSTP itself, another parent or events without the parent field.", "positive_tests": true, "negative_tests": true},
+  "implementations": [{"type": "sigma", "path": "content/portable/sigma/MSEC-DET-0041/rule.yml", "targets": ["sentinel"], "status": "active"}]
+}

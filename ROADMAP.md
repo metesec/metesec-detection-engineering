@@ -43,12 +43,13 @@ Status: **complete**
 - [x] Document consumer-owned temporary rendering and deployment handoff
 - [x] Clearly document semantic and platform limitations
 
-Target status: thirty-nine explicitly bound rules across `SigninLogs`, `AuditLogs`,
+Target status: forty-four explicitly bound rules across `SigninLogs`, `AuditLogs`,
 `DeviceProcessEvents`, `DeviceRegistryEvents` and `AADUserRiskEvents`
-compile to reviewed Golden queries, have passed separate read-only live
-query-acceptance probes, and render into deterministic disabled Scheduled-rule
+compile to reviewed Golden queries and render into deterministic disabled Scheduled-rule
 REST bodies with stable rule IDs, governed output fields, entity mappings and
-provenance hashes. Consumers render temporary files in their own pipeline;
+provenance hashes. The first thirty-nine have passed separate read-only live
+query-acceptance probes; the five Wave 8 predicates still require that live probe.
+Consumers render temporary files in their own pipeline;
 MeteSec deliberately publishes no separate prebuilt Sentinel target archive and
 implements no deployment.
 
@@ -70,7 +71,7 @@ and `unknown` states. No live monitor or production-health claim exists.
 Environment-specific tuning and exceptions remain consumer-owned and are not a
 planned public repository contract.
 
-The generated coverage outputs expose thirty declared ATT&CK techniques, eleven
+The generated coverage outputs expose thirty-five declared ATT&CK techniques, eleven
 tactics, six logical sources, five Sentinel source contracts and the one
 intentional unbound detection without inventing a completeness score.
 Lifecycle validation now derives review dates from existing manifest fields,
@@ -78,7 +79,7 @@ fails on due or overdue records and can enforce forward-only transitions when a
 consumer supplies a previous catalogue baseline. No runtime status file is
 committed.
 
-Rule-runtime validation now derives the expected thirty-nine execution schedules from
+Rule-runtime validation now derives the expected forty-four execution schedules from
 the Sentinel analytics-rule profile and evaluates a consumer-supplied local
 observation as `healthy`, `degraded`, `failed` or `unknown`. Alert and incident
 counts are optional context and never influence health; no Azure client, live
@@ -107,20 +108,19 @@ Status: **in progress**
 - [ ] Publish the protected-main `v1.0.0` release after reproducibility and
   checksum verification
 
-Current status: forty of fifty planned Sigma detections exist. Thirty-nine have
+Current status: forty-five of fifty planned Sigma detections exist. Forty-four have
 explicit Sentinel bindings and one Windows Event detection remains intentionally
 unbound because the available target has no suitable Windows event telemetry.
-Wave 7 added ProcDump targeting authentication processes, suspicious children of
-Fodhelper and WinRM, PowerShell download-and-execute cradles, and accessibility
-feature IFEO debugger hijacking. Each has three positive and four negative synthetic
-cases, a reviewed KQL Golden, an explicit source contract and a disabled
-Scheduled-rule body. The four zero-result predicates passed bounded read-only target
-queries; the PowerShell predicate had a small non-zero aggregate baseline across
-several devices and remains explicitly tuning-required. No exact count, raw row or identifying result is
-retained. An RDP-enablement candidate was deferred because legitimate provisioning
-made it weaker as a portable default. The next milestone is Wave 8 research and
-review toward 45 of 50; release-readiness
-review begins only after the complete fifty-rule pack is verified.
+Wave 8 added CMSTP child-process execution, Odbcconf DLL registration, remote
+Msiexec package installation, remote InstallUtil content and suspicious MSBuild
+children. Each has three positive and four negative synthetic cases, a reviewed
+KQL Golden, an explicit source contract and a disabled Scheduled-rule body. The
+complete local validation passes, but the five live query-acceptance probes remain
+open because the current Defender browser sessions could not be attached and no
+authenticated command-line client was available. No raw row or identifying result
+was accessed or retained. The next milestone is to complete that bounded read-only
+probe and then research Wave 9 toward 50 of 50; release-readiness review begins only
+after the complete fifty-rule pack is verified.
 
 ## Future Signal
 

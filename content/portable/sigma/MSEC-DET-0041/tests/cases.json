@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "detection_id": "MSEC-DET-0041",
+  "implementation": "content/portable/sigma/MSEC-DET-0041/rule.yml",
+  "cases": [
+    {"id": "cmstp-spawns-cmd", "expectation": "match", "fixture": "fixtures/cmstp-spawns-cmd.json", "description": "Synthetic CMSTP process creates cmd.exe."},
+    {"id": "cmstp-spawns-rundll32", "expectation": "match", "fixture": "fixtures/cmstp-spawns-rundll32.json", "description": "Synthetic CMSTP process creates rundll32.exe."},
+    {"id": "cmstp-spawns-powershell-with-context", "expectation": "match", "fixture": "fixtures/cmstp-spawns-powershell-with-context.json", "description": "Synthetic mixed-case CMSTP process creates PowerShell with bounded context."},
+    {"id": "cmstp-launched-by-explorer", "expectation": "no_match", "fixture": "fixtures/cmstp-launched-by-explorer.json", "description": "Synthetic CMSTP launch is not a child created by CMSTP."},
+    {"id": "cmd-spawned-by-explorer", "expectation": "no_match", "fixture": "fixtures/cmd-spawned-by-explorer.json", "description": "Synthetic cmd.exe process has an unrelated parent."},
+    {"id": "missing-parent", "expectation": "no_match", "fixture": "fixtures/missing-parent.json", "description": "Synthetic child process lacks an initiating process filename."},
+    {"id": "lookalike-parent", "expectation": "no_match", "fixture": "fixtures/lookalike-parent.json", "description": "Synthetic child process uses a CMSTP lookalike parent name."}
+  ]
+}
