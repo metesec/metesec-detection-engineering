@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "event": {
+    "TimeGenerated": "2026-09-03T09:05:00Z",
+    "ResultType": "0",
+    "RiskLevelDuringSignIn": "HIGH",
+    "UserPrincipalName": "engineer@example.invalid",
+    "IPAddress": "198.51.100.11",
+    "AppDisplayName": "Synthetic administration portal"
+  }
+}

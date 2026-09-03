@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "event": {
+    "Provider_Name": "Service Control Manager",
+    "EventID": 7036,
+    "ServiceName": "ExistingTemporaryService",
+    "ImagePath": "C:\\Windows\\Temp\\existing-service.exe",
+    "Computer": "WKSTN-308.example.invalid"
+  }
+}

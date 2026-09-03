@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "detection_id": "MSEC-DET-0002",
+  "implementation": "content/portable/sigma/MSEC-DET-0002/rule.yml",
+  "cases": [
+    {
+      "id": "successful-other-client",
+      "expectation": "match",
+      "fixture": "fixtures/successful-other-client.json",
+      "description": "Synthetic successful sign-in uses the Other clients category."
+    },
+    {
+      "id": "successful-imap-client",
+      "expectation": "match",
+      "fixture": "fixtures/successful-imap-client.json",
+      "description": "Synthetic successful sign-in uses the IMAP client category."
+    },
+    {
+      "id": "successful-active-sync-client",
+      "expectation": "match",
+      "fixture": "fixtures/successful-active-sync-client.json",
+      "description": "Synthetic successful sign-in uses the Exchange ActiveSync category."
+    },
+    {
+      "id": "failed-legacy-client",
+      "expectation": "no_match",
+      "fixture": "fixtures/failed-legacy-client.json",
+      "description": "Synthetic legacy-client sign-in failed and must not match."
+    },
+    {
+      "id": "successful-browser-client",
+      "expectation": "no_match",
+      "fixture": "fixtures/successful-browser-client.json",
+      "description": "Synthetic successful browser sign-in uses a modern client category."
+    },
+    {
+      "id": "successful-modern-desktop-client",
+      "expectation": "no_match",
+      "fixture": "fixtures/successful-modern-desktop-client.json",
+      "description": "Synthetic successful desktop sign-in uses a modern client category."
+    },
+    {
+      "id": "successful-missing-client-category",
+      "expectation": "no_match",
+      "fixture": "fixtures/successful-missing-client-category.json",
+      "description": "Synthetic successful sign-in without ClientAppUsed fails closed."
+    }
+  ]
+}

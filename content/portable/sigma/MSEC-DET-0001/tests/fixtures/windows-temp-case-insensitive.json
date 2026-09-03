@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "event": {
+    "Provider_Name": "service control manager",
+    "EventID": 7045,
+    "ServiceName": "CacheMaintenance",
+    "ImagePath": "C:\\WINDOWS\\TEMP\\cache-helper.exe",
+    "Computer": "WKSTN-117.example.invalid"
+  }
+}

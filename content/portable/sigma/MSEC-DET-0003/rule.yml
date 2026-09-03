@@ -1,0 +1,35 @@
+title: Successful High-Risk Microsoft Entra Sign-In
+id: c76fca5f-a79b-448d-a399-46ce121055fd
+status: experimental
+description: Detects a successful Microsoft Entra sign-in assessed as high risk at sign-in time.
+references:
+  - https://learn.microsoft.com/en-us/azure/azure-monitor/reference/tables/signinlogs
+  - https://learn.microsoft.com/en-us/entra/id-protection/concept-risk-detection-types
+  - https://learn.microsoft.com/en-us/entra/id-protection/howto-identity-protection-investigate-risk
+  - https://attack.mitre.org/techniques/T1078/004/
+author: MeteSec Detection Engineering
+date: 2026-09-03
+tags:
+  - attack.initial_access
+  - attack.t1078.004
+logsource:
+  product: azure
+  service: signinlogs
+detection:
+  selection:
+    ResultType: '0'
+    RiskLevelDuringSignIn: high
+  condition: selection
+fields:
+  - TimeGenerated
+  - UserPrincipalName
+  - IPAddress
+  - AppDisplayName
+  - RiskLevelDuringSignIn
+  - RiskEventTypes_V2
+  - RiskDetail
+  - ConditionalAccessStatus
+  - AuthenticationRequirement
+falsepositives:
+  - A legitimate sign-in that Microsoft Entra assesses as high risk and that is later confirmed safe.
+level: high

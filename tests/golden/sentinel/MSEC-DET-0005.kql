@@ -1,0 +1,2 @@
+AuditLogs
+| where OperationName =~ "Add app role assignment to service principal" and Result =~ "success"

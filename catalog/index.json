@@ -1,0 +1,281 @@
+{
+  "schema_version": 1,
+  "source": "catalog/detections/*/manifest.json",
+  "summary": {
+    "detections": 5,
+    "implementations": 5,
+    "positive_cases": 15,
+    "negative_cases": 20,
+    "sentinel_preview_bindings": 4
+  },
+  "detections": [
+    {
+      "id": "MSEC-DET-0001",
+      "title": "Windows service installation from a public or temporary path",
+      "description": "Detects a new Windows service whose image path points into a public-user or temporary directory and therefore warrants investigation.",
+      "lifecycle": {
+        "status": "experimental",
+        "created": "2026-08-27",
+        "modified": "2026-09-03",
+        "review_interval_days": 90
+      },
+      "severity": "medium",
+      "confidence": "low",
+      "attack": [
+        {
+          "technique_id": "T1543.003",
+          "tactic": "Persistence"
+        }
+      ],
+      "data_sources": [
+        {
+          "name": "Windows service installation events",
+          "category": "Windows service control manager",
+          "required_fields": [
+            "Provider_Name",
+            "EventID",
+            "ServiceName",
+            "ImagePath",
+            "Computer"
+          ]
+        }
+      ],
+      "validation": {
+        "positive_cases": 3,
+        "negative_cases": 4
+      },
+      "implementations": [
+        {
+          "type": "sigma",
+          "path": "content/portable/sigma/MSEC-DET-0001/rule.yml",
+          "targets": [
+            "sentinel"
+          ],
+          "status": "active"
+        }
+      ],
+      "target_bindings": [],
+      "manifest": "catalog/detections/MSEC-DET-0001/manifest.json"
+    },
+    {
+      "id": "MSEC-DET-0002",
+      "title": "Successful sign-in from a legacy client category",
+      "description": "Detects a successful Microsoft Entra sign-in reported through a client category associated with legacy authentication and therefore requiring validation.",
+      "lifecycle": {
+        "status": "experimental",
+        "created": "2026-09-03",
+        "modified": "2026-09-03",
+        "review_interval_days": 90
+      },
+      "severity": "medium",
+      "confidence": "medium",
+      "attack": [
+        {
+          "technique_id": "T1078.004",
+          "tactic": "Initial Access"
+        }
+      ],
+      "data_sources": [
+        {
+          "name": "Microsoft Entra sign-in logs",
+          "category": "Identity authentication",
+          "required_fields": [
+            "TimeGenerated",
+            "ResultType",
+            "ClientAppUsed",
+            "UserPrincipalName",
+            "IPAddress",
+            "AppDisplayName"
+          ]
+        }
+      ],
+      "validation": {
+        "positive_cases": 3,
+        "negative_cases": 4
+      },
+      "implementations": [
+        {
+          "type": "sigma",
+          "path": "content/portable/sigma/MSEC-DET-0002/rule.yml",
+          "targets": [
+            "sentinel"
+          ],
+          "status": "active"
+        }
+      ],
+      "target_bindings": [
+        {
+          "target": "microsoft-sentinel",
+          "table": "SigninLogs",
+          "golden": "tests/golden/sentinel/MSEC-DET-0002.kql"
+        }
+      ],
+      "manifest": "catalog/detections/MSEC-DET-0002/manifest.json"
+    },
+    {
+      "id": "MSEC-DET-0003",
+      "title": "Successful high-risk Microsoft Entra sign-in",
+      "description": "Detects a successful Microsoft Entra sign-in that Identity Protection assessed as high risk during the sign-in.",
+      "lifecycle": {
+        "status": "experimental",
+        "created": "2026-09-03",
+        "modified": "2026-09-03",
+        "review_interval_days": 90
+      },
+      "severity": "high",
+      "confidence": "medium",
+      "attack": [
+        {
+          "technique_id": "T1078.004",
+          "tactic": "Initial Access"
+        }
+      ],
+      "data_sources": [
+        {
+          "name": "Microsoft Entra sign-in logs",
+          "category": "Identity authentication",
+          "required_fields": [
+            "TimeGenerated",
+            "ResultType",
+            "RiskLevelDuringSignIn",
+            "UserPrincipalName",
+            "IPAddress",
+            "AppDisplayName"
+          ]
+        }
+      ],
+      "validation": {
+        "positive_cases": 3,
+        "negative_cases": 4
+      },
+      "implementations": [
+        {
+          "type": "sigma",
+          "path": "content/portable/sigma/MSEC-DET-0003/rule.yml",
+          "targets": [
+            "sentinel"
+          ],
+          "status": "active"
+        }
+      ],
+      "target_bindings": [
+        {
+          "target": "microsoft-sentinel",
+          "table": "SigninLogs",
+          "golden": "tests/golden/sentinel/MSEC-DET-0003.kql"
+        }
+      ],
+      "manifest": "catalog/detections/MSEC-DET-0003/manifest.json"
+    },
+    {
+      "id": "MSEC-DET-0004",
+      "title": "Credential added to a Microsoft Entra service principal",
+      "description": "Detects a successful Microsoft Entra audit event that adds authentication credentials to a service principal.",
+      "lifecycle": {
+        "status": "experimental",
+        "created": "2026-09-03",
+        "modified": "2026-09-03",
+        "review_interval_days": 90
+      },
+      "severity": "high",
+      "confidence": "medium",
+      "attack": [
+        {
+          "technique_id": "T1098.001",
+          "tactic": "Persistence"
+        }
+      ],
+      "data_sources": [
+        {
+          "name": "Microsoft Entra audit logs",
+          "category": "Identity directory audit",
+          "required_fields": [
+            "TimeGenerated",
+            "OperationName",
+            "Result",
+            "InitiatedBy",
+            "TargetResources",
+            "CorrelationId"
+          ]
+        }
+      ],
+      "validation": {
+        "positive_cases": 3,
+        "negative_cases": 4
+      },
+      "implementations": [
+        {
+          "type": "sigma",
+          "path": "content/portable/sigma/MSEC-DET-0004/rule.yml",
+          "targets": [
+            "sentinel"
+          ],
+          "status": "active"
+        }
+      ],
+      "target_bindings": [
+        {
+          "target": "microsoft-sentinel",
+          "table": "AuditLogs",
+          "golden": "tests/golden/sentinel/MSEC-DET-0004.kql"
+        }
+      ],
+      "manifest": "catalog/detections/MSEC-DET-0004/manifest.json"
+    },
+    {
+      "id": "MSEC-DET-0005",
+      "title": "Application role granted to a Microsoft Entra service principal",
+      "description": "Detects a successful Microsoft Entra audit event that grants an application role or API permission to a service principal.",
+      "lifecycle": {
+        "status": "experimental",
+        "created": "2026-09-03",
+        "modified": "2026-09-03",
+        "review_interval_days": 90
+      },
+      "severity": "medium",
+      "confidence": "medium",
+      "attack": [
+        {
+          "technique_id": "T1098.003",
+          "tactic": "Privilege Escalation"
+        }
+      ],
+      "data_sources": [
+        {
+          "name": "Microsoft Entra audit logs",
+          "category": "Identity directory audit",
+          "required_fields": [
+            "TimeGenerated",
+            "OperationName",
+            "Result",
+            "InitiatedBy",
+            "TargetResources",
+            "CorrelationId"
+          ]
+        }
+      ],
+      "validation": {
+        "positive_cases": 3,
+        "negative_cases": 4
+      },
+      "implementations": [
+        {
+          "type": "sigma",
+          "path": "content/portable/sigma/MSEC-DET-0005/rule.yml",
+          "targets": [
+            "sentinel"
+          ],
+          "status": "active"
+        }
+      ],
+      "target_bindings": [
+        {
+          "target": "microsoft-sentinel",
+          "table": "AuditLogs",
+          "golden": "tests/golden/sentinel/MSEC-DET-0005.kql"
+        }
+      ],
+      "manifest": "catalog/detections/MSEC-DET-0005/manifest.json"
+    }
+  ]
+}

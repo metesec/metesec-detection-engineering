@@ -12,13 +12,14 @@ Status: **in progress**
 - [x] Publish a one-way public GitHub distribution mirror
 - [x] Define minimal logical detection manifest
 - [x] Add JSON Schema and valid/invalid examples
-- [ ] Define compact detection-package layout
-- [ ] Add Sigma validation toolchain with pinned dependencies
-- [ ] Implement positive and negative fixture-test model
-- [ ] Add first complete Sigma detection
-- [ ] Grow to five reviewed detections
-- [ ] Generate a machine-readable and human-readable catalogue
-- [ ] Add Forgejo validation pipeline
+- [x] Define compact detection-package layout
+- [x] Add Sigma validation toolchain with pinned dependencies
+- [x] Implement positive and negative fixture-test model
+- [x] Add first complete Sigma detection
+- [x] Grow to five reviewed detections (5 of 5 complete)
+- [x] Generate a machine-readable and human-readable catalogue
+- [x] Add Forgejo validation pipeline definition
+- [ ] Verify the pipeline on an isolated Forgejo runner
 - [ ] Publish first signed or checksummed release artifact
 
 Exit criteria:
@@ -33,13 +34,15 @@ Exit criteria:
 
 Status: **planned**
 
-- [ ] Pin pySigma and Microsoft Sentinel backend/pipeline dependencies
+- [x] Pin pySigma and Microsoft Sentinel Kusto backend/pipeline dependencies
 - [ ] Compile declared Sigma implementations to KQL
 - [ ] Add approved Golden snapshots for generated queries
 - [ ] Add a generic Sentinel analytics-rule renderer
-- [ ] Define a non-production target profile
+- [x] Define a non-production target profile
 - [ ] Package immutable Sentinel release artifacts
-- [ ] Clearly document semantic and platform limitations
+- [x] Clearly document semantic and platform limitations
+
+Preview status: four explicitly bound rules across `SigninLogs` and `AuditLogs` compile to reviewed Golden queries and have passed separate read-only live query-acceptance probes. General compilation, analytics-rule rendering, packaging, and deployment remain incomplete.
 
 ## 0.3 — Detection Operations
 

@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "event": {
+    "TimeGenerated": "2026-09-03T09:30:00Z",
+    "ResultType": "0",
+    "UserPrincipalName": "analyst@example.invalid",
+    "IPAddress": "198.51.100.23",
+    "AppDisplayName": "Synthetic cloud application"
+  }
+}

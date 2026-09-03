@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "event": {
+    "TimeGenerated": "2026-09-03T09:15:00Z",
+    "ResultType": "50126",
+    "RiskLevelDuringSignIn": "high",
+    "UserPrincipalName": "analyst@example.invalid",
+    "IPAddress": "198.51.100.20",
+    "AppDisplayName": "Synthetic cloud application"
+  }
+}

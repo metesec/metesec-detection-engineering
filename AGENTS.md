@@ -1,6 +1,6 @@
 # MeteSec Detection Engineering — Project Handoff
 
-Last updated: 2026-08-27 (Europe/Berlin)
+Last updated: 2026-09-03 (Europe/Berlin)
 
 Read this file completely before changing the repository, its pipeline, public mirror, schemas, or detection content. Keep `LOGBOOK.md` and `ROADMAP.md` accurate after every completed and verified milestone.
 
@@ -41,9 +41,28 @@ The architectural rule is: one logical detection has one stable identity but may
 - Logical manifest contract: version 1 implemented as JSON Schema Draft 2020-12
 - Contract examples: one valid draft and one deliberately invalid stable-state example
 - Structural validation: executable with pinned Ajv `8.17.1`; the valid example is accepted and the invalid example is rejected
-- Detection implementations: not yet implemented
-- Behavioral test framework: not yet implemented
-- CI pipeline: not yet implemented
+- Detection package contract: version 1 documented and enforced through executable filesystem relationship validation
+- Fixture-set contract: version 1 schema implemented for future implementation-local positive and negative evidence indexes
+- Catalogue: five experimental packages: `MSEC-DET-0001` for Windows service installation from selected public-user or temporary paths, `MSEC-DET-0002` for successful Microsoft Entra sign-ins from selected legacy client categories, `MSEC-DET-0003` for successful Microsoft Entra sign-ins assessed as high risk during sign-in, `MSEC-DET-0004` for successful credential additions to Microsoft Entra service principals, and `MSEC-DET-0005` for successful application-role grants to Microsoft Entra service principals
+- Generated discovery catalogue: deterministic `catalog/index.json` and `CATALOGUE.md` are derived from the five manifests, implementation-local fixture indexes, and explicit Sentinel preview profile; neither output contains timestamps, environment identifiers, or live result data
+- Catalogue contract and validation: JSON Schema version 1, three generator tests, and a stale-output gate are included in the aggregate repository check; the current output reports five implementations, fifteen positive cases, twenty negative cases, and four Sentinel preview bindings
+- Forgejo validation definition: `.forgejo/workflows/validate.yml` runs on push, pull request, and manual dispatch using a `docker` runner; it requests read-only contents, removes persisted checkout credentials, references no secrets, pins remote actions by commit, installs exact Node.js `24.19.0`, pnpm `11.19.0`, Python `3.12.13`, JavaScript, and Sigma dependencies, then runs the aggregate repository check
+- Forgejo workflow contract: four local unit tests verify triggers, container-runner selection, permissions, absence of secret and `pull_request_target` use, immutable action references, exact tool versions, frozen installation, and the final check command
+- Forgejo runtime status: workflow YAML and its local contract are verified, but no actual Forgejo runner execution has occurred; it is not yet an operational release gate
+- Portable implementations: five structurally valid Sigma rules, one per package
+- Synthetic evidence: fifteen positive and twenty negative flat event fixtures, all explicitly marked synthetic and all passing locally
+- Package contract tests: eight passing cases cover the valid draft, identity mismatch, missing implementation, implementation traversal, missing evidence index, valid linked evidence, fixture traversal, and invalid event-fixture structure
+- Sigma parser and target toolchain: pySigma `1.5.0`, pySigma Kusto backend `1.0.1`, and every required transitive dependency are pinned in `requirements-sigma.lock`; verified with Python `3.12.13`
+- Sigma structural validation: exact-version gate, two-sided in-memory parser self-test, and automatic Package v1 `rule.yml` discovery validate five sources containing five rules
+- Sigma validation tests: six passing cases cover valid, missing-condition, malformed-YAML, parser-health, Package v1 discovery, and UTF-8 file paths
+- Behavioral test framework: implemented as a deliberately bounded local evaluator over pySigma's condition tree
+- Evaluator boundary: flat synthetic events; string and number field comparisons; Sigma wildcard strings; case-insensitive string matching; Boolean `and`, `or`, and unary `not`; unsupported behavior fails closed
+- Evaluator tests: six passing unit cases plus thirty-five passing committed fixture expectations
+- Sentinel preview compiler: explicit profile binding, safe table-name validation, repository-contained paths, active-manifest relationship check, and deterministic Azure Monitor pipeline output are implemented
+- Sentinel preview scope: `MSEC-DET-0002` and `MSEC-DET-0003` are explicitly bound to `SigninLogs`, while `MSEC-DET-0004` and `MSEC-DET-0005` are explicitly bound to `AuditLogs`; all four generated KQL queries match committed Golden snapshots
+- Live target probes: authorized read-only workspace checks confirmed populated source fields and accepted all four exact generated predicates; `MSEC-DET-0002` produced a valid negative result, while `MSEC-DET-0003`, `MSEC-DET-0004`, and `MSEC-DET-0005` produced valid positive results, and no raw row, aggregate count, user, device, tenant, subscription, or workspace identifier was stored in the repository
+- `MSEC-DET-0001` remains intentionally unbound because the available target has no suitable Windows event telemetry; it has no Sentinel compatibility claim
+- CI pipeline: validation-only definition implemented; live Forgejo runner verification remains pending
 - Deployment to any SIEM: not implemented and not authorized by this foundation milestone
 
 ## Accepted architecture decisions
@@ -52,9 +71,10 @@ The architectural rule is: one logical detection has one stable identity but may
 - GitHub is the read-only public distribution mirror, not a development source or deployment dependency.
 - Version 1 is Sigma-first but not Sigma-only.
 - Native implementations will be added only for genuine platform-specific behavior.
-- The first supported compilation target will be Microsoft Sentinel KQL.
+- The first supported compilation target is Microsoft Sentinel KQL, introduced through a bounded non-production preview profile with explicit table bindings.
 - Detection-local tests live beside the implementation; reusable test code lives centrally.
 - Generated build output is never a manually edited source of truth.
+- Package v1 uses the logical manifest as its only authored metadata source; no second package descriptor duplicates identity or lifecycle data.
 - ATT&CK is metadata, not the primary physical folder structure.
 - Environment overlays may change approved configuration but never detection logic.
 - The large enterprise architecture remains a target model; directories are created only when functionality exists.
@@ -67,6 +87,8 @@ The `0.1` milestone will grow only as functionality is introduced:
 
 ```text
 catalog/detections/       logical detection packages
+catalog/index.json        generated machine-readable discovery index
+CATALOGUE.md              generated human-readable discovery index
 content/portable/sigma/  portable Sigma implementations
 governance/schemas/      machine-readable contracts
 tests/                    shared validation framework and fixtures
@@ -134,4 +156,4 @@ After every completed milestone:
 
 ## Immediate next milestone
 
-Define the compact detection-package layout that links one logical manifest to its implementation and future behavioral evidence. Keep the package small and do not introduce the first Sigma rule until that boundary is documented and locally checked.
+Verify the validation workflow on the canonical Forgejo repository using a dedicated isolated container runner with no deployment or SIEM secrets. Confirm the runner label, complete pass result, and readable failure output before treating it as a release gate or enabling branch protection.

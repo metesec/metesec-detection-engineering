@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "event": {
+    "TimeGenerated": "2026-09-03T08:15:00Z",
+    "ResultType": "50126",
+    "ClientAppUsed": "Other clients",
+    "UserPrincipalName": "analyst@example.invalid",
+    "IPAddress": "192.0.2.40",
+    "AppDisplayName": "Synthetic mail client"
+  }
+}

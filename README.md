@@ -3,7 +3,7 @@
 Detection-as-Code reference implementation for portable, tested, and reviewable security detections.
 
 > **Project status: Functional Foundation**
-> The repository now includes the versioned logical-detection contract and executable schema validation. Detection implementations and behavioral tests remain future milestones tracked in [ROADMAP.md](ROADMAP.md).
+> The repository now includes the versioned logical-detection contract, the compact package contract, executable relationship validation, five locally tested experimental Sigma detections, a deterministic generated catalogue, and a bounded Microsoft Sentinel KQL preview for four explicitly mapped rules. Deployment remains a future milestone tracked in [ROADMAP.md](ROADMAP.md).
 
 ## Purpose
 
@@ -36,20 +36,39 @@ Forgejo remains the source of truth. GitHub receives only the reviewed public `m
 - [Current project handoff](AGENTS.md)
 - [Chronological project log](LOGBOOK.md)
 - [Architecture decisions](docs/architecture/adr/)
+- [Generated detection catalogue](CATALOGUE.md)
+- [Machine-readable detection catalogue](catalog/index.json)
 - [Logical detection manifest v1](docs/contracts/logical-detection-manifest-v1.md)
+- [Detection package v1](docs/contracts/detection-package-v1.md)
+- [Generated catalogue contract v1](docs/contracts/detection-catalogue-v1.md)
+- [Forgejo repository validation](docs/tooling/forgejo-validation.md)
+- [Sigma structural validation](docs/tooling/sigma-validation.md)
+- [Local Sigma fixture evaluation](docs/testing/sigma-fixture-evaluation.md)
+- [Microsoft Sentinel KQL preview compilation](docs/tooling/sentinel-compilation.md)
 
 ## Current milestone
 
 `0.1 — Functional Foundation`
 
-The logical manifest contract is implemented and locally verified. The next step is to define the compact package layout that connects one logical detection to its implementation and future test evidence without creating empty scaffolding.
+The logical manifest, compact package contract, pinned pySigma boundary, and bounded local fixture evaluator are implemented and locally verified. `MSEC-DET-0001` covers unusual Windows service installation paths. `MSEC-DET-0002` covers successful sign-ins from reported legacy client categories. `MSEC-DET-0003` covers successful Microsoft Entra sign-ins assessed as high risk during sign-in. `MSEC-DET-0004` covers successful credential additions to Microsoft Entra service principals. `MSEC-DET-0005` covers successful application-role grants to Microsoft Entra service principals. Together they have fifteen positive and twenty negative synthetic cases.
+
+The Sentinel preview pins the Kusto backend, maps `MSEC-DET-0002` and `MSEC-DET-0003` to `SigninLogs`, maps `MSEC-DET-0004` and `MSEC-DET-0005` to `AuditLogs`, and verifies all four generated KQL queries against committed Golden snapshots. Separate authorized read-only target probes accepted every generated predicate: the legacy-client result was negative, while the other three results were positive. No raw telemetry, result count, or target identifier is stored, and these results are not deployment or production-readiness claims.
+
+The human-readable `CATALOGUE.md` and machine-readable `catalog/index.json` are generated from the manifests, fixture indexes, and explicit Sentinel preview profile. They contain no runtime timestamp or environment identifier, and `pnpm run check` fails when either tracked output is stale.
+
+The Forgejo validation workflow installs the pinned Node.js, pnpm, Python, JavaScript, and Sigma toolchains, then runs that same aggregate check on pushes and pull requests. It is read-only, secret-free, and contains no deployment step. Its definition is locally contract-tested; an actual Forgejo runner result remains required before it becomes an operational release gate.
 
 Run the current contract validation with:
 
 ```console
 pnpm install --frozen-lockfile
-pnpm run validate:manifests
+python -m venv .venv
+.venv\Scripts\activate
+pnpm run setup:sigma
+pnpm run check
 ```
+
+See the [generated catalogue contract](docs/contracts/detection-catalogue-v1.md), [Forgejo validation guide](docs/tooling/forgejo-validation.md), [Sigma validation guide](docs/tooling/sigma-validation.md), and [Sentinel compilation guide](docs/tooling/sentinel-compilation.md) for the exact scope of each result.
 
 ## License
 

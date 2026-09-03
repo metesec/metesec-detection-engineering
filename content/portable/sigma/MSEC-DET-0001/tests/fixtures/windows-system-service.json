@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "event": {
+    "Provider_Name": "Service Control Manager",
+    "EventID": 7045,
+    "ServiceName": "WindowsExampleService",
+    "ImagePath": "C:\\Windows\\System32\\svchost.exe -k ExampleGroup",
+    "Computer": "SERVER-515.example.invalid"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "event": {
+    "TimeGenerated": "2026-09-03T08:05:00Z",
+    "ResultType": "0",
+    "ClientAppUsed": "IMAP",
+    "UserPrincipalName": "operator@example.invalid",
+    "IPAddress": "198.51.100.20",
+    "AppDisplayName": "Synthetic IMAP client"
+  }
+}

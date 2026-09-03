@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0002",
+  "title": "Successful sign-in from a legacy client category",
+  "description": "Detects a successful Microsoft Entra sign-in reported through a client category associated with legacy authentication and therefore requiring validation.",
+  "hypothesis": {
+    "summary": "An adversary may use a legacy authentication path to obtain access without modern authentication protections.",
+    "rationale": "Legacy client categories can indicate authentication paths that do not support the same controls as modern clients, although approved compatibility exceptions can still exist.",
+    "detection_goal": "Identify successful sign-ins from selected legacy client categories while leaving failed attempts and modern client categories unmatched."
+  },
+  "ownership": {
+    "owner": "MeteSec Detection Engineering",
+    "reviewers": []
+  },
+  "lifecycle": {
+    "status": "experimental",
+    "created": "2026-09-03",
+    "modified": "2026-09-03",
+    "review_interval_days": 90
+  },
+  "severity": "medium",
+  "confidence": "medium",
+  "data_sources": [
+    {
+      "name": "Microsoft Entra sign-in logs",
+      "category": "Identity authentication",
+      "required_fields": ["TimeGenerated", "ResultType", "ClientAppUsed", "UserPrincipalName", "IPAddress", "AppDisplayName"]
+    }
+  ],
+  "attack": [
+    {
+      "technique_id": "T1078.004",
+      "tactic": "Initial Access"
+    }
+  ],
+  "triage": {
+    "summary": "Validate the client category, user, application, source network, authentication controls, and whether a documented compatibility exception exists.",
+    "steps": [
+      "Confirm that the sign-in succeeded and determine which client or protocol produced the legacy category.",
+      "Review the user, application, source network, device context, and adjacent sign-in activity for anomalies.",
+      "Confirm whether the activity is covered by an approved exception and escalate unexplained access."
+    ],
+    "false_positives": [
+      "Approved applications, devices, or migration exceptions that still use a reported legacy client category"
+    ]
+  },
+  "validation": {
+    "expected_outcome": "Match a successful sign-in when ClientAppUsed is one of the selected legacy client categories; do not match failed sign-ins or modern client categories.",
+    "positive_tests": true,
+    "negative_tests": true
+  },
+  "implementations": [
+    {
+      "type": "sigma",
+      "path": "content/portable/sigma/MSEC-DET-0002/rule.yml",
+      "targets": ["sentinel"],
+      "status": "active"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "event": {
+    "Provider_Name": "Service Control Manager",
+    "EventID": 7045,
+    "ServiceName": "ApprovedBackupAgent",
+    "ImagePath": "C:\\Program Files\\Example Vendor\\backup-agent.exe --service",
+    "Computer": "SERVER-012.example.invalid"
+  }
+}

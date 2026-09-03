@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "detection_id": "MSEC-DET-0003",
+  "implementation": "content/portable/sigma/MSEC-DET-0003/rule.yml",
+  "cases": [
+    {
+      "id": "successful-high-risk",
+      "expectation": "match",
+      "fixture": "fixtures/successful-high-risk.json",
+      "description": "Synthetic successful sign-in is assessed as high risk."
+    },
+    {
+      "id": "successful-high-risk-uppercase",
+      "expectation": "match",
+      "fixture": "fixtures/successful-high-risk-uppercase.json",
+      "description": "Synthetic uppercase high-risk value verifies case-insensitive Sigma matching."
+    },
+    {
+      "id": "successful-high-risk-with-context",
+      "expectation": "match",
+      "fixture": "fixtures/successful-high-risk-with-context.json",
+      "description": "Synthetic high-risk success remains a match when investigation fields are present."
+    },
+    {
+      "id": "failed-high-risk",
+      "expectation": "no_match",
+      "fixture": "fixtures/failed-high-risk.json",
+      "description": "Synthetic failed sign-in with high risk must not match."
+    },
+    {
+      "id": "successful-medium-risk",
+      "expectation": "no_match",
+      "fixture": "fixtures/successful-medium-risk.json",
+      "description": "Synthetic successful medium-risk sign-in is below the selected threshold."
+    },
+    {
+      "id": "successful-no-risk",
+      "expectation": "no_match",
+      "fixture": "fixtures/successful-no-risk.json",
+      "description": "Synthetic successful sign-in with no risk must not match."
+    },
+    {
+      "id": "successful-missing-risk",
+      "expectation": "no_match",
+      "fixture": "fixtures/successful-missing-risk.json",
+      "description": "Synthetic successful sign-in without the risk field fails closed."
+    }
+  ]
+}

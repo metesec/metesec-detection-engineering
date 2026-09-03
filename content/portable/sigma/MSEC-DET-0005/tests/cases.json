@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "detection_id": "MSEC-DET-0005",
+  "implementation": "content/portable/sigma/MSEC-DET-0005/rule.yml",
+  "cases": [
+    {
+      "id": "successful-app-role-assignment",
+      "expectation": "match",
+      "fixture": "fixtures/successful-app-role-assignment.json",
+      "description": "Synthetic successful app-role assignment to a service principal matches."
+    },
+    {
+      "id": "successful-app-role-assignment-uppercase",
+      "expectation": "match",
+      "fixture": "fixtures/successful-app-role-assignment-uppercase.json",
+      "description": "Synthetic uppercase operation and result verify case-insensitive Sigma matching."
+    },
+    {
+      "id": "successful-app-role-assignment-with-context",
+      "expectation": "match",
+      "fixture": "fixtures/successful-app-role-assignment-with-context.json",
+      "description": "Synthetic app-role assignment remains a match when audit context is present."
+    },
+    {
+      "id": "failed-app-role-assignment",
+      "expectation": "no_match",
+      "fixture": "fixtures/failed-app-role-assignment.json",
+      "description": "Synthetic failed app-role assignment must not match."
+    },
+    {
+      "id": "successful-app-role-removal",
+      "expectation": "no_match",
+      "fixture": "fixtures/successful-app-role-removal.json",
+      "description": "Synthetic app-role removal is a different operation and must not match."
+    },
+    {
+      "id": "successful-delegated-permission-grant",
+      "expectation": "no_match",
+      "fixture": "fixtures/successful-delegated-permission-grant.json",
+      "description": "Synthetic delegated permission grant is intentionally outside this app-role rule."
+    },
+    {
+      "id": "app-role-assignment-missing-result",
+      "expectation": "no_match",
+      "fixture": "fixtures/app-role-assignment-missing-result.json",
+      "description": "Synthetic app-role assignment without a result fails closed."
+    }
+  ]
+}

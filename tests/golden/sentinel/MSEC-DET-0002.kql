@@ -1,0 +1,2 @@
+SigninLogs
+| where ResultType =~ "0" and (ClientAppUsed in~ ("Exchange ActiveSync", "IMAP", "MAPI", "POP", "SMTP", "Authenticated SMTP", "Other clients"))

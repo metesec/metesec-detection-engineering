@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "event": {
+    "Provider_Name": "Service Control Manager",
+    "EventID": 7045,
+    "ServiceName": "UserProfileSupport",
+    "ImagePath": "C:\\Users\\demo-user\\AppData\\Local\\Temp\\support-service.exe",
+    "Computer": "WKSTN-204.example.invalid"
+  }
+}
