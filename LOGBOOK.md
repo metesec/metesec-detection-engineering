@@ -1381,9 +1381,7 @@ review the five candidates for Wave 2 before adding rules 11 through 15.
   Sentinel-bound detections.
 - Endpoint rules retain only the observed account-name entity mapping. The
   Conditional Access rule maps only the initiating Account, IP and application;
-  a policy is not mislabeled as another Sentinel entity. The owner-change rule
-  additionally maps the target application name without treating its object ID
-  as an application ID.
+  a policy is not mislabeled as another Sentinel entity.
 - With the user's explicit authorization to inspect query results, one
   read-only 30-day aggregate query returned only detection ID and a Boolean
   match state. All five predicates were accepted. `MSEC-DET-0011` through
@@ -1392,6 +1390,17 @@ review the five candidates for Wave 2 before adding rules 11 through 15.
 - No raw event, exact count, user, device, address, tenant, subscription,
   workspace, customer value, copied result or screenshot was stored. A live
   match is triage input, not proof of malicious activity or production tuning.
+- A second read-only structural aggregate was run after the user explicitly
+  authorized result inspection. It confirmed that the policy-deletion event is
+  a successful Conditional Access operation against a Policy resource, and
+  that the owner-change matches use the intended ApplicationManagement/Core
+  Directory operations. It also showed that `TargetResources[0]` can be either
+  a User or ServicePrincipal and that the initiator representation can be a
+  user, application or absent from those two expected subobjects.
+- The owner-change Sentinel output was therefore corrected before release: it
+  now projects neutral target resource type, ID and name fields for triage and
+  does not force the first target into a CloudApplication entity. Exact event
+  counts, timestamps, identities and object values were not retained.
 
 ### Validation and corrections
 
@@ -1415,14 +1424,14 @@ review the five candidates for Wave 2 before adding rules 11 through 15.
   A fresh tab in the same authenticated browser and a full clipboard paste
   restored the complete query; the visible first lines and five-result status
   were checked before accepting the target result.
-- The final aggregate check passed all 81 unit tests plus every manifest,
+- The final aggregate check passed all 82 unit tests plus every manifest,
   package, catalogue, Sigma, fixture, Sentinel Golden, profile, renderer,
   data-source, coverage, lifecycle, runtime-health and release gate. All 105
   synthetic fixture expectations passed and all fourteen disabled Sentinel
   Scheduled-rule bodies rendered successfully.
 - The deterministic local `v0.4.0` candidate contains 203 ZIP members,
   including 202 allowlisted sources, and has SHA-256
-  `c938107694047fc42594a56c05b0fe88ce2a37526f0596e4367f9d9a4a54ccad`.
+  `c6bd2ea320d4fb987cfe4a80d6a48cf008c94300e7d7840263333a974c248873`.
 - `git diff --check` passed; Windows line-ending notices did not identify
   whitespace errors.
 

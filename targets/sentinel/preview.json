@@ -625,8 +625,9 @@
           {"column": "InitiatingIPAddress", "expression": "tostring(InitiatedBy.user.ipAddress)"},
           {"column": "InitiatingApplicationId", "expression": "tostring(InitiatedBy.app.appId)"},
           {"column": "InitiatingApplicationName", "expression": "tostring(InitiatedBy.app.displayName)"},
-          {"column": "TargetApplicationObjectId", "expression": "tostring(TargetResources[0].id)"},
-          {"column": "TargetApplicationName", "expression": "tostring(TargetResources[0].displayName)"}
+          {"column": "TargetResourceType", "expression": "tostring(TargetResources[0].type)"},
+          {"column": "TargetResourceId", "expression": "tostring(TargetResources[0].id)"},
+          {"column": "TargetResourceName", "expression": "tostring(TargetResources[0].displayName)"}
         ],
         "columns": [
           "TimeGenerated",
@@ -638,8 +639,9 @@
           "InitiatingIPAddress",
           "InitiatingApplicationId",
           "InitiatingApplicationName",
-          "TargetApplicationObjectId",
-          "TargetApplicationName",
+          "TargetResourceType",
+          "TargetResourceId",
+          "TargetResourceName",
           "CorrelationId",
           "LoggedByService"
         ],
@@ -663,12 +665,6 @@
             "field_mappings": [
               {"identifier": "AppId", "column": "InitiatingApplicationId"},
               {"identifier": "Name", "column": "InitiatingApplicationName"}
-            ]
-          },
-          {
-            "entity_type": "CloudApplication",
-            "field_mappings": [
-              {"identifier": "Name", "column": "TargetApplicationName"}
             ]
           }
         ]

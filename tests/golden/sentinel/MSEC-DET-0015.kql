@@ -7,6 +7,7 @@ AuditLogs
 | extend InitiatingIPAddress = tostring(InitiatedBy.user.ipAddress)
 | extend InitiatingApplicationId = tostring(InitiatedBy.app.appId)
 | extend InitiatingApplicationName = tostring(InitiatedBy.app.displayName)
-| extend TargetApplicationObjectId = tostring(TargetResources[0].id)
-| extend TargetApplicationName = tostring(TargetResources[0].displayName)
-| project TimeGenerated, OperationName, InitiatingUserPrincipalName, InitiatingAccountName, InitiatingAccountUPNSuffix, InitiatingUserId, InitiatingIPAddress, InitiatingApplicationId, InitiatingApplicationName, TargetApplicationObjectId, TargetApplicationName, CorrelationId, LoggedByService
+| extend TargetResourceType = tostring(TargetResources[0].type)
+| extend TargetResourceId = tostring(TargetResources[0].id)
+| extend TargetResourceName = tostring(TargetResources[0].displayName)
+| project TimeGenerated, OperationName, InitiatingUserPrincipalName, InitiatingAccountName, InitiatingAccountUPNSuffix, InitiatingUserId, InitiatingIPAddress, InitiatingApplicationId, InitiatingApplicationName, TargetResourceType, TargetResourceId, TargetResourceName, CorrelationId, LoggedByService

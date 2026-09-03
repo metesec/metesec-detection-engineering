@@ -136,15 +136,6 @@ RISK_ENTITY_MAPPINGS = [
     },
 ]
 AUDIT_INITIATOR_ENTITY_MAPPINGS = AUDIT_ENTITY_MAPPINGS[:3]
-AUDIT_APPLICATION_ENTITY_MAPPINGS = [
-    *AUDIT_INITIATOR_ENTITY_MAPPINGS,
-    {
-        "entityType": "CloudApplication",
-        "fieldMappings": [
-            {"identifier": "Name", "columnName": "TargetApplicationName"},
-        ],
-    },
-]
 
 
 class SentinelRuleRendererTests(unittest.TestCase):
@@ -231,7 +222,7 @@ class SentinelRuleRendererTests(unittest.TestCase):
                 "MSEC-DET-0012": DEVICE_ENTITY_MAPPINGS,
                 "MSEC-DET-0013": DEVICE_ENTITY_MAPPINGS,
                 "MSEC-DET-0014": AUDIT_INITIATOR_ENTITY_MAPPINGS,
-                "MSEC-DET-0015": AUDIT_APPLICATION_ENTITY_MAPPINGS,
+                "MSEC-DET-0015": AUDIT_INITIATOR_ENTITY_MAPPINGS,
             }[item.detection_id]
             properties = item.request_body["properties"]
             self.assertEqual(properties["entityMappings"], expected)
@@ -240,6 +231,21 @@ class SentinelRuleRendererTests(unittest.TestCase):
             for mapping in expected:
                 for field in mapping["fieldMappings"]:
                     self.assertIn(field["columnName"], output_columns)
+
+    def test_owner_change_target_remains_a_neutral_resource(self) -> None:
+        owner_change = next(
+            item for item in self.rendered if item.detection_id == "MSEC-DET-0015"
+        )
+        output_columns = set(owner_change.render_manifest["source"]["output_columns"])
+        self.assertTrue(
+            {"TargetResourceType", "TargetResourceId", "TargetResourceName"}
+            <= output_columns
+        )
+        self.assertNotIn("TargetApplicationName", owner_change.query)
+        self.assertEqual(
+            owner_change.request_body["properties"]["entityMappings"],
+            AUDIT_INITIATOR_ENTITY_MAPPINGS,
+        )
 
     def test_renderer_rejects_query_that_differs_from_golden(self) -> None:
         source_profile = REPO_ROOT / "targets" / "sentinel" / "preview.json"
