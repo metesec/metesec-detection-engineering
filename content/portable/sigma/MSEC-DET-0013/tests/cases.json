@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "detection_id": "MSEC-DET-0013",
+  "implementation": "content/portable/sigma/MSEC-DET-0013/rule.yml",
+  "cases": [
+    {"id": "regsvr32-https-scriptlet", "expectation": "match", "fixture": "fixtures/regsvr32-https-scriptlet.json", "description": "Synthetic regsvr32 command uses the install flag with an HTTPS scriptlet."},
+    {"id": "regsvr32-http-dash-i", "expectation": "match", "fixture": "fixtures/regsvr32-http-dash-i.json", "description": "Synthetic regsvr32 command uses the dash install flag with HTTP."},
+    {"id": "uppercase-ftp-with-context", "expectation": "match", "fixture": "fixtures/uppercase-ftp-with-context.json", "description": "Synthetic uppercase FTP command includes endpoint investigation context."},
+    {"id": "regsvr32-local-dll", "expectation": "no_match", "fixture": "fixtures/regsvr32-local-dll.json", "description": "Synthetic regsvr32 command registers a local DLL."},
+    {"id": "remote-without-install", "expectation": "no_match", "fixture": "fixtures/remote-without-install.json", "description": "Synthetic remote regsvr32 command omits the install flag."},
+    {"id": "install-without-remote", "expectation": "no_match", "fixture": "fixtures/install-without-remote.json", "description": "Synthetic install-flag command contains no remote resource."},
+    {"id": "other-process-complete-pattern", "expectation": "no_match", "fixture": "fixtures/other-process-complete-pattern.json", "description": "Synthetic complete command-line pattern belongs to another process."}
+  ]
+}

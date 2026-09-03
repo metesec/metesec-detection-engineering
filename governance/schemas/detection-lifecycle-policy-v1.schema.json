@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metesec.com/schemas/detection-lifecycle-policy-v1.schema.json",
+  "title": "MeteSec detection lifecycle policy v1",
+  "description": "Review states and allowed transitions for logical detection manifests.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "review_states", "transitions"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "review_states": {
+      "const": ["current", "due", "overdue"]
+    },
+    "transitions": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": { "$ref": "#/$defs/transition" }
+    }
+  },
+  "$defs": {
+    "status": {
+      "enum": ["draft", "experimental", "stable", "deprecated"]
+    },
+    "transition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["from", "to"],
+      "properties": {
+        "from": { "$ref": "#/$defs/status" },
+        "to": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/status" }
+        }
+      }
+    }
+  }
+}

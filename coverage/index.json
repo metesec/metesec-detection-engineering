@@ -1,0 +1,1125 @@
+{
+  "schema_version": 1,
+  "source": {
+    "manifests": "catalog/detections/*/manifest.json",
+    "sentinel_preview": "targets/sentinel/preview.json",
+    "sentinel_data_sources": "targets/sentinel/data-sources.json"
+  },
+  "summary": {
+    "detections": 50,
+    "attack_mappings": 69,
+    "attack_techniques": 39,
+    "attack_tactics": 11,
+    "logical_data_sources": 6,
+    "sentinel_preview_bindings": 49,
+    "sentinel_data_source_contracts": 5,
+    "detections_without_sentinel_binding": 1
+  },
+  "attack": {
+    "techniques": [
+      {
+        "technique_id": "T1003.001",
+        "tactics": [
+          "Credential Access"
+        ],
+        "detections": [
+          "MSEC-DET-0011",
+          "MSEC-DET-0036"
+        ]
+      },
+      {
+        "technique_id": "T1003.002",
+        "tactics": [
+          "Credential Access"
+        ],
+        "detections": [
+          "MSEC-DET-0023"
+        ]
+      },
+      {
+        "technique_id": "T1003.003",
+        "tactics": [
+          "Credential Access"
+        ],
+        "detections": [
+          "MSEC-DET-0030"
+        ]
+      },
+      {
+        "technique_id": "T1021.006",
+        "tactics": [
+          "Lateral Movement"
+        ],
+        "detections": [
+          "MSEC-DET-0038"
+        ]
+      },
+      {
+        "technique_id": "T1047",
+        "tactics": [
+          "Execution"
+        ],
+        "detections": [
+          "MSEC-DET-0024"
+        ]
+      },
+      {
+        "technique_id": "T1053.005",
+        "tactics": [
+          "Execution",
+          "Persistence",
+          "Privilege Escalation"
+        ],
+        "detections": [
+          "MSEC-DET-0028",
+          "MSEC-DET-0048"
+        ]
+      },
+      {
+        "technique_id": "T1059",
+        "tactics": [
+          "Execution"
+        ],
+        "detections": [
+          "MSEC-DET-0006"
+        ]
+      },
+      {
+        "technique_id": "T1059.001",
+        "tactics": [
+          "Execution"
+        ],
+        "detections": [
+          "MSEC-DET-0007",
+          "MSEC-DET-0039"
+        ]
+      },
+      {
+        "technique_id": "T1078.004",
+        "tactics": [
+          "Initial Access"
+        ],
+        "detections": [
+          "MSEC-DET-0002",
+          "MSEC-DET-0003",
+          "MSEC-DET-0010",
+          "MSEC-DET-0026"
+        ]
+      },
+      {
+        "technique_id": "T1090.001",
+        "tactics": [
+          "Command and Control"
+        ],
+        "detections": [
+          "MSEC-DET-0050"
+        ]
+      },
+      {
+        "technique_id": "T1098.001",
+        "tactics": [
+          "Persistence"
+        ],
+        "detections": [
+          "MSEC-DET-0004",
+          "MSEC-DET-0009"
+        ]
+      },
+      {
+        "technique_id": "T1098.003",
+        "tactics": [
+          "Persistence",
+          "Privilege Escalation"
+        ],
+        "detections": [
+          "MSEC-DET-0005",
+          "MSEC-DET-0008",
+          "MSEC-DET-0015",
+          "MSEC-DET-0021"
+        ]
+      },
+      {
+        "technique_id": "T1098.007",
+        "tactics": [
+          "Persistence",
+          "Privilege Escalation"
+        ],
+        "detections": [
+          "MSEC-DET-0029"
+        ]
+      },
+      {
+        "technique_id": "T1105",
+        "tactics": [
+          "Command and Control"
+        ],
+        "detections": [
+          "MSEC-DET-0020",
+          "MSEC-DET-0043",
+          "MSEC-DET-0044"
+        ]
+      },
+      {
+        "technique_id": "T1127.001",
+        "tactics": [
+          "Execution",
+          "Stealth"
+        ],
+        "detections": [
+          "MSEC-DET-0045"
+        ]
+      },
+      {
+        "technique_id": "T1140",
+        "tactics": [
+          "Stealth"
+        ],
+        "detections": [
+          "MSEC-DET-0035"
+        ]
+      },
+      {
+        "technique_id": "T1197",
+        "tactics": [
+          "Execution",
+          "Persistence",
+          "Stealth"
+        ],
+        "detections": [
+          "MSEC-DET-0025"
+        ]
+      },
+      {
+        "technique_id": "T1218.003",
+        "tactics": [
+          "Stealth"
+        ],
+        "detections": [
+          "MSEC-DET-0041"
+        ]
+      },
+      {
+        "technique_id": "T1218.004",
+        "tactics": [
+          "Stealth"
+        ],
+        "detections": [
+          "MSEC-DET-0044"
+        ]
+      },
+      {
+        "technique_id": "T1218.005",
+        "tactics": [
+          "Defense Evasion"
+        ],
+        "detections": [
+          "MSEC-DET-0012"
+        ]
+      },
+      {
+        "technique_id": "T1218.007",
+        "tactics": [
+          "Stealth"
+        ],
+        "detections": [
+          "MSEC-DET-0043"
+        ]
+      },
+      {
+        "technique_id": "T1218.008",
+        "tactics": [
+          "Stealth"
+        ],
+        "detections": [
+          "MSEC-DET-0042"
+        ]
+      },
+      {
+        "technique_id": "T1218.010",
+        "tactics": [
+          "Defense Evasion"
+        ],
+        "detections": [
+          "MSEC-DET-0013"
+        ]
+      },
+      {
+        "technique_id": "T1218.011",
+        "tactics": [
+          "Stealth"
+        ],
+        "detections": [
+          "MSEC-DET-0027"
+        ]
+      },
+      {
+        "technique_id": "T1218.013",
+        "tactics": [
+          "Stealth"
+        ],
+        "detections": [
+          "MSEC-DET-0049"
+        ]
+      },
+      {
+        "technique_id": "T1484.002",
+        "tactics": [
+          "Defense Impairment",
+          "Privilege Escalation"
+        ],
+        "detections": [
+          "MSEC-DET-0019"
+        ]
+      },
+      {
+        "technique_id": "T1490",
+        "tactics": [
+          "Impact"
+        ],
+        "detections": [
+          "MSEC-DET-0016"
+        ]
+      },
+      {
+        "technique_id": "T1505.003",
+        "tactics": [
+          "Persistence"
+        ],
+        "detections": [
+          "MSEC-DET-0031"
+        ]
+      },
+      {
+        "technique_id": "T1543.003",
+        "tactics": [
+          "Persistence",
+          "Privilege Escalation"
+        ],
+        "detections": [
+          "MSEC-DET-0001",
+          "MSEC-DET-0034"
+        ]
+      },
+      {
+        "technique_id": "T1546.008",
+        "tactics": [
+          "Persistence",
+          "Privilege Escalation"
+        ],
+        "detections": [
+          "MSEC-DET-0040"
+        ]
+      },
+      {
+        "technique_id": "T1547.001",
+        "tactics": [
+          "Persistence",
+          "Privilege Escalation"
+        ],
+        "detections": [
+          "MSEC-DET-0046"
+        ]
+      },
+      {
+        "technique_id": "T1547.004",
+        "tactics": [
+          "Persistence",
+          "Privilege Escalation"
+        ],
+        "detections": [
+          "MSEC-DET-0047"
+        ]
+      },
+      {
+        "technique_id": "T1548.002",
+        "tactics": [
+          "Defense Evasion",
+          "Privilege Escalation"
+        ],
+        "detections": [
+          "MSEC-DET-0037"
+        ]
+      },
+      {
+        "technique_id": "T1556.006",
+        "tactics": [
+          "Credential Access",
+          "Defense Impairment",
+          "Persistence"
+        ],
+        "detections": [
+          "MSEC-DET-0022"
+        ]
+      },
+      {
+        "technique_id": "T1556.009",
+        "tactics": [
+          "Defense Evasion"
+        ],
+        "detections": [
+          "MSEC-DET-0014"
+        ]
+      },
+      {
+        "technique_id": "T1685",
+        "tactics": [
+          "Defense Impairment"
+        ],
+        "detections": [
+          "MSEC-DET-0018"
+        ]
+      },
+      {
+        "technique_id": "T1685.001",
+        "tactics": [
+          "Defense Impairment"
+        ],
+        "detections": [
+          "MSEC-DET-0032"
+        ]
+      },
+      {
+        "technique_id": "T1685.005",
+        "tactics": [
+          "Defense Impairment"
+        ],
+        "detections": [
+          "MSEC-DET-0017"
+        ]
+      },
+      {
+        "technique_id": "T1686.003",
+        "tactics": [
+          "Defense Impairment"
+        ],
+        "detections": [
+          "MSEC-DET-0033"
+        ]
+      }
+    ],
+    "tactics": [
+      {
+        "tactic": "Command and Control",
+        "techniques": [
+          "T1090.001",
+          "T1105"
+        ],
+        "detections": [
+          "MSEC-DET-0020",
+          "MSEC-DET-0043",
+          "MSEC-DET-0044",
+          "MSEC-DET-0050"
+        ]
+      },
+      {
+        "tactic": "Credential Access",
+        "techniques": [
+          "T1003.001",
+          "T1003.002",
+          "T1003.003",
+          "T1556.006"
+        ],
+        "detections": [
+          "MSEC-DET-0011",
+          "MSEC-DET-0022",
+          "MSEC-DET-0023",
+          "MSEC-DET-0030",
+          "MSEC-DET-0036"
+        ]
+      },
+      {
+        "tactic": "Defense Evasion",
+        "techniques": [
+          "T1218.005",
+          "T1218.010",
+          "T1548.002",
+          "T1556.009"
+        ],
+        "detections": [
+          "MSEC-DET-0012",
+          "MSEC-DET-0013",
+          "MSEC-DET-0014",
+          "MSEC-DET-0037"
+        ]
+      },
+      {
+        "tactic": "Defense Impairment",
+        "techniques": [
+          "T1484.002",
+          "T1556.006",
+          "T1685",
+          "T1685.001",
+          "T1685.005",
+          "T1686.003"
+        ],
+        "detections": [
+          "MSEC-DET-0017",
+          "MSEC-DET-0018",
+          "MSEC-DET-0019",
+          "MSEC-DET-0022",
+          "MSEC-DET-0032",
+          "MSEC-DET-0033"
+        ]
+      },
+      {
+        "tactic": "Execution",
+        "techniques": [
+          "T1047",
+          "T1053.005",
+          "T1059",
+          "T1059.001",
+          "T1127.001",
+          "T1197"
+        ],
+        "detections": [
+          "MSEC-DET-0006",
+          "MSEC-DET-0007",
+          "MSEC-DET-0024",
+          "MSEC-DET-0025",
+          "MSEC-DET-0028",
+          "MSEC-DET-0039",
+          "MSEC-DET-0045",
+          "MSEC-DET-0048"
+        ]
+      },
+      {
+        "tactic": "Impact",
+        "techniques": [
+          "T1490"
+        ],
+        "detections": [
+          "MSEC-DET-0016"
+        ]
+      },
+      {
+        "tactic": "Initial Access",
+        "techniques": [
+          "T1078.004"
+        ],
+        "detections": [
+          "MSEC-DET-0002",
+          "MSEC-DET-0003",
+          "MSEC-DET-0010",
+          "MSEC-DET-0026"
+        ]
+      },
+      {
+        "tactic": "Lateral Movement",
+        "techniques": [
+          "T1021.006"
+        ],
+        "detections": [
+          "MSEC-DET-0038"
+        ]
+      },
+      {
+        "tactic": "Persistence",
+        "techniques": [
+          "T1053.005",
+          "T1098.001",
+          "T1098.003",
+          "T1098.007",
+          "T1197",
+          "T1505.003",
+          "T1543.003",
+          "T1546.008",
+          "T1547.001",
+          "T1547.004",
+          "T1556.006"
+        ],
+        "detections": [
+          "MSEC-DET-0001",
+          "MSEC-DET-0004",
+          "MSEC-DET-0009",
+          "MSEC-DET-0021",
+          "MSEC-DET-0022",
+          "MSEC-DET-0025",
+          "MSEC-DET-0028",
+          "MSEC-DET-0029",
+          "MSEC-DET-0031",
+          "MSEC-DET-0034",
+          "MSEC-DET-0040",
+          "MSEC-DET-0046",
+          "MSEC-DET-0047",
+          "MSEC-DET-0048"
+        ]
+      },
+      {
+        "tactic": "Privilege Escalation",
+        "techniques": [
+          "T1053.005",
+          "T1098.003",
+          "T1098.007",
+          "T1484.002",
+          "T1543.003",
+          "T1546.008",
+          "T1547.001",
+          "T1547.004",
+          "T1548.002"
+        ],
+        "detections": [
+          "MSEC-DET-0005",
+          "MSEC-DET-0008",
+          "MSEC-DET-0015",
+          "MSEC-DET-0019",
+          "MSEC-DET-0021",
+          "MSEC-DET-0028",
+          "MSEC-DET-0029",
+          "MSEC-DET-0034",
+          "MSEC-DET-0037",
+          "MSEC-DET-0040",
+          "MSEC-DET-0046",
+          "MSEC-DET-0047",
+          "MSEC-DET-0048"
+        ]
+      },
+      {
+        "tactic": "Stealth",
+        "techniques": [
+          "T1127.001",
+          "T1140",
+          "T1197",
+          "T1218.003",
+          "T1218.004",
+          "T1218.007",
+          "T1218.008",
+          "T1218.011",
+          "T1218.013"
+        ],
+        "detections": [
+          "MSEC-DET-0025",
+          "MSEC-DET-0027",
+          "MSEC-DET-0035",
+          "MSEC-DET-0041",
+          "MSEC-DET-0042",
+          "MSEC-DET-0043",
+          "MSEC-DET-0044",
+          "MSEC-DET-0045",
+          "MSEC-DET-0049"
+        ]
+      }
+    ]
+  },
+  "data_sources": {
+    "logical": [
+      {
+        "name": "Microsoft Defender for Endpoint process events",
+        "category": "Endpoint process creation",
+        "detections": [
+          "MSEC-DET-0006",
+          "MSEC-DET-0007",
+          "MSEC-DET-0011",
+          "MSEC-DET-0012",
+          "MSEC-DET-0013",
+          "MSEC-DET-0016",
+          "MSEC-DET-0017",
+          "MSEC-DET-0018",
+          "MSEC-DET-0020",
+          "MSEC-DET-0023",
+          "MSEC-DET-0024",
+          "MSEC-DET-0025",
+          "MSEC-DET-0027",
+          "MSEC-DET-0028",
+          "MSEC-DET-0029",
+          "MSEC-DET-0030",
+          "MSEC-DET-0031",
+          "MSEC-DET-0032",
+          "MSEC-DET-0033",
+          "MSEC-DET-0034",
+          "MSEC-DET-0035",
+          "MSEC-DET-0036",
+          "MSEC-DET-0037",
+          "MSEC-DET-0038",
+          "MSEC-DET-0039",
+          "MSEC-DET-0041",
+          "MSEC-DET-0042",
+          "MSEC-DET-0043",
+          "MSEC-DET-0044",
+          "MSEC-DET-0045",
+          "MSEC-DET-0048",
+          "MSEC-DET-0049",
+          "MSEC-DET-0050"
+        ],
+        "required_fields": [
+          "AccountName",
+          "DeviceId",
+          "DeviceName",
+          "FileName",
+          "FolderPath",
+          "InitiatingProcessFileName",
+          "ProcessCommandLine",
+          "ProcessVersionInfoOriginalFileName",
+          "ReportId",
+          "TimeGenerated",
+          "Timestamp"
+        ]
+      },
+      {
+        "name": "Microsoft Defender for Endpoint registry events",
+        "category": "Endpoint registry modification",
+        "detections": [
+          "MSEC-DET-0040",
+          "MSEC-DET-0046",
+          "MSEC-DET-0047"
+        ],
+        "required_fields": [
+          "ActionType",
+          "DeviceId",
+          "DeviceName",
+          "InitiatingProcessAccountName",
+          "InitiatingProcessCommandLine",
+          "InitiatingProcessFileName",
+          "RegistryKey",
+          "RegistryValueData",
+          "RegistryValueName",
+          "ReportId",
+          "TimeGenerated",
+          "Timestamp"
+        ]
+      },
+      {
+        "name": "Microsoft Entra audit logs",
+        "category": "Identity directory audit",
+        "detections": [
+          "MSEC-DET-0004",
+          "MSEC-DET-0005",
+          "MSEC-DET-0008",
+          "MSEC-DET-0009",
+          "MSEC-DET-0014",
+          "MSEC-DET-0015",
+          "MSEC-DET-0019",
+          "MSEC-DET-0021",
+          "MSEC-DET-0022"
+        ],
+        "required_fields": [
+          "CorrelationId",
+          "InitiatedBy",
+          "LoggedByService",
+          "OperationName",
+          "Result",
+          "TargetResources",
+          "TimeGenerated"
+        ]
+      },
+      {
+        "name": "Microsoft Entra sign-in logs",
+        "category": "Identity authentication",
+        "detections": [
+          "MSEC-DET-0002",
+          "MSEC-DET-0003",
+          "MSEC-DET-0026"
+        ],
+        "required_fields": [
+          "AppDisplayName",
+          "AuthenticationProtocol",
+          "ClientAppUsed",
+          "IPAddress",
+          "ResultType",
+          "RiskLevelDuringSignIn",
+          "TimeGenerated",
+          "UserPrincipalName"
+        ]
+      },
+      {
+        "name": "Microsoft Entra user risk events",
+        "category": "Identity risk",
+        "detections": [
+          "MSEC-DET-0010"
+        ],
+        "required_fields": [
+          "OperationName",
+          "RiskEventType",
+          "RiskLevel",
+          "RiskState",
+          "TimeGenerated",
+          "UserId",
+          "UserPrincipalName"
+        ]
+      },
+      {
+        "name": "Windows service installation events",
+        "category": "Windows service control manager",
+        "detections": [
+          "MSEC-DET-0001"
+        ],
+        "required_fields": [
+          "Computer",
+          "EventID",
+          "ImagePath",
+          "Provider_Name",
+          "ServiceName"
+        ]
+      }
+    ],
+    "sentinel_contracts": [
+      {
+        "source_id": "MSEC-SDS-0001",
+        "table": "SigninLogs",
+        "display_name": "Microsoft Entra sign-in logs",
+        "detections": [
+          "MSEC-DET-0002",
+          "MSEC-DET-0003",
+          "MSEC-DET-0026"
+        ],
+        "event_time_column": "TimeGenerated",
+        "required_columns": [
+          {
+            "name": "TimeGenerated",
+            "type": "datetime"
+          },
+          {
+            "name": "AppDisplayName",
+            "type": "string"
+          },
+          {
+            "name": "AppId",
+            "type": "string"
+          },
+          {
+            "name": "AuthenticationProtocol",
+            "type": "string"
+          },
+          {
+            "name": "AuthenticationRequirement",
+            "type": "string"
+          },
+          {
+            "name": "ClientAppUsed",
+            "type": "string"
+          },
+          {
+            "name": "ConditionalAccessStatus",
+            "type": "string"
+          },
+          {
+            "name": "CorrelationId",
+            "type": "string"
+          },
+          {
+            "name": "IPAddress",
+            "type": "string"
+          },
+          {
+            "name": "ResultType",
+            "type": "string"
+          },
+          {
+            "name": "RiskDetail",
+            "type": "string"
+          },
+          {
+            "name": "RiskEventTypes_V2",
+            "type": "dynamic"
+          },
+          {
+            "name": "RiskLevelDuringSignIn",
+            "type": "string"
+          },
+          {
+            "name": "RiskState",
+            "type": "string"
+          },
+          {
+            "name": "UserId",
+            "type": "string"
+          },
+          {
+            "name": "UserPrincipalName",
+            "type": "string"
+          }
+        ],
+        "freshness": {
+          "degraded_after": "PT6H",
+          "unavailable_after": "P1D"
+        }
+      },
+      {
+        "source_id": "MSEC-SDS-0002",
+        "table": "AuditLogs",
+        "display_name": "Microsoft Entra audit logs",
+        "detections": [
+          "MSEC-DET-0004",
+          "MSEC-DET-0005",
+          "MSEC-DET-0008",
+          "MSEC-DET-0009",
+          "MSEC-DET-0014",
+          "MSEC-DET-0015",
+          "MSEC-DET-0019",
+          "MSEC-DET-0021",
+          "MSEC-DET-0022"
+        ],
+        "event_time_column": "TimeGenerated",
+        "required_columns": [
+          {
+            "name": "TimeGenerated",
+            "type": "datetime"
+          },
+          {
+            "name": "CorrelationId",
+            "type": "string"
+          },
+          {
+            "name": "InitiatedBy",
+            "type": "dynamic"
+          },
+          {
+            "name": "LoggedByService",
+            "type": "string"
+          },
+          {
+            "name": "OperationName",
+            "type": "string"
+          },
+          {
+            "name": "Result",
+            "type": "string"
+          },
+          {
+            "name": "TargetResources",
+            "type": "dynamic"
+          }
+        ],
+        "freshness": {
+          "degraded_after": "PT6H",
+          "unavailable_after": "P1D"
+        }
+      },
+      {
+        "source_id": "MSEC-SDS-0003",
+        "table": "DeviceProcessEvents",
+        "display_name": "Microsoft Defender for Endpoint process events",
+        "detections": [
+          "MSEC-DET-0006",
+          "MSEC-DET-0007",
+          "MSEC-DET-0011",
+          "MSEC-DET-0012",
+          "MSEC-DET-0013",
+          "MSEC-DET-0016",
+          "MSEC-DET-0017",
+          "MSEC-DET-0018",
+          "MSEC-DET-0020",
+          "MSEC-DET-0023",
+          "MSEC-DET-0024",
+          "MSEC-DET-0025",
+          "MSEC-DET-0027",
+          "MSEC-DET-0028",
+          "MSEC-DET-0029",
+          "MSEC-DET-0030",
+          "MSEC-DET-0031",
+          "MSEC-DET-0032",
+          "MSEC-DET-0033",
+          "MSEC-DET-0034",
+          "MSEC-DET-0035",
+          "MSEC-DET-0036",
+          "MSEC-DET-0037",
+          "MSEC-DET-0038",
+          "MSEC-DET-0039",
+          "MSEC-DET-0041",
+          "MSEC-DET-0042",
+          "MSEC-DET-0043",
+          "MSEC-DET-0044",
+          "MSEC-DET-0045",
+          "MSEC-DET-0048",
+          "MSEC-DET-0049",
+          "MSEC-DET-0050"
+        ],
+        "event_time_column": "Timestamp",
+        "required_columns": [
+          {
+            "name": "TimeGenerated",
+            "type": "datetime"
+          },
+          {
+            "name": "Timestamp",
+            "type": "datetime"
+          },
+          {
+            "name": "AccountDomain",
+            "type": "string"
+          },
+          {
+            "name": "AccountName",
+            "type": "string"
+          },
+          {
+            "name": "AccountSid",
+            "type": "string"
+          },
+          {
+            "name": "DeviceId",
+            "type": "string"
+          },
+          {
+            "name": "DeviceName",
+            "type": "string"
+          },
+          {
+            "name": "FileName",
+            "type": "string"
+          },
+          {
+            "name": "FolderPath",
+            "type": "string"
+          },
+          {
+            "name": "InitiatingProcessFileName",
+            "type": "string"
+          },
+          {
+            "name": "ProcessVersionInfoOriginalFileName",
+            "type": "string"
+          },
+          {
+            "name": "ProcessCommandLine",
+            "type": "string"
+          },
+          {
+            "name": "ReportId",
+            "type": "long"
+          }
+        ],
+        "freshness": {
+          "degraded_after": "PT6H",
+          "unavailable_after": "P1D"
+        }
+      },
+      {
+        "source_id": "MSEC-SDS-0004",
+        "table": "AADUserRiskEvents",
+        "display_name": "Microsoft Entra user risk events",
+        "detections": [
+          "MSEC-DET-0010"
+        ],
+        "event_time_column": "TimeGenerated",
+        "required_columns": [
+          {
+            "name": "TimeGenerated",
+            "type": "datetime"
+          },
+          {
+            "name": "OperationName",
+            "type": "string"
+          },
+          {
+            "name": "RiskDetail",
+            "type": "string"
+          },
+          {
+            "name": "RiskEventType",
+            "type": "string"
+          },
+          {
+            "name": "RiskLevel",
+            "type": "string"
+          },
+          {
+            "name": "RiskState",
+            "type": "string"
+          },
+          {
+            "name": "Source",
+            "type": "string"
+          },
+          {
+            "name": "UserDisplayName",
+            "type": "string"
+          },
+          {
+            "name": "UserId",
+            "type": "string"
+          },
+          {
+            "name": "UserPrincipalName",
+            "type": "string"
+          }
+        ],
+        "freshness": {
+          "degraded_after": "PT6H",
+          "unavailable_after": "P1D"
+        }
+      },
+      {
+        "source_id": "MSEC-SDS-0005",
+        "table": "DeviceRegistryEvents",
+        "display_name": "Microsoft Defender for Endpoint registry events",
+        "detections": [
+          "MSEC-DET-0040",
+          "MSEC-DET-0046",
+          "MSEC-DET-0047"
+        ],
+        "event_time_column": "Timestamp",
+        "required_columns": [
+          {
+            "name": "TimeGenerated",
+            "type": "datetime"
+          },
+          {
+            "name": "Timestamp",
+            "type": "datetime"
+          },
+          {
+            "name": "ActionType",
+            "type": "string"
+          },
+          {
+            "name": "DeviceId",
+            "type": "string"
+          },
+          {
+            "name": "DeviceName",
+            "type": "string"
+          },
+          {
+            "name": "RegistryKey",
+            "type": "string"
+          },
+          {
+            "name": "RegistryValueName",
+            "type": "string"
+          },
+          {
+            "name": "RegistryValueData",
+            "type": "string"
+          },
+          {
+            "name": "InitiatingProcessAccountDomain",
+            "type": "string"
+          },
+          {
+            "name": "InitiatingProcessAccountName",
+            "type": "string"
+          },
+          {
+            "name": "InitiatingProcessAccountSid",
+            "type": "string"
+          },
+          {
+            "name": "InitiatingProcessFileName",
+            "type": "string"
+          },
+          {
+            "name": "InitiatingProcessCommandLine",
+            "type": "string"
+          },
+          {
+            "name": "ReportId",
+            "type": "long"
+          }
+        ],
+        "freshness": {
+          "degraded_after": "PT6H",
+          "unavailable_after": "P1D"
+        }
+      }
+    ],
+    "detections_without_sentinel_binding": [
+      {
+        "id": "MSEC-DET-0001",
+        "title": "Windows service installation from a public or temporary path",
+        "data_sources": [
+          "Windows service installation events"
+        ]
+      }
+    ]
+  }
+}

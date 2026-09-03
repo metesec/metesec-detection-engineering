@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0036",
+  "title": "ProcDump targets a sensitive authentication process",
+  "description": "Detects ProcDump or a renamed ProcDump binary requesting a dump of LSASS, KeyIso or SamSs.",
+  "hypothesis": {
+    "summary": "An adversary may use Sysinternals ProcDump to capture memory from a Windows authentication process and extract credentials or secrets.",
+    "rationale": "Microsoft documents ProcDump memory-dump switches, MITRE records ProcDump use against LSASS, and SigmaHQ maintains a comparable process analytic; approved diagnostics and incident response can use the same utility.",
+    "detection_goal": "Identify ProcDump full, mini-plus or mini dump requests targeting LSASS, KeyIso or SamSs while leaving unrelated dumps, missing dump modes and lookalike executables unmatched."
+  },
+  "ownership": {
+    "owner": "MeteSec Detection Engineering",
+    "reviewers": []
+  },
+  "lifecycle": {
+    "status": "experimental",
+    "created": "2026-09-03",
+    "modified": "2026-09-03",
+    "review_interval_days": 90
+  },
+  "severity": "high",
+  "confidence": "high",
+  "data_sources": [
+    {
+      "name": "Microsoft Defender for Endpoint process events",
+      "category": "Endpoint process creation",
+      "required_fields": ["TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountName", "InitiatingProcessFileName", "FileName", "ProcessVersionInfoOriginalFileName", "FolderPath", "ProcessCommandLine", "ReportId"]
+    }
+  ],
+  "attack": [
+    {"technique_id": "T1003.001", "tactic": "Credential Access"}
+  ],
+  "triage": {
+    "summary": "Validate the binary identity, target process and dump destination, then determine whether an authorized diagnostic or response workflow explains the activity.",
+    "steps": [
+      "Review the complete command, file path, original filename metadata, account, parent process and target endpoint role.",
+      "Locate the resulting dump, inspect its destination and access history, and correlate subsequent archive, transfer or credential-use activity.",
+      "Confirm an approved diagnostic or incident-response case; contain the endpoint and protect potentially exposed credentials when unauthorized."
+    ],
+    "false_positives": [
+      "Approved crash diagnostics, forensic acquisition and incident-response workflows using ProcDump against an authentication process"
+    ]
+  },
+  "validation": {
+    "expected_outcome": "Match ProcDump or renamed ProcDump dump requests against LSASS, KeyIso or SamSs; do not match unrelated targets, missing dump modes or another executable.",
+    "positive_tests": true,
+    "negative_tests": true
+  },
+  "implementations": [
+    {
+      "type": "sigma",
+      "path": "content/portable/sigma/MSEC-DET-0036/rule.yml",
+      "targets": ["sentinel"],
+      "status": "active"
+    }
+  ]
+}

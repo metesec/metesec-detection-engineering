@@ -1,0 +1,45 @@
+title: NTDSutil Creates Active Directory Installation Media
+id: 44580003-613f-4cb3-9d47-c9b1c6fa3b58
+status: experimental
+description: Detects ntdsutil.exe commands that activate the NTDS instance and create installation media through IFM.
+references:
+  - https://attack.mitre.org/techniques/T1003/003/
+  - https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/cc732530(v=ws.11)
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_susp_ntds.yml
+author: MeteSec Detection Engineering
+date: 2026-09-03
+tags:
+  - attack.credential-access
+  - attack.t1003.003
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection_image:
+    FileName: ntdsutil.exe
+  selection_instance:
+    ProcessCommandLine|contains:
+      - 'ac i ntds'
+      - 'activate instance ntds'
+  selection_ifm:
+    ProcessCommandLine|contains: 'ifm'
+  selection_create:
+    ProcessCommandLine|contains:
+      - 'create full'
+      - 'create rodc'
+      - 'create sysvol'
+  condition: selection_image and selection_instance and selection_ifm and selection_create
+fields:
+  - TimeGenerated
+  - Timestamp
+  - DeviceId
+  - DeviceName
+  - AccountName
+  - InitiatingProcessFileName
+  - FileName
+  - FolderPath
+  - ProcessCommandLine
+  - ReportId
+falsepositives:
+  - Approved Active Directory domain-controller installation, recovery, or backup preparation using IFM.
+level: high

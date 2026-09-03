@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0048",
+  "title": "Suspicious local scheduled task creation",
+  "description": "Detects local Schtasks task creation whose task action contains a selected user-writable payload or behavior-bearing script and proxy-execution command.",
+  "hypothesis": {
+    "summary": "An adversary may create a local scheduled task that executes a script, user-writable payload or signed Windows utility for persistence or execution.",
+    "rationale": "MITRE documents scheduled task creation across execution, persistence and privilege escalation. Combining local Schtasks creation with a task action and selected payload behavior is more useful than alerting on every local task, while the separate remote-task rule retains ownership of commands using the documented remote /s option.",
+    "detection_goal": "Identify local Schtasks creation commands whose /tr action uses a selected user-writable payload or suspicious PowerShell, Mshta, Regsvr32 or Rundll32 behavior while leaving remote creation, ordinary managed tasks, queries and unrelated processes unmatched."
+  },
+  "ownership": {"owner": "MeteSec Detection Engineering", "reviewers": []},
+  "lifecycle": {"status": "experimental", "created": "2026-09-03", "modified": "2026-09-03", "review_interval_days": 90},
+  "severity": "medium",
+  "confidence": "medium",
+  "data_sources": [
+    {"name": "Microsoft Defender for Endpoint process events", "category": "Endpoint process creation", "required_fields": ["TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountName", "InitiatingProcessFileName", "FileName", "ProcessVersionInfoOriginalFileName", "FolderPath", "ProcessCommandLine", "ReportId"]}
+  ],
+  "attack": [
+    {"technique_id": "T1053.005", "tactic": "Execution"},
+    {"technique_id": "T1053.005", "tactic": "Persistence"},
+    {"technique_id": "T1053.005", "tactic": "Privilege Escalation"}
+  ],
+  "triage": {
+    "summary": "Validate the task action, creator and schedule before escalation; software deployment and administrative automation can create local tasks with interpreters or user-space paths.",
+    "steps": [
+      "Review the complete Schtasks command, task name, schedule, /tr action, original filename, parent process, account and endpoint role.",
+      "Inspect the referenced payload or remote resource and correlate its file creation, signer, hash, download, child processes and task execution events.",
+      "Confirm the task with the responsible deployment or automation owner; otherwise disable it safely, contain the endpoint and investigate the originating process and account."
+    ],
+    "false_positives": ["Approved local software deployment, maintenance or administrative automation that creates a task with one of the selected payload forms"]
+  },
+  "validation": {"expected_outcome": "Match local Schtasks /create commands with a /tr action containing a selected user-writable payload or suspicious script and LOLBin behavior; do not match remote creation, ordinary Program Files tasks, queries or unrelated executables.", "positive_tests": true, "negative_tests": true},
+  "implementations": [{"type": "sigma", "path": "content/portable/sigma/MSEC-DET-0048/rule.yml", "targets": ["sentinel"], "status": "active"}]
+}

@@ -1,0 +1,60 @@
+title: Winlogon Shell or Userinit Value Hijack
+id: 760e89c6-0024-404e-9463-62e63968b6da
+status: experimental
+description: Detects a Winlogon Shell or Userinit registry value set to a non-default executable command.
+references:
+  - https://attack.mitre.org/techniques/T1547/004/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/registry/registry_set/registry_set_persistence_winlogon_helper_dll.yml
+  - https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceregistryevents-table
+author: MeteSec Detection Engineering
+date: 2026-09-03
+tags:
+  - attack.persistence
+  - attack.privilege-escalation
+  - attack.t1547.004
+logsource:
+  product: windows
+  category: registry_set
+detection:
+  selection_action:
+    ActionType: RegistryValueSet
+  selection_key:
+    RegistryKey|endswith:
+      - '\Software\Microsoft\Windows NT\CurrentVersion\Winlogon'
+      - '\Software\Wow6432Node\Microsoft\Windows NT\CurrentVersion\Winlogon'
+  selection_shell:
+    RegistryValueName: Shell
+  selection_userinit:
+    RegistryValueName: Userinit
+  filter_default_shell:
+    RegistryValueName: Shell
+    RegistryValueData:
+      - explorer.exe
+      - 'C:\Windows\explorer.exe'
+      - '%SystemRoot%\explorer.exe'
+  filter_default_userinit:
+    RegistryValueName: Userinit
+    RegistryValueData:
+      - userinit.exe
+      - 'userinit.exe,'
+      - 'C:\Windows\system32\userinit.exe'
+      - 'C:\Windows\system32\userinit.exe,'
+      - '%SystemRoot%\system32\userinit.exe'
+      - '%SystemRoot%\system32\userinit.exe,'
+  condition: selection_action and selection_key and ((selection_shell and not filter_default_shell) or (selection_userinit and not filter_default_userinit))
+fields:
+  - TimeGenerated
+  - Timestamp
+  - ActionType
+  - DeviceId
+  - DeviceName
+  - RegistryKey
+  - RegistryValueName
+  - RegistryValueData
+  - InitiatingProcessAccountName
+  - InitiatingProcessFileName
+  - InitiatingProcessCommandLine
+  - ReportId
+falsepositives:
+  - Approved kiosk, virtual-desktop, embedded-system, or custom-shell configurations that intentionally replace the standard Winlogon command.
+level: high

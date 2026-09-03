@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0039",
+  "title": "PowerShell download-and-execute cradle",
+  "description": "Detects PowerShell commands that combine a selected network download primitive with immediate expression execution.",
+  "hypothesis": {
+    "summary": "An adversary may use PowerShell to retrieve script content and execute it directly in memory.",
+    "rationale": "MITRE documents PowerShell abuse, SigmaHQ maintains a comparable cradle analytic, and the authorized 30-day aggregate baseline was non-zero across several devices; legitimate automation therefore requires environment-specific review.",
+    "detection_goal": "Identify PowerShell commands that combine a selected download primitive with IEX or Invoke-Expression while leaving download-only, execution-only, encoded-only and non-PowerShell commands unmatched."
+  },
+  "ownership": {"owner": "MeteSec Detection Engineering", "reviewers": []},
+  "lifecycle": {"status": "experimental", "created": "2026-09-03", "modified": "2026-09-03", "review_interval_days": 90},
+  "severity": "high",
+  "confidence": "medium",
+  "data_sources": [
+    {"name": "Microsoft Defender for Endpoint process events", "category": "Endpoint process creation", "required_fields": ["TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountName", "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"]}
+  ],
+  "attack": [{"technique_id": "T1059.001", "tactic": "Execution"}],
+  "triage": {
+    "summary": "Treat the match as a tuning-required hunting signal until its script source, execution context and observed non-zero baseline are explained.",
+    "steps": [
+      "Review the complete command, decoded URL or source, account, parent process, device role and script host lineage.",
+      "Inspect downloaded content and correlate child processes, persistence, file writes, network connections and security-control changes.",
+      "Compare the activity with approved deployment or administration automation and add a narrowly scoped exception only after validating owner, source and purpose."
+    ],
+    "false_positives": [
+      "Approved deployment, bootstrap, support or administration scripts that intentionally download and execute PowerShell content",
+      "Environment-specific automation represented in the non-zero authorized 30-day aggregate baseline and still requiring owner review"
+    ]
+  },
+  "validation": {"expected_outcome": "Match PowerShell commands combining selected download and expression-execution markers; do not match either behavior alone, another process or encoded-only PowerShell.", "positive_tests": true, "negative_tests": true},
+  "implementations": [{"type": "sigma", "path": "content/portable/sigma/MSEC-DET-0039/rule.yml", "targets": ["sentinel"], "status": "active"}]
+}

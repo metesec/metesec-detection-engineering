@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "detection_id": "MSEC-DET-0031",
+  "implementation": "content/portable/sigma/MSEC-DET-0031/rule.yml",
+  "cases": [
+    {"id": "iis-command-shell", "expectation": "match", "fixture": "fixtures/iis-command-shell.json", "description": "Synthetic IIS worker starts the Windows command shell."},
+    {"id": "apache-powershell-uppercase", "expectation": "match", "fixture": "fixtures/apache-powershell-uppercase.json", "description": "Synthetic Apache worker starts PowerShell with mixed field casing."},
+    {"id": "nginx-certutil-with-context", "expectation": "match", "fixture": "fixtures/nginx-certutil-with-context.json", "description": "Synthetic Nginx worker starts Certutil with bounded endpoint context."},
+    {"id": "ordinary-web-child", "expectation": "no_match", "fixture": "fixtures/ordinary-web-child.json", "description": "Synthetic web server starts a child outside the selected suspicious utility set."},
+    {"id": "unrelated-parent", "expectation": "no_match", "fixture": "fixtures/unrelated-parent.json", "description": "Synthetic command shell starts from an unrelated parent."},
+    {"id": "unsupported-java-parent", "expectation": "no_match", "fixture": "fixtures/unsupported-java-parent.json", "description": "Synthetic generic Java parent is not assumed to be Tomcat without additional evidence."},
+    {"id": "other-process", "expectation": "no_match", "fixture": "fixtures/other-process.json", "description": "Synthetic other process carrying selected names in its command line remains outside the rule."}
+  ]
+}

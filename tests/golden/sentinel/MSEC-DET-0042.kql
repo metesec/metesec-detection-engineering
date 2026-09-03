@@ -1,0 +1,3 @@
+DeviceProcessEvents
+| where (FileName =~ "odbcconf.exe" or ProcessVersionInfoOriginalFileName =~ "odbcconf.exe") and ProcessCommandLine contains "REGSVR " and ProcessCommandLine contains ".dll"
+| project TimeGenerated, Timestamp, DeviceId, DeviceName, AccountDomain, AccountName, AccountSid, InitiatingProcessFileName, FileName, ProcessVersionInfoOriginalFileName, FolderPath, ProcessCommandLine, ReportId

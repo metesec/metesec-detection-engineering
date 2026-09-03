@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metesec.com/schemas/sentinel-runtime-health-policy-v1.schema.json",
+  "title": "MeteSec Sentinel runtime-health policy v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "target",
+    "source_profile",
+    "expected_enabled",
+    "degraded_after_missed_runs",
+    "failed_after_missed_runs"
+  ],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "target": { "const": "microsoft-sentinel" },
+    "source_profile": { "const": "targets/sentinel/analytics-rules.json" },
+    "expected_enabled": { "const": true },
+    "degraded_after_missed_runs": { "type": "integer", "minimum": 1 },
+    "failed_after_missed_runs": { "type": "integer", "minimum": 2 }
+  }
+}

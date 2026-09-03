@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"InitiatingProcessFileName":"msbuild.exe","FileName":"csc.exe","ProcessCommandLine":"csc.exe /noconfig Synthetic.cs"}}

@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "event": {
+    "FileName": "powershell.exe",
+    "ProcessCommandLine": "powershell.exe Invoke-WmiMethod -Class Win32_Process -Name Create -ArgumentList 'cmd.exe /c whoami' -ComputerName host.example.invalid"
+  }
+}

@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"FileName":"setup-helper.exe","ProcessVersionInfoOriginalFileName":"odbcconf.exe","ProcessCommandLine":"setup-helper.exe /A {REGSVR C:\\Temp\\driver.dll}"}}

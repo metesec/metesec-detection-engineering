@@ -3,13 +3,29 @@
 The public release is a deterministic ZIP archive named
 `metesec-detection-pack-v<VERSION>.zip`. `VERSION` comes from `package.json`.
 The build also produces `SHA256SUMS` for independent integrity verification.
+The builder requires matching notes at `docs/releases/v<VERSION>.md`, so a
+version change cannot silently reuse notes from an older release.
 
 ## Included material
 
 The archive contains the public catalogue, logical manifests, schema contracts,
 portable Sigma rules, synthetic positive and negative fixtures, explicit
 Microsoft Sentinel preview bindings, reviewed Golden KQL snapshots, essential
-scope documentation, the security policy and the Apache-2.0 license.
+scope documentation, Sentinel data-source contract, the security policy and the
+generated ATT&CK/data-source coverage report, and the Apache-2.0 license.
+The versioned lifecycle and Sentinel runtime-health policies and their schemas
+are included; runtime assessments are not.
+
+Data-source and rule-runtime observations and their derived live-health results
+are deliberately not packaged. They remain temporary inputs owned by the
+consuming environment. Alert and incident counts never enter the public source
+artifact as live environment results.
+
+The ZIP is a curated Detection Pack, not a complete repository checkout. The
+validators, generators and CI definitions remain in the canonical source
+repository. Use `SHA256SUMS` and the internal manifest to verify a downloaded
+pack; use a repository checkout when rebuilding or running the complete test
+suite.
 
 `RELEASE-MANIFEST.json` records every included source path, normalized byte size
 and SHA-256 digest. It also states the catalogue totals and makes the boundary
@@ -27,7 +43,7 @@ The builder:
 - stores members without platform-dependent compression;
 - emits no runtime timestamp, workstation path, Git credential or environment ID.
 
-Build and verify locally with:
+Build and verify from a repository checkout with:
 
 ```console
 pnpm run build:release

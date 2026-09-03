@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "detection_id": "MSEC-DET-0016",
+  "implementation": "content/portable/sigma/MSEC-DET-0016/rule.yml",
+  "cases": [
+    {"id": "vssadmin-delete-shadows", "expectation": "match", "fixture": "fixtures/vssadmin-delete-shadows.json", "description": "Synthetic vssadmin command attempts to delete shadow copies."},
+    {"id": "bcdedit-disable-recovery", "expectation": "match", "fixture": "fixtures/bcdedit-disable-recovery.json", "description": "Synthetic bcdedit command attempts to disable recovery."},
+    {"id": "reagentc-disable-with-context", "expectation": "match", "fixture": "fixtures/reagentc-disable-with-context.json", "description": "Synthetic reagentc command includes bounded endpoint context."},
+    {"id": "vssadmin-list-shadows", "expectation": "no_match", "fixture": "fixtures/vssadmin-list-shadows.json", "description": "Synthetic shadow-copy inventory does not delete recovery data."},
+    {"id": "wbadmin-start-backup", "expectation": "no_match", "fixture": "fixtures/wbadmin-start-backup.json", "description": "Synthetic backup creation is outside the rule."},
+    {"id": "reagentc-enable", "expectation": "no_match", "fixture": "fixtures/reagentc-enable.json", "description": "Synthetic recovery enablement is outside the rule."},
+    {"id": "other-process-delete-shadows", "expectation": "no_match", "fixture": "fixtures/other-process-delete-shadows.json", "description": "Synthetic unrelated process containing the words fails closed."}
+  ]
+}

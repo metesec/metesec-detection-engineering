@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"FileName":"msiexec.exe","ProcessCommandLine":"msiexec.exe /i http://example.invalid/packages/synthetic.msi /qn"}}

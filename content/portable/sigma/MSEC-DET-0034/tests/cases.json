@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "detection_id": "MSEC-DET-0034",
+  "implementation": "content/portable/sigma/MSEC-DET-0034/rule.yml",
+  "cases": [
+    {"id": "remote-service-create", "expectation": "match", "fixture": "fixtures/remote-service-create.json", "description": "Synthetic SC command creates a service on a remote host."},
+    {"id": "remote-service-create-uppercase", "expectation": "match", "fixture": "fixtures/remote-service-create-uppercase.json", "description": "Synthetic uppercase SC command verifies case-insensitive matching."},
+    {"id": "remote-service-create-with-context", "expectation": "match", "fixture": "fixtures/remote-service-create-with-context.json", "description": "Synthetic remote service creation includes bounded endpoint context."},
+    {"id": "local-service-create", "expectation": "no_match", "fixture": "fixtures/local-service-create.json", "description": "Synthetic local service creation lacks a remote UNC target."},
+    {"id": "remote-service-query", "expectation": "no_match", "fixture": "fixtures/remote-service-query.json", "description": "Synthetic remote service query does not create a service."},
+    {"id": "remote-service-delete", "expectation": "no_match", "fixture": "fixtures/remote-service-delete.json", "description": "Synthetic remote service deletion does not create a service."},
+    {"id": "other-process", "expectation": "no_match", "fixture": "fixtures/other-process.json", "description": "Synthetic other process carrying a remote create command remains outside the rule."}
+  ]
+}

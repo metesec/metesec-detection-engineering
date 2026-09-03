@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"FileName":"maintenance.exe","ProcessVersionInfoOriginalFileName":"schtasks.exe","ProcessCommandLine":"maintenance.exe /create /tn SyntheticTask /tr \"powershell.exe -NoProfile -EncodedCommand U1lOVEhFVElD\" /sc once /st 23:59"}}

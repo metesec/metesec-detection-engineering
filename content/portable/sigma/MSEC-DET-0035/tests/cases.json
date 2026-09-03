@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "detection_id": "MSEC-DET-0035",
+  "implementation": "content/portable/sigma/MSEC-DET-0035/rule.yml",
+  "cases": [
+    {"id": "decode-base64", "expectation": "match", "fixture": "fixtures/decode-base64.json", "description": "Synthetic Certutil command decodes Base64 content."},
+    {"id": "decode-hex-uppercase", "expectation": "match", "fixture": "fixtures/decode-hex-uppercase.json", "description": "Synthetic uppercase Certutil command decodes hexadecimal content."},
+    {"id": "slash-decode-with-context", "expectation": "match", "fixture": "fixtures/slash-decode-with-context.json", "description": "Synthetic slash-form decode command includes bounded endpoint context."},
+    {"id": "encode-base64", "expectation": "no_match", "fixture": "fixtures/encode-base64.json", "description": "Synthetic Certutil encode operation is outside the decode condition."},
+    {"id": "certificate-dump", "expectation": "no_match", "fixture": "fixtures/certificate-dump.json", "description": "Synthetic certificate inspection does not decode content."},
+    {"id": "incomplete-decode", "expectation": "no_match", "fixture": "fixtures/incomplete-decode.json", "description": "Synthetic incomplete decode switch lacks required file arguments."},
+    {"id": "other-process", "expectation": "no_match", "fixture": "fixtures/other-process.json", "description": "Synthetic other process carrying a decode argument remains outside the rule."}
+  ]
+}

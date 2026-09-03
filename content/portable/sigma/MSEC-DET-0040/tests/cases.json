@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "detection_id": "MSEC-DET-0040",
+  "implementation": "content/portable/sigma/MSEC-DET-0040/rule.yml",
+  "cases": [
+    {"id": "sethc-debugger", "expectation": "match", "fixture": "fixtures/sethc-debugger.json", "description": "Synthetic IFEO Debugger value targets sethc.exe."},
+    {"id": "utilman-debugger-uppercase", "expectation": "match", "fixture": "fixtures/utilman-debugger-uppercase.json", "description": "Synthetic mixed-case IFEO Debugger value targets utilman.exe."},
+    {"id": "narrator-debugger-with-context", "expectation": "match", "fixture": "fixtures/narrator-debugger-with-context.json", "description": "Synthetic IFEO Debugger value targets Narrator with bounded registry context."},
+    {"id": "other-ifeo-executable", "expectation": "no_match", "fixture": "fixtures/other-ifeo-executable.json", "description": "Synthetic Debugger value targets an unselected executable."},
+    {"id": "other-value-name", "expectation": "no_match", "fixture": "fixtures/other-value-name.json", "description": "Synthetic selected IFEO key sets a different value name."},
+    {"id": "non-ifeo-path", "expectation": "no_match", "fixture": "fixtures/non-ifeo-path.json", "description": "Synthetic Debugger value appears outside Image File Execution Options."},
+    {"id": "missing-value-name", "expectation": "no_match", "fixture": "fixtures/missing-value-name.json", "description": "Synthetic selected IFEO key lacks the Debugger value name."}
+  ]
+}

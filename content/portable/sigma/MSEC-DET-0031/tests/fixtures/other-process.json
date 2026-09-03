@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"InitiatingProcessFileName":"w3wp.exe","FileName":"synthetic.exe","ProcessCommandLine":"synthetic.exe --child cmd.exe"}}

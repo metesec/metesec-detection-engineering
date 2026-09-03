@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0024",
+  "title": "Remote process creation through Windows WMI or CIM",
+  "description": "Detects command lines that explicitly request remote Win32_Process creation through WMIC or PowerShell WMI and CIM interfaces.",
+  "hypothesis": {
+    "summary": "An adversary may use Windows WMI or CIM to execute a process on a remote endpoint.",
+    "rationale": "Microsoft documents Win32_Process.Create as a remote execution mechanism and MITRE recommends covering WMIC, PowerShell and other WMI interfaces; legitimate remote administration can use the same functionality.",
+    "detection_goal": "Identify explicit remote process creation through WMIC or PowerShell WMI and CIM commands while leaving local WMI queries, remote discovery and unrelated PowerShell activity unmatched."
+  },
+  "ownership": {
+    "owner": "MeteSec Detection Engineering",
+    "reviewers": []
+  },
+  "lifecycle": {
+    "status": "experimental",
+    "created": "2026-09-03",
+    "modified": "2026-09-03",
+    "review_interval_days": 90
+  },
+  "severity": "medium",
+  "confidence": "medium",
+  "data_sources": [
+    {
+      "name": "Microsoft Defender for Endpoint process events",
+      "category": "Endpoint process creation",
+      "required_fields": ["TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountName", "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"]
+    }
+  ],
+  "attack": [
+    {
+      "technique_id": "T1047",
+      "tactic": "Execution"
+    }
+  ],
+  "triage": {
+    "summary": "Resolve the source and destination hosts, command and initiating account, then validate whether remote administration authorized the execution.",
+    "steps": [
+      "Review the complete WMIC or PowerShell command, source device, remote target, account, parent process and requested child command.",
+      "Inspect authentication, network and process activity on the destination around the same time and determine what actually executed.",
+      "Confirm an approved software-management or administrative workflow; isolate affected endpoints and contain the account if the remote execution is unauthorized."
+    ],
+    "false_positives": [
+      "Approved remote administration, software deployment, configuration management and support automation"
+    ]
+  },
+  "validation": {
+    "expected_outcome": "Match explicit remote Win32_Process creation through WMIC or PowerShell WMI and CIM; do not match local execution, remote queries, unrelated methods or missing remote selectors.",
+    "positive_tests": true,
+    "negative_tests": true
+  },
+  "implementations": [
+    {
+      "type": "sigma",
+      "path": "content/portable/sigma/MSEC-DET-0024/rule.yml",
+      "targets": ["sentinel"],
+      "status": "active"
+    }
+  ]
+}

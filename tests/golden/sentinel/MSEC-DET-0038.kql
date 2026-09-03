@@ -1,0 +1,3 @@
+DeviceProcessEvents
+| where InitiatingProcessFileName =~ "wsmprovhost.exe" and (FileName in~ ("cmd.exe", "powershell.exe", "pwsh.exe", "wsl.exe", "bash.exe", "sh.exe", "schtasks.exe", "certutil.exe", "whoami.exe", "bitsadmin.exe"))
+| project TimeGenerated, Timestamp, DeviceId, DeviceName, AccountDomain, AccountName, AccountSid, InitiatingProcessFileName, FileName, FolderPath, ProcessCommandLine, ReportId

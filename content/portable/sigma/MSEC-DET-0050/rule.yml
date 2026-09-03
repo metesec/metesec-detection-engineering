@@ -1,0 +1,44 @@
+title: Netsh Creates a Windows PortProxy Rule
+id: b826e110-cae0-47a3-b7bd-4e83c32fbe10
+status: experimental
+description: Detects Netsh or a renamed Netsh binary adding a Windows interface PortProxy forwarding rule.
+references:
+  - https://attack.mitre.org/techniques/T1090/001/
+  - https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/netsh-interface
+  - https://learn.microsoft.com/en-us/windows/wsl/networking
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1090.001/T1090.001.md
+  - https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table
+author: MeteSec Detection Engineering
+date: 2026-09-03
+tags:
+  - attack.command-and-control
+  - attack.t1090.001
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection_image:
+    FileName: netsh.exe
+  selection_original:
+    ProcessVersionInfoOriginalFileName: netsh.exe
+  selection_command:
+    ProcessCommandLine|contains|all:
+      - interface
+      - portproxy
+      - ' add '
+  condition: (selection_image or selection_original) and selection_command
+fields:
+  - TimeGenerated
+  - Timestamp
+  - DeviceId
+  - DeviceName
+  - AccountName
+  - InitiatingProcessFileName
+  - FileName
+  - ProcessVersionInfoOriginalFileName
+  - FolderPath
+  - ProcessCommandLine
+  - ReportId
+falsepositives:
+  - Approved WSL publishing, Microsoft Connected Cache, development testing, or administrative TCP forwarding configured through Windows PortProxy.
+level: medium

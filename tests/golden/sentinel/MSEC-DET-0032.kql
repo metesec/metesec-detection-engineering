@@ -1,0 +1,3 @@
+DeviceProcessEvents
+| where FileName =~ "auditpol.exe" and (ProcessCommandLine contains " /clear" or (ProcessCommandLine contains "/remove" and ProcessCommandLine contains "/allusers"))
+| project TimeGenerated, Timestamp, DeviceId, DeviceName, AccountDomain, AccountName, AccountSid, InitiatingProcessFileName, FileName, FolderPath, ProcessCommandLine, ReportId

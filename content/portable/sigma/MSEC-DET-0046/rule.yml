@@ -1,0 +1,100 @@
+title: Suspicious Script or LOLBin Payload in a Run Key
+id: d2ff02e1-d020-4b3e-bdb1-0ae0fc54049a
+status: experimental
+description: Detects a Run, RunOnce, or Explorer policy Run value set to a selected script payload or suspicious signed Windows utility command.
+references:
+  - https://attack.mitre.org/techniques/T1547/001/
+  - https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceregistryevents-table
+author: MeteSec Detection Engineering
+date: 2026-09-03
+tags:
+  - attack.persistence
+  - attack.privilege-escalation
+  - attack.t1547.001
+logsource:
+  product: windows
+  category: registry_set
+detection:
+  selection_action:
+    ActionType: RegistryValueSet
+  selection_key:
+    RegistryKey|endswith:
+      - '\Software\Microsoft\Windows\CurrentVersion\Run'
+      - '\Software\Microsoft\Windows\CurrentVersion\RunOnce'
+      - '\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\Run'
+      - '\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Run'
+      - '\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\RunOnce'
+  script_location:
+    RegistryValueData|contains:
+      - '\AppData\'
+      - '\Users\Public\'
+      - '\Windows\Temp\'
+      - '\Temp\'
+      - '%APPDATA%'
+      - '%LOCALAPPDATA%'
+      - '%TEMP%'
+  script_type:
+    RegistryValueData|contains:
+      - '.ps1'
+      - '.vbs'
+      - '.vbe'
+      - '.js'
+      - '.jse'
+      - '.wsf'
+      - '.hta'
+  powershell_image:
+    RegistryValueData|contains:
+      - powershell
+      - pwsh
+  powershell_behavior:
+    RegistryValueData|contains:
+      - '-encodedcommand'
+      - ' -enc '
+      - frombase64string
+      - downloadstring
+      - downloadfile
+      - invoke-webrequest
+      - ' iwr '
+      - invoke-expression
+      - ' iex '
+      - '-windowstyle hidden'
+      - ' -w hidden'
+  mshta_image:
+    RegistryValueData|contains: mshta
+  mshta_behavior:
+    RegistryValueData|contains:
+      - 'http://'
+      - 'https://'
+      - 'javascript:'
+      - 'vbscript:'
+  regsvr32_image:
+    RegistryValueData|contains: regsvr32
+  regsvr32_behavior:
+    RegistryValueData|contains:
+      - 'http://'
+      - 'https://'
+      - scrobj.dll
+  rundll32_image:
+    RegistryValueData|contains: rundll32
+  rundll32_behavior:
+    RegistryValueData|contains:
+      - 'javascript:'
+      - 'vbscript:'
+      - mshtml
+  condition: selection_action and selection_key and ((script_location and script_type) or (powershell_image and powershell_behavior) or (mshta_image and mshta_behavior) or (regsvr32_image and regsvr32_behavior) or (rundll32_image and rundll32_behavior))
+fields:
+  - TimeGenerated
+  - Timestamp
+  - ActionType
+  - DeviceId
+  - DeviceName
+  - RegistryKey
+  - RegistryValueName
+  - RegistryValueData
+  - InitiatingProcessAccountName
+  - InitiatingProcessFileName
+  - InitiatingProcessCommandLine
+  - ReportId
+falsepositives:
+  - Approved logon scripts, software updaters, or management tooling that intentionally place a selected script or LOLBin command in a Run key.
+level: medium

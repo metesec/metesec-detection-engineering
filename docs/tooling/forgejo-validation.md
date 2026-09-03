@@ -69,6 +69,21 @@ trusted trigger set, a different runner label, missing read-only permission,
 persisted checkout credentials, an unpinned remote action, changed tool
 versions, or a command that no longer runs the complete repository validation.
 It also requires the deterministic release candidate build after validation.
+The aggregate check now also validates the public Sentinel data-source contract,
+its exact relationship to the preview bindings, and the fail-closed health
+evaluator. It supplies no environment observation, so the pipeline proves the
+contract and evaluator rather than making a live telemetry-health claim.
+The same check regenerates ATT&CK and data-source coverage in memory and rejects
+stale tracked report output.
+It also evaluates each manifest's review cadence against the current UTC date.
+The job begins failing when any review becomes due or overdue; no time-dependent
+assessment file is written. Cross-revision transition validation requires an
+explicit previous catalogue and is not claimed by the default workflow.
+Finally, it validates the Sentinel runtime-health policy, its exact relationship
+to the forty-nine scheduled-rule definitions, the fail-closed evaluator and its
+machine-output schema. CI supplies no rule observation, so this proves only the
+portable contract. It neither queries Sentinel nor claims that a deployed rule
+is healthy.
 
 The live Forgejo pipeline is operational. Branch run `#1` and canonical main run
 `#4` completed the original full aggregate check successfully. Isolated verification run

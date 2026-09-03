@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0019",
+  "title": "Microsoft Entra federation trust configuration changed",
+  "description": "Detects successful Microsoft Entra audit operations that change domain federation settings or domain authentication configuration.",
+  "hypothesis": {
+    "summary": "An adversary or unauthorized administrator may modify a federation trust to redirect or subvert authentication.",
+    "rationale": "Microsoft explicitly recommends alerting on federation configuration changes, and MITRE documents domain trust modification as a persistence and privilege path; approved federation maintenance can produce the same operations.",
+    "detection_goal": "Identify successful Set federation settings on domain and Set domain authentication operations while leaving failed changes and unrelated domain administration unmatched."
+  },
+  "ownership": {
+    "owner": "MeteSec Detection Engineering",
+    "reviewers": []
+  },
+  "lifecycle": {
+    "status": "experimental",
+    "created": "2026-09-03",
+    "modified": "2026-09-03",
+    "review_interval_days": 90
+  },
+  "severity": "high",
+  "confidence": "high",
+  "data_sources": [
+    {
+      "name": "Microsoft Entra audit logs",
+      "category": "Identity directory audit",
+      "required_fields": ["TimeGenerated", "CorrelationId", "InitiatedBy", "LoggedByService", "OperationName", "Result", "TargetResources"]
+    }
+  ],
+  "attack": [
+    {
+      "technique_id": "T1484.002",
+      "tactic": "Privilege Escalation"
+    },
+    {
+      "technique_id": "T1484.002",
+      "tactic": "Defense Impairment"
+    }
+  ],
+  "triage": {
+    "summary": "Identify the affected domain and initiator, validate the change against federation administration records and inspect sign-in behavior after the modification.",
+    "steps": [
+      "Review the initiating user or application, source IP, target domain, modified properties, correlation identifier and surrounding audit operations.",
+      "Confirm the exact change with the approved identity or federation maintenance record and the expected administrator.",
+      "Inspect federation certificates, issuer endpoints, authentication type and subsequent privileged sign-ins; restore trusted configuration and contain the initiator if unauthorized."
+    ],
+    "false_positives": [
+      "Approved federation migration, certificate rotation, domain conversion and identity-platform maintenance"
+    ]
+  },
+  "validation": {
+    "expected_outcome": "Match successful federation settings or domain authentication changes; do not match failures, domain verification or unrelated domain administration.",
+    "positive_tests": true,
+    "negative_tests": true
+  },
+  "implementations": [
+    {
+      "type": "sigma",
+      "path": "content/portable/sigma/MSEC-DET-0019/rule.yml",
+      "targets": ["sentinel"],
+      "status": "active"
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metesec.com/schemas/sentinel-runtime-observation-v1.schema.json",
+  "title": "MeteSec Sentinel runtime observation v1",
+  "description": "Environment-local rule execution and alert outcome observations.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "target", "observed_at", "rules"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "target": { "const": "microsoft-sentinel" },
+    "observed_at": { "$ref": "#/$defs/timestamp" },
+    "rules": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/rule" }
+    }
+  },
+  "$defs": {
+    "timestamp": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(?:\\.[0-9]+)?Z$"
+    },
+    "outcome": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["window_start", "window_end", "alerts_created", "incidents_created"],
+      "properties": {
+        "window_start": { "$ref": "#/$defs/timestamp" },
+        "window_end": { "$ref": "#/$defs/timestamp" },
+        "alerts_created": { "type": "integer", "minimum": 0 },
+        "incidents_created": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "rule_exists",
+        "enabled",
+        "last_execution_at",
+        "last_execution_status",
+        "alert_outcome"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^MSEC-DET-[0-9]{4}$" },
+        "rule_exists": { "type": "boolean" },
+        "enabled": { "type": ["boolean", "null"] },
+        "last_execution_at": {
+          "anyOf": [
+            { "$ref": "#/$defs/timestamp" },
+            { "type": "null" }
+          ]
+        },
+        "last_execution_status": { "enum": ["succeeded", "failed", "unknown"] },
+        "alert_outcome": {
+          "anyOf": [
+            { "$ref": "#/$defs/outcome" },
+            { "type": "null" }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "rule_exists": { "const": false } } },
+          "then": {
+            "properties": {
+              "enabled": { "type": "null" },
+              "last_execution_at": { "type": "null" },
+              "last_execution_status": { "const": "unknown" },
+              "alert_outcome": { "type": "null" }
+            }
+          },
+          "else": {
+            "properties": {
+              "enabled": { "type": "boolean" }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

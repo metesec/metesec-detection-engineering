@@ -1,0 +1,3 @@
+DeviceProcessEvents
+| where (InitiatingProcessFileName in~ ("w3wp.exe", "httpd.exe", "nginx.exe", "php-cgi.exe", "php.exe", "tomcat.exe", "UMWorkerProcess.exe", "ws_TomcatService.exe")) and (FileName in~ ("cmd.exe", "powershell.exe", "pwsh.exe", "powershell_ise.exe", "cscript.exe", "wscript.exe", "rundll32.exe", "mshta.exe", "certutil.exe", "bitsadmin.exe", "net.exe", "net1.exe", "netsh.exe", "reg.exe", "sc.exe", "wmic.exe", "ntdsutil.exe"))
+| project TimeGenerated, Timestamp, DeviceId, DeviceName, AccountDomain, AccountName, AccountSid, InitiatingProcessFileName, FileName, FolderPath, ProcessCommandLine, ReportId

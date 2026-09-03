@@ -38,16 +38,18 @@ source of truth:
 
 - display name, description and severity from the logical manifest;
 - KQL from the pinned compiler and reviewed Golden query;
+- entity mappings from the source profile's governed output contract;
 - Sentinel tactic names from the manifest ATT&CK mapping;
 - stable rule UUID as UUIDv5 of
   `https://metesec.com/detections/<DETECTION-ID>`;
 - base ATT&CK technique IDs for the stable API's `techniques` property.
 
 The complete sub-technique mapping remains in the generated provenance
-manifest. Entity mappings, custom details and alert overrides are deliberately
-absent until their output columns have their own executable target contract.
-The renderer itself compares the compiled query with the Golden file before it
-constructs any rule body, so the safety check does not depend on command order.
+manifest. Version 2 of the source profile supplies the exact KQL output columns
+and entity mappings; the renderer cannot invent or override them. Custom details
+and alert overrides remain absent. The renderer itself compares the compiled
+query with the Golden file before it constructs any rule body, so the safety
+check does not depend on command order.
 
 ## Rendered output
 
@@ -56,8 +58,9 @@ detection under `dist/sentinel/<DETECTION-ID>/`:
 
 - `query.kql` — the exact reviewed query;
 - `analytics-rule.json` — the exact Scheduled alert-rule REST request body;
-- `render-manifest.json` — API version, stable rule ID, source paths, complete
-  ATT&CK provenance and SHA-256 hashes for both generated artifacts.
+- `render-manifest.json` — API version, stable rule ID, source paths, output
+  columns, entity mappings, complete ATT&CK provenance and SHA-256 hashes for
+  both generated artifacts.
 
 The JSON request body matches the body used with:
 
@@ -68,3 +71,7 @@ PUT .../providers/Microsoft.SecurityInsights/alertRules/{ruleId}?api-version=202
 No subscription, resource group, workspace, tenant or credential is rendered.
 No HTTP client, Azure authentication or deployment command exists in this
 milestone.
+
+Generated files are temporary consumer-owned pipeline output. They are not a
+separate published Sentinel release artifact and remain ignored by the source
+repository.

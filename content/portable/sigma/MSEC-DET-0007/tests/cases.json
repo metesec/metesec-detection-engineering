@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "detection_id": "MSEC-DET-0007",
+  "implementation": "content/portable/sigma/MSEC-DET-0007/rule.yml",
+  "cases": [
+    {"id":"windows-powershell-short-flag","expectation":"match","fixture":"fixtures/windows-powershell-short-flag.json","description":"Synthetic Windows PowerShell command uses the short encoded flag."},
+    {"id":"powershell-core-long-flag","expectation":"match","fixture":"fixtures/powershell-core-long-flag.json","description":"Synthetic PowerShell Core command uses the long encoded flag."},
+    {"id":"uppercase-colon-flag-with-context","expectation":"match","fixture":"fixtures/uppercase-colon-flag-with-context.json","description":"Synthetic mixed-case colon flag verifies case-insensitive matching with context."},
+    {"id":"ordinary-powershell-command","expectation":"no_match","fixture":"fixtures/ordinary-powershell-command.json","description":"Synthetic ordinary PowerShell command has no encoded flag."},
+    {"id":"python-with-encoded-flag","expectation":"no_match","fixture":"fixtures/python-with-encoded-flag.json","description":"Synthetic non-PowerShell executable uses similar text."},
+    {"id":"missing-command-line","expectation":"no_match","fixture":"fixtures/missing-command-line.json","description":"Synthetic PowerShell event without a command line fails closed."},
+    {"id":"encoding-parameter-not-encoded-command","expectation":"no_match","fixture":"fixtures/encoding-parameter-not-encoded-command.json","description":"Synthetic output-encoding parameter must not match the encoded-command flag."}
+  ]
+}

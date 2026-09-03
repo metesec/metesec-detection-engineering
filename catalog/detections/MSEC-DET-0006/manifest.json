@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0006",
+  "title": "Office application starts a command or script interpreter",
+  "description": "Detects a Microsoft Office application starting a selected command, script, or signed-binary interpreter in Microsoft Defender for Endpoint process telemetry.",
+  "hypothesis": {
+    "summary": "An adversary may use an Office document or message to start an interpreter and execute code.",
+    "rationale": "Office-to-interpreter process chains are useful execution signals, but legitimate macros, add-ins, automation, and administrative workflows can create the same parent-child relationship.",
+    "detection_goal": "Identify selected Office parent processes starting selected interpreters while leaving unrelated parent processes, normal Office child processes, and incomplete events unmatched."
+  },
+  "ownership": {
+    "owner": "MeteSec Detection Engineering",
+    "reviewers": []
+  },
+  "lifecycle": {
+    "status": "experimental",
+    "created": "2026-09-03",
+    "modified": "2026-09-03",
+    "review_interval_days": 90
+  },
+  "severity": "high",
+  "confidence": "medium",
+  "data_sources": [
+    {
+      "name": "Microsoft Defender for Endpoint process events",
+      "category": "Endpoint process creation",
+      "required_fields": ["TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountName", "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"]
+    }
+  ],
+  "attack": [
+    {
+      "technique_id": "T1059",
+      "tactic": "Execution"
+    }
+  ],
+  "triage": {
+    "summary": "Determine whether the Office-to-interpreter chain was expected and inspect the document, command line, user, device, and adjacent process activity.",
+    "steps": [
+      "Review the complete parent and child command lines, file paths, signer information, hashes, and process tree.",
+      "Identify the originating document, email, download, macro, add-in, or approved automation and confirm whether the user expected it.",
+      "Inspect adjacent file, network, registry, and process activity, then isolate the device and contain the account if execution is unexplained."
+    ],
+    "false_positives": [
+      "Approved Office macros, add-ins, deployment tooling, troubleshooting scripts, and business automation"
+    ]
+  },
+  "validation": {
+    "expected_outcome": "Match only when a selected Office parent starts a selected interpreter; do not match unrelated parents, benign Office children, or incomplete events.",
+    "positive_tests": true,
+    "negative_tests": true
+  },
+  "implementations": [
+    {
+      "type": "sigma",
+      "path": "content/portable/sigma/MSEC-DET-0006/rule.yml",
+      "targets": ["sentinel"],
+      "status": "active"
+    }
+  ]
+}

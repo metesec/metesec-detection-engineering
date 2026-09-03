@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0025",
+  "title": "BITSAdmin creates a remote file-transfer job",
+  "description": "Detects bitsadmin.exe command lines that create a BITS transfer involving an HTTP or HTTPS resource.",
+  "hypothesis": {
+    "summary": "An adversary may use BITSAdmin to transfer a payload or supporting content through a trusted Windows service.",
+    "rationale": "Microsoft documents BITSAdmin transfer syntax, SigmaHQ identifies remote transfer commands as a medium-severity signal and MITRE records BITS abuse for stealth, execution and persistence; approved deployment and support tools can use the same interface.",
+    "detection_goal": "Identify bitsadmin.exe commands that combine an HTTP or HTTPS resource with transfer or create-and-addfile syntax while leaving local job administration and unrelated processes unmatched."
+  },
+  "ownership": {
+    "owner": "MeteSec Detection Engineering",
+    "reviewers": []
+  },
+  "lifecycle": {
+    "status": "experimental",
+    "created": "2026-09-03",
+    "modified": "2026-09-03",
+    "review_interval_days": 90
+  },
+  "severity": "medium",
+  "confidence": "medium",
+  "data_sources": [
+    {
+      "name": "Microsoft Defender for Endpoint process events",
+      "category": "Endpoint process creation",
+      "required_fields": ["TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountName", "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"]
+    }
+  ],
+  "attack": [
+    {
+      "technique_id": "T1197",
+      "tactic": "Stealth"
+    },
+    {
+      "technique_id": "T1197",
+      "tactic": "Persistence"
+    },
+    {
+      "technique_id": "T1197",
+      "tactic": "Execution"
+    }
+  ],
+  "triage": {
+    "summary": "Resolve the remote resource, local destination and job owner, then determine whether the transfer produced execution, persistence or staged content.",
+    "steps": [
+      "Review the complete command line, remote URL, local path, job name, account, device and initiating process.",
+      "Inspect the transferred file, related network activity, BITS job state and any completion command or subsequent execution.",
+      "Confirm an approved deployment, update or support workflow; cancel unexplained jobs, quarantine transferred content and contain affected endpoints if malicious."
+    ],
+    "false_positives": [
+      "Approved software deployment, update, support and administrative file-transfer workflows using BITS"
+    ]
+  },
+  "validation": {
+    "expected_outcome": "Match BITSAdmin remote transfer or create-and-addfile commands; do not match local job administration, incomplete create commands, unrelated tools or commands without a remote resource.",
+    "positive_tests": true,
+    "negative_tests": true
+  },
+  "implementations": [
+    {
+      "type": "sigma",
+      "path": "content/portable/sigma/MSEC-DET-0025/rule.yml",
+      "targets": ["sentinel"],
+      "status": "active"
+    }
+  ]
+}

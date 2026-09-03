@@ -1,0 +1,47 @@
+title: MSBuild Spawns a Suspicious Child Process
+id: 2884aab0-5ab6-400b-b8ff-27b42edb55ca
+status: experimental
+description: Detects MSBuild creating a selected command, script, or signed proxy-execution process.
+references:
+  - https://attack.mitre.org/techniques/T1127/001/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_msbuild_susp_parent_process.yml
+  - https://learn.microsoft.com/en-us/windows/security/application-security/application-control/app-control-for-business/design/applications-that-can-bypass-appcontrol
+  - https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table
+author: MeteSec Detection Engineering
+date: 2026-09-03
+tags:
+  - attack.execution
+  - attack.stealth
+  - attack.t1127.001
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection_parent:
+    InitiatingProcessFileName: msbuild.exe
+  selection_child:
+    FileName:
+      - cmd.exe
+      - powershell.exe
+      - pwsh.exe
+      - mshta.exe
+      - rundll32.exe
+      - regsvr32.exe
+      - wscript.exe
+      - cscript.exe
+  condition: selection_parent and selection_child
+fields:
+  - TimeGenerated
+  - Timestamp
+  - DeviceId
+  - DeviceName
+  - AccountName
+  - InitiatingProcessFileName
+  - FileName
+  - FolderPath
+  - ProcessCommandLine
+  - ReportId
+falsepositives:
+  - Approved build scripts, custom tasks, or CI jobs that intentionally invoke command or script interpreters.
+  - Developer tooling that legitimately launches one of the selected signed Windows utilities from MSBuild.
+level: high

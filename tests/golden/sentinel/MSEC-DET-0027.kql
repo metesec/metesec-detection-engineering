@@ -1,0 +1,3 @@
+DeviceProcessEvents
+| where FileName =~ "rundll32.exe" and (ProcessCommandLine contains "javascript:" or ProcessCommandLine contains "vbscript:") and (ProcessCommandLine contains "mshtml" and ProcessCommandLine contains "RunHTMLApplication")
+| project TimeGenerated, Timestamp, DeviceId, DeviceName, AccountDomain, AccountName, AccountSid, InitiatingProcessFileName, FileName, FolderPath, ProcessCommandLine, ReportId

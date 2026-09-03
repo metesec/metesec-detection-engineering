@@ -1,0 +1,62 @@
+title: Suspicious Process Spawned by a Web Server
+id: 4ceeb2ab-5110-4ee8-acf9-454e16393864
+status: experimental
+description: Detects command interpreters and administrative utilities spawned directly by common web-server processes.
+references:
+  - https://attack.mitre.org/techniques/T1505/003/
+  - https://www.microsoft.com/en-us/security/blog/2022/12/12/iis-modules-the-evolution-of-web-shells-and-how-to-detect-them/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_webshell_susp_process_spawned_from_webserver.yml
+  - https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table
+author: MeteSec Detection Engineering
+date: 2026-09-03
+tags:
+  - attack.persistence
+  - attack.t1505.003
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection_parent:
+    InitiatingProcessFileName:
+      - w3wp.exe
+      - httpd.exe
+      - nginx.exe
+      - php-cgi.exe
+      - php.exe
+      - tomcat.exe
+      - UMWorkerProcess.exe
+      - ws_TomcatService.exe
+  selection_child:
+    FileName:
+      - cmd.exe
+      - powershell.exe
+      - pwsh.exe
+      - powershell_ise.exe
+      - cscript.exe
+      - wscript.exe
+      - rundll32.exe
+      - mshta.exe
+      - certutil.exe
+      - bitsadmin.exe
+      - net.exe
+      - net1.exe
+      - netsh.exe
+      - reg.exe
+      - sc.exe
+      - wmic.exe
+      - ntdsutil.exe
+  condition: selection_parent and selection_child
+fields:
+  - TimeGenerated
+  - Timestamp
+  - DeviceId
+  - DeviceName
+  - AccountName
+  - InitiatingProcessFileName
+  - FileName
+  - FolderPath
+  - ProcessCommandLine
+  - ReportId
+falsepositives:
+  - Web applications or approved server-management components that intentionally launch one of the selected child processes.
+level: high

@@ -1,0 +1,14 @@
+{
+  "schema_version":1,
+  "detection_id":"MSEC-DET-0008",
+  "implementation":"content/portable/sigma/MSEC-DET-0008/rule.yml",
+  "cases":[
+    {"id":"successful-permanent-assignment","expectation":"match","fixture":"fixtures/successful-permanent-assignment.json","description":"Synthetic permanent role assignment outside PIM succeeds."},
+    {"id":"successful-permanent-assignment-uppercase","expectation":"match","fixture":"fixtures/successful-permanent-assignment-uppercase.json","description":"Synthetic uppercase values verify case-insensitive matching."},
+    {"id":"successful-permanent-assignment-with-context","expectation":"match","fixture":"fixtures/successful-permanent-assignment-with-context.json","description":"Synthetic successful assignment remains a match with investigation context."},
+    {"id":"failed-permanent-assignment","expectation":"no_match","fixture":"fixtures/failed-permanent-assignment.json","description":"Synthetic failed permanent assignment must not match."},
+    {"id":"eligible-role-assignment","expectation":"no_match","fixture":"fixtures/eligible-role-assignment.json","description":"Synthetic eligible PIM assignment is a different operation."},
+    {"id":"role-removal","expectation":"no_match","fixture":"fixtures/role-removal.json","description":"Synthetic role removal is a different operation."},
+    {"id":"missing-result","expectation":"no_match","fixture":"fixtures/missing-result.json","description":"Synthetic operation without a result fails closed."}
+  ]
+}

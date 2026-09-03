@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "detection_id": "MSEC-DET-0019",
+  "implementation": "content/portable/sigma/MSEC-DET-0019/rule.yml",
+  "cases": [
+    {"id": "federation-settings-changed", "expectation": "match", "fixture": "fixtures/federation-settings-changed.json", "description": "Synthetic successful federation-settings change."},
+    {"id": "domain-authentication-changed", "expectation": "match", "fixture": "fixtures/domain-authentication-changed.json", "description": "Synthetic successful domain-authentication change."},
+    {"id": "uppercase-change-with-context", "expectation": "match", "fixture": "fixtures/uppercase-change-with-context.json", "description": "Synthetic uppercase operation includes bounded audit context."},
+    {"id": "failed-federation-change", "expectation": "no_match", "fixture": "fixtures/failed-federation-change.json", "description": "Synthetic failed federation change does not match."},
+    {"id": "domain-verified", "expectation": "no_match", "fixture": "fixtures/domain-verified.json", "description": "Synthetic domain verification is outside the rule."},
+    {"id": "domain-updated", "expectation": "no_match", "fixture": "fixtures/domain-updated.json", "description": "Synthetic unrelated domain update is outside the rule."},
+    {"id": "missing-result", "expectation": "no_match", "fixture": "fixtures/missing-result.json", "description": "Synthetic federation change without a result fails closed."}
+  ]
+}

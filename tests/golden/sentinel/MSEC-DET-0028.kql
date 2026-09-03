@@ -1,0 +1,3 @@
+DeviceProcessEvents
+| where FileName =~ "schtasks.exe" and ProcessCommandLine contains "/create" and ProcessCommandLine contains " /s "
+| project TimeGenerated, Timestamp, DeviceId, DeviceName, AccountDomain, AccountName, AccountSid, InitiatingProcessFileName, FileName, FolderPath, ProcessCommandLine, ReportId

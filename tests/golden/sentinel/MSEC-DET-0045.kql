@@ -1,0 +1,3 @@
+DeviceProcessEvents
+| where InitiatingProcessFileName =~ "msbuild.exe" and (FileName in~ ("cmd.exe", "powershell.exe", "pwsh.exe", "mshta.exe", "rundll32.exe", "regsvr32.exe", "wscript.exe", "cscript.exe"))
+| project TimeGenerated, Timestamp, DeviceId, DeviceName, AccountDomain, AccountName, AccountSid, InitiatingProcessFileName, FileName, FolderPath, ProcessCommandLine, ReportId

@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0027",
+  "title": "Rundll32 invokes inline script through MSHTML",
+  "description": "Detects rundll32 command lines that invoke JavaScript or VBScript through the MSHTML RunHTMLApplication export.",
+  "hypothesis": {
+    "summary": "An adversary may use rundll32 and MSHTML to execute inline script through a trusted Windows binary.",
+    "rationale": "MITRE documents the JavaScript MSHTML RunHTMLApplication pattern under Rundll32 proxy execution; requiring the script prefix, MSHTML and named export keeps the process-only predicate narrow.",
+    "detection_goal": "Identify rundll32 commands that combine an inline JavaScript or VBScript prefix with MSHTML and RunHTMLApplication while leaving ordinary rundll32 use and incomplete fragments unmatched."
+  },
+  "ownership": {
+    "owner": "MeteSec Detection Engineering",
+    "reviewers": []
+  },
+  "lifecycle": {
+    "status": "experimental",
+    "created": "2026-09-03",
+    "modified": "2026-09-03",
+    "review_interval_days": 90
+  },
+  "severity": "high",
+  "confidence": "high",
+  "data_sources": [
+    {
+      "name": "Microsoft Defender for Endpoint process events",
+      "category": "Endpoint process creation",
+      "required_fields": ["TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountName", "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"]
+    }
+  ],
+  "attack": [
+    {
+      "technique_id": "T1218.011",
+      "tactic": "Stealth"
+    }
+  ],
+  "triage": {
+    "summary": "Recover the complete inline script and process ancestry, then determine what content was loaded or executed.",
+    "steps": [
+      "Review the complete command line, account, device, binary path and initiating process.",
+      "Inspect network connections, loaded content, child processes and files created around the event.",
+      "Confirm an authorized test or administrative explanation; isolate the device and preserve script content when the chain is unexplained."
+    ],
+    "false_positives": [
+      "Authorized security testing or rare administrative diagnostics that deliberately exercise the documented pattern"
+    ]
+  },
+  "validation": {
+    "expected_outcome": "Match rundll32 inline JavaScript or VBScript through MSHTML RunHTMLApplication; do not match ordinary exports, partial fragments, other binaries or incomplete events.",
+    "positive_tests": true,
+    "negative_tests": true
+  },
+  "implementations": [
+    {
+      "type": "sigma",
+      "path": "content/portable/sigma/MSEC-DET-0027/rule.yml",
+      "targets": ["sentinel"],
+      "status": "active"
+    }
+  ]
+}

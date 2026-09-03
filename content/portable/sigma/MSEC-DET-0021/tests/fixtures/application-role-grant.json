@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "event": {
+    "OperationName": "Add app role assignment to service principal",
+    "Result": "success",
+    "TargetResources": "AppRole.Value=RoleManagement.ReadWrite.Directory;DelegatedPermissionGrant.ConsentType=AllPrincipals"
+  }
+}

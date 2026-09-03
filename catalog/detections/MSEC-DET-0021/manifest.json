@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0021",
+  "title": "Highly privileged delegated permission granted for all users",
+  "description": "Detects a successful Microsoft Entra delegated permission grant that combines the high-privilege RoleManagement.ReadWrite.Directory scope with AllPrincipals consent for all users.",
+  "hypothesis": {
+    "summary": "An adversary or unauthorized administrator may grant an application tenant-wide role-management authority to establish persistence or escalate privileges.",
+    "rationale": "Microsoft classifies highly privileged delegated permissions granted for all users as high risk, and its Sentinel content identifies RoleManagement.ReadWrite.Directory because it can manage directory role assignments; approved application onboarding can produce the same event.",
+    "detection_goal": "Identify successful delegated grants containing both RoleManagement.ReadWrite.Directory and AllPrincipals while leaving ordinary delegated scopes, per-user consent and application-role grants unmatched."
+  },
+  "ownership": {
+    "owner": "MeteSec Detection Engineering",
+    "reviewers": []
+  },
+  "lifecycle": {
+    "status": "experimental",
+    "created": "2026-09-03",
+    "modified": "2026-09-03",
+    "review_interval_days": 90
+  },
+  "severity": "high",
+  "confidence": "high",
+  "data_sources": [
+    {
+      "name": "Microsoft Entra audit logs",
+      "category": "Identity directory audit",
+      "required_fields": ["TimeGenerated", "CorrelationId", "InitiatedBy", "LoggedByService", "OperationName", "Result", "TargetResources"]
+    }
+  ],
+  "attack": [
+    {
+      "technique_id": "T1098.003",
+      "tactic": "Persistence"
+    },
+    {
+      "technique_id": "T1098.003",
+      "tactic": "Privilege Escalation"
+    }
+  ],
+  "triage": {
+    "summary": "Identify the target service principal, permission grant and initiator, then confirm whether tenant-wide role-management access was explicitly approved.",
+    "steps": [
+      "Review the initiating user or application, source IP, target service principal, correlation identifier and all modified properties.",
+      "Confirm the application owner, consent workflow, business purpose and approval for RoleManagement.ReadWrite.Directory with AllPrincipals consent.",
+      "Inspect subsequent role assignments, credentials, owners and sign-ins associated with the application; revoke the grant and contain the initiator if unauthorized."
+    ],
+    "false_positives": [
+      "Explicitly approved tenant-wide onboarding or maintenance of an identity-governance application requiring directory role management"
+    ]
+  },
+  "validation": {
+    "expected_outcome": "Match only successful tenant-wide delegated grants containing the selected high-privilege scope; do not match failures, per-user consent, other scopes or application-role grants.",
+    "positive_tests": true,
+    "negative_tests": true
+  },
+  "implementations": [
+    {
+      "type": "sigma",
+      "path": "content/portable/sigma/MSEC-DET-0021/rule.yml",
+      "targets": ["sentinel"],
+      "status": "active"
+    }
+  ]
+}

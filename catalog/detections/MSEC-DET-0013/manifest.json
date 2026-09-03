@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0013",
+  "title": "Regsvr32 references a remote scriptlet or DLL",
+  "description": "Detects regsvr32 command lines that combine the install flag with an HTTP, HTTPS or FTP resource in Microsoft Defender for Endpoint process telemetry.",
+  "hypothesis": {
+    "summary": "An adversary may use regsvr32 to retrieve and execute a remote scriptlet or DLL through a trusted Windows binary.",
+    "rationale": "Regsvr32 with an install flag and a network resource is a recognized signed-binary proxy-execution pattern, but rare administrative or software-installation workflows can produce similar commands.",
+    "detection_goal": "Identify regsvr32 processes that combine an install flag with a remote HTTP, HTTPS or FTP resource while leaving local registration and incomplete network patterns unmatched."
+  },
+  "ownership": {
+    "owner": "MeteSec Detection Engineering",
+    "reviewers": []
+  },
+  "lifecycle": {
+    "status": "experimental",
+    "created": "2026-09-03",
+    "modified": "2026-09-03",
+    "review_interval_days": 90
+  },
+  "severity": "medium",
+  "confidence": "medium",
+  "data_sources": [
+    {
+      "name": "Microsoft Defender for Endpoint process events",
+      "category": "Endpoint process creation",
+      "required_fields": ["TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountName", "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"]
+    }
+  ],
+  "attack": [
+    {
+      "technique_id": "T1218.010",
+      "tactic": "Defense Evasion"
+    }
+  ],
+  "triage": {
+    "summary": "Validate the referenced network resource and process ancestry, then determine whether regsvr32 launched follow-on code or changed the endpoint.",
+    "steps": [
+      "Review the full regsvr32 command line, remote resource, parent process, user, device and binary path.",
+      "Confirm whether an approved installer, software-management product or administrator intentionally used remote registration.",
+      "Inspect network connections, downloaded content, child processes and persistence changes; isolate the device when the resource or execution chain is unexplained."
+    ],
+    "false_positives": [
+      "Approved installers, software-management products and administrative registration workflows using a remote resource"
+    ]
+  },
+  "validation": {
+    "expected_outcome": "Match regsvr32 commands containing both an install flag and a remote protocol; do not match local registration, partial patterns, other processes or incomplete events.",
+    "positive_tests": true,
+    "negative_tests": true
+  },
+  "implementations": [
+    {
+      "type": "sigma",
+      "path": "content/portable/sigma/MSEC-DET-0013/rule.yml",
+      "targets": ["sentinel"],
+      "status": "active"
+    }
+  ]
+}

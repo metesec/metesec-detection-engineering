@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"FileName":"network-wrapper.exe","ProcessVersionInfoOriginalFileName":"network-wrapper.exe","ProcessCommandLine":"network-wrapper.exe interface portproxy add v4tov4 listenport=8443 connectport=443"}}

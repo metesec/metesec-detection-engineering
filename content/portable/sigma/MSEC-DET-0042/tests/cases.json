@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "detection_id": "MSEC-DET-0042",
+  "implementation": "content/portable/sigma/MSEC-DET-0042/rule.yml",
+  "cases": [
+    {"id": "odbcconf-regsvr-dll", "expectation": "match", "fixture": "fixtures/odbcconf-regsvr-dll.json", "description": "Synthetic Odbcconf command registers a DLL."},
+    {"id": "renamed-odbcconf-regsvr-dll", "expectation": "match", "fixture": "fixtures/renamed-odbcconf-regsvr-dll.json", "description": "Synthetic renamed Odbcconf binary retains its original filename and registers a DLL."},
+    {"id": "odbcconf-uppercase-with-context", "expectation": "match", "fixture": "fixtures/odbcconf-uppercase-with-context.json", "description": "Synthetic uppercase Odbcconf command registers a DLL with bounded context."},
+    {"id": "odbcconf-configure-dsn", "expectation": "no_match", "fixture": "fixtures/odbcconf-configure-dsn.json", "description": "Synthetic routine ODBC configuration contains no REGSVR action."},
+    {"id": "odbcconf-regsvr-without-dll", "expectation": "no_match", "fixture": "fixtures/odbcconf-regsvr-without-dll.json", "description": "Synthetic REGSVR action contains no DLL reference."},
+    {"id": "other-process-regsvr-dll", "expectation": "no_match", "fixture": "fixtures/other-process-regsvr-dll.json", "description": "Synthetic matching command text belongs to another process."},
+    {"id": "odbcconf-dll-without-regsvr", "expectation": "no_match", "fixture": "fixtures/odbcconf-dll-without-regsvr.json", "description": "Synthetic Odbcconf command references a DLL without REGSVR."}
+  ]
+}

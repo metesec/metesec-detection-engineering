@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0047",
+  "title": "Winlogon Shell or Userinit value hijack",
+  "description": "Detects a Winlogon Shell or Userinit registry value set to a non-default executable command.",
+  "hypothesis": {
+    "summary": "An adversary may replace or extend the Winlogon Shell or Userinit command to execute code during interactive logon.",
+    "rationale": "MITRE documents Winlogon helper modification as a persistence and privilege-escalation mechanism. Selecting only Shell or Userinit under the exact Winlogon key and excluding their standard Windows values is more precise than monitoring the complete key.",
+    "detection_goal": "Identify non-default executable content written to Winlogon Shell or Userinit while leaving standard values, unrelated registry locations and non-set actions unmatched."
+  },
+  "ownership": {"owner": "MeteSec Detection Engineering", "reviewers": []},
+  "lifecycle": {"status": "experimental", "created": "2026-09-03", "modified": "2026-09-03", "review_interval_days": 90},
+  "severity": "high",
+  "confidence": "medium",
+  "data_sources": [
+    {"name": "Microsoft Defender for Endpoint registry events", "category": "Endpoint registry modification", "required_fields": ["TimeGenerated", "Timestamp", "ActionType", "DeviceId", "DeviceName", "RegistryKey", "RegistryValueName", "RegistryValueData", "InitiatingProcessAccountName", "InitiatingProcessFileName", "InitiatingProcessCommandLine", "ReportId"]}
+  ],
+  "attack": [
+    {"technique_id": "T1547.004", "tactic": "Persistence"},
+    {"technique_id": "T1547.004", "tactic": "Privilege Escalation"}
+  ],
+  "triage": {
+    "summary": "Treat a non-default Winlogon command as a high-priority persistence signal and determine whether a documented shell, kiosk or virtual-desktop configuration explains it.",
+    "steps": [
+      "Review the complete value data, registry hive, writer process, writer command, account and endpoint role.",
+      "Inspect every referenced executable or script and correlate its creation, signer, hash, parent process and execution around interactive logons.",
+      "Confirm an approved custom shell or VDI configuration with its owner; otherwise contain the endpoint, restore the trusted value and investigate credential or privilege abuse."
+    ],
+    "false_positives": ["Approved kiosk, virtual-desktop, embedded-system or custom-shell configurations that intentionally replace the standard Winlogon command"]
+  },
+  "validation": {"expected_outcome": "Match non-default executable Shell or Userinit values under Winlogon; do not match standard Explorer and Userinit values, unrelated keys or deletion events.", "positive_tests": true, "negative_tests": true},
+  "implementations": [{"type": "sigma", "path": "content/portable/sigma/MSEC-DET-0047/rule.yml", "targets": ["sentinel"], "status": "active"}]
+}

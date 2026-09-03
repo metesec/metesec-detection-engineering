@@ -1,2 +1,8 @@
 SigninLogs
 | where ResultType =~ "0" and (ClientAppUsed in~ ("Exchange ActiveSync", "IMAP", "MAPI", "POP", "SMTP", "Authenticated SMTP", "Other clients"))
+| extend AccountName = tostring(split(UserPrincipalName, "@")[0])
+| extend AccountUPNSuffix = tostring(split(UserPrincipalName, "@")[1])
+| extend SourceIPAddress = tostring(IPAddress)
+| extend ApplicationId = tostring(AppId)
+| extend ApplicationName = tostring(AppDisplayName)
+| project TimeGenerated, UserPrincipalName, AccountName, AccountUPNSuffix, UserId, SourceIPAddress, ApplicationId, ApplicationName, ClientAppUsed, AuthenticationRequirement, ConditionalAccessStatus, CorrelationId

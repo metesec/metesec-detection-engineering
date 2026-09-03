@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "detection_id": "MSEC-DET-0026",
+  "implementation": "content/portable/sigma/MSEC-DET-0026/rule.yml",
+  "cases": [
+    {"id": "successful-ropc", "expectation": "match", "fixture": "fixtures/successful-ropc.json", "description": "Synthetic successful sign-in uses ROPC."},
+    {"id": "successful-ropc-uppercase", "expectation": "match", "fixture": "fixtures/successful-ropc-uppercase.json", "description": "Synthetic ROPC protocol matching is case-insensitive."},
+    {"id": "successful-ropc-with-context", "expectation": "match", "fixture": "fixtures/successful-ropc-with-context.json", "description": "Synthetic successful ROPC sign-in includes bounded identity context."},
+    {"id": "failed-ropc", "expectation": "no_match", "fixture": "fixtures/failed-ropc.json", "description": "Synthetic failed ROPC attempt is outside this successful sign-in rule."},
+    {"id": "successful-device-code", "expectation": "no_match", "fixture": "fixtures/successful-device-code.json", "description": "Synthetic successful device-code sign-in uses another protocol."},
+    {"id": "missing-protocol", "expectation": "no_match", "fixture": "fixtures/missing-protocol.json", "description": "Synthetic successful sign-in without protocol evidence does not match."},
+    {"id": "unrelated-record", "expectation": "no_match", "fixture": "fixtures/unrelated-record.json", "description": "Synthetic unrelated event lacks a successful result."}
+  ]
+}

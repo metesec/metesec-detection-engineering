@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "detection_id": "MSEC-DET-0043",
+  "implementation": "content/portable/sigma/MSEC-DET-0043/rule.yml",
+  "cases": [
+    {"id": "msiexec-http-msi", "expectation": "match", "fixture": "fixtures/msiexec-http-msi.json", "description": "Synthetic Msiexec command installs an MSI over HTTP."},
+    {"id": "renamed-msiexec-https-msi", "expectation": "match", "fixture": "fixtures/renamed-msiexec-https-msi.json", "description": "Synthetic renamed Msiexec binary retains its original filename and references an HTTPS MSI."},
+    {"id": "msiexec-uppercase-with-context", "expectation": "match", "fixture": "fixtures/msiexec-uppercase-with-context.json", "description": "Synthetic uppercase Msiexec command references a remote MSI with bounded context."},
+    {"id": "msiexec-local-msi", "expectation": "no_match", "fixture": "fixtures/msiexec-local-msi.json", "description": "Synthetic Msiexec command installs a local MSI."},
+    {"id": "msiexec-web-non-msi", "expectation": "no_match", "fixture": "fixtures/msiexec-web-non-msi.json", "description": "Synthetic Msiexec command references web content without an MSI marker."},
+    {"id": "other-process-web-msi", "expectation": "no_match", "fixture": "fixtures/other-process-web-msi.json", "description": "Synthetic matching URL belongs to another process."},
+    {"id": "msiexec-missing-command-line", "expectation": "no_match", "fixture": "fixtures/msiexec-missing-command-line.json", "description": "Synthetic Msiexec event lacks a command line."}
+  ]
+}

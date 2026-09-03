@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"FileName":"SCHTASKS.EXE","ProcessCommandLine":"SCHTASKS.EXE /CREATE /S SYNTHETIC-HOST /TN SyntheticTask /TR synthetic.exe /SC ONCE /ST 23:59"}}

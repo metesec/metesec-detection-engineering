@@ -1,6 +1,6 @@
 # MeteSec Detection Engineering — Project Handoff
 
-Last updated: 2026-09-03 (Europe/Berlin)
+Last updated: 2026-09-04 (Europe/Berlin)
 
 Read this file completely before changing the repository, its pipeline, public mirror, schemas, or detection content. Keep `LOGBOOK.md` and `ROADMAP.md` accurate after every completed and verified milestone.
 
@@ -21,13 +21,16 @@ Build a public Detection-as-Code reference implementation that treats detections
 The target model separates:
 
 1. detection intent and stable identity;
-2. portable or native implementation;
+2. portable Sigma implementation;
 3. validation and behavioral tests;
 4. target compilation and packaging;
 5. controlled deployment;
 6. telemetry and detection health.
 
-The architectural rule is: one logical detection has one stable identity but may have multiple technical implementations. A target resolver must eventually select exactly one approved implementation for a target platform.
+The version 1 architectural rule is: one logical detection has one stable
+identity and one authored Sigma implementation. Target adapters may compile and
+package that source, but generated KQL is not a second authored detection and no
+multi-implementation resolver belongs in the active version 1 design.
 
 ## Current state
 
@@ -37,49 +40,70 @@ The architectural rule is: one logical detection has one stable identity but may
 - Mirror direction: Forgejo `main` to GitHub `main` only; sync on Forgejo commits
 - Mirror authentication: repository-scoped SSH deploy key stored by Forgejo; GitHub Actions, Issues, and Wiki are disabled
 - MeteSec Projects page: implemented and public at `https://metesec.com/projects/detection-engineering/`
-- Current phase: `0.1 — Functional Foundation` complete; `0.2 — Microsoft Sentinel Target` is in progress
-- Current development-package version: `0.2.0`; the published `v0.1.0` artifact remains immutable and unchanged
+- Current phase: `0.1 — Functional Foundation`, `0.2 — Microsoft Sentinel Target` and `0.3 — Detection Operations` are complete; the `0.4 — Sigma Detection Pack Expansion` scope and local `v1.0.0` release-readiness review are complete, while protected-main publication remains pending
+- Current development-package version: `1.0.0`; it is a local release candidate and has not been published, while the existing public `v0.1.0` artifact remains immutable and unchanged
+- Version 1 release direction: fifty authored Sigma detections, Microsoft Sentinel as the only supported target, and no native-rule or resolver path in the active roadmap
+- Expansion baseline: all fifty planned Sigma detections are implemented; Waves 1 through 9 and their bounded live query-acceptance probes are complete, and the separate local reproducibility and release-readiness review has passed
 - Logical manifest contract: version 1 implemented as JSON Schema Draft 2020-12
 - Contract examples: one valid draft and one deliberately invalid stable-state example
 - Structural validation: executable with pinned Ajv `8.17.1`; the valid example is accepted and the invalid example is rejected
 - Detection package contract: version 1 documented and enforced through executable filesystem relationship validation
 - Fixture-set contract: version 1 schema implemented for future implementation-local positive and negative evidence indexes
-- Catalogue: five experimental packages: `MSEC-DET-0001` for Windows service installation from selected public-user or temporary paths, `MSEC-DET-0002` for successful Microsoft Entra sign-ins from selected legacy client categories, `MSEC-DET-0003` for successful Microsoft Entra sign-ins assessed as high risk during sign-in, `MSEC-DET-0004` for successful credential additions to Microsoft Entra service principals, and `MSEC-DET-0005` for successful application-role grants to Microsoft Entra service principals
-- Generated discovery catalogue: deterministic `catalog/index.json` and `CATALOGUE.md` are derived from the five manifests, implementation-local fixture indexes, and explicit Sentinel preview profile; neither output contains timestamps, environment identifiers, or live result data
-- Catalogue contract and validation: JSON Schema version 1, three generator tests, and a stale-output gate are included in the aggregate repository check; the current output reports five implementations, fifteen positive cases, twenty negative cases, and four Sentinel preview bindings
+- Catalogue: fifty experimental packages. `MSEC-DET-0001` through `MSEC-DET-0005` retain the original Windows service, Entra sign-in and Entra application-change coverage; Waves 1 through 8 add `MSEC-DET-0006` through `MSEC-DET-0045`; Wave 9 adds `MSEC-DET-0046` suspicious script or LOLBin Run-key payloads, `MSEC-DET-0047` Winlogon Shell or Userinit hijack, `MSEC-DET-0048` suspicious local scheduled-task creation, `MSEC-DET-0049` Mavinject process injection and `MSEC-DET-0050` Netsh PortProxy creation
+- Generated discovery catalogue: deterministic `catalog/index.json` and `CATALOGUE.md` are derived from the fifty manifests, implementation-local fixture indexes, and explicit Sentinel preview profile; neither output contains timestamps, environment identifiers, or live result data
+- Catalogue contract and validation: JSON Schema version 1, three generator tests, and a stale-output gate are included in the aggregate repository check; the current output reports fifty implementations, one hundred fifty positive cases, two hundred negative cases, and forty-nine Sentinel preview bindings
 - Forgejo validation definition: `.forgejo/workflows/validate.yml` runs on trusted pushes and manual dispatch using the repository-specific `metesec-detection-validate` label; it requests read-only contents, removes persisted checkout credentials, references no secrets, pins the sole remote action by commit, verifies exact Node.js `24.19.0` and Python `3.12.13` runner versions, installs pnpm `11.19.0` and exact JavaScript/Sigma dependencies in disposable job paths, then runs the aggregate repository check
 - Forgejo workflow contract: four local unit tests verify the trusted trigger set, repository-specific runner selection, permissions, absence of secret and `pull_request_target` use, immutable action references, exact tool versions, disposable installation paths, frozen installation, and the final check command
 - Forgejo runtime status: operational on dedicated repository-scoped Runner `metesec-detection-validator`; original proof runs `#1` through `#6` remain recorded, release branch run `#7`, protected-merge main run `#8`, annotated-tag run `#9`, Sentinel renderer branch run `#12` and its protected-main run `#13` all passed
 - Branch protection: exact rule `main` disables direct pushes, applies to administrators, blocks rejected reviews and outdated branches, requires zero approvals in the current single-owner phase, and requires exact successful context `Repository validation / Contracts, detections, catalogue, and Sentinel preview (push)`
 - First public release: Forgejo tag and release `v0.1.0` target protected main commit `f33f602a2fb6ecbc98475c6de567aa7d9b810ebe`; the release exposes only `metesec-detection-pack-v0.1.0.zip` and `SHA256SUMS`, hides Forgejo's unchecksummed automatic source archives, and the public ZIP is 133,113 bytes with SHA-256 `547f8a66d64d7fac7dc33670a3c3397c77a2a46b737d619a8c498d5abfb2dfc6`
 - Release contract: the deterministic uncompressed ZIP has 72 members under one versioned root, including an internal manifest with path, normalized size and SHA-256 for each of 71 allowlisted sources; two independent clean builds and an anonymous post-publication download produced the exact same archive digest
-- Portable implementations: five structurally valid Sigma rules, one per package
-- Synthetic evidence: fifteen positive and twenty negative flat event fixtures, all explicitly marked synthetic and all passing locally
+- Local `v1.0.0` candidate: the deterministic release build contains 589 members, including 588 allowlisted sources, all fifty Sigma packages, 350 synthetic fixtures, forty-nine Golden KQL queries, version-matched release notes and the read-only Sentinel inventory guide; its current size is 1,040,114 bytes and SHA-256 is `4565d5001281d0694c3891337fc362b1e8ad0b29b6957433ff6ce5bc7773703d`, while the public `v0.1.0` remains unchanged
+- Portable implementations: fifty structurally valid Sigma rules, one per package
+- Synthetic evidence: one hundred fifty positive and two hundred negative flat event fixtures, all explicitly marked synthetic and all passing locally
 - Package contract tests: eight passing cases cover the valid draft, identity mismatch, missing implementation, implementation traversal, missing evidence index, valid linked evidence, fixture traversal, and invalid event-fixture structure
 - Sigma parser and target toolchain: pySigma `1.5.0`, pySigma Kusto backend `1.0.1`, and every required transitive dependency are pinned in `requirements-sigma.lock`; verified with Python `3.12.13`
-- Sigma structural validation: exact-version gate, two-sided in-memory parser self-test, and automatic Package v1 `rule.yml` discovery validate five sources containing five rules
+- Sigma structural validation: exact-version gate, two-sided in-memory parser self-test, and automatic Package v1 `rule.yml` discovery validate fifty sources containing fifty rules
 - Sigma validation tests: six passing cases cover valid, missing-condition, malformed-YAML, parser-health, Package v1 discovery, and UTF-8 file paths
 - Behavioral test framework: implemented as a deliberately bounded local evaluator over pySigma's condition tree
 - Evaluator boundary: flat synthetic events; string and number field comparisons; Sigma wildcard strings; case-insensitive string matching; Boolean `and`, `or`, and unary `not`; unsupported behavior fails closed
-- Evaluator tests: six passing unit cases plus thirty-five passing committed fixture expectations
-- Sentinel preview compiler: explicit profile binding, safe table-name validation, repository-contained paths, active-manifest relationship check, and deterministic Azure Monitor pipeline output are implemented
-- Sentinel preview scope: `MSEC-DET-0002` and `MSEC-DET-0003` are explicitly bound to `SigninLogs`, while `MSEC-DET-0004` and `MSEC-DET-0005` are explicitly bound to `AuditLogs`; all four generated KQL queries match committed Golden snapshots
-- Sentinel analytics-rule profile: version 1 JSON Schema and executable loader bind exactly the same four detections to explicit schedule, threshold, suppression, event-grouping and incident settings; missing, additional, duplicated, reordered, active or malformed entries fail closed
-- Sentinel analytics-rule renderer: all four bindings produce deterministic Microsoft SecurityInsights API `2025-09-01` Scheduled-rule request bodies plus separate provenance manifests; logical metadata comes from `manifest.json`, KQL comes from the reviewed compiler output, stable rule UUIDs derive from the immutable detection ID, and every rendered rule is disabled
+- Evaluator tests: six passing unit cases plus 350 passing committed fixture expectations
+- Sentinel preview compiler: version 2 implements explicit profile binding, safe table-name validation, repository-contained paths, active-manifest relationship checks, bounded output expressions, exact ordered output columns, entity-mapping validation and deterministic Azure Monitor pipeline output
+- Sentinel preview scope: forty-nine rules are explicitly bound across `SigninLogs`, `AuditLogs`, `DeviceProcessEvents`, `DeviceRegistryEvents` and `AADUserRiskEvents`; all forty-nine complete analyst-facing KQL queries match committed Golden snapshots. Audit bindings project initiators as supported entities and keep variable target-resource data neutral unless the resource type is guaranteed; sign-in bindings project normalized Account, IP and CloudApplication context; endpoint bindings project only the observed account name
+- Sentinel analytics-rule profile: version 1 JSON Schema and executable loader bind exactly the same forty-nine detections to explicit schedule, threshold, suppression, event-grouping and incident settings; missing, additional, duplicated, reordered, active or malformed entries fail closed
+- Sentinel analytics-rule renderer: all forty-nine bindings produce deterministic Microsoft SecurityInsights API `2025-09-01` Scheduled-rule request bodies plus separate provenance manifests; logical metadata comes from `manifest.json`, KQL and entity mappings come from the reviewed compiler output contract, stable rule UUIDs derive from the immutable detection ID, and every rendered rule is disabled. Current ATT&CK `Defense Impairment` and `Stealth` source mappings remain exact in provenance but are omitted from the older target tactic enum rather than mislabeled as another tactic
+- Sentinel entity output: sign-in rules return normalized Account, IP and CloudApplication fields; audit rules return initiating entities and explicitly typed neutral target fields where a target entity would be ambiguous; process rules map the observed account name and the registry rule maps the initiating account name; the user-risk rule maps the Entra account. No Windows SID is mislabeled as an Entra object ID
+- Sentinel data-source contract: version 1 covers `SigninLogs`, `AuditLogs`, `DeviceProcessEvents`, `DeviceRegistryEvents` and `AADUserRiskEvents` with stable source IDs, exact preview consumers, event-time columns, required Kusto fields and types, and explicit six-hour degraded and one-day unavailable reference thresholds
+- Data-source observation evaluator: a separate uncommitted observation can produce only `ready`, `degraded`, `unavailable` or `unknown`; missing observations are never treated as healthy, schema or binding drift fails closed, and eight unit tests cover structure, freshness, missing tables, missing or mistyped fields, future timestamps, unknown sources and CLI exit behavior
+- Generated coverage report: deterministic `coverage/index.json` and `COVERAGE.md` derive only from logical manifests, the Sentinel preview and the Sentinel data-source contract; the report records sixty-nine ATT&CK mappings across thirty-nine techniques and eleven tactics, six logical data sources, five Sentinel source contracts and the one intentionally unbound detection without a percentage score or live state
+- Coverage contract and validation: JSON Schema version 1, six generator tests and a stale-output gate are included in the aggregate repository check; generated coverage output is part of the general Detection Pack release allowlist
+- Lifecycle policy: version 1 defines forward-only `draft`, `experimental`, `stable` and `deprecated` transitions and is kept consistent with the logical manifest schema
+- Review-cadence validator: existing manifest dates and intervals produce runtime-only `current`, `due` or `overdue` assessments; current validation rejects future or contradictory dates and fails on due or overdue records, while an optional previous catalogue enables identity and transition checks; ten Python tests plus one machine-output schema test cover dates, boundaries, transitions, immutability, removal, CLI exit behavior and the JSON contract
+- Sentinel runtime-health contract: a versioned policy derives the expected forty-nine rule schedules from `targets/sentinel/analytics-rules.json`; a separate consumer-supplied observation produces only `healthy`, `degraded`, `failed` or `unknown`, using reference boundaries of more than two and more than five missed runs without storing live state
+- Alert-outcome boundary: optional alert and incident counts are preserved as informational context only and never influence runtime health; a successful on-time execution with zero alerts is healthy, while missing, disabled, failed or stale rules remain independently visible
 - Renderer output boundary: each ignored `dist/sentinel/<DETECTION-ID>/` directory contains `query.kql`, `analytics-rule.json` and `render-manifest.json`; no Azure resource scope, tenant identifier, credential, HTTP client, authentication flow, deployment command or live-write capability exists
 - Renderer publication: Forgejo PR `#7` merged through protected `main` as `e8bebd5d3e72218b32378cd3e4f850d047d778ad`; branch run `#12` and merged-main run `#13` passed, and the GitHub distribution mirror resolved to the exact same commit
-- Live target probes: authorized read-only workspace checks confirmed populated source fields and accepted all four exact generated predicates; `MSEC-DET-0002` produced a valid negative result, while `MSEC-DET-0003`, `MSEC-DET-0004`, and `MSEC-DET-0005` produced valid positive results, and no raw row, aggregate count, user, device, tenant, subscription, or workspace identifier was stored in the repository
+- Live target probes: authorized read-only workspace checks accepted all forty-nine generated predicates in bounded aggregate form. Waves 1 through 6 retain their previously documented mixed baseline results. In Wave 7, `MSEC-DET-0036`, `MSEC-DET-0037`, `MSEC-DET-0038` and `MSEC-DET-0040` returned no match in the current 30-day aggregate baseline; `MSEC-DET-0039` returned a small non-zero aggregate result across several devices and is explicitly tuning-required rather than treated as confirmed malicious activity. The complete generated `DeviceRegistryEvents` query also executed successfully with zero results in the current portal time range. In Wave 8, `MSEC-DET-0041`, `MSEC-DET-0042`, `MSEC-DET-0044` and `MSEC-DET-0045` returned no match in the bounded 30-day aggregate baseline; `MSEC-DET-0043` returned a small non-zero aggregate result across several devices and is explicitly tuning-required rather than treated as confirmed malicious activity. In Wave 9, all five final predicates returned no match after a broad Run/RunOnce candidate was narrowed because its aggregate baseline was too noisy and a blanket successful Device Code sign-in candidate was rejected in favor of Netsh PortProxy because the legitimate baseline could not be separated faithfully in portable single-event Sigma. No exact count, raw row, user, device, tenant, subscription or workspace identifier is stored in the repository
+- Read-only expansion inventory: workspace metadata confirmed recent candidate source families for Entra identity, Defender endpoint, email, network and Sentinel operations; selected schema-only checks confirmed the fields needed to review a first Sigma wave, while no raw event, live output, environment identifier or copied result is stored in the repository
+- Inventory operating guide: `docs/tooling/sentinel-source-inventory.md` provides metadata-only `Usage`, `getschema` and coarse freshness queries, explicitly forbids unrestricted raw-data search and keeps all environment-specific worksheets outside the repository
 - `MSEC-DET-0001` remains intentionally unbound because the available target has no suitable Windows event telemetry; it has no Sentinel compatibility claim
 - CI pipeline: validation-only Forgejo pipeline is operational for trusted pushes and manual dispatch; public pull-request execution remains intentionally disabled while the dedicated Pod uses Forgejo `host` execution mode without hard per-job container isolation
 - Deployment to any SIEM: not implemented and not authorized by this foundation milestone
+- Current local validation: the complete aggregate repository check passes in both the development tree and a fresh Git clone with 85 unit tests plus all structural, generated-output and Golden gates; all 350 synthetic fixture expectations pass and forty-nine disabled Sentinel rule bodies render successfully. Four final builds across the development tree and exact clean candidate commit `6209c96dec5a071153f3e732dbd1e61fc144c445` produced the same 1,040,114-byte `v1.0.0` archive and SHA-256 `4565d5001281d0694c3891337fc362b1e8ad0b29b6957433ff6ce5bc7773703d`
 
 ## Accepted architecture decisions
 
 - Forgejo is the canonical repository and development workflow.
 - GitHub is the read-only public distribution mirror, not a development source or deployment dependency.
-- Version 1 is Sigma-first but not Sigma-only.
-- Native implementations will be added only for genuine platform-specific behavior.
-- The first supported compilation target is Microsoft Sentinel KQL, introduced through a bounded non-production preview profile with explicit table bindings.
+- Version 1 uses Sigma as its only authored detection format and targets fifty reviewed rules for the first main release; ADR-0016 supersedes the thirty-rule threshold in ADR-0015 while retaining its Sigma-only, Sentinel-first scope.
+- Native implementations and a target resolver are future research only after a concrete target-backed Sigma limitation exists.
+- Microsoft Sentinel KQL is the only supported compilation target in version 1, introduced through a bounded non-production preview profile with explicit table bindings.
+- Additional SIEMs receive no support claim until real target access, explicit bindings and target-specific validation exist.
+- Sentinel output columns and entity mappings are governed together by the version 2 preview profile and the complete generated KQL remains Golden-reviewed.
+- Consumers render ignored temporary Sentinel files inside their own controlled pipeline; the project publishes no separate prebuilt Sentinel target archive and implements no Azure deployment client.
+- Data-source health is evaluated separately from detection results; an empty or missing observation cannot become a healthy zero.
+- Rule execution health is evaluated separately from alert volume; zero alerts never make a successfully executing rule unhealthy.
+- Environment-specific tuning, exclusions, allowlists and exceptions are consumer-owned; the public repository provides no customer policy layer.
 - Detection-local tests live beside the implementation; reusable test code lives centrally.
 - Generated build output is never a manually edited source of truth.
 - Package v1 uses the logical manifest as its only authored metadata source; no second package descriptor duplicates identity or lifecycle data.
@@ -164,7 +188,12 @@ After every completed milestone:
 
 ## Immediate next milestone
 
-Package the rendered Microsoft Sentinel rule, query and provenance files into an
-immutable checksummed target artifact without adding deployment or live-write
-capability. Keep public pull-request execution disabled until the runner gains
-hard per-job isolation.
+Decide whether to publish the locally verified `v1.0.0` candidate. Publication
+requires the focused branch to pass Forgejo validation, merge only through the
+protected `main` path, pass the canonical-main and annotated-tag runs, reproduce
+the exact reviewed archive from the tag, attach only the ZIP and `SHA256SUMS`,
+and pass anonymous post-publication verification. Do not add native KQL, deploy
+or enable Sentinel rules, publish a separate target archive or store raw live
+query output.
+Keep public pull-request execution disabled until the runner gains hard per-job
+isolation.

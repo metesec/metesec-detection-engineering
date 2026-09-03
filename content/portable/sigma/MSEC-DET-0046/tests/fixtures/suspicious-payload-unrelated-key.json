@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"ActionType":"RegistryValueSet","RegistryKey":"HKEY_CURRENT_USER\\Software\\SyntheticVendor\\Settings","RegistryValueName":"Command","RegistryValueData":"powershell.exe -EncodedCommand U1lOVEhFVElD"}}

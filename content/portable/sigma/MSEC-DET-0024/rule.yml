@@ -1,0 +1,57 @@
+title: Remote Process Creation Through Windows WMI or CIM
+id: 620e0a0a-c41a-4847-a38b-3b6b468dca45
+status: experimental
+description: Detects explicit remote Win32_Process creation through WMIC or PowerShell WMI and CIM commands.
+references:
+  - https://learn.microsoft.com/en-us/windows/win32/wmisdk/creating-processes-remotely
+  - https://attack.mitre.org/techniques/T1047/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_wmic_process_creation.yml
+author: MeteSec Detection Engineering
+date: 2026-09-03
+tags:
+  - attack.execution
+  - attack.t1047
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  wmic_image:
+    FileName: wmic.exe
+  wmic_remote:
+    ProcessCommandLine|contains: '/node:'
+  wmic_process_create:
+    ProcessCommandLine|contains|all:
+      - process
+      - call
+      - create
+  powershell_image:
+    FileName:
+      - powershell.exe
+      - pwsh.exe
+  powershell_method:
+    ProcessCommandLine|contains:
+      - Invoke-WmiMethod
+      - Invoke-CimMethod
+  powershell_class:
+    ProcessCommandLine|contains: Win32_Process
+  powershell_create:
+    ProcessCommandLine|contains: Create
+  powershell_remote:
+    ProcessCommandLine|contains:
+      - '-ComputerName'
+      - '-CimSession'
+  condition: (wmic_image and wmic_remote and wmic_process_create) or (powershell_image and powershell_method and powershell_class and powershell_create and powershell_remote)
+fields:
+  - TimeGenerated
+  - Timestamp
+  - DeviceId
+  - DeviceName
+  - AccountName
+  - InitiatingProcessFileName
+  - FileName
+  - FolderPath
+  - ProcessCommandLine
+  - ReportId
+falsepositives:
+  - Approved remote administration, software deployment, configuration management, and support automation.
+level: medium

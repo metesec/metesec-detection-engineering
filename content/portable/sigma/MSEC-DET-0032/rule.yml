@@ -1,0 +1,40 @@
+title: Windows Audit Policy Cleared Through Auditpol
+id: 7a5d7ed6-b060-4e48-85b0-685baede505a
+status: experimental
+description: Detects auditpol.exe commands that clear the system audit policy or remove all per-user audit policies.
+references:
+  - https://attack.mitre.org/techniques/T1685/001/
+  - https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/auditpol-clear
+  - https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table
+author: MeteSec Detection Engineering
+date: 2026-09-03
+tags:
+  - attack.defense-impairment
+  - attack.t1685.001
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection_image:
+    FileName: auditpol.exe
+  selection_clear:
+    ProcessCommandLine|contains: ' /clear'
+  selection_remove_all:
+    ProcessCommandLine|contains|all:
+      - '/remove'
+      - '/allusers'
+  condition: selection_image and (selection_clear or selection_remove_all)
+fields:
+  - TimeGenerated
+  - Timestamp
+  - DeviceId
+  - DeviceName
+  - AccountName
+  - InitiatingProcessFileName
+  - FileName
+  - FolderPath
+  - ProcessCommandLine
+  - ReportId
+falsepositives:
+  - Approved audit-policy reset, operating-system recovery, image preparation, or security-baseline maintenance.
+level: high

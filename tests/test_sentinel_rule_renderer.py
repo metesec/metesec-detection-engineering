@@ -26,13 +26,194 @@ EXPECTED_IDS = [
     "MSEC-DET-0003",
     "MSEC-DET-0004",
     "MSEC-DET-0005",
+    "MSEC-DET-0006",
+    "MSEC-DET-0007",
+    "MSEC-DET-0008",
+    "MSEC-DET-0009",
+    "MSEC-DET-0010",
+    "MSEC-DET-0011",
+    "MSEC-DET-0012",
+    "MSEC-DET-0013",
+    "MSEC-DET-0014",
+    "MSEC-DET-0015",
+    "MSEC-DET-0016",
+    "MSEC-DET-0017",
+    "MSEC-DET-0018",
+    "MSEC-DET-0019",
+    "MSEC-DET-0020",
+    "MSEC-DET-0021",
+    "MSEC-DET-0022",
+    "MSEC-DET-0023",
+    "MSEC-DET-0024",
+    "MSEC-DET-0025",
+    "MSEC-DET-0026",
+    "MSEC-DET-0027",
+    "MSEC-DET-0028",
+    "MSEC-DET-0029",
+    "MSEC-DET-0030",
+    "MSEC-DET-0031",
+    "MSEC-DET-0032",
+    "MSEC-DET-0033",
+    "MSEC-DET-0034",
+    "MSEC-DET-0035",
+    "MSEC-DET-0036",
+    "MSEC-DET-0037",
+    "MSEC-DET-0038",
+    "MSEC-DET-0039",
+    "MSEC-DET-0040",
+    "MSEC-DET-0041",
+    "MSEC-DET-0042",
+    "MSEC-DET-0043",
+    "MSEC-DET-0044",
+    "MSEC-DET-0045",
+    "MSEC-DET-0046",
+    "MSEC-DET-0047",
+    "MSEC-DET-0048",
+    "MSEC-DET-0049",
+    "MSEC-DET-0050",
 ]
 EXPECTED_RULE_IDS = {
     "MSEC-DET-0002": "249adb3e-5bd1-5348-82ba-00a0ade97c7d",
     "MSEC-DET-0003": "f336023f-4aa7-582e-99f5-da072f591623",
     "MSEC-DET-0004": "014e057f-ad92-56c5-801f-0e3f00689d90",
     "MSEC-DET-0005": "395d6ea0-0706-511c-878b-e430c44f8c55",
+    "MSEC-DET-0006": "d93b2104-9ec4-514e-bfe9-7b5c8a61a58e",
+    "MSEC-DET-0007": "946f440a-507f-5d6d-b8aa-16242f00c4cd",
+    "MSEC-DET-0008": "e6278947-b6ee-55ec-b967-c70b930158b0",
+    "MSEC-DET-0009": "f2d6f91c-fd6e-5a33-9912-853e8f438c10",
+    "MSEC-DET-0010": "7ff5a2bc-a328-5335-9e16-d5554513fe83",
+    "MSEC-DET-0011": "fb53221b-1f90-5e11-88e0-546644d2b40d",
+    "MSEC-DET-0012": "9217df00-bcf9-5728-a1d7-e7cfc105fc47",
+    "MSEC-DET-0013": "927ef83f-8be3-57e8-a3df-823c7bf58fa2",
+    "MSEC-DET-0014": "ae998d96-08ea-5450-b11c-90e22f12617e",
+    "MSEC-DET-0015": "1744748d-113d-55e9-9e16-d3e5da54bef0",
+    "MSEC-DET-0016": "97ff01f7-43f9-5fba-9790-4eb49f30f006",
+    "MSEC-DET-0017": "b1f2169b-f1b7-5b26-8cca-645aca9aea9b",
+    "MSEC-DET-0018": "f8e1357b-e280-5024-b0d8-a585a276d485",
+    "MSEC-DET-0019": "6b550a1b-fcdd-5357-848f-31fd31820c25",
+    "MSEC-DET-0020": "69c1dc01-b17a-5ed3-b893-03ac105ec17c",
+    "MSEC-DET-0021": "553e034a-3152-52eb-aebe-3a8a26d812cd",
+    "MSEC-DET-0022": "5a54ab68-a6c6-5861-9999-2d5bcae69bcb",
+    "MSEC-DET-0023": "93340f83-dceb-5590-ac68-1b090933d5f0",
+    "MSEC-DET-0024": "b78540d6-f5f8-5ef4-836f-4b22e7fa2aa4",
+    "MSEC-DET-0025": "65d7aaa9-403b-5fe1-8ee0-5ae1d796ebfa",
+    "MSEC-DET-0026": "6922469a-cd13-5831-a7e6-cf094a4df4b3",
+    "MSEC-DET-0027": "d4d1ef61-099b-555b-8ede-8ac59397a859",
+    "MSEC-DET-0028": "4d1f6ff8-728a-5b8c-9e0f-afee0a5ea803",
+    "MSEC-DET-0029": "5a58ba42-f707-5c18-97e4-3fd52be8772c",
+    "MSEC-DET-0030": "0574fb14-9e43-53d5-8651-775cabebf006",
+    "MSEC-DET-0031": "847b9e91-09cf-5fed-83e5-82dfb9d48286",
+    "MSEC-DET-0032": "f035bc04-83d7-5fea-be4a-acbcc0ae9f7e",
+    "MSEC-DET-0033": "40b747a2-7eca-5be7-9db9-a9ad96a92f6b",
+    "MSEC-DET-0034": "e97b2c50-09f7-56cd-a4c7-7b592653fdae",
+    "MSEC-DET-0035": "bf9bf449-c952-50c6-9494-89bc93024ceb",
+    "MSEC-DET-0036": "e8931616-a64c-565e-95a2-2cfbc8f1c391",
+    "MSEC-DET-0037": "f3237e25-8d75-597e-852e-628cb4fc0b07",
+    "MSEC-DET-0038": "181d258f-2f8a-5795-99d5-4e68f3dba78c",
+    "MSEC-DET-0039": "d8c0de61-0a7d-598e-8f0a-95286f82a602",
+    "MSEC-DET-0040": "e7453579-b5f7-5572-85b4-e2b40a3b9448",
+    "MSEC-DET-0041": "c96490ab-c199-5735-86f8-2cdb7a00cf56",
+    "MSEC-DET-0042": "97851ee6-a4a9-507e-aae3-6ec43228a90a",
+    "MSEC-DET-0043": "35b23fd5-e7b2-5651-a643-3057bd361985",
+    "MSEC-DET-0044": "97636268-9f74-5a3e-8b8a-a91bd0c87e11",
+    "MSEC-DET-0045": "8bc0fbcf-dfcd-5ac4-bb2f-638be40e1976",
+    "MSEC-DET-0046": "25783278-c27a-595a-9e1b-934fdd3084db",
+    "MSEC-DET-0047": "f2ae7422-1338-51cb-90d5-75df90c052ca",
+    "MSEC-DET-0048": "a14d4aff-435d-5301-b075-7930984c48ee",
+    "MSEC-DET-0049": "30ed1b39-8a97-5eec-8896-768e9dae2d54",
+    "MSEC-DET-0050": "176554d0-b7c1-578b-b2ab-ca38942730ea",
 }
+SIGNIN_ENTITY_MAPPINGS = [
+    {
+        "entityType": "Account",
+        "fieldMappings": [
+            {"identifier": "Name", "columnName": "AccountName"},
+            {"identifier": "UPNSuffix", "columnName": "AccountUPNSuffix"},
+            {"identifier": "AadUserId", "columnName": "UserId"},
+        ],
+    },
+    {
+        "entityType": "IP",
+        "fieldMappings": [
+            {"identifier": "Address", "columnName": "SourceIPAddress"},
+        ],
+    },
+    {
+        "entityType": "CloudApplication",
+        "fieldMappings": [
+            {"identifier": "AppId", "columnName": "ApplicationId"},
+            {"identifier": "Name", "columnName": "ApplicationName"},
+        ],
+    },
+]
+AUDIT_ENTITY_MAPPINGS = [
+    {
+        "entityType": "Account",
+        "fieldMappings": [
+            {"identifier": "Name", "columnName": "InitiatingAccountName"},
+            {
+                "identifier": "UPNSuffix",
+                "columnName": "InitiatingAccountUPNSuffix",
+            },
+            {"identifier": "AadUserId", "columnName": "InitiatingUserId"},
+        ],
+    },
+    {
+        "entityType": "IP",
+        "fieldMappings": [
+            {"identifier": "Address", "columnName": "InitiatingIPAddress"},
+        ],
+    },
+    {
+        "entityType": "CloudApplication",
+        "fieldMappings": [
+            {"identifier": "AppId", "columnName": "InitiatingApplicationId"},
+            {"identifier": "Name", "columnName": "InitiatingApplicationName"},
+        ],
+    },
+    {
+        "entityType": "CloudApplication",
+        "fieldMappings": [
+            {"identifier": "Name", "columnName": "TargetServicePrincipalName"},
+        ],
+    },
+]
+DEVICE_ENTITY_MAPPINGS = [
+    {
+        "entityType": "Account",
+        "fieldMappings": [
+            {"identifier": "Name", "columnName": "AccountName"},
+        ],
+    },
+]
+REGISTRY_ENTITY_MAPPINGS = [
+    {
+        "entityType": "Account",
+        "fieldMappings": [
+            {"identifier": "Name", "columnName": "InitiatingProcessAccountName"},
+        ],
+    },
+]
+AUDIT_ACCOUNT_ENTITY_MAPPINGS = [
+    *AUDIT_ENTITY_MAPPINGS[:3],
+    {
+        "entityType": "Account",
+        "fieldMappings": [
+            {"identifier": "AadUserId", "columnName": "TargetObjectId"},
+        ],
+    },
+]
+RISK_ENTITY_MAPPINGS = [
+    {
+        "entityType": "Account",
+        "fieldMappings": [
+            {"identifier": "Name", "columnName": "AccountName"},
+            {"identifier": "UPNSuffix", "columnName": "AccountUPNSuffix"},
+            {"identifier": "AadUserId", "columnName": "UserId"},
+        ],
+    },
+]
+AUDIT_INITIATOR_ENTITY_MAPPINGS = AUDIT_ENTITY_MAPPINGS[:3]
 
 
 class SentinelRuleRendererTests(unittest.TestCase):
@@ -40,7 +221,7 @@ class SentinelRuleRendererTests(unittest.TestCase):
     def setUpClass(cls) -> None:
         cls.rendered = render_profile(REPO_ROOT, PROFILE)
 
-    def test_current_profile_renders_four_disabled_scheduled_rules(self) -> None:
+    def test_current_profile_renders_forty_nine_disabled_scheduled_rules(self) -> None:
         self.assertEqual(
             [item.detection_id for item in self.rendered],
             EXPECTED_IDS,
@@ -70,6 +251,63 @@ class SentinelRuleRendererTests(unittest.TestCase):
             "MSEC-DET-0003": ("High", ["InitialAccess"], ["T1078"]),
             "MSEC-DET-0004": ("High", ["Persistence"], ["T1098"]),
             "MSEC-DET-0005": ("Medium", ["PrivilegeEscalation"], ["T1098"]),
+            "MSEC-DET-0006": ("High", ["Execution"], ["T1059"]),
+            "MSEC-DET-0007": ("High", ["Execution"], ["T1059"]),
+            "MSEC-DET-0008": ("High", ["PrivilegeEscalation"], ["T1098"]),
+            "MSEC-DET-0009": ("Medium", ["Persistence"], ["T1098"]),
+            "MSEC-DET-0010": ("High", ["InitialAccess"], ["T1078"]),
+            "MSEC-DET-0011": ("High", ["CredentialAccess"], ["T1003"]),
+            "MSEC-DET-0012": ("High", ["DefenseEvasion"], ["T1218"]),
+            "MSEC-DET-0013": ("Medium", ["DefenseEvasion"], ["T1218"]),
+            "MSEC-DET-0014": ("Medium", ["DefenseEvasion"], ["T1556"]),
+            "MSEC-DET-0015": ("Medium", ["PrivilegeEscalation"], ["T1098"]),
+            "MSEC-DET-0016": ("High", ["Impact"], ["T1490"]),
+            "MSEC-DET-0017": ("High", [], ["T1685"]),
+            "MSEC-DET-0018": ("High", [], ["T1685"]),
+            "MSEC-DET-0019": ("High", ["PrivilegeEscalation"], ["T1484"]),
+            "MSEC-DET-0020": ("Medium", ["CommandAndControl"], ["T1105"]),
+            "MSEC-DET-0021": ("High", ["Persistence", "PrivilegeEscalation"], ["T1098"]),
+            "MSEC-DET-0022": ("Medium", ["Persistence", "CredentialAccess"], ["T1556"]),
+            "MSEC-DET-0023": ("High", ["CredentialAccess"], ["T1003"]),
+            "MSEC-DET-0024": ("Medium", ["Execution"], ["T1047"]),
+            "MSEC-DET-0025": ("Medium", ["Persistence", "Execution"], ["T1197"]),
+            "MSEC-DET-0026": ("Medium", ["InitialAccess"], ["T1078"]),
+            "MSEC-DET-0027": ("High", [], ["T1218"]),
+            "MSEC-DET-0028": (
+                "Medium",
+                ["Execution", "Persistence", "PrivilegeEscalation"],
+                ["T1053"],
+            ),
+            "MSEC-DET-0029": (
+                "High",
+                ["Persistence", "PrivilegeEscalation"],
+                ["T1098"],
+            ),
+            "MSEC-DET-0030": ("High", ["CredentialAccess"], ["T1003"]),
+            "MSEC-DET-0031": ("High", ["Persistence"], ["T1505"]),
+            "MSEC-DET-0032": ("High", [], ["T1685"]),
+            "MSEC-DET-0033": ("High", [], ["T1686"]),
+            "MSEC-DET-0034": (
+                "High",
+                ["Persistence", "PrivilegeEscalation"],
+                ["T1543"],
+            ),
+            "MSEC-DET-0035": ("Medium", [], ["T1140"]),
+            "MSEC-DET-0036": ("High", ["CredentialAccess"], ["T1003"]),
+            "MSEC-DET-0037": ("High", ["PrivilegeEscalation", "DefenseEvasion"], ["T1548"]),
+            "MSEC-DET-0038": ("High", ["LateralMovement"], ["T1021"]),
+            "MSEC-DET-0039": ("High", ["Execution"], ["T1059"]),
+            "MSEC-DET-0040": ("High", ["Persistence", "PrivilegeEscalation"], ["T1546"]),
+            "MSEC-DET-0041": ("High", [], ["T1218"]),
+            "MSEC-DET-0042": ("Medium", [], ["T1218"]),
+            "MSEC-DET-0043": ("Medium", ["CommandAndControl"], ["T1218", "T1105"]),
+            "MSEC-DET-0044": ("Medium", ["CommandAndControl"], ["T1218", "T1105"]),
+            "MSEC-DET-0045": ("High", ["Execution"], ["T1127"]),
+            "MSEC-DET-0046": ("Medium", ["Persistence", "PrivilegeEscalation"], ["T1547"]),
+            "MSEC-DET-0047": ("High", ["Persistence", "PrivilegeEscalation"], ["T1547"]),
+            "MSEC-DET-0048": ("Medium", ["Execution", "Persistence", "PrivilegeEscalation"], ["T1053"]),
+            "MSEC-DET-0049": ("High", [], ["T1218"]),
+            "MSEC-DET-0050": ("Medium", ["CommandAndControl"], ["T1090"]),
         }
         for item in self.rendered:
             properties = item.request_body["properties"]
@@ -92,6 +330,138 @@ class SentinelRuleRendererTests(unittest.TestCase):
             ).read_text(encoding="utf-8").replace("\r\n", "\n")
             self.assertEqual(item.query, golden)
             self.assertEqual(item.request_body["properties"]["query"], golden)
+
+    def test_output_columns_drive_exact_entity_mappings(self) -> None:
+        for item in self.rendered:
+            expected = {
+                "MSEC-DET-0002": SIGNIN_ENTITY_MAPPINGS,
+                "MSEC-DET-0003": SIGNIN_ENTITY_MAPPINGS,
+                "MSEC-DET-0004": AUDIT_ENTITY_MAPPINGS,
+                "MSEC-DET-0005": AUDIT_ENTITY_MAPPINGS,
+                "MSEC-DET-0006": DEVICE_ENTITY_MAPPINGS,
+                "MSEC-DET-0007": DEVICE_ENTITY_MAPPINGS,
+                "MSEC-DET-0008": AUDIT_ACCOUNT_ENTITY_MAPPINGS,
+                "MSEC-DET-0009": AUDIT_ACCOUNT_ENTITY_MAPPINGS,
+                "MSEC-DET-0010": RISK_ENTITY_MAPPINGS,
+                "MSEC-DET-0011": DEVICE_ENTITY_MAPPINGS,
+                "MSEC-DET-0012": DEVICE_ENTITY_MAPPINGS,
+                "MSEC-DET-0013": DEVICE_ENTITY_MAPPINGS,
+                "MSEC-DET-0014": AUDIT_INITIATOR_ENTITY_MAPPINGS,
+                "MSEC-DET-0015": AUDIT_INITIATOR_ENTITY_MAPPINGS,
+                "MSEC-DET-0016": DEVICE_ENTITY_MAPPINGS,
+                "MSEC-DET-0017": DEVICE_ENTITY_MAPPINGS,
+                "MSEC-DET-0018": DEVICE_ENTITY_MAPPINGS,
+                "MSEC-DET-0019": AUDIT_INITIATOR_ENTITY_MAPPINGS,
+                "MSEC-DET-0020": DEVICE_ENTITY_MAPPINGS,
+                "MSEC-DET-0021": AUDIT_ENTITY_MAPPINGS,
+                "MSEC-DET-0022": AUDIT_ACCOUNT_ENTITY_MAPPINGS,
+                "MSEC-DET-0023": DEVICE_ENTITY_MAPPINGS,
+                "MSEC-DET-0024": DEVICE_ENTITY_MAPPINGS,
+                "MSEC-DET-0025": DEVICE_ENTITY_MAPPINGS,
+                "MSEC-DET-0026": SIGNIN_ENTITY_MAPPINGS,
+                "MSEC-DET-0027": DEVICE_ENTITY_MAPPINGS,
+                "MSEC-DET-0028": DEVICE_ENTITY_MAPPINGS,
+                "MSEC-DET-0029": DEVICE_ENTITY_MAPPINGS,
+                "MSEC-DET-0030": DEVICE_ENTITY_MAPPINGS,
+                "MSEC-DET-0031": DEVICE_ENTITY_MAPPINGS,
+                "MSEC-DET-0032": DEVICE_ENTITY_MAPPINGS,
+                "MSEC-DET-0033": DEVICE_ENTITY_MAPPINGS,
+                "MSEC-DET-0034": DEVICE_ENTITY_MAPPINGS,
+                "MSEC-DET-0035": DEVICE_ENTITY_MAPPINGS,
+                "MSEC-DET-0036": DEVICE_ENTITY_MAPPINGS,
+                "MSEC-DET-0037": DEVICE_ENTITY_MAPPINGS,
+                "MSEC-DET-0038": DEVICE_ENTITY_MAPPINGS,
+                "MSEC-DET-0039": DEVICE_ENTITY_MAPPINGS,
+                "MSEC-DET-0040": REGISTRY_ENTITY_MAPPINGS,
+                "MSEC-DET-0041": DEVICE_ENTITY_MAPPINGS,
+                "MSEC-DET-0042": DEVICE_ENTITY_MAPPINGS,
+                "MSEC-DET-0043": DEVICE_ENTITY_MAPPINGS,
+                "MSEC-DET-0044": DEVICE_ENTITY_MAPPINGS,
+                "MSEC-DET-0045": DEVICE_ENTITY_MAPPINGS,
+                "MSEC-DET-0046": REGISTRY_ENTITY_MAPPINGS,
+                "MSEC-DET-0047": REGISTRY_ENTITY_MAPPINGS,
+                "MSEC-DET-0048": DEVICE_ENTITY_MAPPINGS,
+                "MSEC-DET-0049": DEVICE_ENTITY_MAPPINGS,
+                "MSEC-DET-0050": DEVICE_ENTITY_MAPPINGS,
+            }[item.detection_id]
+            properties = item.request_body["properties"]
+            self.assertEqual(properties["entityMappings"], expected)
+            self.assertEqual(item.render_manifest["source"]["entity_mappings"], expected)
+            output_columns = set(item.render_manifest["source"]["output_columns"])
+            for mapping in expected:
+                for field in mapping["fieldMappings"]:
+                    self.assertIn(field["columnName"], output_columns)
+
+    def test_owner_change_target_remains_a_neutral_resource(self) -> None:
+        owner_change = next(
+            item for item in self.rendered if item.detection_id == "MSEC-DET-0015"
+        )
+        output_columns = set(owner_change.render_manifest["source"]["output_columns"])
+        self.assertTrue(
+            {"TargetResourceType", "TargetResourceId", "TargetResourceName"}
+            <= output_columns
+        )
+        self.assertNotIn("TargetApplicationName", owner_change.query)
+        self.assertEqual(
+            owner_change.request_body["properties"]["entityMappings"],
+            AUDIT_INITIATOR_ENTITY_MAPPINGS,
+        )
+
+    def test_current_attack_tactic_is_not_mislabeled_for_older_sentinel_enum(self) -> None:
+        defense_impairment = {
+            item.detection_id: item
+            for item in self.rendered
+            if item.detection_id in {"MSEC-DET-0017", "MSEC-DET-0018", "MSEC-DET-0019"}
+        }
+        self.assertEqual(
+            defense_impairment["MSEC-DET-0017"].request_body["properties"]["tactics"],
+            [],
+        )
+        self.assertEqual(
+            defense_impairment["MSEC-DET-0018"].request_body["properties"]["tactics"],
+            [],
+        )
+        self.assertEqual(
+            defense_impairment["MSEC-DET-0019"].request_body["properties"]["tactics"],
+            ["PrivilegeEscalation"],
+        )
+        for item in defense_impairment.values():
+            source_tactics = {
+                mapping["tactic"]
+                for mapping in item.render_manifest["source"]["attack"]
+            }
+            self.assertIn("Defense Impairment", source_tactics)
+            self.assertNotIn("DefenseEvasion", item.request_body["properties"]["tactics"])
+
+        bits = next(
+            item for item in self.rendered if item.detection_id == "MSEC-DET-0025"
+        )
+        self.assertEqual(
+            bits.request_body["properties"]["tactics"],
+            ["Persistence", "Execution"],
+        )
+        source_tactics = {
+            mapping["tactic"] for mapping in bits.render_manifest["source"]["attack"]
+        }
+        self.assertIn("Stealth", source_tactics)
+        self.assertNotIn("DefenseEvasion", bits.request_body["properties"]["tactics"])
+
+        rundll32_mshtml = next(
+            item for item in self.rendered if item.detection_id == "MSEC-DET-0027"
+        )
+        self.assertEqual(
+            rundll32_mshtml.request_body["properties"]["tactics"],
+            [],
+        )
+        source_tactics = {
+            mapping["tactic"]
+            for mapping in rundll32_mshtml.render_manifest["source"]["attack"]
+        }
+        self.assertIn("Stealth", source_tactics)
+        self.assertNotIn(
+            "DefenseEvasion",
+            rundll32_mshtml.request_body["properties"]["tactics"],
+        )
 
     def test_renderer_rejects_query_that_differs_from_golden(self) -> None:
         source_profile = REPO_ROOT / "targets" / "sentinel" / "preview.json"

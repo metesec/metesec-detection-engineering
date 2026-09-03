@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0043",
+  "title": "Msiexec installs a remote web package",
+  "description": "Detects Msiexec execution that references an MSI package over HTTP or HTTPS.",
+  "hypothesis": {
+    "summary": "An adversary may use Msiexec to retrieve and execute a remote installer package through a signed Windows binary.",
+    "rationale": "MITRE documents remote MSI proxy execution and SigmaHQ maintains a comparable web-install analytic; combining Msiexec identity, a web protocol and an MSI reference is more specific than monitoring every Msiexec invocation.",
+    "detection_goal": "Identify Msiexec commands that reference an MSI package over HTTP or HTTPS while leaving local packages, non-MSI URLs, unrelated executables and incomplete commands unmatched."
+  },
+  "ownership": {"owner": "MeteSec Detection Engineering", "reviewers": []},
+  "lifecycle": {"status": "experimental", "created": "2026-09-03", "modified": "2026-09-03", "review_interval_days": 90},
+  "severity": "medium",
+  "confidence": "medium",
+  "data_sources": [
+    {"name": "Microsoft Defender for Endpoint process events", "category": "Endpoint process creation", "required_fields": ["TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountName", "InitiatingProcessFileName", "FileName", "ProcessVersionInfoOriginalFileName", "FolderPath", "ProcessCommandLine", "ReportId"]}
+  ],
+  "attack": [
+    {"technique_id": "T1218.007", "tactic": "Stealth"},
+    {"technique_id": "T1105", "tactic": "Command and Control"}
+  ],
+  "triage": {
+    "summary": "Validate the remote package source and installation owner before escalation; enterprise deployment tooling can legitimately install MSI packages from managed web locations.",
+    "steps": [
+      "Review the complete command, URL, package name, account, initiating process and effective original filename.",
+      "Inspect DNS, network and file events for the package, then validate its signer, hash, installation actions and spawned processes.",
+      "Confirm the URL and package with the responsible software-deployment owner; scope exceptions to an approved source and package identity rather than Msiexec globally."
+    ],
+    "false_positives": ["Approved software deployment or repair workflows that install signed MSI packages from managed HTTP or HTTPS repositories"]
+  },
+  "validation": {"expected_outcome": "Match Msiexec commands containing an HTTP or HTTPS MSI reference; do not match local packages, non-MSI URLs, unrelated processes or missing command lines.", "positive_tests": true, "negative_tests": true},
+  "implementations": [{"type": "sigma", "path": "content/portable/sigma/MSEC-DET-0043/rule.yml", "targets": ["sentinel"], "status": "active"}]
+}

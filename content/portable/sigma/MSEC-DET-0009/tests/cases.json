@@ -1,0 +1,14 @@
+{
+  "schema_version":1,
+  "detection_id":"MSEC-DET-0009",
+  "implementation":"content/portable/sigma/MSEC-DET-0009/rule.yml",
+  "cases":[
+    {"id":"admin-registered-security-info","expectation":"match","fixture":"fixtures/admin-registered-security-info.json","description":"Synthetic administrator registration succeeds."},
+    {"id":"user-registered-security-info","expectation":"match","fixture":"fixtures/user-registered-security-info.json","description":"Synthetic user registration succeeds."},
+    {"id":"uppercase-registration-with-context","expectation":"match","fixture":"fixtures/uppercase-registration-with-context.json","description":"Synthetic uppercase registration verifies case-insensitive matching with context."},
+    {"id":"failed-user-registration","expectation":"no_match","fixture":"fixtures/failed-user-registration.json","description":"Synthetic failed registration must not match."},
+    {"id":"user-updated-security-info","expectation":"no_match","fixture":"fixtures/user-updated-security-info.json","description":"Synthetic update is not a new registration operation."},
+    {"id":"unrelated-operation","expectation":"no_match","fixture":"fixtures/unrelated-operation.json","description":"Synthetic unrelated audit operation must not match."},
+    {"id":"missing-result","expectation":"no_match","fixture":"fixtures/missing-result.json","description":"Synthetic registration without a result fails closed."}
+  ]
+}

@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"FileName":"installer-helper.exe","ProcessVersionInfoOriginalFileName":"msiexec.exe","ProcessCommandLine":"installer-helper.exe /package https://example.invalid/synthetic.msi /quiet"}}

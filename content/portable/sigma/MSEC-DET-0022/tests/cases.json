@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "detection_id": "MSEC-DET-0022",
+  "implementation": "content/portable/sigma/MSEC-DET-0022/rule.yml",
+  "cases": [
+    {"id": "strong-authentication-disabled", "expectation": "match", "fixture": "fixtures/strong-authentication-disabled.json", "description": "Synthetic successful strong-authentication disablement."},
+    {"id": "uppercase-disablement", "expectation": "match", "fixture": "fixtures/uppercase-disablement.json", "description": "Synthetic uppercase audit values preserve case-insensitive matching."},
+    {"id": "disablement-with-context", "expectation": "match", "fixture": "fixtures/disablement-with-context.json", "description": "Synthetic disablement includes bounded audit context."},
+    {"id": "strong-authentication-enabled", "expectation": "no_match", "fixture": "fixtures/strong-authentication-enabled.json", "description": "Synthetic enablement is outside the rule."},
+    {"id": "failed-disablement", "expectation": "no_match", "fixture": "fixtures/failed-disablement.json", "description": "Synthetic failed disablement does not match."},
+    {"id": "security-info-deleted", "expectation": "no_match", "fixture": "fixtures/security-info-deleted.json", "description": "Synthetic authentication-method deletion is a separate behavior."},
+    {"id": "missing-result", "expectation": "no_match", "fixture": "fixtures/missing-result.json", "description": "Synthetic disablement without a result fails closed."}
+  ]
+}

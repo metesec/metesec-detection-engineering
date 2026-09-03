@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"FileName":"NTDSUTIL.EXE","ProcessCommandLine":"NTDSUTIL.EXE \"ACTIVATE INSTANCE NTDS\" \"IFM\" \"CREATE RODC C:\\Synthetic\\RODC\" q q","DeviceName":"synthetic-dc","AccountName":"synthetic-admin"}}

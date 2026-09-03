@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"InitiatingProcessFileName":"java.exe","FileName":"powershell.exe","ProcessCommandLine":"powershell.exe -NoProfile synthetic-command"}}

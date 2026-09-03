@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0049",
+  "title": "Mavinject process injection command",
+  "description": "Detects Mavinject or a renamed Mavinject binary using the INJECTRUNNING or HMODULE injection switches.",
+  "hypothesis": {
+    "summary": "An adversary may abuse the signed Microsoft Mavinject utility to inject a DLL into another process.",
+    "rationale": "MITRE documents Mavinject as a signed-binary proxy-execution mechanism and identifies INJECTRUNNING and HMODULE command forms. Requiring both verified binary identity and one of these injection switches avoids treating ordinary discovery or help invocations as malicious.",
+    "detection_goal": "Identify Mavinject and renamed Mavinject executions that request INJECTRUNNING or HMODULE injection while leaving invocations without an injection switch, unrelated binaries and incomplete events unmatched."
+  },
+  "ownership": {"owner": "MeteSec Detection Engineering", "reviewers": []},
+  "lifecycle": {"status": "experimental", "created": "2026-09-03", "modified": "2026-09-03", "review_interval_days": 90},
+  "severity": "high",
+  "confidence": "high",
+  "data_sources": [
+    {"name": "Microsoft Defender for Endpoint process events", "category": "Endpoint process creation", "required_fields": ["TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountName", "InitiatingProcessFileName", "FileName", "ProcessVersionInfoOriginalFileName", "FolderPath", "ProcessCommandLine", "ReportId"]}
+  ],
+  "attack": [{"technique_id": "T1218.013", "tactic": "Stealth"}],
+  "triage": {
+    "summary": "Treat a selected Mavinject injection command as high-priority, then determine whether an approved Microsoft App-V or controlled security workflow explains it.",
+    "steps": [
+      "Review the complete command, target process identifier, DLL or module path, original filename, parent process, account and endpoint role.",
+      "Inspect the injected module and target process, then correlate file creation, signer, hash, network activity and follow-on behavior.",
+      "Confirm an approved App-V or security-testing workflow with its owner; otherwise contain the endpoint and investigate the payload source and process ancestry."
+    ],
+    "false_positives": ["Legitimate Microsoft App-V activity or explicitly authorized security testing that invokes Mavinject injection functionality"]
+  },
+  "validation": {"expected_outcome": "Match Mavinject or renamed Mavinject commands using INJECTRUNNING or HMODULE; do not match help or ordinary invocations, unrelated processes or missing command lines.", "positive_tests": true, "negative_tests": true},
+  "implementations": [{"type": "sigma", "path": "content/portable/sigma/MSEC-DET-0049/rule.yml", "targets": ["sentinel"], "status": "active"}]
+}

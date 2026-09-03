@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0042",
+  "title": "Odbcconf registers a DLL with REGSVR",
+  "description": "Detects Odbcconf use of the REGSVR action to register a DLL.",
+  "hypothesis": {
+    "summary": "An adversary may use Odbcconf to proxy DLL registration through a signed Windows binary.",
+    "rationale": "MITRE documents Odbcconf proxy execution, Microsoft documents REGSVR as an Odbcconf installer action, and SigmaHQ maintains a comparable analytic for the action-plus-DLL combination.",
+    "detection_goal": "Identify Odbcconf commands that combine the REGSVR action with a DLL reference while leaving routine ODBC configuration, unrelated executables and incomplete commands unmatched."
+  },
+  "ownership": {"owner": "MeteSec Detection Engineering", "reviewers": []},
+  "lifecycle": {"status": "experimental", "created": "2026-09-03", "modified": "2026-09-03", "review_interval_days": 90},
+  "severity": "medium",
+  "confidence": "medium",
+  "data_sources": [
+    {"name": "Microsoft Defender for Endpoint process events", "category": "Endpoint process creation", "required_fields": ["TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountName", "InitiatingProcessFileName", "FileName", "ProcessVersionInfoOriginalFileName", "FolderPath", "ProcessCommandLine", "ReportId"]}
+  ],
+  "attack": [{"technique_id": "T1218.008", "tactic": "Stealth"}],
+  "triage": {
+    "summary": "Verify the registered DLL and installer context; Odbcconf REGSVR is legitimate functionality but an unusual execution path on ordinary endpoints.",
+    "steps": [
+      "Review the full command, effective original filename, DLL path, signer, hash, account and parent process.",
+      "Inspect the DLL origin and correlate file writes, downloads, registry changes and child or follow-on execution.",
+      "Confirm a documented ODBC driver installation or repair; otherwise contain the endpoint and investigate the delivery path."
+    ],
+    "false_positives": ["Approved ODBC driver installation, registration or repair packages that use the documented REGSVR action"]
+  },
+  "validation": {"expected_outcome": "Match Odbcconf commands containing both REGSVR and a DLL reference; do not match configuration-only actions, missing markers or unrelated executables.", "positive_tests": true, "negative_tests": true},
+  "implementations": [{"type": "sigma", "path": "content/portable/sigma/MSEC-DET-0042/rule.yml", "targets": ["sentinel"], "status": "active"}]
+}

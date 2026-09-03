@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"FileName":"setup.exe","ProcessVersionInfoOriginalFileName":"setup.exe","ProcessCommandLine":"setup.exe /A {REGSVR C:\\Temp\\synthetic.dll}"}}

@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"ActionType":"RegistryValueSet","RegistryKey":"HKEY_LOCAL_MACHINE\\Software\\SyntheticVendor\\Winlogon","RegistryValueName":"Shell","RegistryValueData":"cmd.exe /c synthetic.cmd"}}

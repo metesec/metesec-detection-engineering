@@ -1,0 +1,41 @@
+title: Remote Windows Service Creation Through SC
+id: 3e944022-ded8-48d7-8456-b7166a01c894
+status: experimental
+description: Detects sc.exe commands that target a remote Windows host and request creation of a service.
+references:
+  - https://attack.mitre.org/techniques/T1543/003/
+  - https://learn.microsoft.com/en-us/windows/win32/services/configuring-a-service-using-sc
+  - https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table
+author: MeteSec Detection Engineering
+date: 2026-09-03
+tags:
+  - attack.persistence
+  - attack.privilege-escalation
+  - attack.t1543.003
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection_image:
+    FileName: sc.exe
+  selection_remote:
+    ProcessCommandLine|contains:
+      - 'sc.exe \\'
+      - 'sc \\'
+  selection_create:
+    ProcessCommandLine|contains: ' create '
+  condition: selection_image and selection_remote and selection_create
+fields:
+  - TimeGenerated
+  - Timestamp
+  - DeviceId
+  - DeviceName
+  - AccountName
+  - InitiatingProcessFileName
+  - FileName
+  - FolderPath
+  - ProcessCommandLine
+  - ReportId
+falsepositives:
+  - Approved remote software deployment, support, or service administration through SC.
+level: high

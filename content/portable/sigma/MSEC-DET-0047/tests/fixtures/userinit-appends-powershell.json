@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"ActionType":"RegistryValueSet","RegistryKey":"HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon","RegistryValueName":"Userinit","RegistryValueData":"C:\\Windows\\system32\\userinit.exe,powershell.exe -NoProfile -File C:\\ProgramData\\Synthetic\\logon.ps1"}}

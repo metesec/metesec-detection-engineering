@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "detection_id": "MSEC-DET-0044",
+  "implementation": "content/portable/sigma/MSEC-DET-0044/rule.yml",
+  "cases": [
+    {"id": "installutil-http-payload", "expectation": "match", "fixture": "fixtures/installutil-http-payload.json", "description": "Synthetic InstallUtil command references an HTTP payload."},
+    {"id": "renamed-installutil-https-payload", "expectation": "match", "fixture": "fixtures/renamed-installutil-https-payload.json", "description": "Synthetic renamed InstallUtil binary retains its original filename and references HTTPS content."},
+    {"id": "installutil-ftp-with-context", "expectation": "match", "fixture": "fixtures/installutil-ftp-with-context.json", "description": "Synthetic mixed-case InstallUtil command references FTP content with bounded context."},
+    {"id": "installutil-local-assembly", "expectation": "no_match", "fixture": "fixtures/installutil-local-assembly.json", "description": "Synthetic InstallUtil command references only a local assembly."},
+    {"id": "other-process-remote-url", "expectation": "no_match", "fixture": "fixtures/other-process-remote-url.json", "description": "Synthetic remote URL belongs to another process."},
+    {"id": "installutil-missing-command-line", "expectation": "no_match", "fixture": "fixtures/installutil-missing-command-line.json", "description": "Synthetic InstallUtil event lacks a command line."},
+    {"id": "installutil-unc-path", "expectation": "no_match", "fixture": "fixtures/installutil-unc-path.json", "description": "Synthetic InstallUtil command uses a UNC path outside the selected protocol scope."}
+  ]
+}

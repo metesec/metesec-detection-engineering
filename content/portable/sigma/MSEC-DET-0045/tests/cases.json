@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "detection_id": "MSEC-DET-0045",
+  "implementation": "content/portable/sigma/MSEC-DET-0045/rule.yml",
+  "cases": [
+    {"id": "msbuild-spawns-powershell", "expectation": "match", "fixture": "fixtures/msbuild-spawns-powershell.json", "description": "Synthetic MSBuild process creates PowerShell."},
+    {"id": "msbuild-spawns-mshta", "expectation": "match", "fixture": "fixtures/msbuild-spawns-mshta.json", "description": "Synthetic MSBuild process creates Mshta."},
+    {"id": "msbuild-spawns-rundll32-with-context", "expectation": "match", "fixture": "fixtures/msbuild-spawns-rundll32-with-context.json", "description": "Synthetic mixed-case MSBuild process creates Rundll32 with bounded context."},
+    {"id": "msbuild-spawns-csc", "expectation": "no_match", "fixture": "fixtures/msbuild-spawns-csc.json", "description": "Synthetic MSBuild process creates an expected compiler child."},
+    {"id": "msbuild-spawns-vbc", "expectation": "no_match", "fixture": "fixtures/msbuild-spawns-vbc.json", "description": "Synthetic MSBuild process creates another expected compiler child."},
+    {"id": "powershell-spawned-by-explorer", "expectation": "no_match", "fixture": "fixtures/powershell-spawned-by-explorer.json", "description": "Synthetic selected child has an unrelated parent."},
+    {"id": "selected-child-missing-parent", "expectation": "no_match", "fixture": "fixtures/selected-child-missing-parent.json", "description": "Synthetic selected child lacks initiating process context."}
+  ]
+}

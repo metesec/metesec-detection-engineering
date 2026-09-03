@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"FileName":"synthetic.exe","ProcessCommandLine":"synthetic.exe localgroup Administrators synthetic-user /add"}}

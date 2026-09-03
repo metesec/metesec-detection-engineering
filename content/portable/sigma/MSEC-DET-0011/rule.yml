@@ -1,0 +1,39 @@
+title: Potential LSASS Memory Dump Through Rundll32 and Comsvcs
+id: 4706f419-4e78-4d26-a9ab-59fc3f38673a
+status: experimental
+description: Detects rundll32 invoking the comsvcs MiniDump export or ordinal 24, a process-dump primitive that can target LSASS. The target PID must be resolved during triage.
+references:
+  - https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table
+  - https://attack.mitre.org/techniques/T1003/001/
+author: MeteSec Detection Engineering
+date: 2026-09-03
+tags:
+  - attack.credential-access
+  - attack.t1003.001
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection_image:
+    FileName: rundll32.exe
+  selection_comsvcs:
+    ProcessCommandLine|contains: comsvcs.dll
+  selection_dump:
+    ProcessCommandLine|contains:
+      - MiniDump
+      - '#24'
+  condition: selection_image and selection_comsvcs and selection_dump
+fields:
+  - TimeGenerated
+  - Timestamp
+  - DeviceId
+  - DeviceName
+  - AccountName
+  - InitiatingProcessFileName
+  - FileName
+  - FolderPath
+  - ProcessCommandLine
+  - ReportId
+falsepositives:
+  - Authorized crash diagnostics, forensic acquisition, and incident-response workflows using comsvcs MiniDump.
+level: high

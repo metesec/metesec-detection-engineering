@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "detection_id": "MSEC-DET-0021",
+  "implementation": "content/portable/sigma/MSEC-DET-0021/rule.yml",
+  "cases": [
+    {"id": "tenant-wide-role-management-grant", "expectation": "match", "fixture": "fixtures/tenant-wide-role-management-grant.json", "description": "Synthetic successful tenant-wide grant of the selected privileged scope."},
+    {"id": "uppercase-grant", "expectation": "match", "fixture": "fixtures/uppercase-grant.json", "description": "Synthetic uppercase audit values preserve case-insensitive matching."},
+    {"id": "grant-with-context", "expectation": "match", "fixture": "fixtures/grant-with-context.json", "description": "Synthetic grant includes bounded audit context."},
+    {"id": "per-user-consent", "expectation": "no_match", "fixture": "fixtures/per-user-consent.json", "description": "Synthetic Principal consent is not tenant-wide."},
+    {"id": "lower-privilege-scope", "expectation": "no_match", "fixture": "fixtures/lower-privilege-scope.json", "description": "Synthetic tenant-wide grant of another scope is outside the rule."},
+    {"id": "failed-grant", "expectation": "no_match", "fixture": "fixtures/failed-grant.json", "description": "Synthetic failed privileged grant does not match."},
+    {"id": "application-role-grant", "expectation": "no_match", "fixture": "fixtures/application-role-grant.json", "description": "Synthetic application-role assignment remains covered by a separate detection."}
+  ]
+}

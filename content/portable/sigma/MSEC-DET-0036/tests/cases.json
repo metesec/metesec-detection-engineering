@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "detection_id": "MSEC-DET-0036",
+  "implementation": "content/portable/sigma/MSEC-DET-0036/rule.yml",
+  "cases": [
+    {"id": "procdump64-lsass", "expectation": "match", "fixture": "fixtures/procdump64-lsass.json", "description": "Synthetic ProcDump64 command requests a full LSASS dump."},
+    {"id": "renamed-procdump-keyiso", "expectation": "match", "fixture": "fixtures/renamed-procdump-keyiso.json", "description": "Synthetic renamed ProcDump binary targets KeyIso using original filename metadata."},
+    {"id": "procdump-samss-with-context", "expectation": "match", "fixture": "fixtures/procdump-samss-with-context.json", "description": "Synthetic mixed-case ProcDump command targets SamSs with bounded endpoint context."},
+    {"id": "unrelated-target", "expectation": "no_match", "fixture": "fixtures/unrelated-target.json", "description": "Synthetic ProcDump command targets an unrelated process."},
+    {"id": "missing-dump-mode", "expectation": "no_match", "fixture": "fixtures/missing-dump-mode.json", "description": "Synthetic ProcDump command targets LSASS without a selected dump mode."},
+    {"id": "lookalike-executable", "expectation": "no_match", "fixture": "fixtures/lookalike-executable.json", "description": "Synthetic unrelated executable carries matching command text without ProcDump identity."},
+    {"id": "missing-command-line", "expectation": "no_match", "fixture": "fixtures/missing-command-line.json", "description": "Synthetic ProcDump event lacks the command line required by the rule."}
+  ]
+}

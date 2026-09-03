@@ -850,3 +850,1484 @@ adding live deployment.
 - Merged-main run `#13` passed.
 - Canonical Forgejo `main` and public GitHub mirror `main` both resolved to exact
   commit `e8bebd5d3e72218b32378cd3e4f850d047d778ad`.
+
+## 2026-09-03 — Sentinel output contract and entity mappings completed locally
+
+### Starting state
+
+- Four detections compiled to reviewed predicates and rendered as disabled
+  Scheduled-rule bodies, but their analyst-facing output columns were implicit.
+- Entity mappings were deliberately absent because no executable output-column
+  contract existed.
+- The Roadmap still proposed a second immutable Sentinel target artifact, which
+  the user rejected in favor of consumer-owned rendering after local changes.
+
+### Decision and implementation
+
+- Advanced the explicit Sentinel preview profile to version 2. Every binding now
+  declares bounded output expressions, an exact ordered output list and its
+  permitted Sentinel entity mappings.
+- The compiler appends those expressions and one final `project` operation to
+  the Sigma-generated predicate. The complete enriched query, not only the base
+  predicate, must match its committed Golden snapshot.
+- The sign-in rules expose normalized Account name and UPN suffix, Entra user ID,
+  source IP, application ID and application name. Their Scheduled rules map
+  Account, IP and CloudApplication entities.
+- The audit rules expose the initiating user or application, initiating IP,
+  target service-principal name and target object ID. The target object ID is
+  retained for investigation but is not incorrectly mapped as an application ID.
+- The renderer now copies only contract-declared mappings into `entityMappings`
+  and records the exact output columns and mappings in its provenance manifest.
+- Added ADR-0009 and updated the public guides, contract, README and Roadmap. The
+  `0.2 — Microsoft Sentinel Target` milestone is complete without a separate
+  prebuilt Sentinel archive. Consumers render ignored temporary files inside
+  their own reviewed pipeline and own every Azure deployment control.
+
+### Validation and corrections
+
+- Added two compiler negative tests for an entity mapping outside the declared
+  output and a multi-statement output expression, plus one renderer test that
+  verifies all exact mappings and their relationship to returned columns.
+- All fifteen compiler and renderer tests passed. The complete Python suite
+  passed thirty-four cases and the JavaScript suites passed eleven cases.
+- Five manifest sources, five packages, both generated catalogues, all thirty-five
+  synthetic fixture expectations, four Golden queries, the disabled renderer,
+  analytics-rule profile and release-builder contract all passed.
+- The first parallel JavaScript-check invocation quoted the absolute Node path
+  as a PowerShell expression instead of invoking it. It failed before a project
+  check ran. Repeating the same checks with PowerShell's call operator passed;
+  no source or dependency change was needed.
+- The first browser batch used Monaco `fill`, which appended later queries to the
+  editor model and caused a syntax error before those three checks completed.
+  Replacing the editor content with explicit select-all then allowed all four
+  complete enriched queries to pass in the authorized Sentinel workspace.
+- Live checks added a bounded time condition and returned only one aggregate
+  validation column. No result value or operational identifier was copied.
+
+### Explicitly untouched
+
+- No Sentinel rule, Azure resource, target scope, credential, production setting,
+  live telemetry row or deployment state changed.
+- No separate Sentinel target archive, Azure client, authentication flow,
+  deployment command, custom alert detail or alert override was added.
+- `MSEC-DET-0001` remains intentionally unbound because the authorized target has
+  no suitable Windows event telemetry.
+- The published `v0.1.0` Detection Pack, Website, Forgejo configuration, runner,
+  GitHub mirror and production infrastructure were unchanged.
+
+### Result
+
+The Sentinel target now produces useful, predictable analyst fields and valid
+Account, IP and CloudApplication entities while remaining deterministic,
+disabled and deployment-free. The next bounded milestone is an executable
+data-source contract for `SigninLogs` and `AuditLogs`, including required fields,
+freshness expectations and explicit degraded or unavailable states.
+
+## 2026-09-03 — Executable Sentinel data-source health contract completed locally
+
+### Starting state
+
+- The Sentinel target had four verified rule bindings but no aggregated target
+  contract for required table columns, Kusto types or telemetry freshness.
+- A zero-result detection could not be distinguished structurally from missing
+  or stale telemetry.
+- No Azure client, scheduled monitor or environment observation belonged in the
+  public repository.
+
+### Decision and implementation
+
+- Advanced the development package to `0.3.0` and started Detection Operations
+  with two stable source identities: `MSEC-SDS-0001` for `SigninLogs` and
+  `MSEC-SDS-0002` for `AuditLogs`.
+- Added JSON Schema contracts for the public data-source definition and a
+  separate environment-local observation format.
+- Each source now declares its exact preview consumers, event-time field, full
+  required Kusto column and type set, and explicit reference freshness limits.
+- The initial reference thresholds mark data older than six hours degraded and
+  data older than one day unavailable. Documentation makes clear that these are
+  reviewable project assumptions, not Microsoft guarantees or production SLAs.
+- Added a fail-closed evaluator with four states: `ready`, `degraded`,
+  `unavailable` and `unknown`. A missing observation is always unknown; a missing
+  table, empty source or data beyond the final threshold is unavailable; stale,
+  missing-field or type-mismatched input is degraded.
+- Added a CLI that validates the public contract without claiming live health,
+  or evaluates a separately supplied uncommitted observation in text or JSON.
+  Exit codes distinguish ready, non-ready and structurally invalid input.
+- Added the contract to the general source Detection Pack allowlist and scope.
+  This does not create the rejected separate Sentinel target artifact.
+- Added ADR-0010 plus the public contract guide, README, release-contract and
+  Roadmap updates. Environment observations are explicitly excluded from source.
+
+### Validation and corrections
+
+- Added eight evaluator tests for exact preview relationships, ready input,
+  missing and mistyped columns, both freshness transitions, missing or empty
+  tables, unknown input, future timestamps, unknown sources and CLI exit codes.
+- The first strict Ajv compile rejected the observation Schema because the
+  conditional `maxItems` rule did not repeat the array type in its subschema.
+  Adding the explicit type aligned the conditional with strict JSON Schema mode;
+  the corrected contract validator passed.
+- The complete aggregate repository check passed, including all pre-existing
+  manifests, packages, catalogues, five Sigma sources, thirty-five synthetic
+  fixture expectations, four Sentinel Goldens, disabled rule rendering, both
+  new schemas, both source relationships, all eight health tests and the
+  deterministic release-builder tests.
+
+### Explicitly untouched
+
+- No workspace was queried for this milestone and no live health state, event
+  time, count, row, user, tenant, subscription or workspace identifier was stored.
+- No Sentinel rule, connector, Azure resource, credential, scheduler, alert,
+  deployment command or production setting changed.
+- No real customer exception or operational threshold was added.
+- The published `v0.1.0` artifact, Forgejo configuration, runners, GitHub mirror,
+  Website and production infrastructure remained unchanged.
+
+### Result
+
+The repository can now tell the difference between a usable source and missing,
+stale or structurally incompatible telemetry without confusing any of those
+conditions with a clean detection result. The next bounded Detection Operations
+milestone is a versioned exception object with mandatory expiry and synthetic
+public examples only.
+
+## 2026-09-03 — Public exception-object milestone deliberately removed
+
+### Decision
+
+- The project remains a modular Detection-as-Code foundation rather than a
+  prescriptive customer-policy framework.
+- Environment-specific tuning, exclusions, allowlists and exceptions stay in
+  each consumer's own reviewed pipeline.
+- Removed the planned exception-object milestone from `0.3` and recorded the
+  boundary in ADR-0011. No exception schema, example or runtime behavior was
+  added.
+
+### Result
+
+The next bounded milestone is a deterministic ATT&CK and data-source coverage
+report generated only from the existing public manifests, Sentinel preview and
+data-source contract.
+
+## 2026-09-03 — Deterministic ATT&CK and data-source coverage completed locally
+
+### Starting state
+
+- ATT&CK mappings, logical source requirements, Sentinel bindings and table
+  contracts were correct but distributed across separate source files.
+- The repository had no direct coverage view and no explicit generated record
+  of the intentionally unbound Windows detection.
+- No defensible denominator existed for a percentage coverage score.
+
+### Decision and implementation
+
+- Added one versioned JSON Schema and a deterministic generator that consumes
+  only logical manifests, the Sentinel preview and the Sentinel data-source
+  contract.
+- Added machine-readable `coverage/index.json` and matching human-readable
+  `COVERAGE.md`. Both are tracked generated outputs and fail validation when
+  stale.
+- The report groups five declared mappings into four ATT&CK techniques and three
+  tactics, consolidates three logical sources and their field requirements,
+  records both Sentinel source contracts and exposes `MSEC-DET-0001` as the one
+  detection without a Sentinel preview binding.
+- Deliberately omitted a percentage score because the repository defines no
+  complete ATT&CK, platform or organization-specific denominator.
+- Added six generator tests, ADR-0012, a contract guide and release-pack support.
+
+### Validation boundary
+
+- Coverage is declared repository metadata, not proof of detection quality,
+  live telemetry health, production readiness or complete ATT&CK coverage.
+- The outputs contain no timestamp, target identifier, environment observation,
+  result count or telemetry.
+
+### Validation and correction
+
+- All six coverage generator tests and the standalone stale-output validation
+  passed on the first run.
+- The first aggregate run exposed two release-test assertions placed before the
+  local `packaged` set was created. The resulting `UnboundLocalError` occurred
+  only in the new test code. Moving the assertions below that deterministic set
+  construction corrected the test without changing report or release behavior.
+
+### Result
+
+The public foundation now provides an inspectable ATT&CK and data-source map
+without prescribing customer policy or overstating completeness. The next
+bounded milestone is deterministic lifecycle and review-cadence validation.
+
+## 2026-09-03 — Detection lifecycle and review cadence enforced locally
+
+### Starting state
+
+- Every manifest already contained status, creation date, modified date and a
+  review interval, but those values were only structurally validated.
+- No command calculated a review due date or failed when a review became due.
+- Validating status transitions required historical input that the standalone
+  repository does not possess automatically.
+
+### Decision and implementation
+
+- Added a versioned lifecycle policy with forward-only status transitions and a
+  strict JSON Schema tied to the manifest status set.
+- Added a current-state validator that rejects contradictory or future dates,
+  calculates `review_due = modified + review_interval_days`, and returns
+  `current`, `due` or `overdue` without creating a tracked runtime file.
+- The normal aggregate check uses the current UTC date and returns non-success
+  when any review is due or overdue. All five current records are due on
+  2 December 2026.
+- Added optional `--as-of` and `--baseline` inputs. A previous generated
+  catalogue enables rejection of deleted identities, changed creation dates,
+  backward modified dates, forbidden status transitions and lifecycle changes
+  without a later modified date.
+- Added a runtime JSON assessment contract, ten Python tests plus one
+  machine-output schema test, ADR-0013 and a concise operating guide. The
+  general release contains the policy and schemas, never a time-dependent
+  assessment.
+
+### Validation boundary
+
+- Without `--baseline`, the default workflow validates current state and review
+  cadence but makes no cross-revision transition claim.
+- A current modified date proves neither review quality nor approval; normal
+  human review remains necessary.
+
+### Result
+
+Lifecycle fields now produce an enforceable review reminder while all tracked
+outputs remain deterministic. The next step is to define whether the remaining
+rule-execution and alert-outcome health item belongs in this modular public
+foundation at all.
+
+## 2026-09-03 — Sentinel rule-runtime health contract completed locally
+
+### Starting state
+
+- The repository could validate source telemetry but could not distinguish a
+  quiet, correctly executing rule from a missing, disabled, failed or stale one.
+- Alert counts were not suitable as health because a valid rule may correctly
+  produce zero alerts.
+- The public foundation had no authority or environment context for a live
+  Sentinel collector.
+
+### Decision and implementation
+
+- Added a versioned Sentinel runtime-health policy that consumes the existing
+  four analytics-rule schedules instead of duplicating their frequencies.
+- Added strict schemas for a consumer-owned runtime observation and its derived
+  assessment, plus an executable fail-closed evaluator and CLI.
+- The reference policy marks execution more than two schedule intervals late as
+  degraded and more than five intervals stale as failed. Missing rules and
+  reported execution failures are failed; missing observations remain unknown.
+- The operational policy expects intentionally deployed rules to be enabled,
+  while the repository's safely rendered rule bodies remain disabled until a
+  consumer deliberately activates them.
+- Optional alert and incident counts are copied into the assessment only. They
+  cannot improve or reduce health, and zero alerts can accompany a healthy rule.
+- Added the public policy and all runtime schemas to the deterministic general
+  Detection Pack. Environment observations and assessments remain excluded.
+- Recorded the boundary in ADR-0014 and completed the final `0.3` Roadmap item.
+
+### Validation and correction
+
+- Added ten Python tests covering exact schedule derivation, successful zero-
+  alert execution, missing observations and rules, disabled rules, failed
+  execution, both age thresholds, invalid times, unknown rules and CLI exits.
+- Added an independent Node/Ajv test that validates a real Python JSON assessment
+  against the versioned output schema while all four alert counts remain zero.
+- An attempt to verify a platform-specific collection field from official online
+  documentation was unavailable in the execution environment. No field name was
+  guessed; the contract remains adapter-neutral and requires consumers to map
+  their reviewed platform evidence into the explicit observation schema.
+
+### Explicitly untouched
+
+- No Azure or Sentinel endpoint was queried, no rule was deployed or enabled,
+  and no credential, tenant, subscription, workspace, alert or incident data was
+  read or stored.
+- No customer-specific threshold, exception, tuning value or environment
+  observation was added.
+- Forgejo, the GitHub mirror, the Website, infrastructure and the immutable
+  published `v0.1.0` release remained unchanged.
+
+### Result
+
+Detection Operations `0.3` is complete. The public scaffold now separates source
+readiness, declared coverage, lifecycle cadence and scheduled-rule execution
+health without pretending that alert volume is a health check or that CI knows a
+consumer's live environment. The next phase must begin with a proposed native
+implementation and resolver contract before any `0.4` code is added.
+
+## 2026-09-03 — Sigma-only Sentinel-first expansion direction established locally
+
+### Starting state
+
+- Five portable Sigma detections existed, four with explicit Microsoft Sentinel
+  bindings.
+- The active Roadmap proposed a native implementation contract and target
+  resolver before expanding the pack.
+- Microsoft Sentinel was the only real target available for repeatable
+  validation, and no target-backed requirement justified a second authored rule
+  format.
+
+### Decision and implementation
+
+- Superseded ADR-0003 for the version 1 scope with ADR-0015: every detection is
+  authored as Sigma through the first main release, while KQL remains generated
+  Sentinel output.
+- Set the first main-release target to thirty reviewed Sigma detections and made
+  five-rule implementation waves the active `0.4` Roadmap.
+- Kept Microsoft Sentinel as the only supported target. Native rules, a target
+  resolver and other SIEMs moved out of the active version 1 plan until real
+  target access and a concrete Sigma limitation exist.
+- Added a read-only Sentinel inventory guide that returns only table names,
+  selected schema fields and coarse freshness states. It explicitly forbids
+  unrestricted raw-data search and keeps environment observations outside Git.
+- Updated the development package to `0.4.0`, added the inventory guide to the
+  deterministic release allowlist and extended the release test accordingly.
+
+### Read-only target observation
+
+- The initial portal session redirected to Microsoft sign-in, so no query was
+  executed until the user completed authentication.
+- The first multi-line inventory submission returned a parser error. Explicitly
+  clearing the editor and rerunning the metadata-only query corrected the input
+  without widening query scope.
+- The corrected inventory confirmed recent candidate families for Entra
+  identity, Defender endpoint, email, network and Sentinel operations.
+- Schema-only checks confirmed the selected fields needed to review an initial
+  wave against `DeviceProcessEvents`, `AuditLogs` and `AADUserRiskEvents`.
+- No raw event, user, device, address, tenant, subscription, workspace, customer
+  value, exact live timestamp, copied result or screenshot was stored in the
+  repository.
+
+### Validation and correction
+
+- The first aggregate check could not find `node` in the process path. A second
+  attempt found the bundled Node runtime but selected an unrelated Python 3.14
+  installation without the pinned YAML dependency.
+- Repeating the check with the bundled Node runtime and the existing pinned
+  Python 3.12.13 virtual environment passed all 81 unit tests plus every
+  manifest, package, catalogue, Sigma, fixture, Sentinel Golden, profile,
+  renderer, data-source, coverage, lifecycle, runtime-health and release gate.
+- Four disabled Sentinel analytics-rule bodies rendered successfully.
+- The deterministic local `v0.4.0` candidate contains 93 ZIP members, including
+  92 allowlisted sources, and has SHA-256
+  `e6f3a773d035b28b814f17b0ef4e337bfa6a73abc975da7c986c59093cc6fae0`.
+- `git diff --check` passed; line-ending notices did not identify whitespace
+  errors.
+
+### Explicitly untouched
+
+- No new detection, target binding, Golden query or production rule was added.
+- No Sentinel rule was deployed or enabled, and no cloud configuration changed.
+- No commit was pushed; Forgejo, the GitHub mirror, Website, infrastructure and
+  the immutable published `v0.1.0` release remain unchanged.
+
+### Result
+
+The repository now has one unambiguous version 1 direction: grow from five to
+thirty tested Sigma detections and validate only against Microsoft Sentinel.
+The next bounded milestone is to review and implement the first five-rule wave
+to reach 10 of 30.
+
+## 2026-09-03 — Sigma expansion Wave 1 reached 10 of 30 locally
+
+### Starting state
+
+- Five reviewed Sigma detections existed; four had explicit Microsoft Sentinel
+  bindings and one Windows Event rule remained intentionally unbound.
+- The read-only source inventory had confirmed usable fields in
+  `DeviceProcessEvents`, `AuditLogs` and `AADUserRiskEvents` without storing
+  live environment output.
+- Wave 1 had been approved as two endpoint-process rules, two Entra audit rules
+  and one Entra user-risk rule.
+
+### Detection packages
+
+- Added `MSEC-DET-0006` for selected Microsoft Office parent processes starting
+  selected command, script or signed-binary interpreters in
+  `DeviceProcessEvents`.
+- Added `MSEC-DET-0007` for Windows PowerShell or PowerShell Core command lines
+  using selected encoded-command flags in `DeviceProcessEvents`.
+- Added `MSEC-DET-0008` for the official successful Entra audit operation
+  `Add member to role outside of PIM (permanent)`.
+- Added `MSEC-DET-0009` for the official successful Entra audit operations
+  `Admin registered security info` and `User registered security info`.
+- Added `MSEC-DET-0010` for high-risk `AADUserRiskEvents` that remain `atRisk`
+  or `confirmedCompromised`.
+- Each package contains one logical manifest, one authored Sigma rule, three
+  positive synthetic fixtures and four negative synthetic fixtures. The full
+  catalogue now contains ten rules and seventy fixture expectations.
+- ATT&CK mappings remain bounded to what each signal supports: command and
+  scripting interpreter execution, PowerShell, cloud valid accounts, additional
+  cloud credentials, additional cloud roles and Windows service creation.
+
+### Sentinel contracts and generated output
+
+- Added explicit Sentinel bindings and reviewed Golden KQL for all five new
+  detections. Nine of ten catalogue detections are now bound; only
+  `MSEC-DET-0001` remains intentionally unbound.
+- Extended the data-source contract from two to four tables by adding
+  `DeviceProcessEvents` and `AADUserRiskEvents`, including exact required fields,
+  Kusto types, event-time columns, consumers and freshness expectations.
+- Kept every analytics rule disabled. The renderer now produces nine stable
+  Scheduled-rule identities and request bodies without a subscription,
+  resource-group, workspace or tenant identifier.
+- Endpoint entity mapping deliberately uses only `AccountName`; a Windows SID
+  is not mislabeled as an Entra object ID. Audit target IDs and Entra user-risk
+  identities use bounded Account mappings backed by their declared outputs.
+- Regenerated `catalog/index.json`, `CATALOGUE.md`, `coverage/index.json` and
+  `COVERAGE.md`. The coverage report now records ten ATT&CK mappings across six
+  techniques and four tactics, five logical sources, four Sentinel source
+  contracts and one explicit target gap.
+
+### Read-only target validation
+
+- The previously bound browser tab no longer had an attached debugger. A fresh
+  tab in the same authenticated browser restored the existing session without
+  inspecting cookies, storage or credentials.
+- The first Wave 1 aggregate submission retained old editor text and returned a
+  syntax error. Explicit select-all, clear and replacement corrected the editor
+  before validation continued.
+- Each exact generated Wave 1 predicate was then accepted in a read-only 30-day
+  aggregate query. `MSEC-DET-0006` and `MSEC-DET-0008` returned no match;
+  `MSEC-DET-0007`, `MSEC-DET-0009` and `MSEC-DET-0010` returned a positive
+  result.
+- No raw event, aggregate count, user, device, address, tenant, subscription,
+  workspace, customer value, copied result or screenshot was stored in the
+  repository. Query acceptance and a positive result do not establish tuning
+  quality or production readiness.
+
+### Validation and corrections
+
+- An initial partial check used a shell path without the bundled Node runtime
+  or the pinned Python environment. Repeating it with the explicit bundled Node
+  path and repository virtual environment validated all new manifests,
+  packages, Sigma rules, fixtures, Goldens, profiles and source contracts.
+- The first complete aggregate check exposed lifecycle tests that still
+  hard-coded the previous five-record total. The expectations were updated to
+  the exact ten-record catalogue and the complete check then passed.
+- Python 3.12.13 and the bundled Node runtime passed all 81 unit tests plus every
+  manifest, package, catalogue, Sigma, fixture, Sentinel Golden, profile,
+  renderer, data-source, coverage, lifecycle, runtime-health and release gate.
+- All seventy synthetic fixture expectations passed and all nine disabled
+  Sentinel Scheduled-rule bodies rendered successfully.
+- The deterministic local `v0.4.0` candidate contains 148 ZIP members,
+  including 147 allowlisted sources, and has SHA-256
+  `02544984e3411febb60789b70c8e03278cb8e5ae5d3ff5f06c2fad10d9fc2c73`.
+- `git diff --check` passed; Windows line-ending notices did not identify
+  whitespace errors.
+
+### Explicitly untouched
+
+- No Sentinel analytics rule was deployed or enabled and no cloud configuration
+  was changed.
+- No environment-specific exception, allowlist, tuning overlay or native KQL
+  detection was added.
+- No commit was pushed. Forgejo, the GitHub mirror and the immutable published
+  `v0.1.0` release remain unchanged.
+
+### Result
+
+Wave 1 is complete: the modular Sigma catalogue now contains ten of the planned
+thirty detections, nine have deterministic Sentinel output and one unsupported
+Windows Event dependency remains visible. The next bounded milestone is to
+review the five candidates for Wave 2 before adding rules 11 through 15.
+
+## 2026-09-03 — Sigma expansion Wave 2 reached 15 of 30 locally
+
+### Starting state and selection basis
+
+- Ten reviewed Sigma detections existed; nine had explicit Microsoft Sentinel
+  bindings and one Windows Event rule remained intentionally unbound.
+- Wave 2 was selected against already observed and contracted
+  `DeviceProcessEvents` and `AuditLogs` fields rather than adding an unverified
+  table dependency.
+- MITRE ATT&CK documents the comsvcs LSASS dump, mshta remote execution,
+  regsvr32 remote scriptlet and Conditional Access modification techniques.
+  Microsoft's Entra audit reference names the exact policy-deletion and
+  application-owner operations, while its security-operations guidance
+  recommends monitoring both control families.
+- SigmaHQ process-rule patterns were used as a public comparison for the mshta
+  and regsvr32 predicates. No upstream rule file or bulk community content was
+  copied into the repository; every package was authored and tested locally.
+
+### Detection packages
+
+- Added `MSEC-DET-0011` for potential LSASS dumping through rundll32 invoking
+  comsvcs with the named MiniDump export or ordinal 24, mapped to `T1003.001`.
+  The manifest explicitly requires target-PID resolution during triage because
+  the process command line alone cannot prove that the PID belongs to LSASS.
+- Added `MSEC-DET-0012` for mshta command lines referencing HTTP, HTTPS or FTP
+  content, mapped to `T1218.005`.
+- Added `MSEC-DET-0013` for regsvr32 combining an install flag with an HTTP,
+  HTTPS or FTP resource, mapped to `T1218.010`.
+- Added `MSEC-DET-0014` for the successful Entra operation
+  `Delete Conditional Access policy`, mapped to `T1556.009`.
+- Added `MSEC-DET-0015` for successful `Add owner to application` or
+  `Add owner to service principal` operations, mapped to `T1098.003`.
+- Each package contains one manifest, one Sigma rule, three positive and four
+  negative synthetic fixtures. The catalogue now contains fifteen rules and
+  105 fixture expectations.
+
+### Sentinel contracts and read-only target validation
+
+- Added explicit `DeviceProcessEvents` or `AuditLogs` bindings, reviewed Golden
+  KQL and disabled five-minute Scheduled-rule settings for all five detections.
+- Reused the existing source schemas because every predicate and projected
+  field was already verified and contracted. Consumer lists now cover fourteen
+  Sentinel-bound detections.
+- Endpoint rules retain only the observed account-name entity mapping. The
+  Conditional Access rule maps only the initiating Account, IP and application;
+  a policy is not mislabeled as another Sentinel entity.
+- With the user's explicit authorization to inspect query results, one
+  read-only 30-day aggregate query returned only detection ID and a Boolean
+  match state. All five predicates were accepted. `MSEC-DET-0011` through
+  `MSEC-DET-0013` had no match; `MSEC-DET-0014` and `MSEC-DET-0015` had at least
+  one match.
+- No raw event, exact count, user, device, address, tenant, subscription,
+  workspace, customer value, copied result or screenshot was stored. A live
+  match is triage input, not proof of malicious activity or production tuning.
+- A second read-only structural aggregate was run after the user explicitly
+  authorized result inspection. It confirmed that the policy-deletion event is
+  a successful Conditional Access operation against a Policy resource, and
+  that the owner-change matches use the intended ApplicationManagement/Core
+  Directory operations. It also showed that `TargetResources[0]` can be either
+  a User or ServicePrincipal and that the initiator representation can be a
+  user, application or absent from those two expected subobjects.
+- The owner-change Sentinel output was therefore corrected before release: it
+  now projects neutral target resource type, ID and name fields for triage and
+  does not force the first target into a CloudApplication entity. Exact event
+  counts, timestamps, identities and object values were not retained.
+
+### Validation and corrections
+
+- An initial file-inspection command guessed a fixture filename that did not
+  exist. The directory was enumerated before inspection continued; no file was
+  changed by the failed read.
+- The first partial JavaScript checks could not find the bundled Node runtime.
+  The explicit bundled Node path and repository Python 3.12.13 virtual
+  environment were then used for every validation command.
+- Sentinel compilation initially stopped because the five new Golden paths had
+  not yet been created. The deterministic compiler output was reviewed, pinned
+  into those paths and then passed exact Golden comparison.
+- The first coverage test exposed a different category label for the same Entra
+  audit source. Both new manifests were aligned with the established `Identity
+  directory audit` category, preventing a false sixth logical data source.
+- The first complete aggregate run then correctly rejected the stale catalogue
+  generated before that category correction. Regenerating the catalogue and
+  coverage outputs from the final manifests restored deterministic equality.
+- Existing Advanced Hunting tabs could not be reattached reliably, and direct
+  typing into the Monaco editor retained only the tail of the aggregate query.
+  A fresh tab in the same authenticated browser and a full clipboard paste
+  restored the complete query; the visible first lines and five-result status
+  were checked before accepting the target result.
+- The final aggregate check passed all 82 unit tests plus every manifest,
+  package, catalogue, Sigma, fixture, Sentinel Golden, profile, renderer,
+  data-source, coverage, lifecycle, runtime-health and release gate. All 105
+  synthetic fixture expectations passed and all fourteen disabled Sentinel
+  Scheduled-rule bodies rendered successfully.
+- The deterministic local `v0.4.0` candidate contains 203 ZIP members,
+  including 202 allowlisted sources, and has SHA-256
+  `c6bd2ea320d4fb987cfe4a80d6a48cf008c94300e7d7840263333a974c248873`.
+- `git diff --check` passed; Windows line-ending notices did not identify
+  whitespace errors.
+
+### Explicitly untouched
+
+- No Sentinel analytics rule was deployed or enabled and no cloud
+  configuration was changed.
+- No environment-specific exception, allowlist, tuning overlay, raw live data
+  or native KQL detection was added.
+- No commit was pushed. Forgejo, the GitHub mirror and the immutable published
+  `v0.1.0` release remain unchanged.
+
+### Result
+
+Wave 2 is complete locally: fifteen of thirty Sigma detections now exist,
+fourteen have deterministic disabled Sentinel output and the single unsupported
+Windows Event dependency remains explicit. Wave 3 must be selected as another
+separately reviewed five-rule set.
+
+## 2026-09-03 — Sigma expansion Wave 3 reached 20 of 30 locally
+
+### Starting state and source review
+
+- Fifteen reviewed Sigma detections existed; fourteen had explicit Sentinel
+  bindings and `MSEC-DET-0001` remained intentionally unbound because the
+  available target has no Windows service-installation event source.
+- Wave 3 stayed on the already observed and contracted `DeviceProcessEvents`
+  and `AuditLogs` tables. No new live table or inferred field dependency was
+  added.
+- Official Microsoft ransomware-hunting, Windows command, Defender exclusion,
+  Entra federation-monitoring and Advanced Hunting schema documentation was
+  reviewed together with current MITRE ATT&CK pages for `T1490`, `T1685`,
+  `T1685.005`, `T1484.002` and `T1105`.
+- No upstream detection file was copied. The five predicates, triage guidance
+  and tests were authored for this repository's bounded Sigma evaluator and
+  Sentinel compilation contract.
+
+### Detection packages
+
+- Added `MSEC-DET-0016` for selected native Windows commands attempting to
+  delete shadow copies or backup catalogues, disable Windows Recovery
+  Environment or weaken boot recovery, mapped to `T1490`.
+- Added `MSEC-DET-0017` for `wevtutil` or PowerShell attempts to clear a Windows
+  event log, mapped to the current `T1685.005` taxonomy.
+- Added `MSEC-DET-0018` for PowerShell Defender cmdlets attempting to disable
+  selected protection features or add antivirus exclusions, mapped to `T1685`.
+- Added `MSEC-DET-0019` for successful Entra operations `Set federation
+  settings on domain` and `Set domain authentication`, mapped to `T1484.002`.
+- Added `MSEC-DET-0020` for certutil combining HTTP, HTTPS or FTP content with
+  URL-cache or split switches, mapped to `T1105`.
+- Titles and descriptions distinguish an observed process attempt from a
+  successful configuration change. Each package contains one manifest, one
+  Sigma source, three positive and four negative synthetic fixtures. The
+  catalogue now contains twenty rules and 140 fixture expectations.
+
+### Sentinel contracts and ATT&CK compatibility
+
+- Added four `DeviceProcessEvents` bindings and one `AuditLogs` binding, five
+  reviewed Golden KQL files and five disabled five-minute Scheduled-rule
+  configurations. Nineteen of twenty detections now have Sentinel output.
+- Endpoint rules map only the observed account name. The federation rule maps
+  initiating Account, IP and CloudApplication fields while projecting the
+  target as neutral type, ID and name fields.
+- Current ATT&CK assigns the `Defense Impairment` tactic to `T1685` and
+  `T1685.005`. Microsoft SecurityInsights API `2025-09-01` does not publish
+  that value in its `AttackTactic` enum. The logical manifests and render
+  provenance retain the current ATT&CK tactic, while the target request omits
+  only the unsupported tactic instead of incorrectly emitting
+  `DefenseEvasion`. A regression test covers both single-tactic rules and the
+  federation rule, whose supported `PrivilegeEscalation` target tactic remains.
+- Regenerated the discovery and coverage outputs. Coverage now records
+  twenty-one ATT&CK mappings across fifteen techniques and nine tactics, five
+  logical data sources, four Sentinel source contracts and one explicit target
+  gap.
+
+### Read-only live validation
+
+- Each final Wave 3 predicate was submitted as a bounded read-only 30-day
+  aggregate query in the existing authorized security workspace. All five
+  predicates were accepted and all five returned no match in that current
+  baseline.
+- A no-match result means only that no matching event was observed in that
+  window. It does not prove completeness, future noise level, maliciousness,
+  performance or production readiness.
+- No raw event, exact count, identity, device, address, tenant, subscription,
+  workspace, customer value, copied result or screenshot was stored in the
+  repository.
+
+### Validation and corrections
+
+- Initial package validation rejected the contextual federation fixture because
+  the local behavioral-test contract permits only flat scalar event values.
+  Nested `InitiatedBy` and `TargetResources` examples were removed from that
+  synthetic fixture; the required real fields remain explicit in the manifest
+  and Sentinel output contract.
+- The first query-output inspection used PowerShell brace syntax that does not
+  expand path alternatives. The exact five directories were then enumerated and
+  every generated query was reviewed before its Golden snapshot was pinned.
+- A batched browser validation exceeded its bounded interaction window after
+  reaching the final query. The browser connection was restored and the
+  remaining final predicates were verified individually using aggregate-only
+  results.
+- The first unit-test pass correctly exposed previous fifteen-rule and
+  fourteen-binding expectations. Catalogue, lifecycle, source, renderer,
+  runtime and release assertions were advanced to the exact Wave 3 totals.
+- The first release inspection selected an older ignored archive through an
+  unspecific file glob. Enumerating every local archive and selecting the exact
+  `v0.4.0` filename confirmed the current candidate rather than the older test
+  files.
+- The complete aggregate repository check passed 83 unit tests plus every
+  manifest, package, catalogue, Sigma, fixture, Sentinel Golden, profile,
+  renderer, data-source, coverage, lifecycle, runtime-health and release gate.
+  All 140 synthetic fixture expectations passed and all nineteen disabled
+  Sentinel Scheduled-rule bodies rendered successfully.
+- The deterministic local `v0.4.0` candidate contains 258 ZIP members,
+  including 257 allowlisted sources, and has SHA-256
+  `95d714202e15fc98e9fa91a32f914c1767e10cf88fa231da36564f5c51380974`.
+
+### Explicitly untouched
+
+- No Sentinel rule was deployed or enabled and no cloud configuration was
+  changed.
+- No environment-specific exception, allowlist, tuning overlay, raw live data,
+  native KQL detection or separate prebuilt Sentinel target artifact was added.
+- No commit was pushed. Forgejo, the GitHub mirror and the immutable published
+  `v0.1.0` release remain unchanged.
+
+### Result
+
+Wave 3 is complete locally: twenty of thirty Sigma detections now exist,
+nineteen have deterministic disabled Sentinel output and the single unsupported
+Windows Event dependency remains explicit. Wave 4 must be selected as another
+separately reviewed five-rule set.
+
+## 2026-09-03 — Sigma expansion Wave 4 reached 25 of 30 locally
+
+### Starting state and selection gate
+
+- Twenty reviewed Sigma detections existed; nineteen had explicit Sentinel
+  bindings and `MSEC-DET-0001` remained intentionally unbound because the
+  available target has no suitable Windows service-installation event source.
+- Candidate selection was constrained to the already observed and contracted
+  `AuditLogs` and `DeviceProcessEvents` tables. Official Microsoft product and
+  Sentinel detection guidance, current MITRE ATT&CK mappings and matching
+  SigmaHQ rule precedents were reviewed before implementation.
+- A broader rejected-MFA candidate was deliberately excluded. Its aggregate
+  baseline was too active for this modular default pack without
+  environment-specific context, whereas the selected predicates were narrower
+  and directly actionable. No exact result count or raw output was retained.
+- No upstream rule file was copied. The five predicates, metadata, triage
+  guidance and tests were authored for this repository's explicit contracts.
+
+### Detection packages
+
+- Added `MSEC-DET-0021` for a successful all-users delegated grant of
+  `RoleManagement.ReadWrite.Directory`, mapped to `T1098.003` under Persistence
+  and Privilege Escalation.
+- Added `MSEC-DET-0022` for successful `Disable Strong Authentication` Entra
+  audit activity, mapped to `T1556.006` under Credential Access, Defense
+  Impairment and Persistence.
+- Added `MSEC-DET-0023` for `reg.exe` exporting the SAM or SECURITY registry
+  hive, mapped to `T1003.002`.
+- Added `MSEC-DET-0024` for remote process creation through WMI or CIM command
+  patterns, mapped to `T1047`.
+- Added `MSEC-DET-0025` for BITSAdmin remote transfer-job creation, mapped to
+  `T1197` under the current Execution, Persistence and Stealth tactics.
+- Each package contains one manifest, one Sigma source, three positive and four
+  negative synthetic fixtures. The catalogue now contains twenty-five rules
+  and 175 fixture expectations.
+
+### Sentinel contracts and ATT&CK compatibility
+
+- Added two `AuditLogs` bindings and three `DeviceProcessEvents` bindings, five
+  reviewed Golden KQL files and five disabled five-minute Scheduled-rule
+  configurations. Twenty-four of twenty-five detections now have Sentinel
+  output.
+- The privileged-permission binding preserves initiating identity and target
+  service-principal context. The strong-authentication binding preserves the
+  initiating identity and neutral target object fields. Endpoint rules retain
+  their bounded process context and map only the observed account name.
+- Microsoft SecurityInsights API `2025-09-01` does not expose current ATT&CK
+  `Stealth` in its target tactic enum. The renderer therefore retains `Stealth`
+  in source metadata and provenance while omitting only that unsupported target
+  value, matching the established `Defense Impairment` compatibility behavior.
+- Regenerated catalogue and coverage outputs. Coverage now records thirty-one
+  ATT&CK mappings across nineteen techniques and ten tactics, five logical data
+  sources, four Sentinel source contracts and one explicit target gap.
+
+### Read-only live validation
+
+- Each final Wave 4 predicate was submitted as a bounded read-only 30-day
+  aggregate query in the existing authorized security workspace. All five
+  predicates were accepted.
+- `MSEC-DET-0021` had an existing match. `MSEC-DET-0022` through
+  `MSEC-DET-0025` had no match in the current baseline. This confirms query
+  acceptance only; it does not establish maliciousness, completeness, future
+  noise level, performance or production readiness.
+- No raw event, exact count, identity, device, address, tenant, subscription,
+  workspace, customer value, copied result or screenshot was stored.
+
+### Validation and corrections
+
+- After the workstation restart, the default Python environment could not load
+  the pinned Sigma dependencies. The existing repository `.venv` was reused;
+  no dependency version was changed.
+- The first unit-test pass correctly exposed stale twenty-rule and
+  nineteen-binding expectations. Catalogue, compiler, renderer, source,
+  coverage, lifecycle, runtime and release assertions were advanced to the
+  exact Wave 4 totals.
+- The first renderer pass rejected `Stealth` because it is absent from the
+  target API enum. The compatibility map and its provenance regression test
+  were extended without changing the logical ATT&CK declaration.
+- A request-body safety test rejected the word `tenant` in the first rule's
+  title. The title was made more precise as `for all users`, avoiding ambiguous
+  target wording without weakening the predicate.
+- The complete aggregate repository check passed 83 unit tests plus every
+  manifest, package, catalogue, Sigma, fixture, Sentinel Golden, profile,
+  renderer, data-source, coverage, lifecycle, runtime-health and release gate.
+  All 175 synthetic fixture expectations passed and all twenty-four disabled
+  Sentinel Scheduled-rule bodies rendered successfully.
+- The deterministic local `v0.4.0` candidate contains 313 ZIP members,
+  including 312 allowlisted sources, and has SHA-256
+  `940cca19a686b51b42206afcd59dcce53a89d3abe7acfab38a6b8f9bce9023c0`.
+
+### Explicitly untouched
+
+- No Sentinel analytics rule was deployed or enabled and no cloud
+  configuration was changed.
+- No environment-specific exception, allowlist, tuning overlay, raw live data,
+  native KQL detection or separate prebuilt Sentinel target artifact was added.
+- No commit was pushed. Forgejo, the GitHub mirror and the immutable published
+  `v0.1.0` release remain unchanged.
+
+### Result
+
+Wave 4 is complete locally: twenty-five of thirty Sigma detections now exist,
+twenty-four have deterministic disabled Sentinel output and the single
+unsupported Windows Event dependency remains explicit. Wave 5 must be selected
+as another separately reviewed five-rule set.
+
+## 2026-09-03 — Sigma expansion Wave 5 reached 30 of 30 locally
+
+### Starting state and selection gate
+
+- Twenty-five reviewed Sigma detections existed; twenty-four had explicit
+  Sentinel bindings and `MSEC-DET-0001` remained intentionally unbound because
+  the available target has no suitable Windows service-installation event
+  source.
+- Candidate selection stayed on the observed and contracted `SigninLogs` and
+  `DeviceProcessEvents` tables. Current Microsoft product and schema
+  documentation, current MITRE ATT&CK technique pages and relevant SigmaHQ
+  precedents were reviewed before implementation.
+- A remote quiet MSI-installation candidate was tested but rejected. Its
+  current aggregate baseline was too active to justify a portable default
+  alert without consumer-owned deployment context. A Regsvr32 scriptlet
+  candidate was also not duplicated because `MSEC-DET-0013` already covers the
+  same `T1218.010` behavior family.
+- No upstream detection file was copied. Each final predicate, manifest,
+  triage guide and fixture set was authored for the repository's bounded Sigma
+  and Sentinel contracts.
+
+### Detection packages and reviewed basis
+
+- Added `MSEC-DET-0026` for successful Microsoft Entra ROPC sign-in, mapped to
+  `T1078.004`. Microsoft recommends avoiding ROPC outside constrained legacy or
+  automated scenarios and explicitly recommends monitoring successful ROPC
+  use; the current `SigninLogs` schema exposes `AuthenticationProtocol`.
+- Added `MSEC-DET-0027` for Rundll32 combining inline JavaScript or VBScript,
+  MSHTML and `RunHTMLApplication`, mapped to `T1218.011`. MITRE documents this
+  exact proxy-execution pattern.
+- Added `MSEC-DET-0028` for `schtasks.exe /create` with the documented remote
+  `/s` selector, mapped to `T1053.005` under Execution, Persistence and
+  Privilege Escalation.
+- Added `MSEC-DET-0029` for `net.exe`, `net1.exe` or PowerShell adding an
+  account to the built-in local Administrators group, mapped to `T1098.007`.
+  The predicate includes English, German and well-known SID group notation.
+- Added `MSEC-DET-0030` for NTDSutil activating the NTDS instance and creating
+  full, RODC or SYSVOL installation media through IFM, mapped to `T1003.003`.
+  Microsoft documents IFM as an elevated directory-deployment operation;
+  MITRE and SigmaHQ record NTDSutil as a credential-access-relevant method.
+- Each package contains one manifest, one Sigma source, three positive and four
+  negative synthetic fixtures. The catalogue now contains thirty rules and
+  210 fixture expectations.
+
+### Sentinel contracts and generated coverage
+
+- Added one `SigninLogs` binding and four `DeviceProcessEvents` bindings, five
+  reviewed Golden KQL files and five disabled five-minute Scheduled-rule
+  configurations. Twenty-nine of thirty detections now have deterministic
+  Sentinel output.
+- The ROPC binding adds `AuthenticationProtocol` to the exact sign-in source
+  contract and preserves normalized Account, IP and CloudApplication context.
+  The four endpoint bindings retain bounded process context and map only the
+  observed account name.
+- Current ATT&CK assigns `Stealth` to `T1218.011`; Microsoft SecurityInsights
+  API `2025-09-01` does not expose that value in its target tactic enum. The
+  renderer retains the exact logical tactic in provenance while omitting only
+  the unsupported target value, with a dedicated regression assertion.
+- Regenerated the catalogue and coverage outputs. Coverage now records
+  thirty-nine ATT&CK mappings across twenty-three techniques and ten tactics,
+  five logical data sources, four Sentinel source contracts and one explicit
+  target gap.
+
+### Read-only live validation
+
+- Every final Wave 5 compiled predicate was submitted as a bounded read-only
+  30-day aggregate query in the existing authorized security workspace. All
+  five queries completed successfully.
+- `MSEC-DET-0026` had an existing match. `MSEC-DET-0027` through
+  `MSEC-DET-0030` had no match in the current baseline. This is query-acceptance
+  and coarse baseline evidence only; it does not establish maliciousness,
+  completeness, performance, future noise level or production readiness.
+- No raw event, exact count, identity, device, address, tenant, subscription,
+  workspace, customer value, copied result or screenshot was stored.
+
+### Validation and correction
+
+- After the workstation restart, the first aggregate check selected the system
+  Python 3.14 installation, which did not contain the pinned YAML dependency.
+  The same check was rerun with the repository's intended Python 3.12.13
+  virtual environment; no dependency or source version was changed.
+- Catalogue, compiler, renderer, data-source, coverage, lifecycle, runtime and
+  release assertions were advanced to the exact Wave 5 totals. The complete
+  aggregate repository check passed 83 unit tests plus every structural,
+  generated-output and Golden gate.
+- All 210 synthetic fixture expectations passed. All twenty-nine compiled KQL
+  queries matched their reviewed Golden snapshots and all twenty-nine disabled
+  Sentinel Scheduled-rule bodies rendered successfully.
+- The deterministic local `v0.4.0` candidate contains 368 ZIP members,
+  including 367 allowlisted sources, and has SHA-256
+  `2bb28e93cd1a039d8f2c984997dbb57697fcd19f627b313a53a41cec3dd598c1`.
+
+### Explicitly untouched
+
+- No Sentinel analytics rule was deployed or enabled and no cloud
+  configuration was changed.
+- No environment-specific exception, allowlist, tuning overlay, raw live data,
+  native KQL detection or separate prebuilt Sentinel target artifact was added.
+- No commit was pushed. Forgejo, the GitHub mirror and the immutable published
+  `v0.1.0` release remain unchanged.
+
+### Result
+
+Wave 5 is complete locally: all thirty planned Sigma detections now exist,
+twenty-nine have deterministic disabled Sentinel output and the single
+unsupported Windows Event dependency remains explicit. The next bounded work
+is `v1.0.0` release readiness and protected-main publication, not further rule
+expansion.
+
+## 2026-09-03 — Sigma expansion Wave 6 reached 35 of 50 locally
+
+### Scope decision and selection gate
+
+- The user extended the version 1 target from thirty to fifty authored Sigma
+  detections while retaining Microsoft Sentinel as the only supported target.
+  ADR-0016 records the new count and delays release-readiness review until the
+  complete fifty-rule pack is verified; it does not change the Sigma-only,
+  Sentinel-first authoring model.
+- Candidate selection stayed on the confirmed `DeviceProcessEvents` contract.
+  Current Microsoft product and command documentation, current MITRE ATT&CK
+  technique pages and relevant SigmaHQ precedents were reviewed before
+  implementation.
+- A local-account-creation candidate was tested but deferred because process
+  telemetry proves only that a command was attempted. Without object-change
+  telemetry it would overstate successful account creation.
+- No upstream detection file was copied. Each final predicate, manifest,
+  triage guide and fixture set was authored for this repository's bounded
+  Sigma and Sentinel contracts.
+
+### Detection packages and reviewed basis
+
+- Added `MSEC-DET-0031` for selected command interpreters and administrative
+  utilities spawned directly by common web-server processes, mapped to
+  `T1505.003`. Microsoft documents unusual IIS worker-process children as a
+  web-shell detection signal; the portable rule also uses a reviewed SigmaHQ
+  precedent while retaining an explicit false-positive boundary.
+- Added `MSEC-DET-0032` for `auditpol.exe /clear` or removal of all per-user
+  audit policies, mapped to `T1685.001`. Microsoft documents the exact command
+  forms and ATT&CK identifies audit-policy clearing as indicator blocking.
+- Added `MSEC-DET-0033` for Netsh or PowerShell disabling Windows Firewall
+  profiles, mapped to `T1686.003`. The selected command forms come from current
+  Microsoft Windows Firewall guidance.
+- Added `MSEC-DET-0034` for `sc.exe` targeting a remote host and creating a
+  service, mapped to `T1543.003` under Persistence and Privilege Escalation.
+  Local service creation is deliberately excluded from this rule.
+- Added `MSEC-DET-0035` for Certutil decoding Base64 or hexadecimal content,
+  mapped to `T1140`. Microsoft documents `-decode` and `-decodehex`; ATT&CK and
+  a current SigmaHQ precedent support the selected behavior.
+- Each package contains one manifest, one Sigma source, three positive and four
+  negative synthetic fixtures. The catalogue now contains thirty-five rules
+  and 245 fixture expectations.
+
+### Sentinel contracts and generated coverage
+
+- Added five `DeviceProcessEvents` bindings, five reviewed Golden KQL files and
+  five disabled five-minute Scheduled-rule configurations. Thirty-four of
+  thirty-five detections now have deterministic Sentinel output.
+- The existing endpoint output contract already contained every required
+  process field, so no schema field was invented or added solely for Wave 6.
+  Each new binding maps only the observed account name as a supported entity.
+- Current ATT&CK `Defense Impairment` and `Stealth` source tactics remain exact
+  in the logical manifests and renderer provenance. Because the selected
+  Microsoft SecurityInsights API target enum does not expose those values,
+  they are omitted from target tactics rather than relabeled.
+- Regenerated the catalogue and coverage outputs. Coverage now records
+  forty-five ATT&CK mappings across twenty-seven techniques and ten tactics,
+  five logical data sources, four Sentinel source contracts and one explicit
+  target gap.
+
+### Read-only live validation
+
+- Six candidate predicates were submitted as bounded read-only 30-day
+  aggregate queries in the existing authorized security workspace. All six
+  queries completed successfully and had no match in the current baseline.
+- The five final predicates became `MSEC-DET-0031` through `MSEC-DET-0035`; the
+  sixth was the deferred local-account-creation candidate. A negative baseline
+  is only query-acceptance and coarse environment evidence. It does not prove
+  completeness, performance, future noise level or production readiness.
+- No raw event, exact count, identity, device, address, tenant, subscription,
+  workspace, customer value, copied result or screenshot was stored.
+
+### Validation and correction
+
+- The first remote-service predicate treated any backslash in an `sc.exe`
+  command as remote syntax. Its negative local-service fixture correctly
+  failed. The rule was narrowed to the documented `sc.exe \\\\host` or
+  `sc \\\\host` command prefix before any generated output was accepted.
+- Catalogue, compiler, renderer, data-source, coverage, lifecycle, runtime and
+  release assertions were advanced to the exact Wave 6 totals. The complete
+  aggregate repository check passed 83 unit tests plus every structural,
+  generated-output and Golden gate.
+- All 245 synthetic fixture expectations passed. All thirty-four compiled KQL
+  queries matched their reviewed Golden snapshots and all thirty-four disabled
+  Sentinel Scheduled-rule bodies rendered successfully.
+- Two consecutive local `v0.4.0` builds were byte-identical. The candidate is
+  755,380 bytes, contains 423 ZIP members including 422 allowlisted sources,
+  and has SHA-256
+  `11c1e14fa469207878af684c572f3bf51026ec8e68b00989e525d6faf285ef44`.
+
+### Explicitly untouched
+
+- No Sentinel analytics rule was deployed or enabled and no cloud
+  configuration was changed.
+- No environment-specific exception, allowlist, tuning overlay, raw live data,
+  native KQL detection or separate prebuilt Sentinel target artifact was added.
+- No commit was pushed. Forgejo, the GitHub mirror and the immutable published
+  `v0.1.0` release remain unchanged.
+
+### Result
+
+Wave 6 is complete locally: thirty-five of fifty planned Sigma detections now
+exist, thirty-four have deterministic disabled Sentinel output and the single
+unsupported Windows Event dependency remains explicit. Wave 7 is the next
+bounded five-rule milestone toward 40 of 50.
+
+## 2026-09-03 — Sigma expansion Wave 7 reached 40 of 50 locally
+
+### Scope decision and selection gate
+
+- Wave 7 retained the Sigma-only, Sentinel-first version 1 boundary and selected
+  five non-duplicate mechanisms from telemetry already confirmed in the
+  authorized target. Four use `DeviceProcessEvents`; one introduces the first
+  explicit `DeviceRegistryEvents` contract after schema and population checks.
+- Current MITRE ATT&CK technique pages, official Microsoft product or hunting
+  schemas and relevant SigmaHQ precedents were reviewed before implementation.
+  No upstream rule file was copied; the final predicates, manifests, triage
+  guidance and fixtures were authored for this repository's bounded contracts.
+- An RDP-enablement candidate was researched and deferred. The mechanism is
+  valid, but legitimate provisioning and administration make it a weaker
+  portable default than the five selected signals.
+
+### Detection packages and reviewed basis
+
+- Added `MSEC-DET-0036` for ProcDump or a renamed ProcDump binary requesting a
+  selected dump mode against LSASS, KeyIso or SamSs, mapped to `T1003.001`.
+  Microsoft documents the dump switches, and ATT&CK plus SigmaHQ document the
+  credential-access mechanism. Binary name and original filename metadata are
+  both supported without allowing an unrelated lookalike executable.
+- Added `MSEC-DET-0037` for selected command or proxy-execution children spawned
+  by `fodhelper.exe`, mapped to `T1548.002` under Privilege Escalation and
+  Defense Evasion. Other parents and adjacent auto-elevated binaries remain
+  outside the bounded rule.
+- Added `MSEC-DET-0038` for selected command, transfer and discovery utilities
+  spawned by `wsmprovhost.exe`, mapped to current `T1021.006` under Lateral
+  Movement. The rule covers target-side WinRM execution rather than only the
+  caller-side `winrs.exe` process.
+- Added `MSEC-DET-0039` for PowerShell commands that combine a selected network
+  download primitive with IEX or Invoke-Expression, mapped to `T1059.001`.
+  Its authorized baseline was non-zero across several devices, so the rule and
+  manifest explicitly require environment tuning and do not classify the
+  observed activity as malicious.
+- Added `MSEC-DET-0040` for an IFEO `Debugger` value under selected Windows
+  accessibility and logon-helper executable keys, mapped to `T1546.008` under
+  Persistence and Privilege Escalation. MITRE's current strategy explicitly
+  recommends monitoring this registry mechanism.
+- Each package contains one manifest, one Sigma source, three positive and four
+  negative synthetic fixtures. The catalogue now contains forty rules and 280
+  fixture expectations.
+
+### Sentinel contracts and generated coverage
+
+- Added four `DeviceProcessEvents` bindings and one `DeviceRegistryEvents`
+  binding, five reviewed Golden KQL files and five disabled five-minute
+  Scheduled-rule configurations. Thirty-nine of forty detections now have
+  deterministic Sentinel output.
+- Extended the process contract with
+  `ProcessVersionInfoOriginalFileName` for renamed ProcDump identification.
+  Added stable source `MSEC-SDS-0005` for `DeviceRegistryEvents` with exact
+  event-time, registry, initiator and report fields. The registry binding maps
+  only the initiating account name as a supported entity.
+- Regenerated the catalogue and coverage outputs. Coverage now records
+  fifty-two ATT&CK mappings across thirty techniques and eleven tactics, six
+  logical data sources, five Sentinel source contracts and one explicit target
+  gap.
+
+### Read-only live validation
+
+- All five selected predicates completed as bounded read-only aggregate queries
+  in the existing authorized security workspace. The ProcDump, Fodhelper,
+  WinRM-child and IFEO predicates had no match in the current 30-day aggregate
+  baseline. The PowerShell cradle predicate had a small non-zero aggregate
+  baseline across several devices and was therefore retained only with an
+  explicit tuning requirement.
+- The complete generated `MSEC-DET-0040` query, including every projected
+  `DeviceRegistryEvents` field, also executed successfully and returned no row
+  in the current portal time range. This verifies query acceptance and output
+  shape, not production readiness or future performance.
+- No exact result count, raw row, user, device, address, tenant, subscription,
+  workspace, customer value, copied result or screenshot was stored.
+
+### Validation and reproducibility
+
+- Advanced catalogue, compiler, renderer, data-source, coverage, lifecycle,
+  runtime-health and release assertions to the exact Wave 7 totals. The
+  complete aggregate repository check passed 83 unit tests plus every
+  structural, generated-output and Golden gate.
+- All 280 synthetic fixture expectations passed. All thirty-nine compiled KQL
+  queries matched their reviewed Golden snapshots and all thirty-nine disabled
+  Sentinel Scheduled-rule bodies rendered successfully.
+- Two consecutive local `v0.4.0` builds were byte-identical. The candidate is
+  848,689 bytes, contains 478 ZIP members including 477 allowlisted sources,
+  and has SHA-256
+  `102b99efeed3eb12953246dbbe51c1f599cb4278644ca77d8816df511ab70745`.
+
+### Explicitly untouched
+
+- No Sentinel analytics rule was deployed or enabled and no cloud
+  configuration was changed.
+- No environment-specific exception, allowlist, tuning overlay, raw live data,
+  native KQL detection or separate prebuilt Sentinel target artifact was added.
+- No commit was pushed. Forgejo, the GitHub mirror and the immutable published
+  `v0.1.0` release remain unchanged.
+
+### Result
+
+Wave 7 is complete locally: forty of fifty planned Sigma detections now exist,
+thirty-nine have deterministic disabled Sentinel output and the single
+unsupported Windows Event dependency remains explicit. Wave 8 is the next
+bounded five-rule milestone toward 45 of 50.
+
+## 2026-09-03 — Sigma expansion Wave 8 reached 45 of 50 locally
+
+### Scope decision and research gate
+
+- Retained the Sigma-only, Sentinel-first version 1 boundary and selected five
+  non-duplicate Windows process mechanisms that use the existing confirmed
+  `DeviceProcessEvents` contract.
+- Reviewed the current MITRE ATT&CK sub-technique pages, official Microsoft
+  process-schema or application-control guidance and relevant SigmaHQ
+  precedents before authoring the repository-specific rules. No upstream rule
+  file was copied.
+- Kept all five rules experimental and disabled. The predicates deliberately
+  combine tool identity with a meaningful behavior marker where a generic
+  executable launch would be too noisy.
+
+### Detection packages
+
+- Added `MSEC-DET-0041` for any child process directly created by `cmstp.exe`,
+  mapped to `T1218.003`. This follows the high-confidence child-process
+  mechanism rather than treating every CMSTP launch as malicious.
+- Added `MSEC-DET-0042` for Odbcconf commands combining the documented `REGSVR`
+  action with a DLL reference, mapped to `T1218.008`. Both executable name and
+  original filename metadata are supported.
+- Added `MSEC-DET-0043` for Msiexec commands that combine HTTP or HTTPS with an
+  MSI reference, mapped to `T1218.007` and `T1105`. Local MSI installation and
+  unrelated web references remain negative cases.
+- Added `MSEC-DET-0044` for InstallUtil commands referencing
+  HTTP, HTTPS or FTP content, mapped to `T1218.004` and `T1105`. Local and UNC
+  assembly paths remain outside this bounded rule.
+- Added `MSEC-DET-0045` for `msbuild.exe` directly spawning one of eight selected
+  command, script or signed proxy-execution processes, mapped to `T1127.001`
+  under Execution and current Stealth. Expected compiler children such as
+  `csc.exe` and `vbc.exe` remain explicit negative cases.
+- Each package contains one manifest, one Sigma rule, three positive and four
+  negative synthetic fixtures. The catalogue now contains forty-five rules and
+  315 fixture expectations.
+
+### Sentinel contracts and generated coverage
+
+- Added five `DeviceProcessEvents` preview bindings, five reviewed Golden KQL
+  files and five disabled five-minute Scheduled-rule configurations. Forty-four
+  of forty-five detections now have deterministic Sentinel output.
+- Extended only the existing process-source consumer relationship. The current
+  source contract already contained every required field, including
+  `ProcessVersionInfoOriginalFileName`, so no speculative table or column was
+  introduced.
+- Regenerated the catalogue and coverage outputs. Coverage now records sixty
+  ATT&CK mappings across thirty-five techniques and eleven tactics, six logical
+  data sources, five Sentinel source contracts and one explicit target gap.
+
+### Validation and reproducibility
+
+- Advanced catalogue, compiler, renderer, data-source, coverage, lifecycle,
+  runtime-health and release assertions to the exact Wave 8 totals. The complete
+  aggregate repository check passed 83 unit tests plus every structural,
+  generated-output and Golden gate.
+- All 315 synthetic fixture expectations passed. All forty-four compiled KQL
+  queries matched their reviewed Golden snapshots and all forty-four disabled
+  Sentinel Scheduled-rule bodies rendered successfully.
+- Two consecutive local `v0.4.0` builds were byte-identical. The candidate is
+  935,115 bytes, contains 533 ZIP members including 532 allowlisted sources, and
+  has SHA-256
+  `e68926d53051f888f1a1d1e263896986f0bdb307f36cf32c367252b80253df04`.
+
+### Live-validation boundary
+
+- The five Wave 8 predicates were prepared for the same bounded 30-day
+  aggregate query-acceptance probe used by earlier waves. The existing Defender
+  browser sessions could not be attached by the available browser controller,
+  and no authenticated Azure CLI was installed.
+- No live query was executed, no result was inferred and no raw row, exact
+  count, user, device, tenant, subscription or workspace identifier was
+  accessed or stored. Live acceptance for `MSEC-DET-0041` through
+  `MSEC-DET-0045` therefore remains explicitly pending.
+
+### Explicitly untouched
+
+- No Sentinel analytics rule was deployed or enabled and no cloud
+  configuration was changed.
+- No environment-specific exception, allowlist, tuning overlay, raw live data,
+  native KQL detection or separate prebuilt Sentinel target artifact was added.
+- No commit was pushed. Forgejo, the GitHub mirror and the immutable published
+  `v0.1.0` release remain unchanged.
+
+### Result
+
+Wave 8 is locally implemented and fully reproducible: forty-five of fifty
+planned Sigma detections now exist, forty-four have deterministic disabled
+Sentinel output and the single unsupported Windows Event dependency remains
+explicit. The bounded live acceptance probe for the five new predicates is the
+remaining Wave 8 gate before Wave 9 research begins.
+
+## 2026-09-03 — Wave 8 live query acceptance completed
+
+### Scope and method
+
+- Repeated the authorized read-only validation in an already authenticated
+  Microsoft Defender Advanced Hunting session after the earlier browser-control
+  attachment failure.
+- Executed each `MSEC-DET-0041` through `MSEC-DET-0045` predicate separately
+  against its existing `DeviceProcessEvents` binding with a bounded 30-day
+  window and only aggregate match and distinct-device output.
+- Did not open result groups or inspect raw events, identities, process command
+  lines, device names or target identifiers.
+
+### Results
+
+- All five Wave 8 predicates were accepted and completed successfully in the
+  target query engine.
+- `MSEC-DET-0041`, `MSEC-DET-0042`, `MSEC-DET-0044` and `MSEC-DET-0045`
+  returned no match in the current aggregate baseline.
+- `MSEC-DET-0043` returned a small non-zero aggregate result across several
+  devices. This is a tuning signal only and is not treated as confirmed
+  malicious activity or as production-readiness evidence.
+- An initial editor attempt retained unrelated text from a previous query and
+  was rejected as a syntax error. The editor was cleared, the intended bounded
+  query was verified visibly and the successful result above supersedes that
+  failed editor attempt.
+- The complete aggregate repository check passed 83 unit tests plus every
+  structural, generated-output, Golden, lifecycle, runtime and release gate;
+  `git diff --check` also passed. Two earlier launches selected Python runtimes
+  without the pinned dependencies and stopped before the Python test suite;
+  rerunning unchanged with the existing repository virtual environment passed.
+
+### Explicitly untouched
+
+- No analytics rule was created, deployed, enabled, saved or modified.
+- No environment-specific allowlist, exception, tuning overlay, raw live data,
+  exact result count or target identifier was stored in the repository.
+- No commit was pushed. Forgejo, the GitHub mirror and the immutable published
+  `v0.1.0` release remain unchanged.
+
+### Result
+
+Wave 8 is complete: forty-five of fifty planned Sigma detections exist, all
+forty-four Sentinel-bound predicates have passed bounded live query acceptance,
+and the single Windows Event detection remains intentionally unbound. Wave 9 is
+the next milestone toward the fifty-rule version 1 pack.
+
+## 2026-09-04 — Sigma expansion Wave 9 reached 50 of 50 locally
+
+### Scope decision and research gate
+
+- Retained the Sigma-only, Sentinel-first version 1 boundary and selected five
+  non-duplicate Windows persistence, execution, proxy-execution and forwarding
+  mechanisms that use the existing confirmed `DeviceRegistryEvents` and
+  `DeviceProcessEvents` contracts.
+- Reviewed current MITRE ATT&CK technique pages, official Microsoft command and
+  Defender hunting-schema documentation, and relevant SigmaHQ or Atomic Red
+  Team precedents before authoring the repository-specific predicates. No
+  upstream rule file was copied.
+- Rejected a blanket successful Device Code sign-in candidate because normal
+  use could not be separated faithfully in a portable single-event Sigma rule.
+  Netsh PortProxy creation replaced it as the fifth mechanism.
+- An initial broad Run and RunOnce predicate produced an unsuitable high-volume
+  aggregate baseline. It was not retained. The final rule requires either a
+  script in a selected user-writable path or behavior-bearing PowerShell,
+  Mshta, Regsvr32 or Rundll32 content.
+
+### Detection packages
+
+- Added `MSEC-DET-0046` for suspicious script or signed-proxy payloads written
+  to Run, RunOnce or Explorer policy Run values, mapped to `T1547.001`.
+- Added `MSEC-DET-0047` for non-default Winlogon Shell or Userinit values,
+  mapped to `T1547.004`; common default values remain explicit negative cases.
+- Added `MSEC-DET-0048` for local Schtasks creation whose task action contains a
+  selected user-writable payload or behavior-bearing script or proxy command,
+  mapped to `T1053.005`. Remote task creation stays owned by
+  `MSEC-DET-0028`.
+- Added `MSEC-DET-0049` for Mavinject or renamed Mavinject binaries using the
+  `INJECTRUNNING` or `HMODULE` injection switches, mapped to `T1218.013`.
+- Added `MSEC-DET-0050` for Netsh or renamed Netsh binaries adding an interface
+  PortProxy rule, mapped to `T1090.001`; show, delete and firewall-rule commands
+  remain negative cases.
+- Each package contains one manifest, one Sigma rule, three positive and four
+  negative flat synthetic fixtures. The catalogue now contains fifty rules and
+  350 fixture expectations.
+- Independent rule review found that the first registry predicates omitted
+  32-bit redirected Wow6432Node paths and that the Run-key rule omitted common
+  AppData and Temp environment-variable forms. Both rules and existing positive
+  fixtures were corrected without changing the evidence totals. The same review
+  corrected the PortProxy rationale from external to internal proxy behavior;
+  its ATT&CK mapping and predicate were already correct.
+
+### Sentinel contracts and generated coverage
+
+- Added two `DeviceRegistryEvents` and three `DeviceProcessEvents` preview
+  bindings, five reviewed Golden KQL files and five disabled five-minute
+  Scheduled-rule configurations. Forty-nine of fifty detections now have
+  deterministic Sentinel output.
+- Extended only existing source contracts. An initial manifest label created a
+  seventh logical source category and caused the exact coverage test to fail.
+  The two registry packages were corrected to the established `Endpoint
+  registry modification` category, generated outputs were rebuilt and the
+  complete coverage suite then passed with six logical sources.
+- Regenerated the catalogue and coverage outputs. Coverage now records sixty-nine
+  ATT&CK mappings across thirty-nine techniques and eleven tactics, six logical
+  data sources, five Sentinel source contracts and one explicit target gap.
+
+### Live-validation boundary
+
+- Executed only bounded 30-day aggregate query-acceptance probes in the already
+  authorized target session. No result group or raw event was opened.
+- All five final generated predicates were accepted by the target query engine
+  and returned no match in the current aggregate baseline. This is useful
+  query-acceptance and baseline evidence, not proof of future performance or
+  production readiness.
+- After the independent coverage corrections, the expanded Run-key and Winlogon
+  predicates were executed again and each still returned no match. The first
+  manually adapted Winlogon aggregate used unescaped Windows paths in regular
+  Kusto strings and was rejected with a syntax error; the query was corrected
+  to verbatim path strings and the successful rerun above supersedes it. The
+  committed compiler-generated Golden query was not affected by that manual
+  editor error.
+- No exact result count, raw row, user, device, address, tenant, subscription,
+  workspace, customer value, copied result or screenshot was stored.
+
+### Validation and reproducibility
+
+- Advanced catalogue, compiler, renderer, data-source, coverage, lifecycle,
+  runtime-health and release assertions to the exact Wave 9 totals. The
+  complete aggregate repository check passed 83 unit tests plus every
+  structural, generated-output and Golden gate.
+- All 350 synthetic fixture expectations passed. All forty-nine compiled KQL
+  queries matched their reviewed Golden snapshots and all forty-nine disabled
+  Sentinel Scheduled-rule bodies rendered successfully.
+- Two consecutive local `v0.4.0` builds were byte-identical. The candidate is
+  1,036,581 bytes, contains 588 ZIP members including 587 allowlisted sources,
+  and has SHA-256
+  `45abbc1a60910b84229a0ab4aadec12e8d2b937899eaabd9a79f1a45928f1653`.
+
+### Explicitly untouched
+
+- No Sentinel analytics rule was deployed or enabled and no cloud
+  configuration was changed.
+- No environment-specific exception, allowlist, tuning overlay, raw live data,
+  native KQL detection or separate prebuilt Sentinel target artifact was added.
+- No commit was pushed. Forgejo, the GitHub mirror and the immutable published
+  `v0.1.0` release remain unchanged.
+
+### Result
+
+Wave 9 is complete locally: all fifty planned Sigma detections now exist,
+forty-nine have deterministic disabled Sentinel output and the single
+unsupported Windows Event dependency remains explicit. The next milestone is a
+separate clean-tree reproducibility and protected-main release-readiness review;
+the `v0.4.0` development candidate has not been published as `v1.0.0`.
+
+## 2026-09-04 — Version 1.0.0 release candidate passed local readiness review
+
+### Release boundary and documentation
+
+- Created focused local branch `codex/v1-release-candidate` from the complete
+  fifty-rule pack and changed the development-package version from `0.4.0` to
+  `1.0.0`. No tag or public release was created.
+- Added self-contained `v1.0.0` release notes. They describe fifty experimental
+  Sigma rules, 350 synthetic cases, forty-nine Sentinel preview bindings, the
+  single explicit Windows Event gap and the no-deployment boundary without
+  implying that experimental detections are production ready.
+- Replaced stale five-rule, four-binding, `0.1.x` support and foundation-phase
+  wording in the current README, Security policy, contributor guide, package,
+  lifecycle and Forgejo validation documentation. Historical `v0.1.0` release
+  notes and accepted ADR context remain unchanged.
+- Clarified that the version 1 pack authors only Sigma, that generated KQL is a
+  target projection, and that the ZIP is a curated Detection Pack rather than a
+  complete source checkout.
+
+### Release-builder hardening
+
+- The builder now requires `docs/releases/v<VERSION>.md`; an old release note
+  can no longer satisfy a new package-version build accidentally. Tests require
+  both the `v1.0.0` manifest value and packaged current-version notes.
+- Added `*.local.json` to the ignored local-observation boundary so a common
+  JSON runtime worksheet name is not offered for commit accidentally.
+- Added repository-wide LF checkout normalization through `.gitattributes` so
+  deterministic tracked output compares identically on Windows and Linux.
+
+### Failures found and corrected during the review
+
+- The first build into an external temporary directory produced the archive but
+  then failed while printing its path because the CLI assumed every output was
+  below the repository. Added a bounded path-display helper and regression test;
+  external output directories now complete successfully.
+- The first fresh Windows clone converted generated JSON and Markdown to CRLF,
+  so the byte-exact stale-output tests failed despite equivalent content. The LF
+  attribute above corrected the checkout, and a completely new clone passed the
+  full check.
+- One clone assertion initially expanded the abbreviated commit ID incorrectly
+  and rejected the correct clone. The retry compared against `git rev-parse
+  HEAD` directly and verified exact commit
+  `6209c96dec5a071153f3e732dbd1e61fc144c445`.
+- An initial PowerShell archive scan wrapper had a parser error, and the first
+  sandboxed live `git ls-remote` could not reach Forgejo. The corrected scan
+  completed without findings, and the authorized read-only remote retry
+  confirmed live `main` plus the absence of a `v1.0.0` tag.
+
+### Validation and artifact evidence
+
+- The aggregate repository check passed in the development tree and again in a
+  fresh exact-commit clone. It now contains 85 unit tests plus every manifest,
+  package, Sigma, generated-catalogue, Golden-query, data-source, lifecycle,
+  runtime-health and release gate.
+- All 350 synthetic expectations passed, all forty-nine KQL queries matched
+  their reviewed Goldens and all forty-nine Scheduled-rule bodies rendered in
+  the disabled state.
+- Two final isolated builds from the development tree and two more from the
+  clean clone were byte-identical. `metesec-detection-pack-v1.0.0.zip` is
+  1,040,114 bytes, contains 589 members including 588 manifest-listed sources,
+  and has SHA-256
+  `4565d5001281d0694c3891337fc362b1e8ad0b29b6957433ff6ce5bc7773703d`.
+- The internal manifest reports exactly fifty detections, forty-nine Sentinel
+  preview bindings, one hundred fifty positive cases and two hundred negative
+  cases. The archive uses one correct versioned root and contains the matching
+  release notes.
+- The exact extracted archive contained no suspicious filename, high-confidence
+  credential pattern or missing relative Markdown link in the bounded release
+  scan. This is a scoped release check, not a claim that pattern matching can
+  prove the absence of every possible secret.
+- A live read-only remote check found Forgejo `main` at
+  `a1862b7a62b05c944c7607744608ec0487f3a1b1`, confirmed it is an ancestor of the
+  candidate and found no `v1.0.0` tag. The candidate was twenty commits ahead at
+  the time of review. Live protected-branch settings and future CI results remain
+  publication gates rather than locally completed evidence.
+
+### Explicitly untouched
+
+- No branch was pushed, no protected merge was attempted, no tag or release was
+  created and no mirror policy changed. The public `v0.1.0` release remains
+  unchanged.
+- No Sentinel rule was deployed or enabled, no cloud configuration changed and
+  no raw telemetry, exact live count, environment identifier, customer tuning,
+  native KQL rule or prebuilt target bundle was added.
+
+### Result
+
+The complete fifty-rule `v1.0.0` candidate is locally release-ready and
+reproducible from a clean exact-commit checkout. Public release remains a
+separate protected-main operation with branch, main, tag and anonymous-download
+evidence still required.

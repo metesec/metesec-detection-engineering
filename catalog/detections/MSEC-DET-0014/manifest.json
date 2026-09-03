@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0014",
+  "title": "Microsoft Entra Conditional Access policy deleted",
+  "description": "Detects a successful Microsoft Entra audit operation that deletes a Conditional Access policy.",
+  "hypothesis": {
+    "summary": "An adversary or unauthorized administrator may delete a Conditional Access policy to weaken identity controls.",
+    "rationale": "Microsoft recommends monitoring Conditional Access policy deletion because it can remove sign-in restrictions, but legitimate administrators also delete obsolete or replaced policies during approved changes.",
+    "detection_goal": "Identify successful Conditional Access policy deletion events while leaving failed, update, creation and incomplete audit events unmatched."
+  },
+  "ownership": {
+    "owner": "MeteSec Detection Engineering",
+    "reviewers": []
+  },
+  "lifecycle": {
+    "status": "experimental",
+    "created": "2026-09-03",
+    "modified": "2026-09-03",
+    "review_interval_days": 90
+  },
+  "severity": "medium",
+  "confidence": "medium",
+  "data_sources": [
+    {
+      "name": "Microsoft Entra audit logs",
+      "category": "Identity directory audit",
+      "required_fields": ["TimeGenerated", "CorrelationId", "InitiatedBy", "LoggedByService", "OperationName", "Result", "TargetResources"]
+    }
+  ],
+  "attack": [
+    {
+      "technique_id": "T1556.009",
+      "tactic": "Defense Evasion"
+    }
+  ],
+  "triage": {
+    "summary": "Determine which policy was deleted, who initiated the change and whether an approved change record and replacement control exist.",
+    "steps": [
+      "Review the initiating user or application, target policy, source IP, correlation identifier and surrounding audit operations.",
+      "Confirm the deletion against an approved change, the expected administrator and any intended replacement policy.",
+      "Inspect sign-ins and other identity-control changes after the deletion; restore protection and contain the initiating identity if unauthorized."
+    ],
+    "false_positives": [
+      "Approved policy retirement, migration, emergency access and replacement changes performed by authorized identity administrators"
+    ]
+  },
+  "validation": {
+    "expected_outcome": "Match successful Conditional Access policy deletion; do not match failed deletion, updates, creation or events without a result.",
+    "positive_tests": true,
+    "negative_tests": true
+  },
+  "implementations": [
+    {
+      "type": "sigma",
+      "path": "content/portable/sigma/MSEC-DET-0014/rule.yml",
+      "targets": ["sentinel"],
+      "status": "active"
+    }
+  ]
+}

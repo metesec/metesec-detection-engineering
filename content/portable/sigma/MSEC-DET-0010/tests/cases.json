@@ -1,0 +1,14 @@
+{
+  "schema_version":1,
+  "detection_id":"MSEC-DET-0010",
+  "implementation":"content/portable/sigma/MSEC-DET-0010/rule.yml",
+  "cases":[
+    {"id":"high-risk-at-risk","expectation":"match","fixture":"fixtures/high-risk-at-risk.json","description":"Synthetic high-risk event remains at risk."},
+    {"id":"high-risk-confirmed-compromised","expectation":"match","fixture":"fixtures/high-risk-confirmed-compromised.json","description":"Synthetic high-risk event is confirmed compromised."},
+    {"id":"uppercase-active-risk-with-context","expectation":"match","fixture":"fixtures/uppercase-active-risk-with-context.json","description":"Synthetic uppercase active risk verifies case-insensitive matching with context."},
+    {"id":"medium-risk-at-risk","expectation":"no_match","fixture":"fixtures/medium-risk-at-risk.json","description":"Synthetic medium-risk event is below the selected level."},
+    {"id":"high-risk-remediated","expectation":"no_match","fixture":"fixtures/high-risk-remediated.json","description":"Synthetic remediated high-risk event is no longer active."},
+    {"id":"high-risk-dismissed","expectation":"no_match","fixture":"fixtures/high-risk-dismissed.json","description":"Synthetic dismissed high-risk event is no longer active."},
+    {"id":"high-risk-missing-state","expectation":"no_match","fixture":"fixtures/high-risk-missing-state.json","description":"Synthetic high-risk event without a state fails closed."}
+  ]
+}

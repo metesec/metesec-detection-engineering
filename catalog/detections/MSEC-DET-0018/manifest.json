@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0018",
+  "title": "PowerShell attempts to weaken Microsoft Defender Antivirus",
+  "description": "Detects PowerShell Defender cmdlets attempting to disable selected protection features or add antivirus exclusions. Process telemetry shows the command attempt and not the resulting Defender state.",
+  "hypothesis": {
+    "summary": "An adversary may use Defender PowerShell cmdlets to create a protection gap before executing later actions.",
+    "rationale": "Microsoft warns that exclusions reduce protection and MITRE documents security-control tampering; legitimate management and troubleshooting scripts can use the same cmdlets.",
+    "detection_goal": "Identify selected Set-MpPreference disable switches and Set-MpPreference or Add-MpPreference exclusion changes while leaving status queries and unrelated PowerShell commands unmatched."
+  },
+  "ownership": {
+    "owner": "MeteSec Detection Engineering",
+    "reviewers": []
+  },
+  "lifecycle": {
+    "status": "experimental",
+    "created": "2026-09-03",
+    "modified": "2026-09-03",
+    "review_interval_days": 90
+  },
+  "severity": "high",
+  "confidence": "medium",
+  "data_sources": [
+    {
+      "name": "Microsoft Defender for Endpoint process events",
+      "category": "Endpoint process creation",
+      "required_fields": ["TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountName", "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"]
+    }
+  ],
+  "attack": [
+    {
+      "technique_id": "T1685",
+      "tactic": "Defense Impairment"
+    }
+  ],
+  "triage": {
+    "summary": "Resolve the requested Defender change, its initiating process and whether device-management policy authorized it.",
+    "steps": [
+      "Review the full command, parent process, account, device, exclusion value and requested protection switch.",
+      "Compare the command with approved endpoint-management, software-deployment and troubleshooting activity.",
+      "Check Defender configuration and tamper-protection telemetry, then inspect subsequent payload execution or persistence if the change is unexplained."
+    ],
+    "false_positives": [
+      "Approved endpoint-management scripts, software compatibility exclusions and temporary support diagnostics"
+    ]
+  },
+  "validation": {
+    "expected_outcome": "Match selected PowerShell Defender disable and exclusion commands; do not claim that the change succeeded and do not match status queries or unrelated commands.",
+    "positive_tests": true,
+    "negative_tests": true
+  },
+  "implementations": [
+    {
+      "type": "sigma",
+      "path": "content/portable/sigma/MSEC-DET-0018/rule.yml",
+      "targets": ["sentinel"],
+      "status": "active"
+    }
+  ]
+}

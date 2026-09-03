@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "detection_id": "MSEC-DET-0038",
+  "implementation": "content/portable/sigma/MSEC-DET-0038/rule.yml",
+  "cases": [
+    {"id": "winrm-cmd", "expectation": "match", "fixture": "fixtures/winrm-cmd.json", "description": "Synthetic WinRM host launches cmd.exe."},
+    {"id": "winrm-powershell-uppercase", "expectation": "match", "fixture": "fixtures/winrm-powershell-uppercase.json", "description": "Synthetic mixed-case WinRM host launches PowerShell."},
+    {"id": "winrm-certutil-with-context", "expectation": "match", "fixture": "fixtures/winrm-certutil-with-context.json", "description": "Synthetic WinRM host launches Certutil with bounded endpoint context."},
+    {"id": "normal-child", "expectation": "no_match", "fixture": "fixtures/normal-child.json", "description": "Synthetic WinRM host launches an unselected child."},
+    {"id": "other-parent", "expectation": "no_match", "fixture": "fixtures/other-parent.json", "description": "Synthetic selected child has an ordinary parent."},
+    {"id": "winrs-caller", "expectation": "no_match", "fixture": "fixtures/winrs-caller.json", "description": "Synthetic caller-side WinRS relationship remains outside the target-side rule."},
+    {"id": "missing-parent", "expectation": "no_match", "fixture": "fixtures/missing-parent.json", "description": "Synthetic selected child lacks parent context."}
+  ]
+}

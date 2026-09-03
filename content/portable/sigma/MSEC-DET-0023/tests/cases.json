@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "detection_id": "MSEC-DET-0023",
+  "implementation": "content/portable/sigma/MSEC-DET-0023/rule.yml",
+  "cases": [
+    {"id": "save-sam-hive", "expectation": "match", "fixture": "fixtures/save-sam-hive.json", "description": "Synthetic reg.exe command saves the SAM hive."},
+    {"id": "export-security-hive", "expectation": "match", "fixture": "fixtures/export-security-hive.json", "description": "Synthetic reg.exe command exports the SECURITY hive."},
+    {"id": "uppercase-with-context", "expectation": "match", "fixture": "fixtures/uppercase-with-context.json", "description": "Synthetic uppercase command includes bounded endpoint context."},
+    {"id": "query-sam-hive", "expectation": "no_match", "fixture": "fixtures/query-sam-hive.json", "description": "Synthetic registry query does not export the hive."},
+    {"id": "save-software-hive", "expectation": "no_match", "fixture": "fixtures/save-software-hive.json", "description": "Synthetic export of a nonsensitive hive is outside the rule."},
+    {"id": "other-process", "expectation": "no_match", "fixture": "fixtures/other-process.json", "description": "Synthetic unrelated process with matching words does not match."},
+    {"id": "missing-command-line", "expectation": "no_match", "fixture": "fixtures/missing-command-line.json", "description": "Synthetic reg.exe event without a command line fails closed."}
+  ]
+}

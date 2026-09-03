@@ -1,0 +1,39 @@
+title: Mshta Executes Content From a Remote Location
+id: 2703f40a-1128-43b5-bebc-3d6f2c590678
+status: experimental
+description: Detects mshta command lines that reference remotely hosted HTTP, HTTPS, or FTP content.
+references:
+  - https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table
+  - https://attack.mitre.org/techniques/T1218/005/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_mshta_http.yml
+author: MeteSec Detection Engineering
+date: 2026-09-03
+tags:
+  - attack.defense-evasion
+  - attack.t1218.005
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection_image:
+    FileName: mshta.exe
+  selection_remote:
+    ProcessCommandLine|contains:
+      - 'http://'
+      - 'https://'
+      - 'ftp://'
+  condition: selection_image and selection_remote
+fields:
+  - TimeGenerated
+  - Timestamp
+  - DeviceId
+  - DeviceName
+  - AccountName
+  - InitiatingProcessFileName
+  - FileName
+  - FolderPath
+  - ProcessCommandLine
+  - ReportId
+falsepositives:
+  - Approved legacy applications, installers, and administrative workflows that launch a remote HTA resource.
+level: high

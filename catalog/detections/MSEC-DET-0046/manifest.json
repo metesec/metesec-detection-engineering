@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0046",
+  "title": "Suspicious script or LOLBin payload in a Run key",
+  "description": "Detects a Run, RunOnce or Explorer policy Run value set to a selected script payload or suspicious signed Windows utility command.",
+  "hypothesis": {
+    "summary": "An adversary may establish logon persistence by placing a script or proxy-execution command in a Windows Run registry value.",
+    "rationale": "MITRE recommends monitoring Run-key changes that introduce unusual binary paths or script-based payloads. Restricting the rule to selected user-writable script locations and behavior-bearing PowerShell, Mshta, Regsvr32 or Rundll32 commands avoids the high volume produced by alerting on every Run-key value set.",
+    "detection_goal": "Identify selected script and LOLBin payloads written to Run, RunOnce or Explorer policy Run keys while leaving ordinary application startup values, unrelated registry keys and non-set actions unmatched."
+  },
+  "ownership": {"owner": "MeteSec Detection Engineering", "reviewers": []},
+  "lifecycle": {"status": "experimental", "created": "2026-09-03", "modified": "2026-09-03", "review_interval_days": 90},
+  "severity": "medium",
+  "confidence": "medium",
+  "data_sources": [
+    {"name": "Microsoft Defender for Endpoint registry events", "category": "Endpoint registry modification", "required_fields": ["TimeGenerated", "Timestamp", "ActionType", "DeviceId", "DeviceName", "RegistryKey", "RegistryValueName", "RegistryValueData", "InitiatingProcessAccountName", "InitiatingProcessFileName", "InitiatingProcessCommandLine", "ReportId"]}
+  ],
+  "attack": [
+    {"technique_id": "T1547.001", "tactic": "Persistence"},
+    {"technique_id": "T1547.001", "tactic": "Privilege Escalation"}
+  ],
+  "triage": {
+    "summary": "Validate the new startup value, payload origin and writer before escalation; approved applications can use Run keys, but script and behavior-bearing LOLBin payloads require explanation.",
+    "steps": [
+      "Review the complete registry key, value name and value data together with the initiating process, command line, account and endpoint role.",
+      "Inspect the referenced script or remote resource, verify its signer or hash where available and correlate file creation, download and subsequent logon execution.",
+      "Confirm an approved software deployment or logon workflow; otherwise remove the persistence safely, contain the endpoint and investigate the originating process and account."
+    ],
+    "false_positives": ["Approved logon scripts, software updaters or management tooling that intentionally place a selected script or LOLBin command in a Run key"]
+  },
+  "validation": {"expected_outcome": "Match selected user-writable script payloads or suspicious PowerShell, Mshta, Regsvr32 and Rundll32 commands written to Run keys; do not match ordinary startup values, unrelated keys or deletion events.", "positive_tests": true, "negative_tests": true},
+  "implementations": [{"type": "sigma", "path": "content/portable/sigma/MSEC-DET-0046/rule.yml", "targets": ["sentinel"], "status": "active"}]
+}

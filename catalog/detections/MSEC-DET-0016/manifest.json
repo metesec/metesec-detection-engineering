@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0016",
+  "title": "Native Windows utility attempts to inhibit system recovery",
+  "description": "Detects selected native Windows utilities attempting to delete shadow copies or backup catalogues, disable the Windows Recovery Environment, or weaken boot recovery. Process telemetry shows an attempt, not whether the change succeeded.",
+  "hypothesis": {
+    "summary": "An adversary may inhibit recovery before destructive or ransomware impact activity.",
+    "rationale": "Microsoft and MITRE document vssadmin, wmic, wbadmin, bcdedit and reagentc as common recovery-inhibition utilities; administrators can also use them during approved maintenance.",
+    "detection_goal": "Identify explicit recovery-inhibition command patterns while leaving inventory, backup creation, recovery enablement and unrelated native-utility activity unmatched."
+  },
+  "ownership": {
+    "owner": "MeteSec Detection Engineering",
+    "reviewers": []
+  },
+  "lifecycle": {
+    "status": "experimental",
+    "created": "2026-09-03",
+    "modified": "2026-09-03",
+    "review_interval_days": 90
+  },
+  "severity": "high",
+  "confidence": "high",
+  "data_sources": [
+    {
+      "name": "Microsoft Defender for Endpoint process events",
+      "category": "Endpoint process creation",
+      "required_fields": ["TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountName", "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"]
+    }
+  ],
+  "attack": [
+    {
+      "technique_id": "T1490",
+      "tactic": "Impact"
+    }
+  ],
+  "triage": {
+    "summary": "Confirm the command, its parent process and whether the recovery change was approved; look for destructive activity around the same device and account.",
+    "steps": [
+      "Review the complete command line, process tree, signer, account, device and execution time.",
+      "Confirm whether backup, disaster-recovery, imaging or maintenance personnel approved the action.",
+      "Inspect for file encryption, mass modification, backup deletion, security-control tampering and lateral movement; contain the device if unexplained."
+    ],
+    "false_positives": [
+      "Approved backup retirement, disaster-recovery testing, system imaging and operating-system maintenance"
+    ]
+  },
+  "validation": {
+    "expected_outcome": "Match the selected destructive recovery commands; do not claim success and do not match recovery inventory, backup creation, reagentc enablement or unrelated native-utility use.",
+    "positive_tests": true,
+    "negative_tests": true
+  },
+  "implementations": [
+    {
+      "type": "sigma",
+      "path": "content/portable/sigma/MSEC-DET-0016/rule.yml",
+      "targets": ["sentinel"],
+      "status": "active"
+    }
+  ]
+}

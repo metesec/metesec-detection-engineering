@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "event": {
+    "FileName": "reg.exe",
+    "ProcessCommandLine": "reg.exe export HKEY_LOCAL_MACHINE\\SECURITY C:\\Windows\\Temp\\security.reg /y"
+  }
+}

@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"FileName":"dump-tool.exe","ProcessVersionInfoOriginalFileName":"dump-tool.exe","ProcessCommandLine":"dump-tool.exe -ma lsass.exe C:\\Temp\\lsass.dmp"}}

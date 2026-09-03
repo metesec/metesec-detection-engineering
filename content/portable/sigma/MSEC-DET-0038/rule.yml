@@ -1,0 +1,46 @@
+title: WinRM Host Spawns a Suspicious Child Process
+id: fbb1208f-ec4a-4094-b18d-06a241a1c048
+status: experimental
+description: Detects wsmprovhost.exe spawning a command interpreter or administrative utility associated with remote execution.
+references:
+  - https://attack.mitre.org/techniques/T1021/006/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_winrm_susp_child_process.yml
+  - https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table
+author: MeteSec Detection Engineering
+date: 2026-09-03
+tags:
+  - attack.lateral-movement
+  - attack.t1021.006
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection_parent:
+    InitiatingProcessFileName: wsmprovhost.exe
+  selection_child:
+    FileName:
+      - cmd.exe
+      - powershell.exe
+      - pwsh.exe
+      - wsl.exe
+      - bash.exe
+      - sh.exe
+      - schtasks.exe
+      - certutil.exe
+      - whoami.exe
+      - bitsadmin.exe
+  condition: selection_parent and selection_child
+fields:
+  - TimeGenerated
+  - Timestamp
+  - DeviceId
+  - DeviceName
+  - AccountName
+  - InitiatingProcessFileName
+  - FileName
+  - FolderPath
+  - ProcessCommandLine
+  - ReportId
+falsepositives:
+  - Approved PowerShell remoting, configuration management, support, or administrative automation through WinRM.
+level: high

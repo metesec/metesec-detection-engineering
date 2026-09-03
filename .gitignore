@@ -20,6 +20,7 @@ node_modules/
 !.env.example
 *.local.yml
 *.local.yaml
+*.local.json
 secrets/
 
 # Editors and operating systems

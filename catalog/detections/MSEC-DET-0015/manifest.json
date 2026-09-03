@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0015",
+  "title": "Owner added to a Microsoft Entra application or service principal",
+  "description": "Detects a successful Microsoft Entra audit operation that adds an owner to an application registration or enterprise application service principal.",
+  "hypothesis": {
+    "summary": "An adversary or unauthorized administrator may add an owner to an application or service principal to gain durable control over the identity object.",
+    "rationale": "Application and service-principal owners can manage sensitive object configuration, credentials and permissions; Microsoft recommends monitoring ownership changes, although approved administrative transfers and application onboarding create legitimate events.",
+    "detection_goal": "Identify successful owner additions to applications and service principals while leaving failures, removals, unrelated object types and incomplete events unmatched."
+  },
+  "ownership": {
+    "owner": "MeteSec Detection Engineering",
+    "reviewers": []
+  },
+  "lifecycle": {
+    "status": "experimental",
+    "created": "2026-09-03",
+    "modified": "2026-09-03",
+    "review_interval_days": 90
+  },
+  "severity": "medium",
+  "confidence": "medium",
+  "data_sources": [
+    {
+      "name": "Microsoft Entra audit logs",
+      "category": "Identity directory audit",
+      "required_fields": ["TimeGenerated", "CorrelationId", "InitiatedBy", "LoggedByService", "OperationName", "Result", "TargetResources"]
+    }
+  ],
+  "attack": [
+    {
+      "technique_id": "T1098.003",
+      "tactic": "Privilege Escalation"
+    }
+  ],
+  "triage": {
+    "summary": "Establish the added owner, affected application object, initiating actor and business authorization, then review credential and permission changes.",
+    "steps": [
+      "Review the initiating user or application, added owner, target application or service principal, source IP and correlation identifier.",
+      "Confirm the ownership change against an approved application-onboarding, support, migration or responsibility-transfer record.",
+      "Inspect subsequent credential, permission, redirect URI and consent changes; remove the owner and contain involved identities if unauthorized."
+    ],
+    "false_positives": [
+      "Approved application onboarding, ownership transfer, support delegation and migration performed by authorized administrators"
+    ]
+  },
+  "validation": {
+    "expected_outcome": "Match successful owner additions to applications or service principals; do not match failures, removals, other object types or events without a result.",
+    "positive_tests": true,
+    "negative_tests": true
+  },
+  "implementations": [
+    {
+      "type": "sigma",
+      "path": "content/portable/sigma/MSEC-DET-0015/rule.yml",
+      "targets": ["sentinel"],
+      "status": "active"
+    }
+  ]
+}

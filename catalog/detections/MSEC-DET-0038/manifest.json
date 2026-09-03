@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0038",
+  "title": "WinRM host spawns a suspicious child process",
+  "description": "Detects wsmprovhost.exe spawning a command interpreter or administrative utility associated with remote execution.",
+  "hypothesis": {
+    "summary": "An adversary may use Windows Remote Management to execute discovery, transfer or command activity on a remote Windows endpoint.",
+    "rationale": "MITRE documents WinRM remote services and recommends correlating remote sessions with child-process creation, while SigmaHQ maintains a high-severity wsmprovhost child-process analytic; approved administration uses the same service.",
+    "detection_goal": "Identify selected command, transfer and discovery utilities spawned directly by wsmprovhost while leaving its normal hosting children, other parents, caller-side WinRS activity and missing parent context unmatched."
+  },
+  "ownership": {"owner": "MeteSec Detection Engineering", "reviewers": []},
+  "lifecycle": {"status": "experimental", "created": "2026-09-03", "modified": "2026-09-03", "review_interval_days": 90},
+  "severity": "high",
+  "confidence": "medium",
+  "data_sources": [
+    {"name": "Microsoft Defender for Endpoint process events", "category": "Endpoint process creation", "required_fields": ["TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountName", "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"]}
+  ],
+  "attack": [{"technique_id": "T1021.006", "tactic": "Lateral Movement"}],
+  "triage": {
+    "summary": "Identify the remote-management source, initiating identity and child command, then validate the session against approved administration.",
+    "steps": [
+      "Review the complete child command, account, target device, process tree and the surrounding WinRM session evidence.",
+      "Correlate network connections, remote logons, file creation, service or scheduled-task changes and follow-on processes on the target.",
+      "Confirm an approved automation, support or administration change; isolate the target and investigate the source identity when unauthorized."
+    ],
+    "false_positives": ["Approved PowerShell remoting, configuration management, support and administrative automation through WinRM"]
+  },
+  "validation": {"expected_outcome": "Match selected children spawned by wsmprovhost; do not match normal children, another parent, caller-side WinRS activity or missing parent context.", "positive_tests": true, "negative_tests": true},
+  "implementations": [{"type": "sigma", "path": "content/portable/sigma/MSEC-DET-0038/rule.yml", "targets": ["sentinel"], "status": "active"}]
+}

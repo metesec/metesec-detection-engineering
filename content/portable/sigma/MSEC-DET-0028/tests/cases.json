@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "detection_id": "MSEC-DET-0028",
+  "implementation": "content/portable/sigma/MSEC-DET-0028/rule.yml",
+  "cases": [
+    {"id": "remote-create", "expectation": "match", "fixture": "fixtures/remote-create.json", "description": "Synthetic schtasks command creates a task on a remote system."},
+    {"id": "remote-create-uppercase", "expectation": "match", "fixture": "fixtures/remote-create-uppercase.json", "description": "Synthetic uppercase schtasks switches match case-insensitively."},
+    {"id": "remote-create-with-context", "expectation": "match", "fixture": "fixtures/remote-create-with-context.json", "description": "Synthetic remote task creation includes bounded endpoint context."},
+    {"id": "local-create", "expectation": "no_match", "fixture": "fixtures/local-create.json", "description": "Synthetic local scheduled-task creation lacks a remote target."},
+    {"id": "remote-query", "expectation": "no_match", "fixture": "fixtures/remote-query.json", "description": "Synthetic remote task query does not create a task."},
+    {"id": "remote-delete", "expectation": "no_match", "fixture": "fixtures/remote-delete.json", "description": "Synthetic remote deletion does not create a task."},
+    {"id": "other-process", "expectation": "no_match", "fixture": "fixtures/other-process.json", "description": "Synthetic other binary with matching arguments is outside the rule."}
+  ]
+}

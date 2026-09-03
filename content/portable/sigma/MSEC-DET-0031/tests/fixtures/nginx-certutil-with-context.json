@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"InitiatingProcessFileName":"nginx.exe","FileName":"certutil.exe","ProcessCommandLine":"certutil.exe -verify synthetic.cer","DeviceName":"synthetic-web","AccountName":"synthetic-pool"}}

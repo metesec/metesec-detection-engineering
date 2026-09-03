@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0035",
+  "title": "Certutil decodes Base64 or hexadecimal content",
+  "description": "Detects certutil.exe using decode or decodehex to transform encoded file content.",
+  "hypothesis": {
+    "summary": "An adversary may use the trusted Certutil utility to decode an encoded payload or supporting file before execution.",
+    "rationale": "Microsoft documents Certutil's Base64 and hexadecimal decode operations, MITRE records adversary use of certutil for payload decoding and SigmaHQ maintains a comparable process analytic; legitimate PKI and support workflows remain possible.",
+    "detection_goal": "Identify Certutil decode and decodehex operations while leaving encoding, certificate inspection, incomplete decode fragments and other processes unmatched."
+  },
+  "ownership": {
+    "owner": "MeteSec Detection Engineering",
+    "reviewers": []
+  },
+  "lifecycle": {
+    "status": "experimental",
+    "created": "2026-09-03",
+    "modified": "2026-09-03",
+    "review_interval_days": 90
+  },
+  "severity": "medium",
+  "confidence": "medium",
+  "data_sources": [
+    {
+      "name": "Microsoft Defender for Endpoint process events",
+      "category": "Endpoint process creation",
+      "required_fields": ["TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountName", "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"]
+    }
+  ],
+  "attack": [
+    {"technique_id": "T1140", "tactic": "Stealth"}
+  ],
+  "triage": {
+    "summary": "Inspect both input and output files and determine whether Certutil decoded trusted certificate material or staged executable content.",
+    "steps": [
+      "Review the complete command, input and output paths, account, parent process and endpoint role.",
+      "Inspect the decoded file's type, hash, signer, origin and subsequent execution, persistence or network behavior.",
+      "Confirm an approved PKI, support or malware-analysis workflow; quarantine unexplained output and contain related execution."
+    ],
+    "false_positives": [
+      "Approved PKI, certificate-support, malware-analysis and file-conversion workflows that intentionally decode content with Certutil"
+    ]
+  },
+  "validation": {
+    "expected_outcome": "Match Certutil Base64 or hexadecimal decode operations; do not match encode, inspection, incomplete decode commands or another process.",
+    "positive_tests": true,
+    "negative_tests": true
+  },
+  "implementations": [
+    {
+      "type": "sigma",
+      "path": "content/portable/sigma/MSEC-DET-0035/rule.yml",
+      "targets": ["sentinel"],
+      "status": "active"
+    }
+  ]
+}

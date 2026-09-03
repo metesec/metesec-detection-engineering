@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"FileName":"powershell.exe","ProcessCommandLine":"powershell.exe rundll32.exe comsvcs.dll MiniDump 624 C:\\Temp\\process.dmp full"}}

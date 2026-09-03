@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"FileName":"pwsh.exe","ProcessCommandLine":"pwsh.exe Set-NetFirewallProfile -Profile Public -Enabled $false","DeviceName":"synthetic-device","AccountName":"synthetic-admin"}}

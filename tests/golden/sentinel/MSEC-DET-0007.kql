@@ -1,0 +1,3 @@
+DeviceProcessEvents
+| where (FileName in~ ("powershell.exe", "pwsh.exe")) and (ProcessCommandLine contains " -enc " or ProcessCommandLine contains " -enc:" or ProcessCommandLine contains " -encodedcommand " or ProcessCommandLine contains " -encodedcommand:")
+| project TimeGenerated, Timestamp, DeviceId, DeviceName, AccountDomain, AccountName, AccountSid, InitiatingProcessFileName, FileName, FolderPath, ProcessCommandLine, ReportId

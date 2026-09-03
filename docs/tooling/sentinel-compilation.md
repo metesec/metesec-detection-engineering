@@ -2,7 +2,30 @@
 
 The first target compiler is deliberately narrow. It converts only the Sigma implementations listed in `targets/sentinel/preview.json` with the pinned Kusto backend and the Azure Monitor processing pipeline.
 
-Each entry supplies an explicit Log Analytics table. The compiler never guesses a table because the same logical fields can be normalized differently across Sentinel workspaces and connectors. Table names are restricted to Kusto identifiers, source and Golden paths must remain inside the repository, and a source must produce exactly one query.
+Each version 2 entry supplies an explicit Log Analytics table plus its exact
+output contract. The compiler never guesses a table because the same logical
+fields can be normalized differently across Sentinel workspaces and connectors.
+Table names are restricted to Kusto identifiers, source and Golden paths must
+remain inside the repository, and a source must produce exactly one query.
+
+The output contract declares bounded `extend` expressions, the ordered final
+columns and the Account, IP or CloudApplication mappings that may consume those
+columns. The compiler appends one `project` operator, so the Golden KQL covers
+both the Sigma-generated predicate and the complete analyst-facing result shape.
+A mapping to an undeclared output column, unsupported identifier, duplicate
+field or multi-statement expression fails closed.
+
+The contract follows Microsoft's current
+[entity-mapping guidance](https://learn.microsoft.com/azure/sentinel/map-data-fields-to-entities),
+[entity identifier reference](https://learn.microsoft.com/azure/sentinel/entities-reference),
+[SigninLogs schema](https://learn.microsoft.com/azure/azure-monitor/reference/tables/signinlogs),
+[AuditLogs schema](https://learn.microsoft.com/azure/azure-monitor/reference/tables/auditlogs),
+[DeviceProcessEvents schema](https://learn.microsoft.com/defender-xdr/advanced-hunting-deviceprocessevents-table),
+[DeviceRegistryEvents schema](https://learn.microsoft.com/defender-xdr/advanced-hunting-deviceregistryevents-table)
+and
+[AADUserRiskEvents schema](https://learn.microsoft.com/azure/azure-monitor/reference/tables/aaduserriskevents).
+The rendered request shape follows the stable
+[Scheduled alert-rule REST API](https://learn.microsoft.com/rest/api/securityinsights/alert-rules/create-or-update?view=rest-securityinsights-2025-09-01).
 
 ## Install and validate
 
@@ -27,7 +50,7 @@ Generated queries are written to `dist/sentinel/<DETECTION-ID>/query.kql`. They 
 
 The separate `targets/sentinel/analytics-rules.json` profile adds explicit
 Scheduled-rule frequency, period, threshold, suppression, event-grouping and
-incident settings to the same four bindings. Validate its JSON Schema and the
+incident settings to the same forty-nine bindings. Validate its JSON Schema and the
 complete renderer with:
 
 ```powershell
@@ -50,8 +73,33 @@ no subscription, resource-group, workspace or tenant identifier.
 
 The current stable API's `techniques` field receives the ATT&CK base technique.
 The logical manifest remains authoritative for the full sub-technique, which is
-also retained in the render manifest. Entity mappings and alert overrides remain
-out of scope until the relevant output columns have their own tested contract.
+also retained in the render manifest. Entity mappings are derived only from the
+version 2 output contract and use columns returned by the exact Golden query.
+Alert overrides and custom details remain out of scope.
+
+ATT&CK's current `Defense Impairment` tactic is retained exactly in the logical
+manifest and render provenance. Microsoft SecurityInsights API `2025-09-01`
+does not expose that tactic in its `AttackTactic` enum. The renderer therefore
+omits only that unsupported target tactic instead of mislabeling it as
+`DefenseEvasion`; supported tactics on the same rule remain present.
+
+## Consumer-owned pipeline handoff
+
+The repository deliberately does not publish a second immutable Sentinel target
+archive. A consumer who needs environment-specific changes should edit the
+versioned target profiles in a reviewed branch and run this sequence inside its
+own deployment pipeline:
+
+1. run the complete repository check;
+2. render the disabled Sentinel rules to temporary pipeline storage;
+3. inspect or validate the generated request bodies against the intended Azure
+   scope;
+4. deploy through the consumer's separately approved Azure tooling;
+5. discard the temporary rendered files.
+
+The consumer owns the Azure identity, target scope, approval gates, post-deploy
+read-back and any decision to enable a rule. The MeteSec repository supplies the
+reviewed source and deterministic renderer, not those operational controls.
 
 ## Validation boundary
 
@@ -62,4 +110,17 @@ can be derived deterministically from the reviewed sources. The repository still
 contains no Azure client, authentication flow, target scope, deployment command
 or live-write capability.
 
-The read-only live probes for `MSEC-DET-0002` through `MSEC-DET-0005` used only aggregate counts in an existing user-authorized Microsoft Sentinel workspace. They established that the bound `SigninLogs` and `AuditLogs` fields were queryable and that all four compiled predicates were accepted. The legacy-client query produced a valid negative result; the high-risk sign-in, service-principal credential, and app-role assignment queries produced valid positive results. No raw rows, user identifiers, tenant identifiers, workspace identifiers, or result counts are stored here. None of these results proves that a detection is production-ready.
+The completed read-only live probes for all forty-nine bound detections used only
+aggregate counts in an existing user-authorized Microsoft Sentinel workspace.
+They established that the bound `SigninLogs`, `AuditLogs`,
+`DeviceProcessEvents`, `DeviceRegistryEvents` and `AADUserRiskEvents` fields were queryable and that all
+forty-nine generated predicates were accepted. In Wave 9, a broad Run/RunOnce
+candidate was narrowed to selected script and LOLBin payloads after its aggregate
+baseline proved too noisy. A blanket successful Device Code sign-in candidate was
+rejected and replaced by Netsh PortProxy creation because legitimate Device Code
+use could not be separated faithfully in a portable single-event Sigma rule. All
+five final Wave 9 predicates returned no match in the current 30-day aggregate
+baseline. Earlier non-zero baselines remain tuning signals rather than confirmed
+malicious activity. No raw rows, user
+identifiers, tenant identifiers, workspace identifiers or exact result counts
+are stored here. None of these results proves that a detection is production-ready.

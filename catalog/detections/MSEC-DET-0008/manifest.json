@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0008",
+  "title": "Permanent Microsoft Entra role assignment outside PIM",
+  "description": "Detects a successful permanent Microsoft Entra role assignment made outside Privileged Identity Management.",
+  "hypothesis": {
+    "summary": "An adversary may establish durable privileged access by assigning a permanent Microsoft Entra role outside PIM.",
+    "rationale": "A permanent role assignment bypasses just-in-time activation controls, but emergency access, migration, and approved administration can produce the same audit operation.",
+    "detection_goal": "Identify successful permanent role assignments outside PIM while leaving failures, eligible assignments, removals, and incomplete events unmatched."
+  },
+  "ownership": {"owner": "MeteSec Detection Engineering", "reviewers": []},
+  "lifecycle": {"status": "experimental", "created": "2026-09-03", "modified": "2026-09-03", "review_interval_days": 90},
+  "severity": "high",
+  "confidence": "medium",
+  "data_sources": [{"name":"Microsoft Entra audit logs","category":"Identity directory audit","required_fields":["TimeGenerated","OperationName","Result","InitiatedBy","TargetResources","CorrelationId"]}],
+  "attack": [{"technique_id":"T1098.003","tactic":"Privilege Escalation"}],
+  "triage": {
+    "summary": "Validate the initiator, assigned principal, role, assignment scope, and change authorization before treating the permanent assignment as malicious.",
+    "steps": [
+      "Identify the initiating identity, target principal, assigned role, directory scope, and assignment timestamp from the audit record.",
+      "Confirm whether an approved emergency-access, migration, or administrative change required a permanent assignment outside PIM.",
+      "Review adjacent role and credential changes, then remove unauthorized access and investigate the initiating identity."
+    ],
+    "false_positives": ["Approved emergency-access accounts, migrations, break-glass procedures, and administrative changes"]
+  },
+  "validation": {"expected_outcome":"Match only successful permanent role assignments outside PIM; do not match failures, eligible assignments, removals, or missing results.","positive_tests":true,"negative_tests":true},
+  "implementations": [{"type":"sigma","path":"content/portable/sigma/MSEC-DET-0008/rule.yml","targets":["sentinel"],"status":"active"}]
+}

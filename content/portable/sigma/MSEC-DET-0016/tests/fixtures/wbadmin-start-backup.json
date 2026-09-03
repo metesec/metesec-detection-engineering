@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"FileName":"wbadmin.exe","ProcessCommandLine":"wbadmin.exe start backup -backupTarget:E:"}}

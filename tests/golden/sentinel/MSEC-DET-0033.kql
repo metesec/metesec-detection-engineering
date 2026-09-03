@@ -1,0 +1,3 @@
+DeviceProcessEvents
+| where (FileName =~ "netsh.exe" and (ProcessCommandLine contains "advfirewall" and ProcessCommandLine contains " set " and ProcessCommandLine contains " state " and ProcessCommandLine contains " off")) or ((FileName in~ ("powershell.exe", "pwsh.exe")) and (ProcessCommandLine contains "Set-NetFirewallProfile" and ProcessCommandLine contains "-Enabled") and (ProcessCommandLine contains "False" or ProcessCommandLine contains "$false"))
+| project TimeGenerated, Timestamp, DeviceId, DeviceName, AccountDomain, AccountName, AccountSid, InitiatingProcessFileName, FileName, FolderPath, ProcessCommandLine, ReportId

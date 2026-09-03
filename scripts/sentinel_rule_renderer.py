@@ -50,6 +50,11 @@ _TACTICS = {
     "Persistence": "Persistence",
     "Privilege Escalation": "PrivilegeEscalation",
     "Defense Evasion": "DefenseEvasion",
+    # ATT&CK introduced Defense Impairment and Stealth after the Sentinel
+    # 2025-09-01 AttackTactic enum was published. Keep the source mappings exact
+    # and omit only unsupported target tactics instead of mislabeling them.
+    "Defense Impairment": None,
+    "Stealth": None,
     "Credential Access": "CredentialAccess",
     "Discovery": "Discovery",
     "Lateral Movement": "LateralMovement",
@@ -242,6 +247,22 @@ def _stable_rule_id(detection_id: str) -> str:
     return str(uuid.uuid5(uuid.NAMESPACE_URL, f"{RULE_ID_URL_PREFIX}{detection_id}"))
 
 
+def _entity_mappings(target: SentinelTarget) -> list[dict[str, object]]:
+    return [
+        {
+            "entityType": mapping.entity_type,
+            "fieldMappings": [
+                {
+                    "identifier": field.identifier,
+                    "columnName": field.column,
+                }
+                for field in mapping.field_mappings
+            ],
+        }
+        for mapping in target.output.entity_mappings
+    ]
+
+
 def _target_tactics(attack: object, detection_id: str) -> tuple[list[str], list[str], list[dict[str, str]]]:
     if not isinstance(attack, list):
         raise SentinelRuleRenderError(f"{detection_id}: manifest attack must be an array")
@@ -259,7 +280,7 @@ def _target_tactics(attack: object, detection_id: str) -> tuple[list[str], list[
             raise SentinelRuleRenderError(f"{detection_id}: unsupported Sentinel tactic {tactic!r}")
         sentinel_tactic = _TACTICS[str(tactic)]
         base_technique = technique.split(".", maxsplit=1)[0]
-        if sentinel_tactic not in tactics:
+        if sentinel_tactic is not None and sentinel_tactic not in tactics:
             tactics.append(sentinel_tactic)
         if base_technique not in techniques:
             techniques.append(base_technique)
@@ -303,6 +324,7 @@ def _render_one(
         manifest.get("attack"), target.detection_id
     )
     rule_id = _stable_rule_id(target.detection_id)
+    entity_mappings = _entity_mappings(target)
     request_body: dict[str, object] = {
         "kind": "Scheduled",
         "properties": {
@@ -313,6 +335,7 @@ def _render_one(
             "tactics": tactics,
             "techniques": techniques,
             "query": compiled.query,
+            "entityMappings": entity_mappings,
             "queryFrequency": settings.query_frequency,
             "queryPeriod": settings.query_period,
             "triggerOperator": settings.trigger_operator,
@@ -350,6 +373,8 @@ def _render_one(
             "implementation": profile_relative(target.implementation, root),
             "golden_query": profile_relative(target.golden, root),
             "attack": source_attack,
+            "output_columns": list(target.output.columns),
+            "entity_mappings": entity_mappings,
         },
         "artifacts": {
             "analytics_rule": {

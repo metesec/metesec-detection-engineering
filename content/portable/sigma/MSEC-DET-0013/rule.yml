@@ -1,0 +1,43 @@
+title: Regsvr32 References a Remote Scriptlet or DLL
+id: ff81648c-af33-4d98-80c8-94e03d6d73f9
+status: experimental
+description: Detects regsvr32 command lines that combine an install flag with a remote HTTP, HTTPS, or FTP resource.
+references:
+  - https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table
+  - https://attack.mitre.org/techniques/T1218/010/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_regsvr32_network_pattern.yml
+author: MeteSec Detection Engineering
+date: 2026-09-03
+tags:
+  - attack.defense-evasion
+  - attack.t1218.010
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection_image:
+    FileName: regsvr32.exe
+  selection_install:
+    ProcessCommandLine|contains:
+      - ' /i'
+      - ' -i'
+  selection_remote:
+    ProcessCommandLine|contains:
+      - 'http://'
+      - 'https://'
+      - 'ftp://'
+  condition: selection_image and selection_install and selection_remote
+fields:
+  - TimeGenerated
+  - Timestamp
+  - DeviceId
+  - DeviceName
+  - AccountName
+  - InitiatingProcessFileName
+  - FileName
+  - FolderPath
+  - ProcessCommandLine
+  - ReportId
+falsepositives:
+  - Approved installers, software-management products, and administrative registration workflows using a remote resource.
+level: medium

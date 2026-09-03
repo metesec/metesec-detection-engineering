@@ -1,0 +1,40 @@
+title: Scheduled Task Created on a Remote Windows System
+id: 0b7dc650-bd67-451e-b006-c27a85bffe8d
+status: experimental
+description: Detects schtasks.exe creating a scheduled task while targeting a remote computer through the /s option.
+references:
+  - https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/schtasks-create
+  - https://attack.mitre.org/techniques/T1053/005/
+  - https://github.com/SigmaHQ/sigma/tree/master/rules/windows/process_creation
+author: MeteSec Detection Engineering
+date: 2026-09-03
+tags:
+  - attack.execution
+  - attack.persistence
+  - attack.privilege-escalation
+  - attack.t1053.005
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection_image:
+    FileName: schtasks.exe
+  selection_create:
+    ProcessCommandLine|contains: '/create'
+  selection_remote:
+    ProcessCommandLine|contains: ' /s '
+  condition: selection_image and selection_create and selection_remote
+fields:
+  - TimeGenerated
+  - Timestamp
+  - DeviceId
+  - DeviceName
+  - AccountName
+  - InitiatingProcessFileName
+  - FileName
+  - FolderPath
+  - ProcessCommandLine
+  - ReportId
+falsepositives:
+  - Approved remote administration, software deployment, and maintenance workflows.
+level: medium

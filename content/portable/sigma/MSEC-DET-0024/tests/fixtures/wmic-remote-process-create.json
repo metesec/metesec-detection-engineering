@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "event": {
+    "FileName": "wmic.exe",
+    "ProcessCommandLine": "wmic.exe /node:host.example.invalid process call create \"cmd.exe /c whoami\""
+  }
+}

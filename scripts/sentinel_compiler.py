@@ -19,10 +19,40 @@ except ImportError:  # Support direct execution from the scripts directory.
 
 EXPECTED_KUSTO_BACKEND_VERSION = "1.0.1"
 _TABLE_NAME = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
+_ENTITY_IDENTIFIERS = {
+    "Account": {"Name", "UPNSuffix", "AadUserId"},
+    "IP": {"Address"},
+    "CloudApplication": {"AppId", "Name", "InstanceName"},
+}
 
 
 class SentinelCompilationError(ValueError):
     """Raised when a target profile or compilation result fails closed."""
+
+
+@dataclass(frozen=True)
+class SentinelOutputExtension:
+    column: str
+    expression: str
+
+
+@dataclass(frozen=True)
+class SentinelEntityFieldMapping:
+    identifier: str
+    column: str
+
+
+@dataclass(frozen=True)
+class SentinelEntityMapping:
+    entity_type: str
+    field_mappings: tuple[SentinelEntityFieldMapping, ...]
+
+
+@dataclass(frozen=True)
+class SentinelOutputContract:
+    extensions: tuple[SentinelOutputExtension, ...]
+    columns: tuple[str, ...]
+    entity_mappings: tuple[SentinelEntityMapping, ...]
 
 
 @dataclass(frozen=True)
@@ -31,6 +61,7 @@ class SentinelTarget:
     implementation: Path
     query_table: str
     golden: Path
+    output: SentinelOutputContract
 
 
 @dataclass(frozen=True)
@@ -62,6 +93,129 @@ def verify_backend_version() -> None:
         )
 
 
+def _load_output_contract(raw: object, label: str) -> SentinelOutputContract:
+    if not isinstance(raw, dict) or set(raw) != {
+        "extend",
+        "columns",
+        "entity_mappings",
+    }:
+        raise SentinelCompilationError(
+            f"{label} must contain exactly extend, columns, and entity_mappings"
+        )
+
+    raw_extensions = raw["extend"]
+    if not isinstance(raw_extensions, list):
+        raise SentinelCompilationError(f"{label}.extend must be an array")
+    extensions: list[SentinelOutputExtension] = []
+    extension_columns: set[str] = set()
+    for index, item in enumerate(raw_extensions):
+        item_label = f"{label}.extend[{index}]"
+        if not isinstance(item, dict) or set(item) != {"column", "expression"}:
+            raise SentinelCompilationError(
+                f"{item_label} must contain exactly column and expression"
+            )
+        column = item["column"]
+        expression = item["expression"]
+        if not isinstance(column, str) or _TABLE_NAME.fullmatch(column) is None:
+            raise SentinelCompilationError(f"{item_label}.column is invalid")
+        if column in extension_columns:
+            raise SentinelCompilationError(f"{item_label}.column is duplicated")
+        if (
+            not isinstance(expression, str)
+            or not expression.strip()
+            or any(character in expression for character in ("\r", "\n", "|", ";"))
+        ):
+            raise SentinelCompilationError(
+                f"{item_label}.expression must be one bounded KQL expression"
+            )
+        extension_columns.add(column)
+        extensions.append(SentinelOutputExtension(column=column, expression=expression))
+
+    raw_columns = raw["columns"]
+    if not isinstance(raw_columns, list) or not raw_columns:
+        raise SentinelCompilationError(f"{label}.columns must be a non-empty array")
+    columns: list[str] = []
+    for index, column in enumerate(raw_columns):
+        if not isinstance(column, str) or _TABLE_NAME.fullmatch(column) is None:
+            raise SentinelCompilationError(f"{label}.columns[{index}] is invalid")
+        if column in columns:
+            raise SentinelCompilationError(f"{label}.columns[{index}] is duplicated")
+        columns.append(column)
+    missing_extensions = extension_columns.difference(columns)
+    if missing_extensions:
+        raise SentinelCompilationError(
+            f"{label}.columns omits extended output {sorted(missing_extensions)}"
+        )
+
+    raw_entity_mappings = raw["entity_mappings"]
+    if not isinstance(raw_entity_mappings, list) or len(raw_entity_mappings) > 10:
+        raise SentinelCompilationError(
+            f"{label}.entity_mappings must contain at most 10 mappings"
+        )
+    entity_mappings: list[SentinelEntityMapping] = []
+    seen_mappings: set[tuple[str, tuple[tuple[str, str], ...]]] = set()
+    for index, item in enumerate(raw_entity_mappings):
+        item_label = f"{label}.entity_mappings[{index}]"
+        if not isinstance(item, dict) or set(item) != {
+            "entity_type",
+            "field_mappings",
+        }:
+            raise SentinelCompilationError(
+                f"{item_label} must contain exactly entity_type and field_mappings"
+            )
+        entity_type = item["entity_type"]
+        if entity_type not in _ENTITY_IDENTIFIERS:
+            raise SentinelCompilationError(f"{item_label}.entity_type is unsupported")
+        raw_fields = item["field_mappings"]
+        if not isinstance(raw_fields, list) or not 1 <= len(raw_fields) <= 3:
+            raise SentinelCompilationError(
+                f"{item_label}.field_mappings must contain one to three mappings"
+            )
+        field_mappings: list[SentinelEntityFieldMapping] = []
+        seen_identifiers: set[str] = set()
+        for field_index, field in enumerate(raw_fields):
+            field_label = f"{item_label}.field_mappings[{field_index}]"
+            if not isinstance(field, dict) or set(field) != {"identifier", "column"}:
+                raise SentinelCompilationError(
+                    f"{field_label} must contain exactly identifier and column"
+                )
+            identifier = field["identifier"]
+            column = field["column"]
+            if identifier not in _ENTITY_IDENTIFIERS[str(entity_type)]:
+                raise SentinelCompilationError(
+                    f"{field_label}.identifier is invalid for {entity_type}"
+                )
+            if identifier in seen_identifiers:
+                raise SentinelCompilationError(f"{field_label}.identifier is duplicated")
+            if column not in columns:
+                raise SentinelCompilationError(
+                    f"{field_label}.column is not a declared output column"
+                )
+            seen_identifiers.add(str(identifier))
+            field_mappings.append(
+                SentinelEntityFieldMapping(identifier=str(identifier), column=str(column))
+            )
+        signature = (
+            str(entity_type),
+            tuple((field.identifier, field.column) for field in field_mappings),
+        )
+        if signature in seen_mappings:
+            raise SentinelCompilationError(f"{item_label} is duplicated")
+        seen_mappings.add(signature)
+        entity_mappings.append(
+            SentinelEntityMapping(
+                entity_type=str(entity_type),
+                field_mappings=tuple(field_mappings),
+            )
+        )
+
+    return SentinelOutputContract(
+        extensions=tuple(extensions),
+        columns=tuple(columns),
+        entity_mappings=tuple(entity_mappings),
+    )
+
+
 def load_target_profile(repo_root: Path, profile_path: Path) -> list[SentinelTarget]:
     try:
         profile = json.loads(profile_path.read_text(encoding="utf-8"))
@@ -76,14 +230,14 @@ def load_target_profile(repo_root: Path, profile_path: Path) -> list[SentinelTar
         )
 
     expected_header = {
-        "schema_version": 1,
+        "schema_version": 2,
         "target": "microsoft-sentinel",
         "backend": "kusto",
         "pipeline": "azure_monitor",
     }
     if set(profile) != {*expected_header, "detections"}:
         raise SentinelCompilationError(
-            f"{profile_path.as_posix()}: profile keys do not match version 1"
+            f"{profile_path.as_posix()}: profile keys do not match version 2"
         )
     for key, expected in expected_header.items():
         if profile.get(key) != expected:
@@ -97,7 +251,7 @@ def load_target_profile(repo_root: Path, profile_path: Path) -> list[SentinelTar
             f"{profile_path.as_posix()}: detections must be a non-empty array"
         )
 
-    allowed_keys = {"id", "implementation", "query_table", "golden"}
+    allowed_keys = {"id", "implementation", "query_table", "golden", "output"}
     targets: list[SentinelTarget] = []
     seen_ids: set[str] = set()
 
@@ -126,6 +280,7 @@ def load_target_profile(repo_root: Path, profile_path: Path) -> list[SentinelTar
             repo_root, implementation_path, f"{label}.implementation"
         )
         golden = _resolve_inside(repo_root, entry["golden"], f"{label}.golden")
+        output = _load_output_contract(entry["output"], f"{label}.output")
 
         if detection_id not in implementation.parts:
             raise SentinelCompilationError(
@@ -166,6 +321,7 @@ def load_target_profile(repo_root: Path, profile_path: Path) -> list[SentinelTar
                 implementation=implementation,
                 query_table=query_table,
                 golden=golden,
+                output=output,
             )
         )
 
@@ -189,7 +345,10 @@ def compile_target(target: SentinelTarget) -> CompiledSentinelQuery:
             f"{target.detection_id}: compiler did not produce exactly one KQL query"
         )
 
-    query = queries[0].replace("\r\n", "\n").rstrip() + "\n"
+    query = queries[0].replace("\r\n", "\n").rstrip()
+    for extension in target.output.extensions:
+        query += f"\n| extend {extension.column} = {extension.expression}"
+    query += f"\n| project {', '.join(target.output.columns)}\n"
     return CompiledSentinelQuery(
         detection_id=target.detection_id,
         query=query,

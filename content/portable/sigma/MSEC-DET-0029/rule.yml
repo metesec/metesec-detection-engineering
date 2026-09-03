@@ -1,0 +1,52 @@
+title: Account Added to the Local Administrators Group
+id: 8ae70d41-eadb-49b7-a8ef-0f0589be5e7f
+status: experimental
+description: Detects net.exe, net1.exe or PowerShell adding an account to the built-in local Administrators group.
+references:
+  - https://attack.mitre.org/techniques/T1098/007/
+  - https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.localaccounts/add-localgroupmember
+  - https://learn.microsoft.com/en-us/windows/security/identity-protection/access-control/local-accounts
+author: MeteSec Detection Engineering
+date: 2026-09-03
+tags:
+  - attack.persistence
+  - attack.privilege-escalation
+  - attack.t1098.007
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection_net_image:
+    FileName:
+      - net.exe
+      - net1.exe
+  selection_net_action:
+    ProcessCommandLine|contains|all:
+      - 'localgroup'
+      - '/add'
+  selection_powershell_image:
+    FileName:
+      - powershell.exe
+      - pwsh.exe
+  selection_powershell_action:
+    ProcessCommandLine|contains: 'Add-LocalGroupMember'
+  selection_group:
+    ProcessCommandLine|contains:
+      - 'Administrators'
+      - 'Administratoren'
+      - 'S-1-5-32-544'
+  condition: ((selection_net_image and selection_net_action) or (selection_powershell_image and selection_powershell_action)) and selection_group
+fields:
+  - TimeGenerated
+  - Timestamp
+  - DeviceId
+  - DeviceName
+  - AccountName
+  - InitiatingProcessFileName
+  - FileName
+  - FolderPath
+  - ProcessCommandLine
+  - ReportId
+falsepositives:
+  - Approved endpoint provisioning, support access, and software-management workflows.
+level: high
