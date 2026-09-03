@@ -47,8 +47,8 @@ Target status: forty-four explicitly bound rules across `SigninLogs`, `AuditLogs
 `DeviceProcessEvents`, `DeviceRegistryEvents` and `AADUserRiskEvents`
 compile to reviewed Golden queries and render into deterministic disabled Scheduled-rule
 REST bodies with stable rule IDs, governed output fields, entity mappings and
-provenance hashes. The first thirty-nine have passed separate read-only live
-query-acceptance probes; the five Wave 8 predicates still require that live probe.
+provenance hashes. All forty-four have passed separate read-only live
+query-acceptance probes.
 Consumers render temporary files in their own pipeline;
 MeteSec deliberately publishes no separate prebuilt Sentinel target archive and
 implements no deployment.
@@ -100,7 +100,7 @@ Status: **in progress**
 - [x] Complete Wave 5: 30 of 50 Sigma detections
 - [x] Complete Wave 6: 35 of 50 Sigma detections
 - [x] Complete Wave 7: 40 of 50 Sigma detections
-- [ ] Complete Wave 8: 45 of 50 Sigma detections
+- [x] Complete Wave 8: 45 of 50 Sigma detections
 - [ ] Complete Wave 9: 50 of 50 Sigma detections
 - [x] Pass every applicable manifest, package, Sigma, synthetic-fixture,
   Sentinel compilation, Golden-query, disabled-renderer, source, lifecycle and
@@ -115,12 +115,13 @@ Wave 8 added CMSTP child-process execution, Odbcconf DLL registration, remote
 Msiexec package installation, remote InstallUtil content and suspicious MSBuild
 children. Each has three positive and four negative synthetic cases, a reviewed
 KQL Golden, an explicit source contract and a disabled Scheduled-rule body. The
-complete local validation passes, but the five live query-acceptance probes remain
-open because the current Defender browser sessions could not be attached and no
-authenticated command-line client was available. No raw row or identifying result
-was accessed or retained. The next milestone is to complete that bounded read-only
-probe and then research Wave 9 toward 50 of 50; release-readiness review begins only
-after the complete fifty-rule pack is verified.
+complete local validation passes and all five predicates passed the bounded
+read-only live query-acceptance probe. Four returned no match in the current
+30-day aggregate baseline; the remote-MSI predicate returned a small non-zero
+aggregate result across several devices and remains tuning-required. No raw row,
+exact count or identifying result was retained. The next milestone is to research
+Wave 9 toward 50 of 50; release-readiness review begins only after the complete
+fifty-rule pack is verified.
 
 ## Future Signal
 

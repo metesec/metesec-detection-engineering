@@ -2083,3 +2083,50 @@ planned Sigma detections now exist, forty-four have deterministic disabled
 Sentinel output and the single unsupported Windows Event dependency remains
 explicit. The bounded live acceptance probe for the five new predicates is the
 remaining Wave 8 gate before Wave 9 research begins.
+
+## 2026-09-03 — Wave 8 live query acceptance completed
+
+### Scope and method
+
+- Repeated the authorized read-only validation in an already authenticated
+  Microsoft Defender Advanced Hunting session after the earlier browser-control
+  attachment failure.
+- Executed each `MSEC-DET-0041` through `MSEC-DET-0045` predicate separately
+  against its existing `DeviceProcessEvents` binding with a bounded 30-day
+  window and only aggregate match and distinct-device output.
+- Did not open result groups or inspect raw events, identities, process command
+  lines, device names or target identifiers.
+
+### Results
+
+- All five Wave 8 predicates were accepted and completed successfully in the
+  target query engine.
+- `MSEC-DET-0041`, `MSEC-DET-0042`, `MSEC-DET-0044` and `MSEC-DET-0045`
+  returned no match in the current aggregate baseline.
+- `MSEC-DET-0043` returned a small non-zero aggregate result across several
+  devices. This is a tuning signal only and is not treated as confirmed
+  malicious activity or as production-readiness evidence.
+- An initial editor attempt retained unrelated text from a previous query and
+  was rejected as a syntax error. The editor was cleared, the intended bounded
+  query was verified visibly and the successful result above supersedes that
+  failed editor attempt.
+- The complete aggregate repository check passed 83 unit tests plus every
+  structural, generated-output, Golden, lifecycle, runtime and release gate;
+  `git diff --check` also passed. Two earlier launches selected Python runtimes
+  without the pinned dependencies and stopped before the Python test suite;
+  rerunning unchanged with the existing repository virtual environment passed.
+
+### Explicitly untouched
+
+- No analytics rule was created, deployed, enabled, saved or modified.
+- No environment-specific allowlist, exception, tuning overlay, raw live data,
+  exact result count or target identifier was stored in the repository.
+- No commit was pushed. Forgejo, the GitHub mirror and the immutable published
+  `v0.1.0` release remain unchanged.
+
+### Result
+
+Wave 8 is complete: forty-five of fifty planned Sigma detections exist, all
+forty-four Sentinel-bound predicates have passed bounded live query acceptance,
+and the single Windows Event detection remains intentionally unbound. Wave 9 is
+the next milestone toward the fifty-rule version 1 pack.

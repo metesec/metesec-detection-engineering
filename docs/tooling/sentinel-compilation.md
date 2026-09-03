@@ -110,11 +110,13 @@ can be derived deterministically from the reviewed sources. The repository still
 contains no Azure client, authentication flow, target scope, deployment command
 or live-write capability.
 
-The completed read-only live probes for the first thirty-nine bound detections used only
+The completed read-only live probes for all forty-four bound detections used only
 aggregate counts in an existing user-authorized Microsoft Sentinel workspace.
 They established that the bound `SigninLogs`, `AuditLogs`,
 `DeviceProcessEvents`, `DeviceRegistryEvents` and `AADUserRiskEvents` fields were queryable and that all
-those thirty-nine generated predicates were accepted. The five Wave 8 predicates
-still await the same bounded live acceptance check. No raw rows, user
-identifiers, tenant identifiers, workspace identifiers or result counts are
-stored here. None of these results proves that a detection is production-ready.
+forty-four generated predicates were accepted. In Wave 8, four predicates returned
+no match in the current 30-day aggregate baseline and the remote-MSI predicate
+returned a small non-zero result across several devices, requiring tuning rather
+than being treated as confirmed malicious activity. No raw rows, user
+identifiers, tenant identifiers, workspace identifiers or exact result counts
+are stored here. None of these results proves that a detection is production-ready.

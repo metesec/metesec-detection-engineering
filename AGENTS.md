@@ -43,7 +43,7 @@ multi-implementation resolver belongs in the active version 1 design.
 - Current phase: `0.1 — Functional Foundation`, `0.2 — Microsoft Sentinel Target` and `0.3 — Detection Operations` are complete; `0.4 — Sigma Detection Pack Expansion` is in progress
 - Current development-package version: `0.4.0`; the published `v0.1.0` artifact remains immutable and unchanged
 - Version 1 release direction: fifty authored Sigma detections, Microsoft Sentinel as the only supported target, and no native-rule or resolver path in the active roadmap
-- Expansion baseline: forty-five of fifty planned Sigma detections are implemented; Waves 1 through 7 are complete, Wave 8 is locally implemented and awaits only its bounded live query-acceptance probe, and Wave 9 remains the final expansion milestone
+- Expansion baseline: forty-five of fifty planned Sigma detections are implemented; Waves 1 through 8 are complete, including their bounded live query-acceptance probes, and Wave 9 remains the final expansion milestone
 - Logical manifest contract: version 1 implemented as JSON Schema Draft 2020-12
 - Contract examples: one valid draft and one deliberately invalid stable-state example
 - Structural validation: executable with pinned Ajv `8.17.1`; the valid example is accepted and the invalid example is rejected
@@ -83,7 +83,7 @@ multi-implementation resolver belongs in the active version 1 design.
 - Alert-outcome boundary: optional alert and incident counts are preserved as informational context only and never influence runtime health; a successful on-time execution with zero alerts is healthy, while missing, disabled, failed or stale rules remain independently visible
 - Renderer output boundary: each ignored `dist/sentinel/<DETECTION-ID>/` directory contains `query.kql`, `analytics-rule.json` and `render-manifest.json`; no Azure resource scope, tenant identifier, credential, HTTP client, authentication flow, deployment command or live-write capability exists
 - Renderer publication: Forgejo PR `#7` merged through protected `main` as `e8bebd5d3e72218b32378cd3e4f850d047d778ad`; branch run `#12` and merged-main run `#13` passed, and the GitHub distribution mirror resolved to the exact same commit
-- Live target probes: authorized read-only workspace checks accepted the first thirty-nine generated predicates in bounded aggregate form. Waves 1 through 6 retain their previously documented mixed baseline results. In Wave 7, `MSEC-DET-0036`, `MSEC-DET-0037`, `MSEC-DET-0038` and `MSEC-DET-0040` returned no match in the current 30-day aggregate baseline; `MSEC-DET-0039` returned a small non-zero aggregate result across several devices and is explicitly tuning-required rather than treated as confirmed malicious activity. The complete generated `DeviceRegistryEvents` query also executed successfully with zero results in the current portal time range. Wave 8 live query acceptance remains pending because the current Defender browser sessions could not be attached and no authenticated Azure CLI was available; no live result is claimed for `MSEC-DET-0041` through `MSEC-DET-0045`. No exact count, raw row, user, device, tenant, subscription or workspace identifier is stored in the repository
+- Live target probes: authorized read-only workspace checks accepted all forty-four generated predicates in bounded aggregate form. Waves 1 through 6 retain their previously documented mixed baseline results. In Wave 7, `MSEC-DET-0036`, `MSEC-DET-0037`, `MSEC-DET-0038` and `MSEC-DET-0040` returned no match in the current 30-day aggregate baseline; `MSEC-DET-0039` returned a small non-zero aggregate result across several devices and is explicitly tuning-required rather than treated as confirmed malicious activity. The complete generated `DeviceRegistryEvents` query also executed successfully with zero results in the current portal time range. In Wave 8, `MSEC-DET-0041`, `MSEC-DET-0042`, `MSEC-DET-0044` and `MSEC-DET-0045` returned no match in the bounded 30-day aggregate baseline; `MSEC-DET-0043` returned a small non-zero aggregate result across several devices and is explicitly tuning-required rather than treated as confirmed malicious activity. No exact count, raw row, user, device, tenant, subscription or workspace identifier is stored in the repository
 - Read-only expansion inventory: workspace metadata confirmed recent candidate source families for Entra identity, Defender endpoint, email, network and Sentinel operations; selected schema-only checks confirmed the fields needed to review a first Sigma wave, while no raw event, live output, environment identifier or copied result is stored in the repository
 - Inventory operating guide: `docs/tooling/sentinel-source-inventory.md` provides metadata-only `Usage`, `getschema` and coarse freshness queries, explicitly forbids unrestricted raw-data search and keeps all environment-specific worksheets outside the repository
 - `MSEC-DET-0001` remains intentionally unbound because the available target has no suitable Windows event telemetry; it has no Sentinel compatibility claim
@@ -188,10 +188,8 @@ After every completed milestone:
 
 ## Immediate next milestone
 
-Complete the bounded read-only live query-acceptance probe for `MSEC-DET-0041`
-through `MSEC-DET-0045` without storing raw rows, exact counts or target
-identifiers. Then research and review Wave 9 toward 50 of 50 Sigma detections
-from confirmed target telemetry, adding only non-duplicate mechanisms that
+Research and review Wave 9 toward 50 of 50 Sigma detections from confirmed
+target telemetry, adding only non-duplicate mechanisms that
 remain faithful and useful as portable Sigma. Do not add native KQL, deploy or
 enable Sentinel rules, publish a separate target archive or store raw live query
 output. Release readiness begins only after the fifty-rule pack is complete.
