@@ -68,4 +68,11 @@ trusted trigger set, a different runner label, missing read-only permission,
 persisted checkout credentials, an unpinned remote action, changed tool
 versions, or a command that no longer runs the complete repository validation.
 
-Local checks prove the YAML can be parsed and that the documented safety contract is present. A successful run on the actual Forgejo runner is still required before the server-side pipeline is considered operational or used as a release gate.
+The live Forgejo pipeline is operational. Branch run `#1` and canonical main run
+`#4` completed the full aggregate check successfully. Isolated verification run
+`#2` changed only the valid example's schema version and failed with the direct
+message `valid/draft-windows-service-install.json: /schema_version must be equal
+to constant`; cleanup run `#3` restored the valid source and passed. These runs
+prove dispatch, toolchain, pass behavior, failure behavior and readable output.
+They do not add SIEM deployment capability or make `host` mode safe for public
+pull-request code.

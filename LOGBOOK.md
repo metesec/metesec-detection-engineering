@@ -578,3 +578,85 @@ All repository checks were available through one local command, but no Forgejo w
 ### Result
 
 The repository now contains a minimal, immutable, secret-free Forgejo validation definition that is enforced by its own local tests. It is not yet an operational release gate; the next milestone is a successful run on a correctly isolated canonical Forgejo runner.
+
+## 2026-09-03 — Dedicated Forgejo validation runner proven on canonical main
+
+### Starting state
+
+The validation workflow and its local contract passed, but Forgejo had no runner
+allowed to execute the repository. The existing Blog runner combined a Blog-only
+identity with BuildKit and publication capability and was therefore outside this
+repository's validation boundary.
+
+### Decision
+
+- Use a separate repository-scoped runner and the unique
+  `metesec-detection-validate` label.
+- Give the runner no Kubernetes token or RBAC, host path, runtime or BuildKit
+  socket, deployment credential, publisher credential, cloud credential or SIEM
+  credential.
+- Run only trusted pushes and manual dispatch while Forgejo `host` mode lacks
+  hard per-job container isolation. Do not execute public pull-request code.
+- Verify both a complete pass and a deliberate readable failure before accepting
+  the pipeline as operational.
+
+### Changes
+
+- Bound the workflow to the dedicated runner label and removed the automatic
+  pull-request trigger.
+- Reused exact Node.js `24.19.0` and Python `3.12.13` runner toolchains, while
+  pnpm `11.19.0` and the Python virtual environment are created under the
+  disposable job directory.
+- Updated the workflow contract and operator guide to enforce the trusted trigger
+  set, runner label, exact toolchain, immutable checkout action and complete
+  repository validation command.
+- Merged Forgejo Pull Request `#3` as
+  `6157d748c7b36889fa4048dffdec5880da464a07`.
+
+### Problems and corrections
+
+- The installed Forgejo CLI models `--secret-stdin` as a string option. The first
+  registration used the bare form, which consumed the following scope argument
+  and briefly created a global runner. The Deployment was immediately paused,
+  the exact cause was confirmed from Forgejo `15.0.6` source, and registration
+  was corrected with `--secret-stdin=true` before any repository job ran.
+- The first runtime start copied Python's `/usr/local` tree but omitted Alpine
+  libraries under `/usr/lib`; the Python smoke test failed on `libsqlite3.so.0`.
+  The rollback trap returned the Deployment to zero replicas. A separate
+  read-only library volume and `LD_LIBRARY_PATH` fixed the runtime before the
+  runner was accepted.
+- The public run API returned status but not job-detail logs. The public Forgejo
+  Actions view was therefore used to confirm the exact human-readable validation
+  error.
+
+### Verification
+
+- Live runner checks confirmed exact repository scope, label, toolchain versions,
+  zero restarts, missing Kubernetes token and runtime sockets, zero Service and
+  zero RoleBinding; the Blog runner remained Ready and unchanged.
+- Branch run `#1` for commit `c6768c3d1cefda6732c99f2866a9906168dcc379`
+  passed the full aggregate repository check.
+- Isolated run `#2` for commit
+  `c2a1373a6be3662168ed05ace7351fba9298ea8e` failed as intended and displayed
+  `valid/draft-windows-service-install.json: /schema_version must be equal to
+  constant`.
+- Cleanup run `#3` passed after restoring the valid example, and canonical main
+  run `#4` passed after Pull Request `#3` merged.
+- The separate infrastructure state was protected by a verified Forgejo logical
+  database backup before registration. No credential value was printed or added
+  to this repository.
+
+### Explicitly untouched
+
+- No branch protection was enabled and no release artifact was published.
+- No detection logic, committed fixture, generated catalogue entry, Sentinel
+  Golden query, live workspace, cloud resource or SIEM deployment changed.
+- The Blog runner, mirror direction, GitHub settings, Website and production Blog
+  remained unchanged.
+
+### Result
+
+The canonical Forgejo repository now has a proven validation-only pipeline with
+both successful main execution and readable rejection behavior. It can be used
+for trusted changes; public pull-request execution remains out of scope until
+hard job isolation is implemented.
