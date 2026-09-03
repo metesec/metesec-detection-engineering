@@ -53,13 +53,13 @@ implements no deployment.
 
 ## 0.3 — Detection Operations
 
-Status: **in progress**
+Status: **complete**
 
 - [x] Introduce data-source contracts
 - [x] Keep target rendering consumer-owned instead of publishing deployment bundles
 - [x] Generate ATT&CK and data-source coverage reports
 - [x] Introduce lifecycle and review-cadence validation
-- [ ] Add rule-execution and alert-outcome health definitions
+- [x] Add rule-execution and alert-outcome health definitions
 
 Current status: `SigninLogs` and `AuditLogs` have exact field and type
 requirements, freshness expectations, preview-consumer relationships and a
@@ -75,6 +75,12 @@ Lifecycle validation now derives review dates from existing manifest fields,
 fails on due or overdue records and can enforce forward-only transitions when a
 consumer supplies a previous catalogue baseline. No runtime status file is
 committed.
+
+Rule-runtime validation now derives the expected four execution schedules from
+the Sentinel analytics-rule profile and evaluates a consumer-supplied local
+observation as `healthy`, `degraded`, `failed` or `unknown`. Alert and incident
+counts are optional context and never influence health; no Azure client, live
+observation or runtime assessment is committed.
 
 ## 0.4 — Native Implementations and Resolution
 

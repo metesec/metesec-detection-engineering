@@ -11,11 +11,13 @@ portable Sigma rules, synthetic positive and negative fixtures, explicit
 Microsoft Sentinel preview bindings, reviewed Golden KQL snapshots, essential
 scope documentation, Sentinel data-source contract, the security policy and the
 generated ATT&CK/data-source coverage report, and the Apache-2.0 license.
-The versioned lifecycle policy and its schemas are included; runtime lifecycle
-assessments are not.
+The versioned lifecycle and Sentinel runtime-health policies and their schemas
+are included; runtime assessments are not.
 
-Environment observations and derived live-health results are deliberately not
-packaged. They remain temporary inputs owned by the consuming environment.
+Data-source and rule-runtime observations and their derived live-health results
+are deliberately not packaged. They remain temporary inputs owned by the
+consuming environment. Alert and incident counts never enter the public source
+artifact as live environment results.
 
 `RELEASE-MANIFEST.json` records every included source path, normalized byte size
 and SHA-256 digest. It also states the catalogue totals and makes the boundary

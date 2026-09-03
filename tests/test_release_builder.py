@@ -48,6 +48,9 @@ class ReleaseBuilderTests(unittest.TestCase):
                 self.assertTrue(manifest["scope"]["sentinel_data_source_contract"])
                 self.assertTrue(manifest["scope"]["coverage_report"])
                 self.assertTrue(manifest["scope"]["lifecycle_policy"])
+                self.assertTrue(
+                    manifest["scope"]["sentinel_runtime_health_contract"]
+                )
                 self.assertFalse(manifest["scope"]["siem_deployment"])
 
                 declared = {item["path"]: item for item in manifest["files"]}
@@ -60,6 +63,9 @@ class ReleaseBuilderTests(unittest.TestCase):
                 self.assertIn("coverage/index.json", packaged)
                 self.assertIn(
                     "governance/policies/detection-lifecycle-v1.json", packaged
+                )
+                self.assertIn(
+                    "governance/policies/sentinel-runtime-health-v1.json", packaged
                 )
                 self.assertEqual(set(declared), packaged)
                 for relative, item in declared.items():

@@ -1099,3 +1099,62 @@ Lifecycle fields now produce an enforceable review reminder while all tracked
 outputs remain deterministic. The next step is to define whether the remaining
 rule-execution and alert-outcome health item belongs in this modular public
 foundation at all.
+
+## 2026-09-03 — Sentinel rule-runtime health contract completed locally
+
+### Starting state
+
+- The repository could validate source telemetry but could not distinguish a
+  quiet, correctly executing rule from a missing, disabled, failed or stale one.
+- Alert counts were not suitable as health because a valid rule may correctly
+  produce zero alerts.
+- The public foundation had no authority or environment context for a live
+  Sentinel collector.
+
+### Decision and implementation
+
+- Added a versioned Sentinel runtime-health policy that consumes the existing
+  four analytics-rule schedules instead of duplicating their frequencies.
+- Added strict schemas for a consumer-owned runtime observation and its derived
+  assessment, plus an executable fail-closed evaluator and CLI.
+- The reference policy marks execution more than two schedule intervals late as
+  degraded and more than five intervals stale as failed. Missing rules and
+  reported execution failures are failed; missing observations remain unknown.
+- The operational policy expects intentionally deployed rules to be enabled,
+  while the repository's safely rendered rule bodies remain disabled until a
+  consumer deliberately activates them.
+- Optional alert and incident counts are copied into the assessment only. They
+  cannot improve or reduce health, and zero alerts can accompany a healthy rule.
+- Added the public policy and all runtime schemas to the deterministic general
+  Detection Pack. Environment observations and assessments remain excluded.
+- Recorded the boundary in ADR-0014 and completed the final `0.3` Roadmap item.
+
+### Validation and correction
+
+- Added ten Python tests covering exact schedule derivation, successful zero-
+  alert execution, missing observations and rules, disabled rules, failed
+  execution, both age thresholds, invalid times, unknown rules and CLI exits.
+- Added an independent Node/Ajv test that validates a real Python JSON assessment
+  against the versioned output schema while all four alert counts remain zero.
+- An attempt to verify a platform-specific collection field from official online
+  documentation was unavailable in the execution environment. No field name was
+  guessed; the contract remains adapter-neutral and requires consumers to map
+  their reviewed platform evidence into the explicit observation schema.
+
+### Explicitly untouched
+
+- No Azure or Sentinel endpoint was queried, no rule was deployed or enabled,
+  and no credential, tenant, subscription, workspace, alert or incident data was
+  read or stored.
+- No customer-specific threshold, exception, tuning value or environment
+  observation was added.
+- Forgejo, the GitHub mirror, the Website, infrastructure and the immutable
+  published `v0.1.0` release remained unchanged.
+
+### Result
+
+Detection Operations `0.3` is complete. The public scaffold now separates source
+readiness, declared coverage, lifecycle cadence and scheduled-rule execution
+health without pretending that alert volume is a health check or that CI knows a
+consumer's live environment. The next phase must begin with a proposed native
+implementation and resolver contract before any `0.4` code is added.

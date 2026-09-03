@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metesec.com/schemas/sentinel-runtime-assessment-v1.schema.json",
+  "title": "MeteSec Sentinel runtime assessment v1",
+  "description": "Runtime-only assessment derived from an environment-local Sentinel rule observation.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "target", "observed_at", "summary", "rules"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "target": { "const": "microsoft-sentinel" },
+    "observed_at": { "$ref": "#/$defs/timestamp" },
+    "summary": { "$ref": "#/$defs/summary" },
+    "rules": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/rule" }
+    }
+  },
+  "$defs": {
+    "timestamp": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(?:\\.[0-9]+)?Z$"
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rules", "healthy", "degraded", "failed", "unknown"],
+      "properties": {
+        "rules": { "type": "integer", "minimum": 1 },
+        "healthy": { "type": "integer", "minimum": 0 },
+        "degraded": { "type": "integer", "minimum": 0 },
+        "failed": { "type": "integer", "minimum": 0 },
+        "unknown": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "outcome": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["window_start", "window_end", "alerts_created", "incidents_created"],
+      "properties": {
+        "window_start": { "$ref": "#/$defs/timestamp" },
+        "window_end": { "$ref": "#/$defs/timestamp" },
+        "alerts_created": { "type": "integer", "minimum": 0 },
+        "incidents_created": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "expected_frequency",
+        "status",
+        "age_seconds",
+        "reasons",
+        "alert_outcome"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^MSEC-DET-[0-9]{4}$" },
+        "expected_frequency": { "type": "string", "minLength": 3 },
+        "status": { "enum": ["healthy", "degraded", "failed", "unknown"] },
+        "age_seconds": { "type": ["integer", "null"], "minimum": 0 },
+        "reasons": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "observation_missing",
+              "rule_missing",
+              "rule_disabled",
+              "execution_missing",
+              "execution_status_unknown",
+              "execution_failed",
+              "execution_late",
+              "execution_stale",
+              "execution_healthy"
+            ]
+          }
+        },
+        "alert_outcome": {
+          "anyOf": [
+            { "$ref": "#/$defs/outcome" },
+            { "type": "null" }
+          ]
+        }
+      }
+    }
+  }
+}

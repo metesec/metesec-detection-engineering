@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "target": "microsoft-sentinel",
+  "source_profile": "targets/sentinel/analytics-rules.json",
+  "expected_enabled": true,
+  "degraded_after_missed_runs": 2,
+  "failed_after_missed_runs": 5
+}

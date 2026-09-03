@@ -2,8 +2,8 @@
 
 Detection-as-Code reference implementation for portable, tested, and reviewable security detections.
 
-> **Project status: Detection Operations — in progress**
-> The Sentinel target is complete and four mapped detections render as deterministic, disabled Scheduled rules. The first operations contract now distinguishes usable telemetry from degraded, unavailable or unknown data without adding Azure access.
+> **Project status: Detection Operations — complete**
+> The Sentinel target is complete and four mapped detections render as deterministic, disabled Scheduled rules. Portable operations contracts now cover data-source readiness, coverage, lifecycle review and rule execution health without adding Azure access.
 
 ## Purpose
 
@@ -55,11 +55,12 @@ tests and rendering boundary without prescribing customer policy.
 - [Microsoft Sentinel data-source contract v1](docs/contracts/sentinel-data-source-contract-v1.md)
 - [Generated detection coverage report v1](docs/contracts/detection-coverage-report-v1.md)
 - [Detection lifecycle and review cadence v1](docs/contracts/detection-lifecycle-v1.md)
+- [Microsoft Sentinel runtime health v1](docs/contracts/sentinel-runtime-health-v1.md)
 - [Detection Pack release artifact v1](docs/releases/release-artifact-v1.md)
 
 ## Current milestone
 
-`0.3 — Detection Operations` (in progress)
+`0.3 — Detection Operations` (complete)
 
 The logical manifest, compact package contract, pinned pySigma boundary, and bounded local fixture evaluator are implemented and locally verified. `MSEC-DET-0001` covers unusual Windows service installation paths. `MSEC-DET-0002` covers successful sign-ins from reported legacy client categories. `MSEC-DET-0003` covers successful Microsoft Entra sign-ins assessed as high risk during sign-in. `MSEC-DET-0004` covers successful credential additions to Microsoft Entra service principals. `MSEC-DET-0005` covers successful application-role grants to Microsoft Entra service principals. Together they have fifteen positive and twenty negative synthetic cases.
 
@@ -104,6 +105,13 @@ interval, rejects future or contradictory dates, and fails when a review is due
 or overdue. An optional previous catalogue enables forward-only status and
 identity checks without embedding Git or Forgejo access in the tool.
 
+The final operations contract derives expected rule executions from the four
+Sentinel schedules. A consumer-supplied local observation distinguishes
+`healthy`, `degraded`, `failed` and `unknown` rules using explicit missed-run
+boundaries. Optional alert and incident counts are informational only: a
+successful execution with zero alerts is healthy. The repository stores no live
+observation and contains no Sentinel monitoring client.
+
 Run the current contract validation with:
 
 ```console
@@ -116,7 +124,7 @@ pnpm run render:sentinel
 pnpm run build:release
 ```
 
-See the [generated catalogue contract](docs/contracts/detection-catalogue-v1.md), [Forgejo validation guide](docs/tooling/forgejo-validation.md), [Sigma validation guide](docs/tooling/sigma-validation.md), [Sentinel compilation guide](docs/tooling/sentinel-compilation.md), and [Sentinel data-source contract](docs/contracts/sentinel-data-source-contract-v1.md) for the exact scope of each result.
+See the [generated catalogue contract](docs/contracts/detection-catalogue-v1.md), [Forgejo validation guide](docs/tooling/forgejo-validation.md), [Sigma validation guide](docs/tooling/sigma-validation.md), [Sentinel compilation guide](docs/tooling/sentinel-compilation.md), [Sentinel data-source contract](docs/contracts/sentinel-data-source-contract-v1.md), and [Sentinel runtime-health contract](docs/contracts/sentinel-runtime-health-v1.md) for the exact scope of each result.
 
 ## License
 

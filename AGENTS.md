@@ -37,7 +37,7 @@ The architectural rule is: one logical detection has one stable identity but may
 - Mirror direction: Forgejo `main` to GitHub `main` only; sync on Forgejo commits
 - Mirror authentication: repository-scoped SSH deploy key stored by Forgejo; GitHub Actions, Issues, and Wiki are disabled
 - MeteSec Projects page: implemented and public at `https://metesec.com/projects/detection-engineering/`
-- Current phase: `0.1 — Functional Foundation` and `0.2 — Microsoft Sentinel Target` complete; `0.3 — Detection Operations` is in progress
+- Current phase: `0.1 — Functional Foundation`, `0.2 — Microsoft Sentinel Target` and `0.3 — Detection Operations` are complete
 - Current development-package version: `0.3.0`; the published `v0.1.0` artifact remains immutable and unchanged
 - Logical manifest contract: version 1 implemented as JSON Schema Draft 2020-12
 - Contract examples: one valid draft and one deliberately invalid stable-state example
@@ -73,6 +73,8 @@ The architectural rule is: one logical detection has one stable identity but may
 - Coverage contract and validation: JSON Schema version 1, six generator tests and a stale-output gate are included in the aggregate repository check; generated coverage output is part of the general Detection Pack release allowlist
 - Lifecycle policy: version 1 defines forward-only `draft`, `experimental`, `stable` and `deprecated` transitions and is kept consistent with the logical manifest schema
 - Review-cadence validator: existing manifest dates and intervals produce runtime-only `current`, `due` or `overdue` assessments; current validation rejects future or contradictory dates and fails on due or overdue records, while an optional previous catalogue enables identity and transition checks; ten Python tests plus one machine-output schema test cover dates, boundaries, transitions, immutability, removal, CLI exit behavior and the JSON contract
+- Sentinel runtime-health contract: a versioned policy derives the expected four rule schedules from `targets/sentinel/analytics-rules.json`; a separate consumer-supplied observation produces only `healthy`, `degraded`, `failed` or `unknown`, using reference boundaries of more than two and more than five missed runs without storing live state
+- Alert-outcome boundary: optional alert and incident counts are preserved as informational context only and never influence runtime health; a successful on-time execution with zero alerts is healthy, while missing, disabled, failed or stale rules remain independently visible
 - Renderer output boundary: each ignored `dist/sentinel/<DETECTION-ID>/` directory contains `query.kql`, `analytics-rule.json` and `render-manifest.json`; no Azure resource scope, tenant identifier, credential, HTTP client, authentication flow, deployment command or live-write capability exists
 - Renderer publication: Forgejo PR `#7` merged through protected `main` as `e8bebd5d3e72218b32378cd3e4f850d047d778ad`; branch run `#12` and merged-main run `#13` passed, and the GitHub distribution mirror resolved to the exact same commit
 - Live target probes: authorized read-only workspace checks confirmed populated source fields and accepted all four complete enriched queries in bounded aggregate form; no raw row, aggregate count, user, device, tenant, subscription or workspace identifier is stored in the repository
@@ -90,6 +92,7 @@ The architectural rule is: one logical detection has one stable identity but may
 - Sentinel output columns and entity mappings are governed together by the version 2 preview profile and the complete generated KQL remains Golden-reviewed.
 - Consumers render ignored temporary Sentinel files inside their own controlled pipeline; the project publishes no separate prebuilt Sentinel target archive and implements no Azure deployment client.
 - Data-source health is evaluated separately from detection results; an empty or missing observation cannot become a healthy zero.
+- Rule execution health is evaluated separately from alert volume; zero alerts never make a successfully executing rule unhealthy.
 - Environment-specific tuning, exclusions, allowlists and exceptions are consumer-owned; the public repository provides no customer policy layer.
 - Detection-local tests live beside the implementation; reusable test code lives centrally.
 - Generated build output is never a manually edited source of truth.
@@ -175,8 +178,8 @@ After every completed milestone:
 
 ## Immediate next milestone
 
-Define the remaining `0.3` boundary for rule-execution and alert-outcome health
-without adding an Azure client or pretending that a reusable public repository
-can know a consumer's operational state. Propose the smallest portable contract
-before implementation. Keep public pull-request execution disabled until the
+Before implementing `0.4`, propose the smallest native-implementation contract
+and target resolver that preserves one logical detection identity, selects
+exactly one approved implementation and prevents environment overlays from
+changing query logic. Keep public pull-request execution disabled until the
 runner gains hard per-job isolation.

@@ -31,12 +31,16 @@
     "test:lifecycle-contract": "node --test tests/lifecycle-contract.test.mjs",
     "test:lifecycle": "python -m unittest tests.test_detection_lifecycle",
     "validate:lifecycle": "python scripts/check_detection_lifecycle.py",
+    "validate:sentinel-runtime-contract": "node scripts/validate-sentinel-runtime-health.mjs",
+    "test:sentinel-runtime-contract": "node --test tests/sentinel-runtime-contract.test.mjs",
+    "test:sentinel-runtime-health": "python -m unittest tests.test_sentinel_runtime_health",
+    "validate:sentinel-runtime-health": "python scripts/check_sentinel_runtime_health.py",
     "test:sentinel-renderer": "python -m unittest tests.test_sentinel_rule_renderer",
     "validate:sentinel-rules": "python scripts/render_sentinel_rules.py --check",
     "render:sentinel": "python scripts/render_sentinel_rules.py",
     "test:release": "python -m unittest tests.test_release_builder",
     "build:release": "python scripts/build_release.py",
-    "check": "pnpm run validate:manifests && pnpm run test:package-contract && pnpm run validate:packages && pnpm run test:catalogue && pnpm run validate:catalogue && pnpm run test:forgejo-workflow && pnpm run test:sigma-validation && pnpm run validate:sigma && pnpm run test:sigma-evaluator && pnpm run test:sigma-fixtures && pnpm run test:sentinel-compiler && pnpm run validate:sentinel-golden && pnpm run validate:sentinel-profile && pnpm run test:sentinel-renderer && pnpm run validate:sentinel-rules && pnpm run validate:sentinel-data-source-contract && pnpm run test:sentinel-data-source-health && pnpm run validate:sentinel-data-sources && pnpm run test:coverage && pnpm run validate:coverage && pnpm run validate:lifecycle-policy && pnpm run test:lifecycle-contract && pnpm run test:lifecycle && pnpm run validate:lifecycle && pnpm run test:release"
+    "check": "pnpm run validate:manifests && pnpm run test:package-contract && pnpm run validate:packages && pnpm run test:catalogue && pnpm run validate:catalogue && pnpm run test:forgejo-workflow && pnpm run test:sigma-validation && pnpm run validate:sigma && pnpm run test:sigma-evaluator && pnpm run test:sigma-fixtures && pnpm run test:sentinel-compiler && pnpm run validate:sentinel-golden && pnpm run validate:sentinel-profile && pnpm run test:sentinel-renderer && pnpm run validate:sentinel-rules && pnpm run validate:sentinel-data-source-contract && pnpm run test:sentinel-data-source-health && pnpm run validate:sentinel-data-sources && pnpm run test:coverage && pnpm run validate:coverage && pnpm run validate:lifecycle-policy && pnpm run test:lifecycle-contract && pnpm run test:lifecycle && pnpm run validate:lifecycle && pnpm run validate:sentinel-runtime-contract && pnpm run test:sentinel-runtime-contract && pnpm run test:sentinel-runtime-health && pnpm run validate:sentinel-runtime-health && pnpm run test:release"
   },
   "devDependencies": {
     "ajv": "8.17.1"
