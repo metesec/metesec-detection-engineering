@@ -82,15 +82,32 @@ observation as `healthy`, `degraded`, `failed` or `unknown`. Alert and incident
 counts are optional context and never influence health; no Azure client, live
 observation or runtime assessment is committed.
 
-## 0.4 — Native Implementations and Resolution
+## 0.4 — Sigma Detection Pack Expansion
 
-Status: **future**
+Status: **in progress**
 
-- [ ] Define native implementation contract
-- [ ] Add native Sentinel implementation only where Sigma is insufficient
-- [ ] Implement one-target native-precedence resolver
-- [ ] Fail on missing or multiple selected implementations
-- [ ] Prevent environment overlays from changing query logic
+- [x] Make Sigma the only authored detection format through version 1
+- [x] Keep Microsoft Sentinel as the only supported and validated target
+- [x] Inventory available Sentinel tables and candidate fields read-only
+- [ ] Approve a backlog for twenty-five additional detections
+- [ ] Complete Wave 1: 10 of 30 Sigma detections
+- [ ] Complete Wave 2: 15 of 30 Sigma detections
+- [ ] Complete Wave 3: 20 of 30 Sigma detections
+- [ ] Complete Wave 4: 25 of 30 Sigma detections
+- [ ] Complete Wave 5: 30 of 30 Sigma detections
+- [ ] Pass every applicable manifest, package, Sigma, synthetic-fixture,
+  Sentinel compilation, Golden-query, disabled-renderer, source, lifecycle and
+  coverage gate
+- [ ] Publish the protected-main `v1.0.0` release after reproducibility and
+  checksum verification
+
+Current status: five of thirty Sigma detections exist. Four have explicit
+Sentinel bindings and one Windows Event detection remains intentionally
+unbound because the available target has no suitable Windows event telemetry.
+The read-only inventory confirmed useful Entra, endpoint, email, network and
+Sentinel operating-data families without returning raw events or storing live
+workspace output in the repository. The next step is a reviewed first wave,
+not a bulk import of untested rules.
 
 ## Future Signal
 
@@ -99,6 +116,8 @@ Status: **future**
 - canary deployment and read-back verification;
 - drift detection;
 - reproducible Atomic Red Team mappings;
+- native implementations and a target resolver, only after a concrete
+  target-backed Sigma limitation exists;
 - additional targets such as Splunk, Elastic, or Google SecOps;
 - public contribution synchronization between GitHub and Forgejo.
 

@@ -1158,3 +1158,76 @@ readiness, declared coverage, lifecycle cadence and scheduled-rule execution
 health without pretending that alert volume is a health check or that CI knows a
 consumer's live environment. The next phase must begin with a proposed native
 implementation and resolver contract before any `0.4` code is added.
+
+## 2026-09-03 — Sigma-only Sentinel-first expansion direction established locally
+
+### Starting state
+
+- Five portable Sigma detections existed, four with explicit Microsoft Sentinel
+  bindings.
+- The active Roadmap proposed a native implementation contract and target
+  resolver before expanding the pack.
+- Microsoft Sentinel was the only real target available for repeatable
+  validation, and no target-backed requirement justified a second authored rule
+  format.
+
+### Decision and implementation
+
+- Superseded ADR-0003 for the version 1 scope with ADR-0015: every detection is
+  authored as Sigma through the first main release, while KQL remains generated
+  Sentinel output.
+- Set the first main-release target to thirty reviewed Sigma detections and made
+  five-rule implementation waves the active `0.4` Roadmap.
+- Kept Microsoft Sentinel as the only supported target. Native rules, a target
+  resolver and other SIEMs moved out of the active version 1 plan until real
+  target access and a concrete Sigma limitation exist.
+- Added a read-only Sentinel inventory guide that returns only table names,
+  selected schema fields and coarse freshness states. It explicitly forbids
+  unrestricted raw-data search and keeps environment observations outside Git.
+- Updated the development package to `0.4.0`, added the inventory guide to the
+  deterministic release allowlist and extended the release test accordingly.
+
+### Read-only target observation
+
+- The initial portal session redirected to Microsoft sign-in, so no query was
+  executed until the user completed authentication.
+- The first multi-line inventory submission returned a parser error. Explicitly
+  clearing the editor and rerunning the metadata-only query corrected the input
+  without widening query scope.
+- The corrected inventory confirmed recent candidate families for Entra
+  identity, Defender endpoint, email, network and Sentinel operations.
+- Schema-only checks confirmed the selected fields needed to review an initial
+  wave against `DeviceProcessEvents`, `AuditLogs` and `AADUserRiskEvents`.
+- No raw event, user, device, address, tenant, subscription, workspace, customer
+  value, exact live timestamp, copied result or screenshot was stored in the
+  repository.
+
+### Validation and correction
+
+- The first aggregate check could not find `node` in the process path. A second
+  attempt found the bundled Node runtime but selected an unrelated Python 3.14
+  installation without the pinned YAML dependency.
+- Repeating the check with the bundled Node runtime and the existing pinned
+  Python 3.12.13 virtual environment passed all 81 unit tests plus every
+  manifest, package, catalogue, Sigma, fixture, Sentinel Golden, profile,
+  renderer, data-source, coverage, lifecycle, runtime-health and release gate.
+- Four disabled Sentinel analytics-rule bodies rendered successfully.
+- The deterministic local `v0.4.0` candidate contains 93 ZIP members, including
+  92 allowlisted sources, and has SHA-256
+  `e6f3a773d035b28b814f17b0ef4e337bfa6a73abc975da7c986c59093cc6fae0`.
+- `git diff --check` passed; line-ending notices did not identify whitespace
+  errors.
+
+### Explicitly untouched
+
+- No new detection, target binding, Golden query or production rule was added.
+- No Sentinel rule was deployed or enabled, and no cloud configuration changed.
+- No commit was pushed; Forgejo, the GitHub mirror, Website, infrastructure and
+  the immutable published `v0.1.0` release remain unchanged.
+
+### Result
+
+The repository now has one unambiguous version 1 direction: grow from five to
+thirty tested Sigma detections and validate only against Microsoft Sentinel.
+The next bounded milestone is to review and implement the first five-rule wave
+to reach 10 of 30.

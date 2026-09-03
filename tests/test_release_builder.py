@@ -42,7 +42,7 @@ class ReleaseBuilderTests(unittest.TestCase):
                 manifest_name = f"{expected_root}/RELEASE-MANIFEST.json"
                 manifest = json.loads(archive.read(manifest_name))
                 self.assertEqual(manifest["format_version"], 1)
-                self.assertEqual(manifest["release"], "v0.3.0")
+                self.assertEqual(manifest["release"], "v0.4.0")
                 self.assertEqual(manifest["summary"]["detections"], 5)
                 self.assertEqual(manifest["summary"]["sentinel_preview_bindings"], 4)
                 self.assertTrue(manifest["scope"]["sentinel_data_source_contract"])
@@ -66,6 +66,9 @@ class ReleaseBuilderTests(unittest.TestCase):
                 )
                 self.assertIn(
                     "governance/policies/sentinel-runtime-health-v1.json", packaged
+                )
+                self.assertIn(
+                    "docs/tooling/sentinel-source-inventory.md", packaged
                 )
                 self.assertEqual(set(declared), packaged)
                 for relative, item in declared.items():

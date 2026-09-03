@@ -2,22 +2,21 @@
 
 Detection-as-Code reference implementation for portable, tested, and reviewable security detections.
 
-> **Project status: Detection Operations — complete**
-> The Sentinel target is complete and four mapped detections render as deterministic, disabled Scheduled rules. Portable operations contracts now cover data-source readiness, coverage, lifecycle review and rule execution health without adding Azure access.
+> **Project status: Sigma Detection Pack Expansion — in progress**
+> Five of thirty planned Sigma detections are implemented. Microsoft Sentinel is the only supported target, with four current rules rendering as deterministic, disabled Scheduled rules.
 
 ## Purpose
 
 This project explores how security detections can be managed with the same discipline as production software:
 
 - stable detection identities;
-- portable Sigma implementations where appropriate;
-- native implementations where platform capabilities require them;
+- one portable Sigma implementation per detection through version 1;
 - positive, negative, edge, and regression tests;
 - reproducible compilation and packaging;
 - explicit telemetry dependencies;
 - reviewable lifecycle and releases.
 
-The first working release will focus on a small, complete Sigma detection pack with executable validation and Microsoft Sentinel compilation. Empty vendor directories and unsupported platform claims are deliberately avoided.
+The first main release targets thirty complete Sigma detections with executable validation and Microsoft Sentinel compilation. KQL is generated output rather than a second authored rule source. Other SIEMs and native implementations remain future work until a real target-backed requirement justifies them. Empty vendor directories and unsupported platform claims are deliberately avoided.
 
 ## Delivery model
 
@@ -51,6 +50,7 @@ tests and rendering boundary without prescribing customer policy.
 - [Sigma structural validation](docs/tooling/sigma-validation.md)
 - [Local Sigma fixture evaluation](docs/testing/sigma-fixture-evaluation.md)
 - [Microsoft Sentinel KQL preview compilation](docs/tooling/sentinel-compilation.md)
+- [Read-only Microsoft Sentinel source inventory](docs/tooling/sentinel-source-inventory.md)
 - [Microsoft Sentinel analytics-rule profile v1](docs/contracts/sentinel-analytics-rule-profile-v1.md)
 - [Microsoft Sentinel data-source contract v1](docs/contracts/sentinel-data-source-contract-v1.md)
 - [Generated detection coverage report v1](docs/contracts/detection-coverage-report-v1.md)
@@ -60,7 +60,22 @@ tests and rendering boundary without prescribing customer policy.
 
 ## Current milestone
 
-`0.3 — Detection Operations` (complete)
+`0.4 — Sigma Detection Pack Expansion` (in progress)
+
+The version 1 direction is deliberately narrow: all detection logic is authored
+as Sigma, Microsoft Sentinel is the only supported target, and the first main
+release requires thirty reviewed detections. The existing target compiler,
+Golden queries and disabled analytics-rule renderer remain the Sentinel proof
+boundary. Native rules and a multi-implementation resolver are not part of the
+active version 1 roadmap.
+
+A read-only Sentinel source inventory has now confirmed candidate Entra,
+endpoint, email, network and Sentinel operating-data families. The inventory
+returned only table metadata, selected schema fields and coarse freshness
+states; no raw event, identity, device, tenant, subscription, workspace or
+customer value is stored in this repository. The first implementation wave will
+be selected from sources whose fields are actually available and whose behavior
+can be expressed and tested faithfully in Sigma.
 
 The logical manifest, compact package contract, pinned pySigma boundary, and bounded local fixture evaluator are implemented and locally verified. `MSEC-DET-0001` covers unusual Windows service installation paths. `MSEC-DET-0002` covers successful sign-ins from reported legacy client categories. `MSEC-DET-0003` covers successful Microsoft Entra sign-ins assessed as high risk during sign-in. `MSEC-DET-0004` covers successful credential additions to Microsoft Entra service principals. `MSEC-DET-0005` covers successful application-role grants to Microsoft Entra service principals. Together they have fifteen positive and twenty negative synthetic cases.
 
@@ -124,7 +139,7 @@ pnpm run render:sentinel
 pnpm run build:release
 ```
 
-See the [generated catalogue contract](docs/contracts/detection-catalogue-v1.md), [Forgejo validation guide](docs/tooling/forgejo-validation.md), [Sigma validation guide](docs/tooling/sigma-validation.md), [Sentinel compilation guide](docs/tooling/sentinel-compilation.md), [Sentinel data-source contract](docs/contracts/sentinel-data-source-contract-v1.md), and [Sentinel runtime-health contract](docs/contracts/sentinel-runtime-health-v1.md) for the exact scope of each result.
+See the [generated catalogue contract](docs/contracts/detection-catalogue-v1.md), [Forgejo validation guide](docs/tooling/forgejo-validation.md), [Sigma validation guide](docs/tooling/sigma-validation.md), [Sentinel compilation guide](docs/tooling/sentinel-compilation.md), [read-only source-inventory guide](docs/tooling/sentinel-source-inventory.md), [Sentinel data-source contract](docs/contracts/sentinel-data-source-contract-v1.md), and [Sentinel runtime-health contract](docs/contracts/sentinel-runtime-health-v1.md) for the exact scope of each result.
 
 ## License
 

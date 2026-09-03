@@ -30,6 +30,7 @@ EXACT_SOURCES = (
     "targets/sentinel/data-sources.json",
     "docs/testing/sigma-fixture-evaluation.md",
     "docs/tooling/sentinel-compilation.md",
+    "docs/tooling/sentinel-source-inventory.md",
 )
 SOURCE_GLOBS = (
     "catalog/detections/*/manifest.json",
