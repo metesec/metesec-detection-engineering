@@ -87,7 +87,7 @@ observation or runtime assessment is committed.
 
 ## 0.4 — Sigma Detection Pack Expansion
 
-Status: **release candidate ready; protected publication pending**
+Status: **complete; `v1.0.0` published through protected main**
 
 - [x] Make Sigma the only authored detection format through version 1
 - [x] Keep Microsoft Sentinel as the only supported and validated target
@@ -107,7 +107,7 @@ Status: **release candidate ready; protected publication pending**
   coverage gate
 - [x] Complete the `v1.0.0` version transition, release notes, clean-clone
   validation and deterministic checksum review
-- [ ] Publish the protected-main `v1.0.0` release after reproducibility and
+- [x] Publish the protected-main `v1.0.0` release after reproducibility and
   checksum verification
 
 Current status: all fifty planned Sigma detections exist. Forty-nine have explicit
@@ -124,12 +124,14 @@ cases, a reviewed KQL Golden, an explicit source contract and a disabled
 Scheduled-rule body. All five final predicates passed the bounded read-only live
 query-acceptance probe and returned no match in the current 30-day aggregate
 baseline. No raw row, exact count or identifying result was retained. The
-The local `v1.0.0` candidate passes the complete aggregate check in both the
-development tree and a fresh exact-commit clone. Four final builds produced the
-same 1,040,114-byte archive with 589 members and SHA-256
+published `v1.0.0` tag targets protected main commit
+`708a45eda108265a3bb0b7d94485a7d667b21d43`. Release branch run `#16`, canonical
+main run `#17` and annotated-tag run `#18` passed. Clean main and tag rebuilds
+reproduced the reviewed 1,040,114-byte archive with 589 members and SHA-256
 `4565d5001281d0694c3891337fc362b1e8ad0b29b6957433ff6ce5bc7773703d`.
-Publication remains a separate protected-main decision requiring green branch,
-main and annotated-tag runs plus final anonymous artifact verification.
+The public release contains only that ZIP and `SHA256SUMS`; a final anonymous
+download matched the published checksum. GitHub `main` mirrors the exact release
+commit. No Sentinel rule or cloud configuration was deployed or enabled.
 
 ## Future Signal
 

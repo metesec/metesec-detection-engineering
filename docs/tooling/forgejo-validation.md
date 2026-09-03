@@ -109,3 +109,16 @@ through the protected path. Canonical main run `#8` validated merge commit
 commit through annotated tag `v0.1.0`. The workflow generated the deterministic
 candidate but held no publication credential; a trusted operator uploaded the
 two locally and independently verified assets after all three results passed.
+
+For `v1.0.0`, release branch run `#16` validated commit
+`79002fa2c8d2345e633ab21bbb5ee3f9a6a413f2`. Pull Request `#9` merged through the
+same protected path as merge commit
+`708a45eda108265a3bb0b7d94485a7d667b21d43`; canonical main run `#17` and
+annotated-tag run `#18` both passed on that exact commit. A trusted operator then
+created the Forgejo release with automatic source-archive links hidden and
+attached only `metesec-detection-pack-v1.0.0.zip` plus `SHA256SUMS`. A clean
+public-tag rebuild and an anonymous post-publication download both matched the
+reviewed 1,040,114-byte ZIP and SHA-256
+`4565d5001281d0694c3891337fc362b1e8ad0b29b6957433ff6ce5bc7773703d`. The
+GitHub distribution mirror resolved `main` to the same merge commit. These
+checks publish no CI credential and deploy no Sentinel resource.

@@ -2331,3 +2331,78 @@ The complete fifty-rule `v1.0.0` candidate is locally release-ready and
 reproducible from a clean exact-commit checkout. Public release remains a
 separate protected-main operation with branch, main, tag and anonymous-download
 evidence still required.
+
+## 2026-09-04 — Version 1.0.0 published through protected main
+
+### Protected publication path
+
+- Pushed focused branch `codex/v1-release-candidate` at
+  `79002fa2c8d2345e633ab21bbb5ee3f9a6a413f2`. Forgejo branch run `#16` passed
+  the exact required repository-validation context.
+- Created Pull Request `#9`, confirmed it was current, mergeable and based on
+  canonical `main`, and re-read the live branch protection before merging. The
+  rule applied to administrators, disabled direct pushes and required the exact
+  successful validation context.
+- Merged only through the protected Pull Request endpoint. Merge commit
+  `708a45eda108265a3bb0b7d94485a7d667b21d43` became canonical `main`, and main
+  run `#17` passed on that exact commit.
+- Created annotated tag `v1.0.0` on the merge commit without force or tag
+  movement. Tag run `#18` passed on the same commit.
+
+### Release artifact and public evidence
+
+- Rebuilt the exact protected-main commit in a fresh detached checkout before
+  tagging. After tag validation, cloned the public Forgejo repository again and
+  built the tag independently into two empty output directories. Every build
+  reproduced the reviewed artifact.
+- The final `metesec-detection-pack-v1.0.0.zip` is 1,040,114 bytes and has
+  SHA-256
+  `4565d5001281d0694c3891337fc362b1e8ad0b29b6957433ff6ce5bc7773703d`.
+  `SHA256SUMS` is 100 bytes and contains the matching digest.
+- Before publication, the release remained a draft while both uploaded files
+  were downloaded again and compared with the local references. The draft had
+  exactly the two intended assets, the exact annotated tag target, stable
+  release state and hidden automatic source-archive links.
+- Published the stable Forgejo release at
+  `https://git.metesec.com/metesec/metesec-detection-engineering/releases/tag/v1.0.0`.
+  A deliberately anonymous follow-up fetched exactly two assets, downloaded
+  both successfully and reproduced the ZIP checksum. GitHub `main` resolved to
+  the same release commit.
+- The validated ZIP contains 589 unique sorted members under one versioned
+  root. Its internal manifest lists 588 sources with no size or hash mismatch
+  and reports fifty detections, fifty implementations, one hundred fifty
+  positive cases, two hundred negative cases and forty-nine Sentinel preview
+  bindings. `scope.siem_deployment` remains `false`.
+
+### Failures found and corrected during publication
+
+- The first merge-wrapper attempt had a PowerShell interpolation parser error
+  around an error-message colon. Parsing failed before any request was sent;
+  the corrected wrapper then completed the protected merge.
+- An initially guessed JavaScript release-builder path did not exist, and the
+  Windows Store Python alias could not execute in this workspace. The actual
+  repository builder is `scripts/build_release.py`; the configured workspace
+  Python runtime completed every clean build.
+- A first over-broad anonymous verification wrapper had a JavaScript template
+  parser error before execution. No remote read or write occurred. The final
+  check was deliberately reduced to the meaningful public smoke boundary:
+  anonymous availability, exact asset set and checksum integrity.
+
+### Explicitly untouched
+
+- No Sentinel analytics rule was deployed or enabled, no Azure or other cloud
+  configuration changed and no live observation was committed.
+- No credential, token, raw telemetry, exact live count, environment identifier,
+  customer tuning, native KQL rule or separate prebuilt Sentinel target archive
+  was published.
+- The immutable public `v0.1.0` tag and release were not changed. The GitHub
+  mirror continues to receive Forgejo `main` only; no GitHub tag or release was
+  created.
+
+### Result
+
+The complete fifty-rule Sigma-first Detection Pack is publicly available as
+`v1.0.0`, reproducible from its annotated tag and verified through branch,
+protected-main, tag, draft-download and anonymous-download boundaries. The next
+work is bounded post-release maintenance based on concrete consumer defects or
+usability feedback, not an automatic expansion of targets or deployment scope.
