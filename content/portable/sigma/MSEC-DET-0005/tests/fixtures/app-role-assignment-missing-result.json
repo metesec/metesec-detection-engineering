@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "event": {
+    "TimeGenerated": "2026-09-03T11:30:00Z",
+    "OperationName": "Add app role assignment to service principal",
+    "CorrelationId": "00000000-0000-4000-8000-000000000017"
+  }
+}

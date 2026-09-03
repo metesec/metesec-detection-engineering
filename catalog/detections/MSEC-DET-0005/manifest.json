@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0005",
+  "title": "Application role granted to a Microsoft Entra service principal",
+  "description": "Detects a successful Microsoft Entra audit event that grants an application role or API permission to a service principal.",
+  "hypothesis": {
+    "summary": "An adversary may grant additional application permissions to a service principal to expand or preserve cloud access.",
+    "rationale": "An app-role assignment can give a service principal access to an API and its protected data, but the operation alone does not reveal whether the assigned permission is privileged or approved.",
+    "detection_goal": "Identify successful app-role assignments to service principals while leaving failures, removals, delegated grants, and incomplete events unmatched."
+  },
+  "ownership": {
+    "owner": "MeteSec Detection Engineering",
+    "reviewers": []
+  },
+  "lifecycle": {
+    "status": "experimental",
+    "created": "2026-09-03",
+    "modified": "2026-09-03",
+    "review_interval_days": 90
+  },
+  "severity": "medium",
+  "confidence": "medium",
+  "data_sources": [
+    {
+      "name": "Microsoft Entra audit logs",
+      "category": "Identity directory audit",
+      "required_fields": ["TimeGenerated", "OperationName", "Result", "InitiatedBy", "TargetResources", "CorrelationId"]
+    }
+  ],
+  "attack": [
+    {
+      "technique_id": "T1098.003",
+      "tactic": "Privilege Escalation"
+    }
+  ],
+  "triage": {
+    "summary": "Identify the initiator, service principal, resource API, and granted app role, then compare the change with the approved application-permission record.",
+    "steps": [
+      "Resolve the initiating user or workload, target service principal, resource API, and app-role value from InitiatedBy and TargetResources.",
+      "Determine the effective permission scope, whether admin consent was required, and whether the assignment is covered by an approved onboarding or change request.",
+      "Review adjacent credential, owner, consent, and sign-in activity, then remove unauthorized permissions and investigate the initiating identity."
+    ],
+    "false_positives": [
+      "Approved application onboarding, API permission changes, automation deployment, or identity-lifecycle activity"
+    ]
+  },
+  "validation": {
+    "expected_outcome": "Match only a successful Add app role assignment to service principal operation; do not match failures, removals, delegated grants, or events without a result.",
+    "positive_tests": true,
+    "negative_tests": true
+  },
+  "implementations": [
+    {
+      "type": "sigma",
+      "path": "content/portable/sigma/MSEC-DET-0005/rule.yml",
+      "targets": ["sentinel"],
+      "status": "active"
+    }
+  ]
+}

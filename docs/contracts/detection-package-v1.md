@@ -50,6 +50,8 @@ The schema deliberately does not define a field vocabulary. Field names belong t
 
 `MSEC-DET-0004` is an experimental identity detection. Its Sigma implementation matches a successful Microsoft Entra audit operation that adds credentials to a service principal. Three positive and four negative synthetic cases pass the bounded local evaluator. Its separate Sentinel preview binding and validation boundary are documented in the [Sentinel compilation guide](../tooling/sentinel-compilation.md).
 
+`MSEC-DET-0005` is an experimental identity detection. Its Sigma implementation matches a successful Microsoft Entra audit operation that grants an application role to a service principal. Three positive and four negative synthetic cases pass the bounded local evaluator. Its separate Sentinel preview binding and validation boundary are documented in the [Sentinel compilation guide](../tooling/sentinel-compilation.md).
+
 ## Validation
 
 Run all current repository checks:

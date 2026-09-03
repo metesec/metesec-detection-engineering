@@ -43,19 +43,19 @@ The architectural rule is: one logical detection has one stable identity but may
 - Structural validation: executable with pinned Ajv `8.17.1`; the valid example is accepted and the invalid example is rejected
 - Detection package contract: version 1 documented and enforced through executable filesystem relationship validation
 - Fixture-set contract: version 1 schema implemented for future implementation-local positive and negative evidence indexes
-- Catalogue: four experimental packages: `MSEC-DET-0001` for Windows service installation from selected public-user or temporary paths, `MSEC-DET-0002` for successful Microsoft Entra sign-ins from selected legacy client categories, `MSEC-DET-0003` for successful Microsoft Entra sign-ins assessed as high risk during sign-in, and `MSEC-DET-0004` for successful credential additions to Microsoft Entra service principals
-- Portable implementations: four structurally valid Sigma rules, one per package
-- Synthetic evidence: twelve positive and sixteen negative flat event fixtures, all explicitly marked synthetic and all passing locally
+- Catalogue: five experimental packages: `MSEC-DET-0001` for Windows service installation from selected public-user or temporary paths, `MSEC-DET-0002` for successful Microsoft Entra sign-ins from selected legacy client categories, `MSEC-DET-0003` for successful Microsoft Entra sign-ins assessed as high risk during sign-in, `MSEC-DET-0004` for successful credential additions to Microsoft Entra service principals, and `MSEC-DET-0005` for successful application-role grants to Microsoft Entra service principals
+- Portable implementations: five structurally valid Sigma rules, one per package
+- Synthetic evidence: fifteen positive and twenty negative flat event fixtures, all explicitly marked synthetic and all passing locally
 - Package contract tests: eight passing cases cover the valid draft, identity mismatch, missing implementation, implementation traversal, missing evidence index, valid linked evidence, fixture traversal, and invalid event-fixture structure
 - Sigma parser and target toolchain: pySigma `1.5.0`, pySigma Kusto backend `1.0.1`, and every required transitive dependency are pinned in `requirements-sigma.lock`; verified with Python `3.12.13`
-- Sigma structural validation: exact-version gate, two-sided in-memory parser self-test, and automatic Package v1 `rule.yml` discovery validate four sources containing four rules
+- Sigma structural validation: exact-version gate, two-sided in-memory parser self-test, and automatic Package v1 `rule.yml` discovery validate five sources containing five rules
 - Sigma validation tests: six passing cases cover valid, missing-condition, malformed-YAML, parser-health, Package v1 discovery, and UTF-8 file paths
 - Behavioral test framework: implemented as a deliberately bounded local evaluator over pySigma's condition tree
 - Evaluator boundary: flat synthetic events; string and number field comparisons; Sigma wildcard strings; case-insensitive string matching; Boolean `and`, `or`, and unary `not`; unsupported behavior fails closed
-- Evaluator tests: six passing unit cases plus twenty-eight passing committed fixture expectations
+- Evaluator tests: six passing unit cases plus thirty-five passing committed fixture expectations
 - Sentinel preview compiler: explicit profile binding, safe table-name validation, repository-contained paths, active-manifest relationship check, and deterministic Azure Monitor pipeline output are implemented
-- Sentinel preview scope: `MSEC-DET-0002` and `MSEC-DET-0003` are explicitly bound to `SigninLogs`, while `MSEC-DET-0004` is explicitly bound to `AuditLogs`; all three generated KQL queries match committed Golden snapshots
-- Live target probes: authorized read-only workspace checks confirmed populated source fields and accepted all three exact generated predicates; `MSEC-DET-0002` produced a valid negative result, while `MSEC-DET-0003` and `MSEC-DET-0004` produced valid positive results, and no raw row, aggregate count, user, device, tenant, subscription, or workspace identifier was stored in the repository
+- Sentinel preview scope: `MSEC-DET-0002` and `MSEC-DET-0003` are explicitly bound to `SigninLogs`, while `MSEC-DET-0004` and `MSEC-DET-0005` are explicitly bound to `AuditLogs`; all four generated KQL queries match committed Golden snapshots
+- Live target probes: authorized read-only workspace checks confirmed populated source fields and accepted all four exact generated predicates; `MSEC-DET-0002` produced a valid negative result, while `MSEC-DET-0003`, `MSEC-DET-0004`, and `MSEC-DET-0005` produced valid positive results, and no raw row, aggregate count, user, device, tenant, subscription, or workspace identifier was stored in the repository
 - `MSEC-DET-0001` remains intentionally unbound because the available target has no suitable Windows event telemetry; it has no Sentinel compatibility claim
 - CI pipeline: not yet implemented
 - Deployment to any SIEM: not implemented and not authorized by this foundation milestone
@@ -149,4 +149,4 @@ After every completed milestone:
 
 ## Immediate next milestone
 
-Add the fifth reviewed detection using the same package and evidence boundary, preferably from a data source or attack behavior not already represented by the two identity tables. Extend the Sentinel preview only when a rule has a reviewed explicit table binding, Golden query, and separately recorded target validation; do not deploy from the preview.
+Generate the first reproducible machine-readable and human-readable catalogue from the five validated manifests without duplicating authored detection metadata. Keep generated files deterministic, test them against committed expectations, and do not introduce deployment behavior.

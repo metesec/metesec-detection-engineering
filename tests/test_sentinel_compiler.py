@@ -22,7 +22,12 @@ class SentinelCompilerTests(unittest.TestCase):
 
         self.assertEqual(
             [item.detection_id for item in compiled],
-            ["MSEC-DET-0002", "MSEC-DET-0003", "MSEC-DET-0004"],
+            [
+                "MSEC-DET-0002",
+                "MSEC-DET-0003",
+                "MSEC-DET-0004",
+                "MSEC-DET-0005",
+            ],
         )
         for item in compiled:
             expected = item.golden.read_text(encoding="utf-8").replace(

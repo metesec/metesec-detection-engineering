@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "event": {
+    "TimeGenerated": "2026-09-03T11:25:00Z",
+    "OperationName": "Add delegated permission grant",
+    "Result": "success",
+    "CorrelationId": "00000000-0000-4000-8000-000000000016"
+  }
+}

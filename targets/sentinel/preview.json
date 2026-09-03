@@ -21,6 +21,12 @@
       "implementation": "content/portable/sigma/MSEC-DET-0004/rule.yml",
       "query_table": "AuditLogs",
       "golden": "tests/golden/sentinel/MSEC-DET-0004.kql"
+    },
+    {
+      "id": "MSEC-DET-0005",
+      "implementation": "content/portable/sigma/MSEC-DET-0005/rule.yml",
+      "query_table": "AuditLogs",
+      "golden": "tests/golden/sentinel/MSEC-DET-0005.kql"
     }
   ]
 }

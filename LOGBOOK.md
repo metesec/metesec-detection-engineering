@@ -423,3 +423,57 @@ The repository had three complete experimental detections and two `SigninLogs` r
 ### Result
 
 `MSEC-DET-0004` is the fourth complete experimental package. It has local synthetic behavior evidence, deterministic Sentinel compilation evidence, and a separate positive read-only target-acceptance result. One reviewed detection remains for the Functional Foundation exit criterion.
+
+## 2026-09-03 — Five-detection foundation completed with application-role grant coverage
+
+### Starting state
+
+The repository had four complete experimental detections. The final package needed to add a distinct security hypothesis without claiming support for a data source that was absent from the authorized workspace.
+
+### Decision
+
+- Check `AzureActivity` first for successful Azure RBAC assignment writes, then check `OfficeActivity` for Exchange rule changes, but make no target claim when both tables have no recent rows.
+- Use the populated Entra `AuditLogs` source and distinguish permission grants from the credential-addition behavior already covered by `MSEC-DET-0004`.
+- Detect only the successful `Add app role assignment to service principal` operation instead of every general directory-role or service-principal change.
+- Use medium severity because the operation identifies a new application permission but does not by itself establish that the permission is privileged or unauthorized.
+
+### Source basis
+
+- Microsoft's Entra application-security guidance identifies `Add app role assignment to service principal` as the audit activity for application permissions and recommends investigation of highly privileged grants.
+- Microsoft's Entra audit activity reference lists the same operation under ApplicationManagement.
+- Microsoft documents the required `AuditLogs` detection and investigation fields.
+- MITRE ATT&CK T1098.003 describes cloud-role or permission additions that can provide persistence or privilege escalation.
+
+### Changes
+
+- Added experimental package `MSEC-DET-0005` for a successful application-role grant to a Microsoft Entra service principal.
+- Added three positive and four negative synthetic fixtures covering case-insensitive matching, contextual fields, failed assignments, removals, delegated grants, and a missing result.
+- Added an explicit `AuditLogs` Sentinel preview binding and a fourth reviewed Golden KQL snapshot.
+- Extended the compiler regression test to verify all four ordered target outputs against their corresponding Golden queries.
+- Updated the README, Roadmap, package contract, Sentinel compilation guide, and project handoff to record the completed five-detection foundation.
+
+### Problems and corrections
+
+- `AzureActivity` returned no rows for the authorized 30-day window, so the proposed Azure RBAC assignment rule received no compatibility claim and was not added.
+- `OfficeActivity` also returned no rows for the authorized 30-day window, so the proposed Exchange forwarding-rule detection was not added.
+- A previously used browser tab stopped responding before the exact final validation query could be entered. The stale tab was discarded and the same aggregate query completed in a fresh authenticated tab; no cloud state changed.
+- A broad Entra directory-role addition was considered but rejected because the simple operation alone did not identify the assigned role or its privilege. The narrower service-principal app-role event was selected instead.
+
+### Verification
+
+- Manifest and package validation accepted five catalogue packages and all thirty-five referenced event fixtures.
+- pySigma `1.5.0` structurally accepted five Sigma rules.
+- All thirty-five synthetic expectations passed: fifteen expected matches and twenty expected non-matches.
+- All three Sentinel compiler unit tests passed, and all four generated queries matched their committed Golden snapshots exactly.
+- The exact generated `MSEC-DET-0005` predicate ran in the authorized workspace inside a read-only 30-day aggregate query and returned a positive result. No individual audit event was opened or copied.
+- The complete repository check, Python bytecode compilation, whitespace validation, target-identifier scan, and synthetic-data safety scan passed.
+
+### Explicitly untouched
+
+- No analytics rule, custom detection, automation rule, connector, workspace setting, application permission, service principal, identity policy, incident, or other cloud resource was created or changed.
+- No production query row, result count, initiator, service principal, permission, tenant, subscription, or workspace identifier was committed.
+- No push, Forgejo update, GitHub mirror update, Website change, image build, infrastructure change, or production rollout occurred.
+
+### Result
+
+`MSEC-DET-0005` completes the first five reviewed experimental detection packages. Four have deterministic Sentinel compilation and separate read-only target-acceptance evidence; `MSEC-DET-0001` remains intentionally local-only because the available target has no suitable Windows event telemetry. The next Functional Foundation milestone is reproducible machine-readable and human-readable catalogue generation.

@@ -3,7 +3,7 @@
 Detection-as-Code reference implementation for portable, tested, and reviewable security detections.
 
 > **Project status: Functional Foundation**
-> The repository now includes the versioned logical-detection contract, the compact package contract, executable relationship validation, four locally tested experimental Sigma detections, and a bounded Microsoft Sentinel KQL preview for three explicitly mapped rules. Deployment remains a future milestone tracked in [ROADMAP.md](ROADMAP.md).
+> The repository now includes the versioned logical-detection contract, the compact package contract, executable relationship validation, five locally tested experimental Sigma detections, and a bounded Microsoft Sentinel KQL preview for four explicitly mapped rules. Deployment remains a future milestone tracked in [ROADMAP.md](ROADMAP.md).
 
 ## Purpose
 
@@ -46,9 +46,9 @@ Forgejo remains the source of truth. GitHub receives only the reviewed public `m
 
 `0.1 — Functional Foundation`
 
-The logical manifest, compact package contract, pinned pySigma boundary, and bounded local fixture evaluator are implemented and locally verified. `MSEC-DET-0001` covers unusual Windows service installation paths. `MSEC-DET-0002` covers successful sign-ins from reported legacy client categories. `MSEC-DET-0003` covers successful Microsoft Entra sign-ins assessed as high risk during sign-in. `MSEC-DET-0004` covers successful credential additions to Microsoft Entra service principals. Together they have twelve positive and sixteen negative synthetic cases.
+The logical manifest, compact package contract, pinned pySigma boundary, and bounded local fixture evaluator are implemented and locally verified. `MSEC-DET-0001` covers unusual Windows service installation paths. `MSEC-DET-0002` covers successful sign-ins from reported legacy client categories. `MSEC-DET-0003` covers successful Microsoft Entra sign-ins assessed as high risk during sign-in. `MSEC-DET-0004` covers successful credential additions to Microsoft Entra service principals. `MSEC-DET-0005` covers successful application-role grants to Microsoft Entra service principals. Together they have fifteen positive and twenty negative synthetic cases.
 
-The Sentinel preview pins the Kusto backend, maps `MSEC-DET-0002` and `MSEC-DET-0003` to `SigninLogs`, maps `MSEC-DET-0004` to `AuditLogs`, and verifies all three generated KQL queries against committed Golden snapshots. Separate authorized read-only target probes accepted every generated predicate: the legacy-client result was negative, while the high-risk sign-in and service-principal credential results were positive. No raw telemetry, result count, or target identifier is stored, and these results are not deployment or production-readiness claims.
+The Sentinel preview pins the Kusto backend, maps `MSEC-DET-0002` and `MSEC-DET-0003` to `SigninLogs`, maps `MSEC-DET-0004` and `MSEC-DET-0005` to `AuditLogs`, and verifies all four generated KQL queries against committed Golden snapshots. Separate authorized read-only target probes accepted every generated predicate: the legacy-client result was negative, while the other three results were positive. No raw telemetry, result count, or target identifier is stored, and these results are not deployment or production-readiness claims.
 
 Run the current contract validation with:
 
