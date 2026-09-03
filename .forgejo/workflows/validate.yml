@@ -2,7 +2,6 @@ name: Repository validation
 
 "on":
   push:
-  pull_request:
   workflow_dispatch:
 
 permissions:
@@ -16,25 +15,27 @@ env:
 jobs:
   validate:
     name: Contracts, detections, catalogue, and Sentinel preview
-    runs-on: docker
+    runs-on: metesec-detection-validate
     steps:
       - name: Check out repository
         uses: https://data.forgejo.org/actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           persist-credentials: false
 
-      - name: Set up Node.js
-        uses: https://data.forgejo.org/actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
-        with:
-          node-version: "24.19.0"
-
-      - name: Set up Python
-        uses: https://data.forgejo.org/actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
-        with:
-          python-version: "3.12.13"
+      - name: Verify runner toolchain
+        run: |
+          test "$(node --version)" = "v24.19.0"
+          test "$(python --version)" = "Python 3.12.13"
 
       - name: Install pnpm
-        run: npm install --global pnpm@11.19.0
+        run: |
+          npm install --global --prefix "$RUNNER_TEMP/pnpm" pnpm@11.19.0
+          echo "$RUNNER_TEMP/pnpm/bin" >> "$GITHUB_PATH"
+
+      - name: Create Python environment
+        run: |
+          python -m venv "$RUNNER_TEMP/venv"
+          echo "$RUNNER_TEMP/venv/bin" >> "$GITHUB_PATH"
 
       - name: Install JavaScript dependencies
         run: pnpm install --frozen-lockfile

@@ -6,15 +6,20 @@ The workflow at `.forgejo/workflows/validate.yml` runs the same aggregate reposi
 
 The workflow runs for:
 
-- every push;
-- every pull request using the read-only `pull_request` context;
+- every push from an authorized repository writer;
 - a deliberate manual dispatch.
 
-The `pull_request_target` event is intentionally absent because it would grant the workflow the base repository's broader context while reviewing incoming work.
+Automatic pull-request execution is intentionally absent. The current dedicated
+runner uses Forgejo's `host` execution mode inside a locked-down Kubernetes Pod,
+which does not provide a fresh job container. Running arbitrary public pull
+request code there would expose the persistent runner process and registration
+to untrusted code. External contributions must therefore be reviewed and tested
+locally before an authorized writer pushes the accepted commit.
 
 ## Pinned environment
 
-The job installs exact versions instead of inheriting whatever happens to be available on the runner:
+The dedicated runner provides exact Node.js and Python versions and the workflow
+fails immediately if either version drifts:
 
 | Component | Version |
 | --- | --- |
@@ -24,7 +29,10 @@ The job installs exact versions instead of inheriting whatever happens to be ava
 | JavaScript dependencies | `pnpm-lock.yaml` with frozen-lockfile enforcement |
 | Sigma toolchain | exact packages in `requirements-sigma.lock` |
 
-Remote actions use fully qualified `data.forgejo.org` URLs and immutable commit identifiers. Their comments record the reviewed release tag. Updating an action therefore requires an explicit source review and workflow-test change.
+The sole remote action uses a fully qualified `data.forgejo.org` URL and an
+immutable commit identifier. Its comment records the reviewed release tag.
+Updating it therefore requires an explicit source review and workflow-test
+change.
 
 ## Security boundary
 
@@ -32,22 +40,32 @@ Remote actions use fully qualified `data.forgejo.org` URLs and immutable commit 
 - Checkout removes persisted repository credentials before project commands run.
 - No repository, organization, deployment, cloud, or SIEM secret is referenced.
 - No production endpoint is contacted by repository tests.
-- The job requires a runner labelled `docker`; that label must map to a fresh isolated container and must not expose a host container socket, host credentials, or unrelated persistent workspace.
-- Public pull requests execute incoming repository code. They are suitable only for the isolated, secret-free runner described above.
+- The job requires the repository-specific label `metesec-detection-validate`.
+- The runner has no Kubernetes token or RBAC, no host path, no container-runtime
+  socket, no BuildKit socket, no deployment credential, no package-publisher
+  credential and no SIEM or cloud secret.
+- `host` mode means there is no hard job-container isolation. This is accepted
+  only for the current single-owner, trusted-push workflow and must be replaced
+  by a containerized or ephemeral design before enabling public pull requests.
 
 Forgejo documents the workflow directory and runner requirement in its [Actions overview](https://forgejo.org/docs/latest/user/actions/overview/), recommends fully qualified action URLs in [Using Actions](https://forgejo.org/docs/latest/user/actions/actions/), and describes pull-request and runner isolation risks in [Actions security](https://forgejo.org/docs/latest/user/actions/security/).
 
 ## Validation path
 
-The workflow performs four steps after checkout and tool setup:
+The workflow verifies the runner toolchain, creates a disposable Python virtual
+environment, and then performs the same repository validation used locally:
 
 ```console
-npm install --global pnpm@11.19.0
+npm install --global --prefix "$RUNNER_TEMP/pnpm" pnpm@11.19.0
+python -m venv "$RUNNER_TEMP/venv"
 pnpm install --frozen-lockfile
 python -m pip install --requirement requirements-sigma.lock
 pnpm run check
 ```
 
-The aggregate check includes a workflow contract test. It rejects a changed trigger set, a non-container runner label, missing read-only permission, persisted checkout credentials, unpinned remote actions, changed tool versions, or a command that no longer runs the complete repository validation.
+The aggregate check includes a workflow contract test. It rejects a changed
+trusted trigger set, a different runner label, missing read-only permission,
+persisted checkout credentials, an unpinned remote action, changed tool
+versions, or a command that no longer runs the complete repository validation.
 
 Local checks prove the YAML can be parsed and that the documented safety contract is present. A successful run on the actual Forgejo runner is still required before the server-side pipeline is considered operational or used as a release gate.
