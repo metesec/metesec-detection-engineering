@@ -42,6 +42,11 @@ class SentinelCompilerTests(unittest.TestCase):
                 "MSEC-DET-0018",
                 "MSEC-DET-0019",
                 "MSEC-DET-0020",
+                "MSEC-DET-0021",
+                "MSEC-DET-0022",
+                "MSEC-DET-0023",
+                "MSEC-DET-0024",
+                "MSEC-DET-0025",
             ],
         )
         for item in compiled:

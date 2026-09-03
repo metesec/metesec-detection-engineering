@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "detection_id": "MSEC-DET-0025",
+  "implementation": "content/portable/sigma/MSEC-DET-0025/rule.yml",
+  "cases": [
+    {"id": "direct-http-transfer", "expectation": "match", "fixture": "fixtures/direct-http-transfer.json", "description": "Synthetic BITSAdmin direct transfer uses an HTTP resource."},
+    {"id": "direct-https-upload", "expectation": "match", "fixture": "fixtures/direct-https-upload.json", "description": "Synthetic BITSAdmin upload uses an HTTPS resource."},
+    {"id": "create-addfile-with-context", "expectation": "match", "fixture": "fixtures/create-addfile-with-context.json", "description": "Synthetic staged BITS job includes create, addfile and bounded endpoint context."},
+    {"id": "list-jobs", "expectation": "no_match", "fixture": "fixtures/list-jobs.json", "description": "Synthetic BITS job enumeration is outside the rule."},
+    {"id": "create-without-addfile", "expectation": "no_match", "fixture": "fixtures/create-without-addfile.json", "description": "Synthetic incomplete staged job lacks addfile."},
+    {"id": "transfer-without-remote-resource", "expectation": "no_match", "fixture": "fixtures/transfer-without-remote-resource.json", "description": "Synthetic transfer without HTTP or HTTPS is outside the rule."},
+    {"id": "other-process", "expectation": "no_match", "fixture": "fixtures/other-process.json", "description": "Synthetic unrelated process with matching command words does not match."}
+  ]
+}

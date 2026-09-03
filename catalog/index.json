@@ -2,11 +2,11 @@
   "schema_version": 1,
   "source": "catalog/detections/*/manifest.json",
   "summary": {
-    "detections": 20,
-    "implementations": 20,
-    "positive_cases": 60,
-    "negative_cases": 80,
-    "sentinel_preview_bindings": 19
+    "detections": 25,
+    "implementations": 25,
+    "positive_cases": 75,
+    "negative_cases": 100,
+    "sentinel_preview_bindings": 24
   },
   "detections": [
     {
@@ -1145,6 +1145,315 @@
         }
       ],
       "manifest": "catalog/detections/MSEC-DET-0020/manifest.json"
+    },
+    {
+      "id": "MSEC-DET-0021",
+      "title": "Highly privileged delegated permission granted for all users",
+      "description": "Detects a successful Microsoft Entra delegated permission grant that combines the high-privilege RoleManagement.ReadWrite.Directory scope with AllPrincipals consent for all users.",
+      "lifecycle": {
+        "status": "experimental",
+        "created": "2026-09-03",
+        "modified": "2026-09-03",
+        "review_interval_days": 90
+      },
+      "severity": "high",
+      "confidence": "high",
+      "attack": [
+        {
+          "technique_id": "T1098.003",
+          "tactic": "Persistence"
+        },
+        {
+          "technique_id": "T1098.003",
+          "tactic": "Privilege Escalation"
+        }
+      ],
+      "data_sources": [
+        {
+          "name": "Microsoft Entra audit logs",
+          "category": "Identity directory audit",
+          "required_fields": [
+            "TimeGenerated",
+            "CorrelationId",
+            "InitiatedBy",
+            "LoggedByService",
+            "OperationName",
+            "Result",
+            "TargetResources"
+          ]
+        }
+      ],
+      "validation": {
+        "positive_cases": 3,
+        "negative_cases": 4
+      },
+      "implementations": [
+        {
+          "type": "sigma",
+          "path": "content/portable/sigma/MSEC-DET-0021/rule.yml",
+          "targets": [
+            "sentinel"
+          ],
+          "status": "active"
+        }
+      ],
+      "target_bindings": [
+        {
+          "target": "microsoft-sentinel",
+          "table": "AuditLogs",
+          "golden": "tests/golden/sentinel/MSEC-DET-0021.kql"
+        }
+      ],
+      "manifest": "catalog/detections/MSEC-DET-0021/manifest.json"
+    },
+    {
+      "id": "MSEC-DET-0022",
+      "title": "Microsoft Entra strong authentication disabled",
+      "description": "Detects a successful Microsoft Entra audit operation that disables strong authentication for an account.",
+      "lifecycle": {
+        "status": "experimental",
+        "created": "2026-09-03",
+        "modified": "2026-09-03",
+        "review_interval_days": 90
+      },
+      "severity": "medium",
+      "confidence": "high",
+      "attack": [
+        {
+          "technique_id": "T1556.006",
+          "tactic": "Defense Impairment"
+        },
+        {
+          "technique_id": "T1556.006",
+          "tactic": "Persistence"
+        },
+        {
+          "technique_id": "T1556.006",
+          "tactic": "Credential Access"
+        }
+      ],
+      "data_sources": [
+        {
+          "name": "Microsoft Entra audit logs",
+          "category": "Identity directory audit",
+          "required_fields": [
+            "TimeGenerated",
+            "CorrelationId",
+            "InitiatedBy",
+            "LoggedByService",
+            "OperationName",
+            "Result",
+            "TargetResources"
+          ]
+        }
+      ],
+      "validation": {
+        "positive_cases": 3,
+        "negative_cases": 4
+      },
+      "implementations": [
+        {
+          "type": "sigma",
+          "path": "content/portable/sigma/MSEC-DET-0022/rule.yml",
+          "targets": [
+            "sentinel"
+          ],
+          "status": "active"
+        }
+      ],
+      "target_bindings": [
+        {
+          "target": "microsoft-sentinel",
+          "table": "AuditLogs",
+          "golden": "tests/golden/sentinel/MSEC-DET-0022.kql"
+        }
+      ],
+      "manifest": "catalog/detections/MSEC-DET-0022/manifest.json"
+    },
+    {
+      "id": "MSEC-DET-0023",
+      "title": "Reg.exe exports the SAM or SECURITY registry hive",
+      "description": "Detects reg.exe save or export commands targeting the SAM or SECURITY registry hive, a process-visible path toward offline credential extraction.",
+      "lifecycle": {
+        "status": "experimental",
+        "created": "2026-09-03",
+        "modified": "2026-09-03",
+        "review_interval_days": 90
+      },
+      "severity": "high",
+      "confidence": "high",
+      "attack": [
+        {
+          "technique_id": "T1003.002",
+          "tactic": "Credential Access"
+        }
+      ],
+      "data_sources": [
+        {
+          "name": "Microsoft Defender for Endpoint process events",
+          "category": "Endpoint process creation",
+          "required_fields": [
+            "TimeGenerated",
+            "Timestamp",
+            "DeviceId",
+            "DeviceName",
+            "AccountName",
+            "InitiatingProcessFileName",
+            "FileName",
+            "FolderPath",
+            "ProcessCommandLine",
+            "ReportId"
+          ]
+        }
+      ],
+      "validation": {
+        "positive_cases": 3,
+        "negative_cases": 4
+      },
+      "implementations": [
+        {
+          "type": "sigma",
+          "path": "content/portable/sigma/MSEC-DET-0023/rule.yml",
+          "targets": [
+            "sentinel"
+          ],
+          "status": "active"
+        }
+      ],
+      "target_bindings": [
+        {
+          "target": "microsoft-sentinel",
+          "table": "DeviceProcessEvents",
+          "golden": "tests/golden/sentinel/MSEC-DET-0023.kql"
+        }
+      ],
+      "manifest": "catalog/detections/MSEC-DET-0023/manifest.json"
+    },
+    {
+      "id": "MSEC-DET-0024",
+      "title": "Remote process creation through Windows WMI or CIM",
+      "description": "Detects command lines that explicitly request remote Win32_Process creation through WMIC or PowerShell WMI and CIM interfaces.",
+      "lifecycle": {
+        "status": "experimental",
+        "created": "2026-09-03",
+        "modified": "2026-09-03",
+        "review_interval_days": 90
+      },
+      "severity": "medium",
+      "confidence": "medium",
+      "attack": [
+        {
+          "technique_id": "T1047",
+          "tactic": "Execution"
+        }
+      ],
+      "data_sources": [
+        {
+          "name": "Microsoft Defender for Endpoint process events",
+          "category": "Endpoint process creation",
+          "required_fields": [
+            "TimeGenerated",
+            "Timestamp",
+            "DeviceId",
+            "DeviceName",
+            "AccountName",
+            "InitiatingProcessFileName",
+            "FileName",
+            "FolderPath",
+            "ProcessCommandLine",
+            "ReportId"
+          ]
+        }
+      ],
+      "validation": {
+        "positive_cases": 3,
+        "negative_cases": 4
+      },
+      "implementations": [
+        {
+          "type": "sigma",
+          "path": "content/portable/sigma/MSEC-DET-0024/rule.yml",
+          "targets": [
+            "sentinel"
+          ],
+          "status": "active"
+        }
+      ],
+      "target_bindings": [
+        {
+          "target": "microsoft-sentinel",
+          "table": "DeviceProcessEvents",
+          "golden": "tests/golden/sentinel/MSEC-DET-0024.kql"
+        }
+      ],
+      "manifest": "catalog/detections/MSEC-DET-0024/manifest.json"
+    },
+    {
+      "id": "MSEC-DET-0025",
+      "title": "BITSAdmin creates a remote file-transfer job",
+      "description": "Detects bitsadmin.exe command lines that create a BITS transfer involving an HTTP or HTTPS resource.",
+      "lifecycle": {
+        "status": "experimental",
+        "created": "2026-09-03",
+        "modified": "2026-09-03",
+        "review_interval_days": 90
+      },
+      "severity": "medium",
+      "confidence": "medium",
+      "attack": [
+        {
+          "technique_id": "T1197",
+          "tactic": "Stealth"
+        },
+        {
+          "technique_id": "T1197",
+          "tactic": "Persistence"
+        },
+        {
+          "technique_id": "T1197",
+          "tactic": "Execution"
+        }
+      ],
+      "data_sources": [
+        {
+          "name": "Microsoft Defender for Endpoint process events",
+          "category": "Endpoint process creation",
+          "required_fields": [
+            "TimeGenerated",
+            "Timestamp",
+            "DeviceId",
+            "DeviceName",
+            "AccountName",
+            "InitiatingProcessFileName",
+            "FileName",
+            "FolderPath",
+            "ProcessCommandLine",
+            "ReportId"
+          ]
+        }
+      ],
+      "validation": {
+        "positive_cases": 3,
+        "negative_cases": 4
+      },
+      "implementations": [
+        {
+          "type": "sigma",
+          "path": "content/portable/sigma/MSEC-DET-0025/rule.yml",
+          "targets": [
+            "sentinel"
+          ],
+          "status": "active"
+        }
+      ],
+      "target_bindings": [
+        {
+          "target": "microsoft-sentinel",
+          "table": "DeviceProcessEvents",
+          "golden": "tests/golden/sentinel/MSEC-DET-0025.kql"
+        }
+      ],
+      "manifest": "catalog/detections/MSEC-DET-0025/manifest.json"
     }
   ]
 }

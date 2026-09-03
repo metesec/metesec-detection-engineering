@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "event": {
+    "TimeGenerated": "2026-09-03T09:00:00Z",
+    "OperationName": "Add delegated permission grant",
+    "Result": "success",
+    "TargetResources": "[{\"id\":\"00000000-0000-0000-0000-000000000021\",\"displayName\":\"Synthetic Governance Application\",\"modifiedProperties\":[{\"displayName\":\"DelegatedPermissionGrant.Scope\",\"newValue\":\"User.Read RoleManagement.ReadWrite.Directory\"},{\"displayName\":\"DelegatedPermissionGrant.ConsentType\",\"newValue\":\"AllPrincipals\"}]}]",
+    "InitiatedBy": "synthetic-user",
+    "CorrelationId": "00000000-0000-0000-0000-000000002021",
+    "LoggedByService": "Core Directory"
+  }
+}

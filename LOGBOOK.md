@@ -1565,3 +1565,109 @@ Wave 3 is complete locally: twenty of thirty Sigma detections now exist,
 nineteen have deterministic disabled Sentinel output and the single unsupported
 Windows Event dependency remains explicit. Wave 4 must be selected as another
 separately reviewed five-rule set.
+
+## 2026-09-03 — Sigma expansion Wave 4 reached 25 of 30 locally
+
+### Starting state and selection gate
+
+- Twenty reviewed Sigma detections existed; nineteen had explicit Sentinel
+  bindings and `MSEC-DET-0001` remained intentionally unbound because the
+  available target has no suitable Windows service-installation event source.
+- Candidate selection was constrained to the already observed and contracted
+  `AuditLogs` and `DeviceProcessEvents` tables. Official Microsoft product and
+  Sentinel detection guidance, current MITRE ATT&CK mappings and matching
+  SigmaHQ rule precedents were reviewed before implementation.
+- A broader rejected-MFA candidate was deliberately excluded. Its aggregate
+  baseline was too active for this modular default pack without
+  environment-specific context, whereas the selected predicates were narrower
+  and directly actionable. No exact result count or raw output was retained.
+- No upstream rule file was copied. The five predicates, metadata, triage
+  guidance and tests were authored for this repository's explicit contracts.
+
+### Detection packages
+
+- Added `MSEC-DET-0021` for a successful all-users delegated grant of
+  `RoleManagement.ReadWrite.Directory`, mapped to `T1098.003` under Persistence
+  and Privilege Escalation.
+- Added `MSEC-DET-0022` for successful `Disable Strong Authentication` Entra
+  audit activity, mapped to `T1556.006` under Credential Access, Defense
+  Impairment and Persistence.
+- Added `MSEC-DET-0023` for `reg.exe` exporting the SAM or SECURITY registry
+  hive, mapped to `T1003.002`.
+- Added `MSEC-DET-0024` for remote process creation through WMI or CIM command
+  patterns, mapped to `T1047`.
+- Added `MSEC-DET-0025` for BITSAdmin remote transfer-job creation, mapped to
+  `T1197` under the current Execution, Persistence and Stealth tactics.
+- Each package contains one manifest, one Sigma source, three positive and four
+  negative synthetic fixtures. The catalogue now contains twenty-five rules
+  and 175 fixture expectations.
+
+### Sentinel contracts and ATT&CK compatibility
+
+- Added two `AuditLogs` bindings and three `DeviceProcessEvents` bindings, five
+  reviewed Golden KQL files and five disabled five-minute Scheduled-rule
+  configurations. Twenty-four of twenty-five detections now have Sentinel
+  output.
+- The privileged-permission binding preserves initiating identity and target
+  service-principal context. The strong-authentication binding preserves the
+  initiating identity and neutral target object fields. Endpoint rules retain
+  their bounded process context and map only the observed account name.
+- Microsoft SecurityInsights API `2025-09-01` does not expose current ATT&CK
+  `Stealth` in its target tactic enum. The renderer therefore retains `Stealth`
+  in source metadata and provenance while omitting only that unsupported target
+  value, matching the established `Defense Impairment` compatibility behavior.
+- Regenerated catalogue and coverage outputs. Coverage now records thirty-one
+  ATT&CK mappings across nineteen techniques and ten tactics, five logical data
+  sources, four Sentinel source contracts and one explicit target gap.
+
+### Read-only live validation
+
+- Each final Wave 4 predicate was submitted as a bounded read-only 30-day
+  aggregate query in the existing authorized security workspace. All five
+  predicates were accepted.
+- `MSEC-DET-0021` had an existing match. `MSEC-DET-0022` through
+  `MSEC-DET-0025` had no match in the current baseline. This confirms query
+  acceptance only; it does not establish maliciousness, completeness, future
+  noise level, performance or production readiness.
+- No raw event, exact count, identity, device, address, tenant, subscription,
+  workspace, customer value, copied result or screenshot was stored.
+
+### Validation and corrections
+
+- After the workstation restart, the default Python environment could not load
+  the pinned Sigma dependencies. The existing repository `.venv` was reused;
+  no dependency version was changed.
+- The first unit-test pass correctly exposed stale twenty-rule and
+  nineteen-binding expectations. Catalogue, compiler, renderer, source,
+  coverage, lifecycle, runtime and release assertions were advanced to the
+  exact Wave 4 totals.
+- The first renderer pass rejected `Stealth` because it is absent from the
+  target API enum. The compatibility map and its provenance regression test
+  were extended without changing the logical ATT&CK declaration.
+- A request-body safety test rejected the word `tenant` in the first rule's
+  title. The title was made more precise as `for all users`, avoiding ambiguous
+  target wording without weakening the predicate.
+- The complete aggregate repository check passed 83 unit tests plus every
+  manifest, package, catalogue, Sigma, fixture, Sentinel Golden, profile,
+  renderer, data-source, coverage, lifecycle, runtime-health and release gate.
+  All 175 synthetic fixture expectations passed and all twenty-four disabled
+  Sentinel Scheduled-rule bodies rendered successfully.
+- The deterministic local `v0.4.0` candidate contains 313 ZIP members,
+  including 312 allowlisted sources, and has SHA-256
+  `940cca19a686b51b42206afcd59dcce53a89d3abe7acfab38a6b8f9bce9023c0`.
+
+### Explicitly untouched
+
+- No Sentinel analytics rule was deployed or enabled and no cloud
+  configuration was changed.
+- No environment-specific exception, allowlist, tuning overlay, raw live data,
+  native KQL detection or separate prebuilt Sentinel target artifact was added.
+- No commit was pushed. Forgejo, the GitHub mirror and the immutable published
+  `v0.1.0` release remain unchanged.
+
+### Result
+
+Wave 4 is complete locally: twenty-five of thirty Sigma detections now exist,
+twenty-four have deterministic disabled Sentinel output and the single
+unsupported Windows Event dependency remains explicit. Wave 5 must be selected
+as another separately reviewed five-rule set.

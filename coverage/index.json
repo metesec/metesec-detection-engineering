@@ -6,12 +6,12 @@
     "sentinel_data_sources": "targets/sentinel/data-sources.json"
   },
   "summary": {
-    "detections": 20,
-    "attack_mappings": 21,
-    "attack_techniques": 15,
-    "attack_tactics": 9,
+    "detections": 25,
+    "attack_mappings": 31,
+    "attack_techniques": 19,
+    "attack_tactics": 10,
     "logical_data_sources": 5,
-    "sentinel_preview_bindings": 19,
+    "sentinel_preview_bindings": 24,
     "sentinel_data_source_contracts": 4,
     "detections_without_sentinel_binding": 1
   },
@@ -24,6 +24,24 @@
         ],
         "detections": [
           "MSEC-DET-0011"
+        ]
+      },
+      {
+        "technique_id": "T1003.002",
+        "tactics": [
+          "Credential Access"
+        ],
+        "detections": [
+          "MSEC-DET-0023"
+        ]
+      },
+      {
+        "technique_id": "T1047",
+        "tactics": [
+          "Execution"
+        ],
+        "detections": [
+          "MSEC-DET-0024"
         ]
       },
       {
@@ -68,12 +86,14 @@
       {
         "technique_id": "T1098.003",
         "tactics": [
+          "Persistence",
           "Privilege Escalation"
         ],
         "detections": [
           "MSEC-DET-0005",
           "MSEC-DET-0008",
-          "MSEC-DET-0015"
+          "MSEC-DET-0015",
+          "MSEC-DET-0021"
         ]
       },
       {
@@ -83,6 +103,17 @@
         ],
         "detections": [
           "MSEC-DET-0020"
+        ]
+      },
+      {
+        "technique_id": "T1197",
+        "tactics": [
+          "Execution",
+          "Persistence",
+          "Stealth"
+        ],
+        "detections": [
+          "MSEC-DET-0025"
         ]
       },
       {
@@ -132,6 +163,17 @@
         ]
       },
       {
+        "technique_id": "T1556.006",
+        "tactics": [
+          "Credential Access",
+          "Defense Impairment",
+          "Persistence"
+        ],
+        "detections": [
+          "MSEC-DET-0022"
+        ]
+      },
+      {
         "technique_id": "T1556.009",
         "tactics": [
           "Defense Evasion"
@@ -172,10 +214,14 @@
       {
         "tactic": "Credential Access",
         "techniques": [
-          "T1003.001"
+          "T1003.001",
+          "T1003.002",
+          "T1556.006"
         ],
         "detections": [
-          "MSEC-DET-0011"
+          "MSEC-DET-0011",
+          "MSEC-DET-0022",
+          "MSEC-DET-0023"
         ]
       },
       {
@@ -195,24 +241,30 @@
         "tactic": "Defense Impairment",
         "techniques": [
           "T1484.002",
+          "T1556.006",
           "T1685",
           "T1685.005"
         ],
         "detections": [
           "MSEC-DET-0017",
           "MSEC-DET-0018",
-          "MSEC-DET-0019"
+          "MSEC-DET-0019",
+          "MSEC-DET-0022"
         ]
       },
       {
         "tactic": "Execution",
         "techniques": [
+          "T1047",
           "T1059",
-          "T1059.001"
+          "T1059.001",
+          "T1197"
         ],
         "detections": [
           "MSEC-DET-0006",
-          "MSEC-DET-0007"
+          "MSEC-DET-0007",
+          "MSEC-DET-0024",
+          "MSEC-DET-0025"
         ]
       },
       {
@@ -239,12 +291,18 @@
         "tactic": "Persistence",
         "techniques": [
           "T1098.001",
-          "T1543.003"
+          "T1098.003",
+          "T1197",
+          "T1543.003",
+          "T1556.006"
         ],
         "detections": [
           "MSEC-DET-0001",
           "MSEC-DET-0004",
-          "MSEC-DET-0009"
+          "MSEC-DET-0009",
+          "MSEC-DET-0021",
+          "MSEC-DET-0022",
+          "MSEC-DET-0025"
         ]
       },
       {
@@ -257,7 +315,17 @@
           "MSEC-DET-0005",
           "MSEC-DET-0008",
           "MSEC-DET-0015",
-          "MSEC-DET-0019"
+          "MSEC-DET-0019",
+          "MSEC-DET-0021"
+        ]
+      },
+      {
+        "tactic": "Stealth",
+        "techniques": [
+          "T1197"
+        ],
+        "detections": [
+          "MSEC-DET-0025"
         ]
       }
     ]
@@ -276,7 +344,10 @@
           "MSEC-DET-0016",
           "MSEC-DET-0017",
           "MSEC-DET-0018",
-          "MSEC-DET-0020"
+          "MSEC-DET-0020",
+          "MSEC-DET-0023",
+          "MSEC-DET-0024",
+          "MSEC-DET-0025"
         ],
         "required_fields": [
           "AccountName",
@@ -301,7 +372,9 @@
           "MSEC-DET-0009",
           "MSEC-DET-0014",
           "MSEC-DET-0015",
-          "MSEC-DET-0019"
+          "MSEC-DET-0019",
+          "MSEC-DET-0021",
+          "MSEC-DET-0022"
         ],
         "required_fields": [
           "CorrelationId",
@@ -449,7 +522,9 @@
           "MSEC-DET-0009",
           "MSEC-DET-0014",
           "MSEC-DET-0015",
-          "MSEC-DET-0019"
+          "MSEC-DET-0019",
+          "MSEC-DET-0021",
+          "MSEC-DET-0022"
         ],
         "event_time_column": "TimeGenerated",
         "required_columns": [
@@ -500,7 +575,10 @@
           "MSEC-DET-0016",
           "MSEC-DET-0017",
           "MSEC-DET-0018",
-          "MSEC-DET-0020"
+          "MSEC-DET-0020",
+          "MSEC-DET-0023",
+          "MSEC-DET-0024",
+          "MSEC-DET-0025"
         ],
         "event_time_column": "Timestamp",
         "required_columns": [

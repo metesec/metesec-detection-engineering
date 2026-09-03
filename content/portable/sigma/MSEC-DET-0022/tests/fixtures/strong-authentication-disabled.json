@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "event": {
+    "OperationName": "Disable Strong Authentication",
+    "Result": "success"
+  }
+}

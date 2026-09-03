@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "event": {
+    "TimeGenerated": "2026-09-03T09:15:00Z",
+    "Timestamp": "2026-09-03T09:15:00Z",
+    "DeviceId": "synthetic-device-0024",
+    "DeviceName": "source.example.invalid",
+    "AccountName": "synthetic-operator",
+    "InitiatingProcessFileName": "explorer.exe",
+    "FileName": "pwsh.exe",
+    "FolderPath": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+    "ProcessCommandLine": "pwsh.exe Invoke-CimMethod -CimSession $session -ClassName Win32_Process -MethodName Create -Arguments @{CommandLine='cmd.exe /c whoami'}",
+    "ReportId": 2024
+  }
+}

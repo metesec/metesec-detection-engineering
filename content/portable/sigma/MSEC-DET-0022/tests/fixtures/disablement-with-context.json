@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "event": {
+    "TimeGenerated": "2026-09-03T09:05:00Z",
+    "OperationName": "Disable Strong Authentication",
+    "Result": "success",
+    "InitiatedBy": "synthetic-admin",
+    "TargetResources": "synthetic-account",
+    "CorrelationId": "00000000-0000-0000-0000-000000002022",
+    "LoggedByService": "Core Directory"
+  }
+}

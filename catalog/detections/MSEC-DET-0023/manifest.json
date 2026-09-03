@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0023",
+  "title": "Reg.exe exports the SAM or SECURITY registry hive",
+  "description": "Detects reg.exe save or export commands targeting the SAM or SECURITY registry hive, a process-visible path toward offline credential extraction.",
+  "hypothesis": {
+    "summary": "An adversary may export local credential material from the SAM or SECURITY registry hive for offline processing.",
+    "rationale": "MITRE explicitly documents reg save against these sensitive hives as a credential-dumping method; approved incident response and forensic acquisition can produce the same process command.",
+    "detection_goal": "Identify reg.exe save or export commands targeting HKLM SAM or SECURITY while leaving registry queries, other hives and unrelated processes unmatched."
+  },
+  "ownership": {
+    "owner": "MeteSec Detection Engineering",
+    "reviewers": []
+  },
+  "lifecycle": {
+    "status": "experimental",
+    "created": "2026-09-03",
+    "modified": "2026-09-03",
+    "review_interval_days": 90
+  },
+  "severity": "high",
+  "confidence": "high",
+  "data_sources": [
+    {
+      "name": "Microsoft Defender for Endpoint process events",
+      "category": "Endpoint process creation",
+      "required_fields": ["TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountName", "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"]
+    }
+  ],
+  "attack": [
+    {
+      "technique_id": "T1003.002",
+      "tactic": "Credential Access"
+    }
+  ],
+  "triage": {
+    "summary": "Determine who exported the hive, where the output was written and whether the resulting credential material was accessed, staged or transferred.",
+    "steps": [
+      "Review the complete command line, account, device, parent process, output path and nearby elevated process activity.",
+      "Inspect creation and access of the exported hive, subsequent archive or transfer behavior and credential-related tooling on the endpoint.",
+      "Confirm an approved forensic or recovery workflow; isolate the device, protect affected credentials and preserve evidence if unauthorized."
+    ],
+    "false_positives": [
+      "Authorized forensic acquisition, incident response, backup or disaster-recovery activity"
+    ]
+  },
+  "validation": {
+    "expected_outcome": "Match reg.exe save or export commands for the SAM or SECURITY hive; do not match queries, other hives, unrelated processes or missing command lines.",
+    "positive_tests": true,
+    "negative_tests": true
+  },
+  "implementations": [
+    {
+      "type": "sigma",
+      "path": "content/portable/sigma/MSEC-DET-0023/rule.yml",
+      "targets": ["sentinel"],
+      "status": "active"
+    }
+  ]
+}

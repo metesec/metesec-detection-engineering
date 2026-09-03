@@ -1,0 +1,3 @@
+DeviceProcessEvents
+| where (FileName =~ "wmic.exe" and ProcessCommandLine contains "/node:" and (ProcessCommandLine contains "process" and ProcessCommandLine contains "call" and ProcessCommandLine contains "create")) or ((FileName in~ ("powershell.exe", "pwsh.exe")) and (ProcessCommandLine contains "Invoke-WmiMethod" or ProcessCommandLine contains "Invoke-CimMethod") and ProcessCommandLine contains "Win32_Process" and ProcessCommandLine contains "Create" and (ProcessCommandLine contains "-ComputerName" or ProcessCommandLine contains "-CimSession"))
+| project TimeGenerated, Timestamp, DeviceId, DeviceName, AccountDomain, AccountName, AccountSid, InitiatingProcessFileName, FileName, FolderPath, ProcessCommandLine, ReportId

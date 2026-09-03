@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "detection_id": "MSEC-DET-0024",
+  "implementation": "content/portable/sigma/MSEC-DET-0024/rule.yml",
+  "cases": [
+    {"id": "wmic-remote-process-create", "expectation": "match", "fixture": "fixtures/wmic-remote-process-create.json", "description": "Synthetic WMIC command creates a process on a remote node."},
+    {"id": "powershell-wmi-remote-create", "expectation": "match", "fixture": "fixtures/powershell-wmi-remote-create.json", "description": "Synthetic Invoke-WmiMethod command creates Win32_Process remotely."},
+    {"id": "powershell-cim-session-create", "expectation": "match", "fixture": "fixtures/powershell-cim-session-create.json", "description": "Synthetic Invoke-CimMethod command uses a remote CIM session."},
+    {"id": "wmic-local-process-create", "expectation": "no_match", "fixture": "fixtures/wmic-local-process-create.json", "description": "Synthetic local WMIC process creation lacks a remote node."},
+    {"id": "wmic-remote-query", "expectation": "no_match", "fixture": "fixtures/wmic-remote-query.json", "description": "Synthetic remote WMI query does not create a process."},
+    {"id": "powershell-local-cim-create", "expectation": "no_match", "fixture": "fixtures/powershell-local-cim-create.json", "description": "Synthetic local CIM process creation lacks a remote selector."},
+    {"id": "other-process", "expectation": "no_match", "fixture": "fixtures/other-process.json", "description": "Synthetic unrelated process with matching command words does not match."}
+  ]
+}

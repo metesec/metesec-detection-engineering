@@ -50,10 +50,11 @@ _TACTICS = {
     "Persistence": "Persistence",
     "Privilege Escalation": "PrivilegeEscalation",
     "Defense Evasion": "DefenseEvasion",
-    # ATT&CK introduced Defense Impairment after the Sentinel 2025-09-01
-    # AttackTactic enum was published. Keep the source mapping exact and omit
-    # only that unsupported target tactic instead of mislabeling it.
+    # ATT&CK introduced Defense Impairment and Stealth after the Sentinel
+    # 2025-09-01 AttackTactic enum was published. Keep the source mappings exact
+    # and omit only unsupported target tactics instead of mislabeling them.
     "Defense Impairment": None,
+    "Stealth": None,
     "Credential Access": "CredentialAccess",
     "Discovery": "Discovery",
     "Lateral Movement": "LateralMovement",

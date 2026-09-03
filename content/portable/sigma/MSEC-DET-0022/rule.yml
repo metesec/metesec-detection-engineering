@@ -1,0 +1,34 @@
+title: Microsoft Entra Strong Authentication Disabled
+id: b2544605-e278-4f9f-9d99-b95cf4a168a9
+status: experimental
+description: Detects a successful Microsoft Entra audit operation that disables strong authentication for an account.
+references:
+  - https://learn.microsoft.com/en-us/entra/identity/monitoring-health/reference-audit-activities
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/azure/audit_logs/azure_mfa_disabled.yml
+  - https://attack.mitre.org/techniques/T1556/006/
+author: MeteSec Detection Engineering
+date: 2026-09-03
+tags:
+  - attack.defense-impairment
+  - attack.persistence
+  - attack.credential-access
+  - attack.t1556.006
+logsource:
+  product: azure
+  service: auditlogs
+detection:
+  selection:
+    OperationName: Disable Strong Authentication
+    Result: success
+  condition: selection
+fields:
+  - TimeGenerated
+  - OperationName
+  - Result
+  - InitiatedBy
+  - TargetResources
+  - CorrelationId
+  - LoggedByService
+falsepositives:
+  - Authorized identity administration, account recovery, migration, or break-glass maintenance.
+level: medium

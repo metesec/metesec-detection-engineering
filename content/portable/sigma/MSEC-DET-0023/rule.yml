@@ -1,0 +1,44 @@
+title: Reg.exe Exports the SAM or SECURITY Registry Hive
+id: 28fb405d-95c7-46e2-bf80-4f40b2f7ac59
+status: experimental
+description: Detects reg.exe save or export commands targeting the SAM or SECURITY registry hive.
+references:
+  - https://attack.mitre.org/techniques/T1003/002/
+  - https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/reg-save
+  - https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table
+author: MeteSec Detection Engineering
+date: 2026-09-03
+tags:
+  - attack.credential-access
+  - attack.t1003.002
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  image:
+    FileName: reg.exe
+  action:
+    ProcessCommandLine|contains:
+      - ' save '
+      - ' export '
+  sensitive_hive:
+    ProcessCommandLine|contains:
+      - 'HKLM\SAM'
+      - 'HKEY_LOCAL_MACHINE\SAM'
+      - 'HKLM\SECURITY'
+      - 'HKEY_LOCAL_MACHINE\SECURITY'
+  condition: image and action and sensitive_hive
+fields:
+  - TimeGenerated
+  - Timestamp
+  - DeviceId
+  - DeviceName
+  - AccountName
+  - InitiatingProcessFileName
+  - FileName
+  - FolderPath
+  - ProcessCommandLine
+  - ReportId
+falsepositives:
+  - Authorized forensic acquisition, incident response, backup, or disaster-recovery activity.
+level: high

@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0022",
+  "title": "Microsoft Entra strong authentication disabled",
+  "description": "Detects a successful Microsoft Entra audit operation that disables strong authentication for an account.",
+  "hypothesis": {
+    "summary": "An adversary or unauthorized administrator may disable strong authentication to preserve access to a compromised account.",
+    "rationale": "Microsoft exposes Disable Strong Authentication as a distinct audit activity, MITRE documents MFA modification as an authentication-control impairment and SigmaHQ treats the successful operation as a medium-severity signal because authorized administration remains possible.",
+    "detection_goal": "Identify successful Disable Strong Authentication operations while leaving enablement, failed changes and unrelated authentication-method administration unmatched."
+  },
+  "ownership": {
+    "owner": "MeteSec Detection Engineering",
+    "reviewers": []
+  },
+  "lifecycle": {
+    "status": "experimental",
+    "created": "2026-09-03",
+    "modified": "2026-09-03",
+    "review_interval_days": 90
+  },
+  "severity": "medium",
+  "confidence": "high",
+  "data_sources": [
+    {
+      "name": "Microsoft Entra audit logs",
+      "category": "Identity directory audit",
+      "required_fields": ["TimeGenerated", "CorrelationId", "InitiatedBy", "LoggedByService", "OperationName", "Result", "TargetResources"]
+    }
+  ],
+  "attack": [
+    {
+      "technique_id": "T1556.006",
+      "tactic": "Defense Impairment"
+    },
+    {
+      "technique_id": "T1556.006",
+      "tactic": "Persistence"
+    },
+    {
+      "technique_id": "T1556.006",
+      "tactic": "Credential Access"
+    }
+  ],
+  "triage": {
+    "summary": "Identify the affected account and initiator, validate an approved authentication-administration request and inspect subsequent access for compromise.",
+    "steps": [
+      "Review the initiating user or application, source IP, target account, correlation identifier and adjacent authentication-method events.",
+      "Confirm the change against an approved support, break-glass or identity-administration record and the expected administrator.",
+      "Inspect sign-ins, risk events, factor registrations and account changes before and after the operation; restore strong authentication and contain unauthorized access."
+    ],
+    "false_positives": [
+      "Authorized identity administration, account recovery, migration or break-glass maintenance"
+    ]
+  },
+  "validation": {
+    "expected_outcome": "Match successful strong-authentication disablement; do not match enablement, failures, unrelated method changes or missing result values.",
+    "positive_tests": true,
+    "negative_tests": true
+  },
+  "implementations": [
+    {
+      "type": "sigma",
+      "path": "content/portable/sigma/MSEC-DET-0022/rule.yml",
+      "targets": ["sentinel"],
+      "status": "active"
+    }
+  ]
+}

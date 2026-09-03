@@ -6,10 +6,10 @@ This index is generated deterministically from the versioned detection manifests
 
 ## Summary
 
-- Detection packages: **20**
-- Implementations: **20**
-- Synthetic evidence: **60 positive / 80 negative cases**
-- Sentinel preview bindings: **19**
+- Detection packages: **25**
+- Implementations: **25**
+- Synthetic evidence: **75 positive / 100 negative cases**
+- Sentinel preview bindings: **24**
 
 ## Coverage
 
@@ -35,6 +35,11 @@ This index is generated deterministically from the versioned detection manifests
 | [`MSEC-DET-0018`](catalog/detections/MSEC-DET-0018/manifest.json) | PowerShell attempts to weaken Microsoft Defender Antivirus | experimental | high | `T1685` | Microsoft Defender for Endpoint process events | 3 positive / 4 negative | `DeviceProcessEvents` |
 | [`MSEC-DET-0019`](catalog/detections/MSEC-DET-0019/manifest.json) | Microsoft Entra federation trust configuration changed | experimental | high | `T1484.002`, `T1484.002` | Microsoft Entra audit logs | 3 positive / 4 negative | `AuditLogs` |
 | [`MSEC-DET-0020`](catalog/detections/MSEC-DET-0020/manifest.json) | Certutil requests remote content through URL cache | experimental | medium | `T1105` | Microsoft Defender for Endpoint process events | 3 positive / 4 negative | `DeviceProcessEvents` |
+| [`MSEC-DET-0021`](catalog/detections/MSEC-DET-0021/manifest.json) | Highly privileged delegated permission granted for all users | experimental | high | `T1098.003`, `T1098.003` | Microsoft Entra audit logs | 3 positive / 4 negative | `AuditLogs` |
+| [`MSEC-DET-0022`](catalog/detections/MSEC-DET-0022/manifest.json) | Microsoft Entra strong authentication disabled | experimental | medium | `T1556.006`, `T1556.006`, `T1556.006` | Microsoft Entra audit logs | 3 positive / 4 negative | `AuditLogs` |
+| [`MSEC-DET-0023`](catalog/detections/MSEC-DET-0023/manifest.json) | Reg.exe exports the SAM or SECURITY registry hive | experimental | high | `T1003.002` | Microsoft Defender for Endpoint process events | 3 positive / 4 negative | `DeviceProcessEvents` |
+| [`MSEC-DET-0024`](catalog/detections/MSEC-DET-0024/manifest.json) | Remote process creation through Windows WMI or CIM | experimental | medium | `T1047` | Microsoft Defender for Endpoint process events | 3 positive / 4 negative | `DeviceProcessEvents` |
+| [`MSEC-DET-0025`](catalog/detections/MSEC-DET-0025/manifest.json) | BITSAdmin creates a remote file-transfer job | experimental | medium | `T1197`, `T1197`, `T1197` | Microsoft Defender for Endpoint process events | 3 positive / 4 negative | `DeviceProcessEvents` |
 
 ## Records
 
@@ -336,3 +341,78 @@ Detects certutil command lines that combine a remote URL with URL-cache or split
 - Sentinel preview:
   - Table `DeviceProcessEvents`; [reviewed Golden query](tests/golden/sentinel/MSEC-DET-0020.kql)
 - Source: [catalog/detections/MSEC-DET-0020/manifest.json](catalog/detections/MSEC-DET-0020/manifest.json)
+
+### MSEC-DET-0021 — Highly privileged delegated permission granted for all users
+
+Detects a successful Microsoft Entra delegated permission grant that combines the high-privilege RoleManagement.ReadWrite.Directory scope with AllPrincipals consent for all users.
+
+- Lifecycle: `experimental`; created 2026-09-03; review every 90 days
+- Severity / confidence: `high` / `high`
+- ATT&CK: `T1098.003` (Persistence), `T1098.003` (Privilege Escalation)
+- Data sources: Microsoft Entra audit logs (Identity directory audit)
+- Synthetic evidence: 3 positive and 4 negative cases
+- Implementations:
+  - [content/portable/sigma/MSEC-DET-0021/rule.yml](content/portable/sigma/MSEC-DET-0021/rule.yml) — `active`; targets `sentinel`
+- Sentinel preview:
+  - Table `AuditLogs`; [reviewed Golden query](tests/golden/sentinel/MSEC-DET-0021.kql)
+- Source: [catalog/detections/MSEC-DET-0021/manifest.json](catalog/detections/MSEC-DET-0021/manifest.json)
+
+### MSEC-DET-0022 — Microsoft Entra strong authentication disabled
+
+Detects a successful Microsoft Entra audit operation that disables strong authentication for an account.
+
+- Lifecycle: `experimental`; created 2026-09-03; review every 90 days
+- Severity / confidence: `medium` / `high`
+- ATT&CK: `T1556.006` (Defense Impairment), `T1556.006` (Persistence), `T1556.006` (Credential Access)
+- Data sources: Microsoft Entra audit logs (Identity directory audit)
+- Synthetic evidence: 3 positive and 4 negative cases
+- Implementations:
+  - [content/portable/sigma/MSEC-DET-0022/rule.yml](content/portable/sigma/MSEC-DET-0022/rule.yml) — `active`; targets `sentinel`
+- Sentinel preview:
+  - Table `AuditLogs`; [reviewed Golden query](tests/golden/sentinel/MSEC-DET-0022.kql)
+- Source: [catalog/detections/MSEC-DET-0022/manifest.json](catalog/detections/MSEC-DET-0022/manifest.json)
+
+### MSEC-DET-0023 — Reg.exe exports the SAM or SECURITY registry hive
+
+Detects reg.exe save or export commands targeting the SAM or SECURITY registry hive, a process-visible path toward offline credential extraction.
+
+- Lifecycle: `experimental`; created 2026-09-03; review every 90 days
+- Severity / confidence: `high` / `high`
+- ATT&CK: `T1003.002` (Credential Access)
+- Data sources: Microsoft Defender for Endpoint process events (Endpoint process creation)
+- Synthetic evidence: 3 positive and 4 negative cases
+- Implementations:
+  - [content/portable/sigma/MSEC-DET-0023/rule.yml](content/portable/sigma/MSEC-DET-0023/rule.yml) — `active`; targets `sentinel`
+- Sentinel preview:
+  - Table `DeviceProcessEvents`; [reviewed Golden query](tests/golden/sentinel/MSEC-DET-0023.kql)
+- Source: [catalog/detections/MSEC-DET-0023/manifest.json](catalog/detections/MSEC-DET-0023/manifest.json)
+
+### MSEC-DET-0024 — Remote process creation through Windows WMI or CIM
+
+Detects command lines that explicitly request remote Win32_Process creation through WMIC or PowerShell WMI and CIM interfaces.
+
+- Lifecycle: `experimental`; created 2026-09-03; review every 90 days
+- Severity / confidence: `medium` / `medium`
+- ATT&CK: `T1047` (Execution)
+- Data sources: Microsoft Defender for Endpoint process events (Endpoint process creation)
+- Synthetic evidence: 3 positive and 4 negative cases
+- Implementations:
+  - [content/portable/sigma/MSEC-DET-0024/rule.yml](content/portable/sigma/MSEC-DET-0024/rule.yml) — `active`; targets `sentinel`
+- Sentinel preview:
+  - Table `DeviceProcessEvents`; [reviewed Golden query](tests/golden/sentinel/MSEC-DET-0024.kql)
+- Source: [catalog/detections/MSEC-DET-0024/manifest.json](catalog/detections/MSEC-DET-0024/manifest.json)
+
+### MSEC-DET-0025 — BITSAdmin creates a remote file-transfer job
+
+Detects bitsadmin.exe command lines that create a BITS transfer involving an HTTP or HTTPS resource.
+
+- Lifecycle: `experimental`; created 2026-09-03; review every 90 days
+- Severity / confidence: `medium` / `medium`
+- ATT&CK: `T1197` (Stealth), `T1197` (Persistence), `T1197` (Execution)
+- Data sources: Microsoft Defender for Endpoint process events (Endpoint process creation)
+- Synthetic evidence: 3 positive and 4 negative cases
+- Implementations:
+  - [content/portable/sigma/MSEC-DET-0025/rule.yml](content/portable/sigma/MSEC-DET-0025/rule.yml) — `active`; targets `sentinel`
+- Sentinel preview:
+  - Table `DeviceProcessEvents`; [reviewed Golden query](tests/golden/sentinel/MSEC-DET-0025.kql)
+- Source: [catalog/detections/MSEC-DET-0025/manifest.json](catalog/detections/MSEC-DET-0025/manifest.json)

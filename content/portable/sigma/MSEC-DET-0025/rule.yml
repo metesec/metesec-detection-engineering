@@ -1,0 +1,46 @@
+title: BITSAdmin Creates a Remote File-Transfer Job
+id: 0dc4eb66-fcca-47e5-b949-1cd3c0368a79
+status: experimental
+description: Detects bitsadmin.exe commands that create a BITS transfer involving an HTTP or HTTPS resource.
+references:
+  - https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/bitsadmin-transfer
+  - https://attack.mitre.org/techniques/T1197/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_bitsadmin_download.yml
+author: MeteSec Detection Engineering
+date: 2026-09-03
+tags:
+  - attack.stealth
+  - attack.persistence
+  - attack.execution
+  - attack.t1197
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  image:
+    FileName: bitsadmin.exe
+  remote_resource:
+    ProcessCommandLine|contains:
+      - http://
+      - https://
+  direct_transfer:
+    ProcessCommandLine|contains: '/transfer'
+  staged_transfer:
+    ProcessCommandLine|contains|all:
+      - '/create'
+      - '/addfile'
+  condition: image and remote_resource and (direct_transfer or staged_transfer)
+fields:
+  - TimeGenerated
+  - Timestamp
+  - DeviceId
+  - DeviceName
+  - AccountName
+  - InitiatingProcessFileName
+  - FileName
+  - FolderPath
+  - ProcessCommandLine
+  - ReportId
+falsepositives:
+  - Approved software deployment, update, support, and administrative file-transfer workflows using BITS.
+level: medium
