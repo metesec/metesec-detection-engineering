@@ -202,3 +202,55 @@ The repository could validate logical manifests and package relationships but ha
 ### Result
 
 The repository now has a pinned and executable Sigma structural-validation boundary without overstating rule, behavior, compiler, or target readiness. The next milestone is the first portable implementation and explicitly synthetic positive and negative evidence for `MSEC-DET-0001`.
+
+## 2026-09-03 — First complete experimental Sigma detection verified locally
+
+### Starting state
+
+`MSEC-DET-0001` existed only as a draft logical record. The repository could parse future Sigma files but had no rule, synthetic event contract, local behavior evaluator, or positive and negative evidence.
+
+### Decision
+
+- Narrow the original broad service-installation hypothesis to Service Control Manager event 7045 with an image path in selected public-user or temporary directories.
+- Use pySigma's parsed condition tree rather than re-parsing Sigma YAML into a second ad hoc rule model.
+- Implement only a documented, fail-closed local subset instead of presenting a partial evaluator as a complete Sigma engine.
+- Keep the detection `experimental` and keep local fixture evidence separate from future KQL compilation and Sentinel validation.
+
+### Source basis
+
+- The official Sigma rule specification defines case-insensitive string values, field maps, Boolean conditions, and modifier-derived wildcard behavior.
+- SigmaHQ's public rule catalogue confirms the Windows System log-source convention with `Provider_Name: Service Control Manager` and `EventID: 7045` for service installation.
+- MITRE ATT&CK T1543.003 documents Windows service creation or modification as persistence and possible privilege escalation behavior.
+
+### Changes
+
+- Added the first portable rule at `content/portable/sigma/MSEC-DET-0001/rule.yml` with one stable Sigma UUID, Windows System log source, event/provider selection, and three path indicators.
+- Added three positive and four negative synthetic event fixtures covering public-user, Windows Temp, user-profile Temp, Program Files, a different event ID, a different provider, and System32.
+- Added a version 1 synthetic-event JSON Schema requiring an explicit `synthetic: true` declaration and a non-empty flat event object.
+- Extended package validation to parse and validate every referenced event fixture and added an eighth package-contract regression test.
+- Added a bounded evaluator over pySigma's condition tree with string, number, wildcard, case-insensitive, `and`, `or`, and unary `not` support. Unsupported Sigma behavior fails closed.
+- Added six evaluator unit tests and one repository command that executes every implementation-local fixture expectation.
+- Updated the manifest to `experimental`, declared the Sigma source active, recorded the exact field contract, and marked positive and negative local tests complete only after all committed cases passed.
+- Added ADR-0005, the evaluator boundary guide, and updated the package contract, README, Roadmap, and project handoff.
+
+### Problems and corrections
+
+- The first strict Ajv compilation rejected the event schema's array form of the JSON Schema `type` keyword. The schema was rewritten with explicit `anyOf` branches; strict mode remained enabled and then compiled successfully.
+- The first scoped public-safety command passed a nested PowerShell array to `Select-String`, which emitted a non-terminating type error and therefore did not perform the intended scan. The check was immediately repeated against the committed diff with a terminating failure path; it passed, and every synthetic computer name was separately confirmed to use the reserved `example.invalid` domain.
+
+### Verification
+
+- Manifest validation accepted the experimental catalogue entry and retained the deliberately invalid stable-example rejection.
+- Package validation accepted one package with one implementation and validated all seven referenced event fixtures.
+- All eight package-contract tests passed, including rejection of a fixture that does not satisfy the synthetic-event schema.
+- pySigma `1.5.0` structurally accepted the single rule.
+- All six parser tests and all six evaluator unit tests passed.
+- All seven committed fixture expectations passed: three expected matches and four expected non-matches.
+- The case-insensitive path/provider example matched; missing fields and unsupported keyword expressions failed safely.
+- The aggregate `pnpm run check`, Python bytecode compilation, and `git diff --check` passed.
+- The corrected committed-diff sensitive-value scan and reserved synthetic-hostname check passed.
+- No real event, customer value, credential, production telemetry, KQL, target backend, deployment configuration, SIEM connection, push, mirror update, Website change, or production rollout was introduced.
+
+### Result
+
+`MSEC-DET-0001` is the repository's first complete experimental Sigma package with executable local behavior evidence. The next Functional Foundation work is to repeat the reviewed package pattern toward five detections before target compilation and deployment are claimed.

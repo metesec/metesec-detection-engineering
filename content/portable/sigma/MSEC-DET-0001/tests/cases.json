@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "detection_id": "MSEC-DET-0001",
+  "implementation": "content/portable/sigma/MSEC-DET-0001/rule.yml",
+  "cases": [
+    {
+      "id": "public-user-service",
+      "expectation": "match",
+      "fixture": "fixtures/public-user-service.json",
+      "description": "Synthetic event 7045 starts a service binary from the public user directory."
+    },
+    {
+      "id": "windows-temp-case-insensitive",
+      "expectation": "match",
+      "fixture": "fixtures/windows-temp-case-insensitive.json",
+      "description": "Synthetic event 7045 uses an upper-case spelling of the Windows temporary path."
+    },
+    {
+      "id": "user-profile-temp-service",
+      "expectation": "match",
+      "fixture": "fixtures/user-profile-temp-service.json",
+      "description": "Synthetic event 7045 starts a service from a user's local temporary directory."
+    },
+    {
+      "id": "approved-program-files-service",
+      "expectation": "no_match",
+      "fixture": "fixtures/approved-program-files-service.json",
+      "description": "Synthetic event 7045 uses a conventional Program Files service path."
+    },
+    {
+      "id": "non-install-service-event",
+      "expectation": "no_match",
+      "fixture": "fixtures/non-install-service-event.json",
+      "description": "Synthetic service event has a suspicious path but is not installation event 7045."
+    },
+    {
+      "id": "different-event-provider",
+      "expectation": "no_match",
+      "fixture": "fixtures/different-event-provider.json",
+      "description": "Synthetic event uses identifier 7045 but does not come from Service Control Manager."
+    },
+    {
+      "id": "windows-system-service",
+      "expectation": "no_match",
+      "fixture": "fixtures/windows-system-service.json",
+      "description": "Synthetic event 7045 uses a conventional Windows System32 service path."
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "event": {
+    "Provider_Name": "Synthetic Service Inventory",
+    "EventID": 7045,
+    "ServiceName": "InventoryRecord",
+    "ImagePath": "C:\\Users\\Public\\inventory-helper.exe",
+    "Computer": "WKSTN-411.example.invalid"
+  }
+}

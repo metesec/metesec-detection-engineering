@@ -11,7 +11,7 @@ const schemaErrors = (validate) => (validate.errors || [])
   .map((error) => `${error.instancePath || "/"} ${error.message}`)
   .join("; ");
 
-export const validateDetectionPackages = ({ root, validateManifest, validateFixtureSet }) => {
+export const validateDetectionPackages = ({ root, validateManifest, validateFixtureSet, validateEventFixture }) => {
   const errors = [];
   const packages = [];
   const catalogRoot = path.join(root, "catalog", "detections");
@@ -130,6 +130,17 @@ export const validateDetectionPackages = ({ root, validateManifest, validateFixt
           errors.push(`${implementationLabel}: fixture ${testCase.fixture} must stay inside tests/fixtures`);
         } else if (!fs.existsSync(fixturePath) || !fs.statSync(fixturePath).isFile()) {
           errors.push(`${implementationLabel}: fixture ${testCase.fixture} does not exist`);
+        } else if (validateEventFixture) {
+          let eventFixture;
+          try {
+            eventFixture = readJson(fixturePath);
+          } catch (error) {
+            errors.push(`${implementationLabel}: fixture ${testCase.fixture} is invalid JSON (${error.message})`);
+            continue;
+          }
+          if (!validateEventFixture(eventFixture)) {
+            errors.push(`${implementationLabel}: fixture ${testCase.fixture} ${schemaErrors(validateEventFixture)}`);
+          }
         }
       }
 

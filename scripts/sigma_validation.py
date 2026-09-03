@@ -52,9 +52,8 @@ class SigmaDocumentError(ValueError):
     """Raised when pySigma cannot accept a source as a valid collection."""
 
 
-def validate_sigma_text(yaml_text: str, source: str = "<memory>") -> SigmaValidationResult:
+def parse_sigma_collection(yaml_text: str, source: str = "<memory>") -> SigmaCollection:
     """Parse a Sigma YAML document and reject every collected parser error."""
-
     try:
         collection = SigmaCollection.from_yaml(yaml_text, collect_errors=True)
     except Exception as error:  # pySigma exposes multiple format-specific errors.
@@ -69,6 +68,13 @@ def validate_sigma_text(yaml_text: str, source: str = "<memory>") -> SigmaValida
     if not collection.rules:
         raise SigmaDocumentError(f"{source}: document contains no Sigma rule")
 
+    return collection
+
+
+def validate_sigma_text(yaml_text: str, source: str = "<memory>") -> SigmaValidationResult:
+    """Validate a Sigma YAML document and report its rule count."""
+
+    collection = parse_sigma_collection(yaml_text, source)
     return SigmaValidationResult(source=source, rule_count=len(collection.rules))
 
 

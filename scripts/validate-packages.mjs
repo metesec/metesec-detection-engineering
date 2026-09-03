@@ -10,7 +10,8 @@ const readJson = (file) => JSON.parse(fs.readFileSync(file, "utf8"));
 const ajv = new Ajv2020({ allErrors: true, strict: true });
 const validateManifest = ajv.compile(readJson(path.join(root, "governance", "schemas", "logical-detection-manifest-v1.schema.json")));
 const validateFixtureSet = ajv.compile(readJson(path.join(root, "governance", "schemas", "detection-fixture-set-v1.schema.json")));
-const result = validateDetectionPackages({ root, validateManifest, validateFixtureSet });
+const validateEventFixture = ajv.compile(readJson(path.join(root, "governance", "schemas", "synthetic-event-fixture-v1.schema.json")));
+const result = validateDetectionPackages({ root, validateManifest, validateFixtureSet, validateEventFixture });
 
 if (result.errors.length > 0) {
   result.errors.forEach((error) => console.error(`FAIL ${error}`));

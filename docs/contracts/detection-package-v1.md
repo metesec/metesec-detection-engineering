@@ -36,13 +36,13 @@ These checks establish package integrity. They do not execute Sigma logic or pro
 
 ## Fixture-set boundary
 
-`governance/schemas/detection-fixture-set-v1.schema.json` defines the future evidence index. A fixture set identifies the detection, the exact implementation path, and one or more synthetic cases with either `match` or `no_match` as the expected local result.
+`governance/schemas/detection-fixture-set-v1.schema.json` defines the evidence index. A fixture set identifies the detection, the exact implementation path, and one or more synthetic cases with either `match` or `no_match` as the expected local result. `governance/schemas/synthetic-event-fixture-v1.schema.json` requires every referenced event to declare itself synthetic and contain one non-empty flat event object.
 
-The schema deliberately does not define an event vocabulary. Event shape belongs to the implementation and its declared log source. The future evaluator must document the subset of Sigma semantics it supports and must not present local fixture results as universal target-platform behavior.
+The schema deliberately does not define a field vocabulary. Field names belong to the implementation and its declared log source. The bounded local evaluator and its supported Sigma subset are documented in [Local Sigma fixture evaluation](../testing/sigma-fixture-evaluation.md). Local results must not be presented as universal target-platform behavior.
 
 ## Current catalogue entry
 
-`MSEC-DET-0001` is now a real catalogue draft for unusual Windows service installation. It has no implementation and therefore makes no structural, behavioral, compilation, or target-validation claim beyond its valid logical manifest.
+`MSEC-DET-0001` is an experimental Windows service-installation detection. Its Sigma implementation matches Service Control Manager event 7045 when `ImagePath` contains one of three selected public-user or temporary path fragments. Three positive and four negative synthetic cases pass the bounded local evaluator. The package makes no compilation or target-validation claim.
 
 ## Validation
 
@@ -52,4 +52,4 @@ Run all current repository checks:
 pnpm run check
 ```
 
-The command validates manifest examples and the real catalogue, tests the package validator's boundary cases, and validates every catalogue package against the filesystem contract.
+The command validates manifest examples and the real catalogue, tests the package validator's boundary cases, validates every catalogue package and event fixture, parses every Sigma source, and executes every declared synthetic fixture expectation.

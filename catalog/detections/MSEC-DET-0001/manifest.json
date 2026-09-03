@@ -1,21 +1,21 @@
 {
   "schema_version": 1,
   "id": "MSEC-DET-0001",
-  "title": "Unusual Windows service installation",
-  "description": "Draft logical detection for a newly installed Windows service whose execution path or context warrants investigation.",
+  "title": "Windows service installation from a public or temporary path",
+  "description": "Detects a new Windows service whose image path points into a public-user or temporary directory and therefore warrants investigation.",
   "hypothesis": {
     "summary": "An adversary may install a Windows service to establish execution or persistence.",
     "rationale": "Service creation is legitimate administration but can also provide durable privileged execution when its binary path or creator is unusual.",
-    "detection_goal": "Identify service-install events with sufficient context for an analyst to separate expected administration from suspicious persistence."
+    "detection_goal": "Identify service-install events that execute from selected public-user or temporary paths while leaving normal service paths unmatched."
   },
   "ownership": {
     "owner": "MeteSec Detection Engineering",
     "reviewers": []
   },
   "lifecycle": {
-    "status": "draft",
+    "status": "experimental",
     "created": "2026-08-27",
-    "modified": "2026-08-27",
+    "modified": "2026-09-03",
     "review_interval_days": 90
   },
   "severity": "medium",
@@ -24,7 +24,7 @@
     {
       "name": "Windows service installation events",
       "category": "Windows service control manager",
-      "required_fields": ["event identifier", "service name", "service image path", "host"]
+      "required_fields": ["Provider_Name", "EventID", "ServiceName", "ImagePath", "Computer"]
     }
   ],
   "attack": [
@@ -41,13 +41,20 @@
       "Escalate unexpected privileged services or suspicious paths for host investigation."
     ],
     "false_positives": [
-      "Approved software installation or endpoint-management activity"
+      "Approved software installation or endpoint-management activity that stages a service binary in a temporary directory"
     ]
   },
   "validation": {
-    "expected_outcome": "A future implementation should alert on qualifying service creation and exclude documented benign fixtures.",
-    "positive_tests": false,
-    "negative_tests": false
+    "expected_outcome": "Match Service Control Manager event 7045 when ImagePath contains a selected public-user or temporary path; do not match other event identifiers, providers, or normal service paths.",
+    "positive_tests": true,
+    "negative_tests": true
   },
-  "implementations": []
+  "implementations": [
+    {
+      "type": "sigma",
+      "path": "content/portable/sigma/MSEC-DET-0001/rule.yml",
+      "targets": ["sentinel"],
+      "status": "active"
+    }
+  ]
 }

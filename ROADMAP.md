@@ -14,8 +14,8 @@ Status: **in progress**
 - [x] Add JSON Schema and valid/invalid examples
 - [x] Define compact detection-package layout
 - [x] Add Sigma validation toolchain with pinned dependencies
-- [ ] Implement positive and negative fixture-test model
-- [ ] Add first complete Sigma detection
+- [x] Implement positive and negative fixture-test model
+- [x] Add first complete Sigma detection
 - [ ] Grow to five reviewed detections
 - [ ] Generate a machine-readable and human-readable catalogue
 - [ ] Add Forgejo validation pipeline

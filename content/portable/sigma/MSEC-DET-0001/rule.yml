@@ -1,0 +1,32 @@
+title: Windows Service Installation from a Public or Temporary Path
+id: 7b2d6f6f-9f4a-4e0f-a07e-15c765be39b1
+status: experimental
+description: Detects a new Windows service whose image path points into a selected public-user or temporary directory.
+references:
+  - https://attack.mitre.org/techniques/T1543/003/
+author: MeteSec Detection Engineering
+date: 2026-09-03
+tags:
+  - attack.persistence
+  - attack.privilege-escalation
+  - attack.t1543.003
+logsource:
+  product: windows
+  service: system
+detection:
+  selection_event:
+    Provider_Name: Service Control Manager
+    EventID: 7045
+  selection_path:
+    ImagePath|contains:
+      - '\Users\Public\'
+      - '\Windows\Temp\'
+      - '\AppData\Local\Temp\'
+  condition: selection_event and selection_path
+fields:
+  - Computer
+  - ServiceName
+  - ImagePath
+falsepositives:
+  - Approved installers or management tools that stage service binaries in a temporary directory.
+level: medium

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metesec.com/schemas/synthetic-event-fixture-v1.schema.json",
+  "title": "MeteSec synthetic event fixture v1",
+  "description": "One explicitly synthetic flat event used by the bounded local Sigma evaluator.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "synthetic", "event"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "synthetic": { "const": true },
+    "event": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "anyOf": [
+          { "type": "string" },
+          { "type": "number" },
+          { "type": "boolean" }
+        ]
+      }
+    }
+  }
+}

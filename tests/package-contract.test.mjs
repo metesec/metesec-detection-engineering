@@ -25,7 +25,8 @@ const manifest = (id = "MSEC-DET-0001", overrides = {}) => ({
 const validate = (root) => validateDetectionPackages({
   root,
   validateManifest: alwaysValid,
-  validateFixtureSet: alwaysValid
+  validateFixtureSet: alwaysValid,
+  validateEventFixture: alwaysValid
 });
 
 test("accepts a compact draft package without speculative implementation files", (t) => {
@@ -111,4 +112,36 @@ test("rejects fixture paths that escape the implementation-local fixture directo
     ]
   });
   assert.match(validate(root).errors.join("\n"), /must stay inside tests\/fixtures/);
+});
+
+test("rejects an event fixture that violates its schema", (t) => {
+  const root = createRoot(t);
+  const implementation = "content/portable/sigma/MSEC-DET-0001/rule.yml";
+  writeJson(path.join(root, "catalog", "detections", "MSEC-DET-0001", "manifest.json"), manifest("MSEC-DET-0001", {
+    implementations: [{ type: "sigma", path: implementation, targets: ["sentinel"], status: "active" }]
+  }));
+  fs.mkdirSync(path.join(root, "content", "portable", "sigma", "MSEC-DET-0001"), { recursive: true });
+  fs.writeFileSync(path.join(root, ...implementation.split("/")), "title: Synthetic test rule\n");
+  const testsRoot = path.join(root, "content", "portable", "sigma", "MSEC-DET-0001", "tests");
+  writeJson(path.join(testsRoot, "cases.json"), {
+    schema_version: 1,
+    detection_id: "MSEC-DET-0001",
+    implementation,
+    cases: [
+      { id: "not-synthetic", expectation: "match", fixture: "fixtures/not-synthetic.json", description: "Fixture deliberately fails the synthetic-event contract." }
+    ]
+  });
+  writeJson(path.join(testsRoot, "fixtures", "not-synthetic.json"), { synthetic: false });
+  const rejectNonSynthetic = Object.assign((fixture) => fixture.synthetic === true, {
+    errors: [{ instancePath: "/synthetic", message: "must be equal to constant" }]
+  });
+
+  const result = validateDetectionPackages({
+    root,
+    validateManifest: alwaysValid,
+    validateFixtureSet: alwaysValid,
+    validateEventFixture: rejectNonSynthetic
+  });
+
+  assert.match(result.errors.join("\n"), /fixture fixtures\/not-synthetic\.json \/synthetic must be equal to constant/);
 });

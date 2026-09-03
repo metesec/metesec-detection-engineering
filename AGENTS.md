@@ -43,13 +43,16 @@ The architectural rule is: one logical detection has one stable identity but may
 - Structural validation: executable with pinned Ajv `8.17.1`; the valid example is accepted and the invalid example is rejected
 - Detection package contract: version 1 documented and enforced through executable filesystem relationship validation
 - Fixture-set contract: version 1 schema implemented for future implementation-local positive and negative evidence indexes
-- Catalogue: one real draft package, `MSEC-DET-0001`, with a valid logical manifest and no implementation claim
-- Package contract tests: seven passing cases cover the valid draft, identity mismatch, missing implementation, implementation traversal, missing evidence index, valid linked evidence, and fixture traversal
+- Catalogue: one experimental package, `MSEC-DET-0001`, for Windows service installation from selected public-user or temporary paths
+- Portable implementations: one structurally valid Sigma rule for `MSEC-DET-0001`; no compiled target query exists
+- Synthetic evidence: three positive and four negative flat event fixtures, all explicitly marked synthetic and all passing locally
+- Package contract tests: eight passing cases cover the valid draft, identity mismatch, missing implementation, implementation traversal, missing evidence index, valid linked evidence, fixture traversal, and invalid event-fixture structure
 - Sigma parser toolchain: pySigma `1.5.0` plus every observed transitive dependency is pinned in `requirements-sigma.lock`; verified with Python `3.12.13`
-- Sigma structural validation: exact-version gate, two-sided in-memory parser self-test, and automatic Package v1 `rule.yml` discovery are executable
+- Sigma structural validation: exact-version gate, two-sided in-memory parser self-test, and automatic Package v1 `rule.yml` discovery validate one source containing one rule
 - Sigma validation tests: six passing cases cover valid, missing-condition, malformed-YAML, parser-health, Package v1 discovery, and UTF-8 file paths
-- Detection implementations: not yet implemented
-- Behavioral test framework: not yet implemented
+- Behavioral test framework: implemented as a deliberately bounded local evaluator over pySigma's condition tree
+- Evaluator boundary: flat synthetic events; string and number field comparisons; Sigma wildcard strings; case-insensitive string matching; Boolean `and`, `or`, and unary `not`; unsupported behavior fails closed
+- Evaluator tests: six passing unit cases plus seven passing committed fixture expectations
 - CI pipeline: not yet implemented
 - Deployment to any SIEM: not implemented and not authorized by this foundation milestone
 
@@ -142,4 +145,4 @@ After every completed milestone:
 
 ## Immediate next milestone
 
-Introduce the first portable implementation for `MSEC-DET-0001` with explicitly synthetic positive and negative fixtures and a documented local-evaluator boundary. Keep local behavioral evidence separate from later target compilation and SIEM validation.
+Review and extend the Functional Foundation toward its five-detection exit criterion using the same package and evidence boundary. Do not claim Sentinel compatibility until a later target milestone adds pinned conversion dependencies, KQL snapshots, and target validation.
