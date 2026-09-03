@@ -54,6 +54,7 @@ tests and rendering boundary without prescribing customer policy.
 - [Microsoft Sentinel analytics-rule profile v1](docs/contracts/sentinel-analytics-rule-profile-v1.md)
 - [Microsoft Sentinel data-source contract v1](docs/contracts/sentinel-data-source-contract-v1.md)
 - [Generated detection coverage report v1](docs/contracts/detection-coverage-report-v1.md)
+- [Detection lifecycle and review cadence v1](docs/contracts/detection-lifecycle-v1.md)
 - [Detection Pack release artifact v1](docs/releases/release-artifact-v1.md)
 
 ## Current milestone
@@ -96,6 +97,12 @@ view: four unique ATT&CK techniques across three tactics, three logical data
 sources, two Sentinel source contracts and one intentionally unbound Sentinel
 detection. It reports exact repository relationships rather than an invented
 coverage percentage and contains no live environment state.
+
+Lifecycle metadata is now executable rather than decorative. The local and CI
+check derives each review due date from the manifest's modified date and review
+interval, rejects future or contradictory dates, and fails when a review is due
+or overdue. An optional previous catalogue enables forward-only status and
+identity checks without embedding Git or Forgejo access in the tool.
 
 Run the current contract validation with:
 

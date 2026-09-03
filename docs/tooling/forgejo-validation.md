@@ -75,6 +75,10 @@ evaluator. It supplies no environment observation, so the pipeline proves the
 contract and evaluator rather than making a live telemetry-health claim.
 The same check regenerates ATT&CK and data-source coverage in memory and rejects
 stale tracked report output.
+It also evaluates each manifest's review cadence against the current UTC date.
+The job begins failing when any review becomes due or overdue; no time-dependent
+assessment file is written. Cross-revision transition validation requires an
+explicit previous catalogue and is not claimed by the default workflow.
 
 The live Forgejo pipeline is operational. Branch run `#1` and canonical main run
 `#4` completed the original full aggregate check successfully. Isolated verification run

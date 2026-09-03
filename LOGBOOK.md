@@ -1056,3 +1056,46 @@ data-source contract.
 The public foundation now provides an inspectable ATT&CK and data-source map
 without prescribing customer policy or overstating completeness. The next
 bounded milestone is deterministic lifecycle and review-cadence validation.
+
+## 2026-09-03 — Detection lifecycle and review cadence enforced locally
+
+### Starting state
+
+- Every manifest already contained status, creation date, modified date and a
+  review interval, but those values were only structurally validated.
+- No command calculated a review due date or failed when a review became due.
+- Validating status transitions required historical input that the standalone
+  repository does not possess automatically.
+
+### Decision and implementation
+
+- Added a versioned lifecycle policy with forward-only status transitions and a
+  strict JSON Schema tied to the manifest status set.
+- Added a current-state validator that rejects contradictory or future dates,
+  calculates `review_due = modified + review_interval_days`, and returns
+  `current`, `due` or `overdue` without creating a tracked runtime file.
+- The normal aggregate check uses the current UTC date and returns non-success
+  when any review is due or overdue. All five current records are due on
+  2 December 2026.
+- Added optional `--as-of` and `--baseline` inputs. A previous generated
+  catalogue enables rejection of deleted identities, changed creation dates,
+  backward modified dates, forbidden status transitions and lifecycle changes
+  without a later modified date.
+- Added a runtime JSON assessment contract, ten Python tests plus one
+  machine-output schema test, ADR-0013 and a concise operating guide. The
+  general release contains the policy and schemas, never a time-dependent
+  assessment.
+
+### Validation boundary
+
+- Without `--baseline`, the default workflow validates current state and review
+  cadence but makes no cross-revision transition claim.
+- A current modified date proves neither review quality nor approval; normal
+  human review remains necessary.
+
+### Result
+
+Lifecycle fields now produce an enforceable review reminder while all tracked
+outputs remain deterministic. The next step is to define whether the remaining
+rule-execution and alert-outcome health item belongs in this modular public
+foundation at all.

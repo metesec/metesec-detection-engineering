@@ -71,6 +71,8 @@ The architectural rule is: one logical detection has one stable identity but may
 - Data-source observation evaluator: a separate uncommitted observation can produce only `ready`, `degraded`, `unavailable` or `unknown`; missing observations are never treated as healthy, schema or binding drift fails closed, and eight unit tests cover structure, freshness, missing tables, missing or mistyped fields, future timestamps, unknown sources and CLI exit behavior
 - Generated coverage report: deterministic `coverage/index.json` and `COVERAGE.md` derive only from logical manifests, the Sentinel preview and the Sentinel data-source contract; the report records five ATT&CK mappings across four techniques and three tactics, three logical data sources, two Sentinel source contracts and the one intentionally unbound detection without a percentage score or live state
 - Coverage contract and validation: JSON Schema version 1, six generator tests and a stale-output gate are included in the aggregate repository check; generated coverage output is part of the general Detection Pack release allowlist
+- Lifecycle policy: version 1 defines forward-only `draft`, `experimental`, `stable` and `deprecated` transitions and is kept consistent with the logical manifest schema
+- Review-cadence validator: existing manifest dates and intervals produce runtime-only `current`, `due` or `overdue` assessments; current validation rejects future or contradictory dates and fails on due or overdue records, while an optional previous catalogue enables identity and transition checks; ten Python tests plus one machine-output schema test cover dates, boundaries, transitions, immutability, removal, CLI exit behavior and the JSON contract
 - Renderer output boundary: each ignored `dist/sentinel/<DETECTION-ID>/` directory contains `query.kql`, `analytics-rule.json` and `render-manifest.json`; no Azure resource scope, tenant identifier, credential, HTTP client, authentication flow, deployment command or live-write capability exists
 - Renderer publication: Forgejo PR `#7` merged through protected `main` as `e8bebd5d3e72218b32378cd3e4f850d047d778ad`; branch run `#12` and merged-main run `#13` passed, and the GitHub distribution mirror resolved to the exact same commit
 - Live target probes: authorized read-only workspace checks confirmed populated source fields and accepted all four complete enriched queries in bounded aggregate form; no raw row, aggregate count, user, device, tenant, subscription or workspace identifier is stored in the repository
@@ -173,8 +175,8 @@ After every completed milestone:
 
 ## Immediate next milestone
 
-Add lifecycle and review-cadence validation to the existing manifests. Derive
-review due dates deterministically from each modified date and review interval,
-surface overdue records without using runtime-dependent generated output, and
-fail closed on impossible lifecycle transitions. Keep public pull-request
-execution disabled until the runner gains hard per-job isolation.
+Define the remaining `0.3` boundary for rule-execution and alert-outcome health
+without adding an Azure client or pretending that a reusable public repository
+can know a consumer's operational state. Propose the smallest portable contract
+before implementation. Keep public pull-request execution disabled until the
+runner gains hard per-job isolation.

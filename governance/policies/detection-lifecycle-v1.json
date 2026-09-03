@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "review_states": ["current", "due", "overdue"],
+  "transitions": [
+    {
+      "from": "draft",
+      "to": ["draft", "experimental", "deprecated"]
+    },
+    {
+      "from": "experimental",
+      "to": ["experimental", "stable", "deprecated"]
+    },
+    {
+      "from": "stable",
+      "to": ["stable", "deprecated"]
+    },
+    {
+      "from": "deprecated",
+      "to": ["deprecated"]
+    }
+  ]
+}

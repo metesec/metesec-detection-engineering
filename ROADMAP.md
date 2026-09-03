@@ -58,7 +58,7 @@ Status: **in progress**
 - [x] Introduce data-source contracts
 - [x] Keep target rendering consumer-owned instead of publishing deployment bundles
 - [x] Generate ATT&CK and data-source coverage reports
-- [ ] Introduce lifecycle and review-cadence validation
+- [x] Introduce lifecycle and review-cadence validation
 - [ ] Add rule-execution and alert-outcome health definitions
 
 Current status: `SigninLogs` and `AuditLogs` have exact field and type
@@ -71,6 +71,10 @@ planned public repository contract.
 The generated coverage outputs expose four declared ATT&CK techniques, three
 tactics, three logical sources, two Sentinel source contracts and the one
 intentional unbound detection without inventing a completeness score.
+Lifecycle validation now derives review dates from existing manifest fields,
+fails on due or overdue records and can enforce forward-only transitions when a
+consumer supplies a previous catalogue baseline. No runtime status file is
+committed.
 
 ## 0.4 — Native Implementations and Resolution
 

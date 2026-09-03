@@ -16,3 +16,4 @@ Accepted records are not silently rewritten. A later decision supersedes the ear
 - [ADR-0010: Separate data-source health from detection results](ADR-0010-explicit-data-source-health.md)
 - [ADR-0011: Keep environment exceptions consumer-owned](ADR-0011-consumer-owned-exceptions.md)
 - [ADR-0012: Derive coverage without unsupported scoring](ADR-0012-derived-coverage-without-scoring.md)
+- [ADR-0013: Evaluate lifecycle at validation time](ADR-0013-runtime-lifecycle-assessment.md)
