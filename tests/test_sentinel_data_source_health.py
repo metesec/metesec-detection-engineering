@@ -146,6 +146,9 @@ class SentinelDataSourceHealthTests(unittest.TestCase):
                         "MSEC-DET-0043",
                         "MSEC-DET-0044",
                         "MSEC-DET-0045",
+                        "MSEC-DET-0048",
+                        "MSEC-DET-0049",
+                        "MSEC-DET-0050",
                     ),
                 ),
                 (
@@ -156,7 +159,7 @@ class SentinelDataSourceHealthTests(unittest.TestCase):
                 (
                     "MSEC-SDS-0005",
                     "DeviceRegistryEvents",
-                    ("MSEC-DET-0040",),
+                    ("MSEC-DET-0040", "MSEC-DET-0046", "MSEC-DET-0047"),
                 ),
             ],
         )

@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"FileName":"schtasks.exe","ProcessVersionInfoOriginalFileName":"schtasks.exe","ProcessCommandLine":"schtasks.exe /create /tn SyntheticUpdate /tr \"C:\\Users\\synthetic\\AppData\\Roaming\\Synthetic\\update.exe\" /sc onlogon /f"}}

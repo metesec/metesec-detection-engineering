@@ -2,11 +2,11 @@
   "schema_version": 1,
   "source": "catalog/detections/*/manifest.json",
   "summary": {
-    "detections": 45,
-    "implementations": 45,
-    "positive_cases": 135,
-    "negative_cases": 180,
-    "sentinel_preview_bindings": 44
+    "detections": 50,
+    "implementations": 50,
+    "positive_cases": 150,
+    "negative_cases": 200,
+    "sentinel_preview_bindings": 49
   },
   "detections": [
     {
@@ -2672,6 +2672,324 @@
         }
       ],
       "manifest": "catalog/detections/MSEC-DET-0045/manifest.json"
+    },
+    {
+      "id": "MSEC-DET-0046",
+      "title": "Suspicious script or LOLBin payload in a Run key",
+      "description": "Detects a Run, RunOnce or Explorer policy Run value set to a selected script payload or suspicious signed Windows utility command.",
+      "lifecycle": {
+        "status": "experimental",
+        "created": "2026-09-03",
+        "modified": "2026-09-03",
+        "review_interval_days": 90
+      },
+      "severity": "medium",
+      "confidence": "medium",
+      "attack": [
+        {
+          "technique_id": "T1547.001",
+          "tactic": "Persistence"
+        },
+        {
+          "technique_id": "T1547.001",
+          "tactic": "Privilege Escalation"
+        }
+      ],
+      "data_sources": [
+        {
+          "name": "Microsoft Defender for Endpoint registry events",
+          "category": "Endpoint registry modification",
+          "required_fields": [
+            "TimeGenerated",
+            "Timestamp",
+            "ActionType",
+            "DeviceId",
+            "DeviceName",
+            "RegistryKey",
+            "RegistryValueName",
+            "RegistryValueData",
+            "InitiatingProcessAccountName",
+            "InitiatingProcessFileName",
+            "InitiatingProcessCommandLine",
+            "ReportId"
+          ]
+        }
+      ],
+      "validation": {
+        "positive_cases": 3,
+        "negative_cases": 4
+      },
+      "implementations": [
+        {
+          "type": "sigma",
+          "path": "content/portable/sigma/MSEC-DET-0046/rule.yml",
+          "targets": [
+            "sentinel"
+          ],
+          "status": "active"
+        }
+      ],
+      "target_bindings": [
+        {
+          "target": "microsoft-sentinel",
+          "table": "DeviceRegistryEvents",
+          "golden": "tests/golden/sentinel/MSEC-DET-0046.kql"
+        }
+      ],
+      "manifest": "catalog/detections/MSEC-DET-0046/manifest.json"
+    },
+    {
+      "id": "MSEC-DET-0047",
+      "title": "Winlogon Shell or Userinit value hijack",
+      "description": "Detects a Winlogon Shell or Userinit registry value set to a non-default executable command.",
+      "lifecycle": {
+        "status": "experimental",
+        "created": "2026-09-03",
+        "modified": "2026-09-03",
+        "review_interval_days": 90
+      },
+      "severity": "high",
+      "confidence": "medium",
+      "attack": [
+        {
+          "technique_id": "T1547.004",
+          "tactic": "Persistence"
+        },
+        {
+          "technique_id": "T1547.004",
+          "tactic": "Privilege Escalation"
+        }
+      ],
+      "data_sources": [
+        {
+          "name": "Microsoft Defender for Endpoint registry events",
+          "category": "Endpoint registry modification",
+          "required_fields": [
+            "TimeGenerated",
+            "Timestamp",
+            "ActionType",
+            "DeviceId",
+            "DeviceName",
+            "RegistryKey",
+            "RegistryValueName",
+            "RegistryValueData",
+            "InitiatingProcessAccountName",
+            "InitiatingProcessFileName",
+            "InitiatingProcessCommandLine",
+            "ReportId"
+          ]
+        }
+      ],
+      "validation": {
+        "positive_cases": 3,
+        "negative_cases": 4
+      },
+      "implementations": [
+        {
+          "type": "sigma",
+          "path": "content/portable/sigma/MSEC-DET-0047/rule.yml",
+          "targets": [
+            "sentinel"
+          ],
+          "status": "active"
+        }
+      ],
+      "target_bindings": [
+        {
+          "target": "microsoft-sentinel",
+          "table": "DeviceRegistryEvents",
+          "golden": "tests/golden/sentinel/MSEC-DET-0047.kql"
+        }
+      ],
+      "manifest": "catalog/detections/MSEC-DET-0047/manifest.json"
+    },
+    {
+      "id": "MSEC-DET-0048",
+      "title": "Suspicious local scheduled task creation",
+      "description": "Detects local Schtasks task creation whose task action contains a selected user-writable payload or behavior-bearing script and proxy-execution command.",
+      "lifecycle": {
+        "status": "experimental",
+        "created": "2026-09-03",
+        "modified": "2026-09-03",
+        "review_interval_days": 90
+      },
+      "severity": "medium",
+      "confidence": "medium",
+      "attack": [
+        {
+          "technique_id": "T1053.005",
+          "tactic": "Execution"
+        },
+        {
+          "technique_id": "T1053.005",
+          "tactic": "Persistence"
+        },
+        {
+          "technique_id": "T1053.005",
+          "tactic": "Privilege Escalation"
+        }
+      ],
+      "data_sources": [
+        {
+          "name": "Microsoft Defender for Endpoint process events",
+          "category": "Endpoint process creation",
+          "required_fields": [
+            "TimeGenerated",
+            "Timestamp",
+            "DeviceId",
+            "DeviceName",
+            "AccountName",
+            "InitiatingProcessFileName",
+            "FileName",
+            "ProcessVersionInfoOriginalFileName",
+            "FolderPath",
+            "ProcessCommandLine",
+            "ReportId"
+          ]
+        }
+      ],
+      "validation": {
+        "positive_cases": 3,
+        "negative_cases": 4
+      },
+      "implementations": [
+        {
+          "type": "sigma",
+          "path": "content/portable/sigma/MSEC-DET-0048/rule.yml",
+          "targets": [
+            "sentinel"
+          ],
+          "status": "active"
+        }
+      ],
+      "target_bindings": [
+        {
+          "target": "microsoft-sentinel",
+          "table": "DeviceProcessEvents",
+          "golden": "tests/golden/sentinel/MSEC-DET-0048.kql"
+        }
+      ],
+      "manifest": "catalog/detections/MSEC-DET-0048/manifest.json"
+    },
+    {
+      "id": "MSEC-DET-0049",
+      "title": "Mavinject process injection command",
+      "description": "Detects Mavinject or a renamed Mavinject binary using the INJECTRUNNING or HMODULE injection switches.",
+      "lifecycle": {
+        "status": "experimental",
+        "created": "2026-09-03",
+        "modified": "2026-09-03",
+        "review_interval_days": 90
+      },
+      "severity": "high",
+      "confidence": "high",
+      "attack": [
+        {
+          "technique_id": "T1218.013",
+          "tactic": "Stealth"
+        }
+      ],
+      "data_sources": [
+        {
+          "name": "Microsoft Defender for Endpoint process events",
+          "category": "Endpoint process creation",
+          "required_fields": [
+            "TimeGenerated",
+            "Timestamp",
+            "DeviceId",
+            "DeviceName",
+            "AccountName",
+            "InitiatingProcessFileName",
+            "FileName",
+            "ProcessVersionInfoOriginalFileName",
+            "FolderPath",
+            "ProcessCommandLine",
+            "ReportId"
+          ]
+        }
+      ],
+      "validation": {
+        "positive_cases": 3,
+        "negative_cases": 4
+      },
+      "implementations": [
+        {
+          "type": "sigma",
+          "path": "content/portable/sigma/MSEC-DET-0049/rule.yml",
+          "targets": [
+            "sentinel"
+          ],
+          "status": "active"
+        }
+      ],
+      "target_bindings": [
+        {
+          "target": "microsoft-sentinel",
+          "table": "DeviceProcessEvents",
+          "golden": "tests/golden/sentinel/MSEC-DET-0049.kql"
+        }
+      ],
+      "manifest": "catalog/detections/MSEC-DET-0049/manifest.json"
+    },
+    {
+      "id": "MSEC-DET-0050",
+      "title": "Netsh creates a Windows PortProxy rule",
+      "description": "Detects Netsh or a renamed Netsh binary adding a Windows interface PortProxy forwarding rule.",
+      "lifecycle": {
+        "status": "experimental",
+        "created": "2026-09-03",
+        "modified": "2026-09-03",
+        "review_interval_days": 90
+      },
+      "severity": "medium",
+      "confidence": "medium",
+      "attack": [
+        {
+          "technique_id": "T1090.001",
+          "tactic": "Command and Control"
+        }
+      ],
+      "data_sources": [
+        {
+          "name": "Microsoft Defender for Endpoint process events",
+          "category": "Endpoint process creation",
+          "required_fields": [
+            "TimeGenerated",
+            "Timestamp",
+            "DeviceId",
+            "DeviceName",
+            "AccountName",
+            "InitiatingProcessFileName",
+            "FileName",
+            "ProcessVersionInfoOriginalFileName",
+            "FolderPath",
+            "ProcessCommandLine",
+            "ReportId"
+          ]
+        }
+      ],
+      "validation": {
+        "positive_cases": 3,
+        "negative_cases": 4
+      },
+      "implementations": [
+        {
+          "type": "sigma",
+          "path": "content/portable/sigma/MSEC-DET-0050/rule.yml",
+          "targets": [
+            "sentinel"
+          ],
+          "status": "active"
+        }
+      ],
+      "target_bindings": [
+        {
+          "target": "microsoft-sentinel",
+          "table": "DeviceProcessEvents",
+          "golden": "tests/golden/sentinel/MSEC-DET-0050.kql"
+        }
+      ],
+      "manifest": "catalog/detections/MSEC-DET-0050/manifest.json"
     }
   ]
 }

@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"FileName":"task-wrapper.exe","ProcessVersionInfoOriginalFileName":"task-wrapper.exe","ProcessCommandLine":"task-wrapper.exe /create /tn SyntheticTask /tr \"C:\\Users\\Public\\synthetic.exe\" /sc onlogon"}}

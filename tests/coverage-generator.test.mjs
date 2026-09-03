@@ -15,12 +15,12 @@ const report = buildCoverageReport(root);
 
 test("builds exact aggregate coverage without percentages", () => {
   assert.deepEqual(report.summary, {
-    detections: 45,
-    attack_mappings: 60,
-    attack_techniques: 35,
+    detections: 50,
+    attack_mappings: 69,
+    attack_techniques: 39,
     attack_tactics: 11,
     logical_data_sources: 6,
-    sentinel_preview_bindings: 44,
+    sentinel_preview_bindings: 49,
     sentinel_data_source_contracts: 5,
     detections_without_sentinel_binding: 1,
   });
@@ -36,10 +36,11 @@ test("aggregates ATT&CK techniques and tactics deterministically", () => {
       ["T1003.003", ["MSEC-DET-0030"]],
       ["T1021.006", ["MSEC-DET-0038"]],
       ["T1047", ["MSEC-DET-0024"]],
-      ["T1053.005", ["MSEC-DET-0028"]],
+      ["T1053.005", ["MSEC-DET-0028", "MSEC-DET-0048"]],
       ["T1059", ["MSEC-DET-0006"]],
       ["T1059.001", ["MSEC-DET-0007", "MSEC-DET-0039"]],
       ["T1078.004", ["MSEC-DET-0002", "MSEC-DET-0003", "MSEC-DET-0010", "MSEC-DET-0026"]],
+      ["T1090.001", ["MSEC-DET-0050"]],
       ["T1098.001", ["MSEC-DET-0004", "MSEC-DET-0009"]],
       ["T1098.003", ["MSEC-DET-0005", "MSEC-DET-0008", "MSEC-DET-0015", "MSEC-DET-0021"]],
       ["T1098.007", ["MSEC-DET-0029"]],
@@ -54,11 +55,14 @@ test("aggregates ATT&CK techniques and tactics deterministically", () => {
       ["T1218.008", ["MSEC-DET-0042"]],
       ["T1218.010", ["MSEC-DET-0013"]],
       ["T1218.011", ["MSEC-DET-0027"]],
+      ["T1218.013", ["MSEC-DET-0049"]],
       ["T1484.002", ["MSEC-DET-0019"]],
       ["T1490", ["MSEC-DET-0016"]],
       ["T1505.003", ["MSEC-DET-0031"]],
       ["T1543.003", ["MSEC-DET-0001", "MSEC-DET-0034"]],
       ["T1546.008", ["MSEC-DET-0040"]],
+      ["T1547.001", ["MSEC-DET-0046"]],
+      ["T1547.004", ["MSEC-DET-0047"]],
       ["T1548.002", ["MSEC-DET-0037"]],
       ["T1556.006", ["MSEC-DET-0022"]],
       ["T1556.009", ["MSEC-DET-0014"]],
@@ -125,7 +129,7 @@ test("retains exact Sentinel contract relationships", () => {
       {
         source_id: "MSEC-SDS-0003",
         table: "DeviceProcessEvents",
-        detections: ["MSEC-DET-0006", "MSEC-DET-0007", "MSEC-DET-0011", "MSEC-DET-0012", "MSEC-DET-0013", "MSEC-DET-0016", "MSEC-DET-0017", "MSEC-DET-0018", "MSEC-DET-0020", "MSEC-DET-0023", "MSEC-DET-0024", "MSEC-DET-0025", "MSEC-DET-0027", "MSEC-DET-0028", "MSEC-DET-0029", "MSEC-DET-0030", "MSEC-DET-0031", "MSEC-DET-0032", "MSEC-DET-0033", "MSEC-DET-0034", "MSEC-DET-0035", "MSEC-DET-0036", "MSEC-DET-0037", "MSEC-DET-0038", "MSEC-DET-0039", "MSEC-DET-0041", "MSEC-DET-0042", "MSEC-DET-0043", "MSEC-DET-0044", "MSEC-DET-0045"],
+        detections: ["MSEC-DET-0006", "MSEC-DET-0007", "MSEC-DET-0011", "MSEC-DET-0012", "MSEC-DET-0013", "MSEC-DET-0016", "MSEC-DET-0017", "MSEC-DET-0018", "MSEC-DET-0020", "MSEC-DET-0023", "MSEC-DET-0024", "MSEC-DET-0025", "MSEC-DET-0027", "MSEC-DET-0028", "MSEC-DET-0029", "MSEC-DET-0030", "MSEC-DET-0031", "MSEC-DET-0032", "MSEC-DET-0033", "MSEC-DET-0034", "MSEC-DET-0035", "MSEC-DET-0036", "MSEC-DET-0037", "MSEC-DET-0038", "MSEC-DET-0039", "MSEC-DET-0041", "MSEC-DET-0042", "MSEC-DET-0043", "MSEC-DET-0044", "MSEC-DET-0045", "MSEC-DET-0048", "MSEC-DET-0049", "MSEC-DET-0050"],
         required_columns: 13,
       },
       {
@@ -137,7 +141,7 @@ test("retains exact Sentinel contract relationships", () => {
       {
         source_id: "MSEC-SDS-0005",
         table: "DeviceRegistryEvents",
-        detections: ["MSEC-DET-0040"],
+        detections: ["MSEC-DET-0040", "MSEC-DET-0046", "MSEC-DET-0047"],
         required_columns: 14,
       },
     ],

@@ -6,12 +6,12 @@
     "sentinel_data_sources": "targets/sentinel/data-sources.json"
   },
   "summary": {
-    "detections": 45,
-    "attack_mappings": 60,
-    "attack_techniques": 35,
+    "detections": 50,
+    "attack_mappings": 69,
+    "attack_techniques": 39,
     "attack_tactics": 11,
     "logical_data_sources": 6,
-    "sentinel_preview_bindings": 44,
+    "sentinel_preview_bindings": 49,
     "sentinel_data_source_contracts": 5,
     "detections_without_sentinel_binding": 1
   },
@@ -71,7 +71,8 @@
           "Privilege Escalation"
         ],
         "detections": [
-          "MSEC-DET-0028"
+          "MSEC-DET-0028",
+          "MSEC-DET-0048"
         ]
       },
       {
@@ -103,6 +104,15 @@
           "MSEC-DET-0003",
           "MSEC-DET-0010",
           "MSEC-DET-0026"
+        ]
+      },
+      {
+        "technique_id": "T1090.001",
+        "tactics": [
+          "Command and Control"
+        ],
+        "detections": [
+          "MSEC-DET-0050"
         ]
       },
       {
@@ -243,6 +253,15 @@
         ]
       },
       {
+        "technique_id": "T1218.013",
+        "tactics": [
+          "Stealth"
+        ],
+        "detections": [
+          "MSEC-DET-0049"
+        ]
+      },
+      {
         "technique_id": "T1484.002",
         "tactics": [
           "Defense Impairment",
@@ -289,6 +308,26 @@
         ],
         "detections": [
           "MSEC-DET-0040"
+        ]
+      },
+      {
+        "technique_id": "T1547.001",
+        "tactics": [
+          "Persistence",
+          "Privilege Escalation"
+        ],
+        "detections": [
+          "MSEC-DET-0046"
+        ]
+      },
+      {
+        "technique_id": "T1547.004",
+        "tactics": [
+          "Persistence",
+          "Privilege Escalation"
+        ],
+        "detections": [
+          "MSEC-DET-0047"
         ]
       },
       {
@@ -362,12 +401,14 @@
       {
         "tactic": "Command and Control",
         "techniques": [
+          "T1090.001",
           "T1105"
         ],
         "detections": [
           "MSEC-DET-0020",
           "MSEC-DET-0043",
-          "MSEC-DET-0044"
+          "MSEC-DET-0044",
+          "MSEC-DET-0050"
         ]
       },
       {
@@ -437,7 +478,8 @@
           "MSEC-DET-0025",
           "MSEC-DET-0028",
           "MSEC-DET-0039",
-          "MSEC-DET-0045"
+          "MSEC-DET-0045",
+          "MSEC-DET-0048"
         ]
       },
       {
@@ -481,6 +523,8 @@
           "T1505.003",
           "T1543.003",
           "T1546.008",
+          "T1547.001",
+          "T1547.004",
           "T1556.006"
         ],
         "detections": [
@@ -494,7 +538,10 @@
           "MSEC-DET-0029",
           "MSEC-DET-0031",
           "MSEC-DET-0034",
-          "MSEC-DET-0040"
+          "MSEC-DET-0040",
+          "MSEC-DET-0046",
+          "MSEC-DET-0047",
+          "MSEC-DET-0048"
         ]
       },
       {
@@ -506,6 +553,8 @@
           "T1484.002",
           "T1543.003",
           "T1546.008",
+          "T1547.001",
+          "T1547.004",
           "T1548.002"
         ],
         "detections": [
@@ -518,7 +567,10 @@
           "MSEC-DET-0029",
           "MSEC-DET-0034",
           "MSEC-DET-0037",
-          "MSEC-DET-0040"
+          "MSEC-DET-0040",
+          "MSEC-DET-0046",
+          "MSEC-DET-0047",
+          "MSEC-DET-0048"
         ]
       },
       {
@@ -531,7 +583,8 @@
           "T1218.004",
           "T1218.007",
           "T1218.008",
-          "T1218.011"
+          "T1218.011",
+          "T1218.013"
         ],
         "detections": [
           "MSEC-DET-0025",
@@ -541,7 +594,8 @@
           "MSEC-DET-0042",
           "MSEC-DET-0043",
           "MSEC-DET-0044",
-          "MSEC-DET-0045"
+          "MSEC-DET-0045",
+          "MSEC-DET-0049"
         ]
       }
     ]
@@ -581,7 +635,10 @@
           "MSEC-DET-0042",
           "MSEC-DET-0043",
           "MSEC-DET-0044",
-          "MSEC-DET-0045"
+          "MSEC-DET-0045",
+          "MSEC-DET-0048",
+          "MSEC-DET-0049",
+          "MSEC-DET-0050"
         ],
         "required_fields": [
           "AccountName",
@@ -601,7 +658,9 @@
         "name": "Microsoft Defender for Endpoint registry events",
         "category": "Endpoint registry modification",
         "detections": [
-          "MSEC-DET-0040"
+          "MSEC-DET-0040",
+          "MSEC-DET-0046",
+          "MSEC-DET-0047"
         ],
         "required_fields": [
           "ActionType",
@@ -859,7 +918,10 @@
           "MSEC-DET-0042",
           "MSEC-DET-0043",
           "MSEC-DET-0044",
-          "MSEC-DET-0045"
+          "MSEC-DET-0045",
+          "MSEC-DET-0048",
+          "MSEC-DET-0049",
+          "MSEC-DET-0050"
         ],
         "event_time_column": "Timestamp",
         "required_columns": [
@@ -981,7 +1043,9 @@
         "table": "DeviceRegistryEvents",
         "display_name": "Microsoft Defender for Endpoint registry events",
         "detections": [
-          "MSEC-DET-0040"
+          "MSEC-DET-0040",
+          "MSEC-DET-0046",
+          "MSEC-DET-0047"
         ],
         "event_time_column": "Timestamp",
         "required_columns": [

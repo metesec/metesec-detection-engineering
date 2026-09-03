@@ -2130,3 +2130,112 @@ Wave 8 is complete: forty-five of fifty planned Sigma detections exist, all
 forty-four Sentinel-bound predicates have passed bounded live query acceptance,
 and the single Windows Event detection remains intentionally unbound. Wave 9 is
 the next milestone toward the fifty-rule version 1 pack.
+
+## 2026-09-04 — Sigma expansion Wave 9 reached 50 of 50 locally
+
+### Scope decision and research gate
+
+- Retained the Sigma-only, Sentinel-first version 1 boundary and selected five
+  non-duplicate Windows persistence, execution, proxy-execution and forwarding
+  mechanisms that use the existing confirmed `DeviceRegistryEvents` and
+  `DeviceProcessEvents` contracts.
+- Reviewed current MITRE ATT&CK technique pages, official Microsoft command and
+  Defender hunting-schema documentation, and relevant SigmaHQ or Atomic Red
+  Team precedents before authoring the repository-specific predicates. No
+  upstream rule file was copied.
+- Rejected a blanket successful Device Code sign-in candidate because normal
+  use could not be separated faithfully in a portable single-event Sigma rule.
+  Netsh PortProxy creation replaced it as the fifth mechanism.
+- An initial broad Run and RunOnce predicate produced an unsuitable high-volume
+  aggregate baseline. It was not retained. The final rule requires either a
+  script in a selected user-writable path or behavior-bearing PowerShell,
+  Mshta, Regsvr32 or Rundll32 content.
+
+### Detection packages
+
+- Added `MSEC-DET-0046` for suspicious script or signed-proxy payloads written
+  to Run, RunOnce or Explorer policy Run values, mapped to `T1547.001`.
+- Added `MSEC-DET-0047` for non-default Winlogon Shell or Userinit values,
+  mapped to `T1547.004`; common default values remain explicit negative cases.
+- Added `MSEC-DET-0048` for local Schtasks creation whose task action contains a
+  selected user-writable payload or behavior-bearing script or proxy command,
+  mapped to `T1053.005`. Remote task creation stays owned by
+  `MSEC-DET-0028`.
+- Added `MSEC-DET-0049` for Mavinject or renamed Mavinject binaries using the
+  `INJECTRUNNING` or `HMODULE` injection switches, mapped to `T1218.013`.
+- Added `MSEC-DET-0050` for Netsh or renamed Netsh binaries adding an interface
+  PortProxy rule, mapped to `T1090.001`; show, delete and firewall-rule commands
+  remain negative cases.
+- Each package contains one manifest, one Sigma rule, three positive and four
+  negative flat synthetic fixtures. The catalogue now contains fifty rules and
+  350 fixture expectations.
+- Independent rule review found that the first registry predicates omitted
+  32-bit redirected Wow6432Node paths and that the Run-key rule omitted common
+  AppData and Temp environment-variable forms. Both rules and existing positive
+  fixtures were corrected without changing the evidence totals. The same review
+  corrected the PortProxy rationale from external to internal proxy behavior;
+  its ATT&CK mapping and predicate were already correct.
+
+### Sentinel contracts and generated coverage
+
+- Added two `DeviceRegistryEvents` and three `DeviceProcessEvents` preview
+  bindings, five reviewed Golden KQL files and five disabled five-minute
+  Scheduled-rule configurations. Forty-nine of fifty detections now have
+  deterministic Sentinel output.
+- Extended only existing source contracts. An initial manifest label created a
+  seventh logical source category and caused the exact coverage test to fail.
+  The two registry packages were corrected to the established `Endpoint
+  registry modification` category, generated outputs were rebuilt and the
+  complete coverage suite then passed with six logical sources.
+- Regenerated the catalogue and coverage outputs. Coverage now records sixty-nine
+  ATT&CK mappings across thirty-nine techniques and eleven tactics, six logical
+  data sources, five Sentinel source contracts and one explicit target gap.
+
+### Live-validation boundary
+
+- Executed only bounded 30-day aggregate query-acceptance probes in the already
+  authorized target session. No result group or raw event was opened.
+- All five final generated predicates were accepted by the target query engine
+  and returned no match in the current aggregate baseline. This is useful
+  query-acceptance and baseline evidence, not proof of future performance or
+  production readiness.
+- After the independent coverage corrections, the expanded Run-key and Winlogon
+  predicates were executed again and each still returned no match. The first
+  manually adapted Winlogon aggregate used unescaped Windows paths in regular
+  Kusto strings and was rejected with a syntax error; the query was corrected
+  to verbatim path strings and the successful rerun above supersedes it. The
+  committed compiler-generated Golden query was not affected by that manual
+  editor error.
+- No exact result count, raw row, user, device, address, tenant, subscription,
+  workspace, customer value, copied result or screenshot was stored.
+
+### Validation and reproducibility
+
+- Advanced catalogue, compiler, renderer, data-source, coverage, lifecycle,
+  runtime-health and release assertions to the exact Wave 9 totals. The
+  complete aggregate repository check passed 83 unit tests plus every
+  structural, generated-output and Golden gate.
+- All 350 synthetic fixture expectations passed. All forty-nine compiled KQL
+  queries matched their reviewed Golden snapshots and all forty-nine disabled
+  Sentinel Scheduled-rule bodies rendered successfully.
+- Two consecutive local `v0.4.0` builds were byte-identical. The candidate is
+  1,036,581 bytes, contains 588 ZIP members including 587 allowlisted sources,
+  and has SHA-256
+  `45abbc1a60910b84229a0ab4aadec12e8d2b937899eaabd9a79f1a45928f1653`.
+
+### Explicitly untouched
+
+- No Sentinel analytics rule was deployed or enabled and no cloud
+  configuration was changed.
+- No environment-specific exception, allowlist, tuning overlay, raw live data,
+  native KQL detection or separate prebuilt Sentinel target artifact was added.
+- No commit was pushed. Forgejo, the GitHub mirror and the immutable published
+  `v0.1.0` release remain unchanged.
+
+### Result
+
+Wave 9 is complete locally: all fifty planned Sigma detections now exist,
+forty-nine have deterministic disabled Sentinel output and the single
+unsupported Windows Event dependency remains explicit. The next milestone is a
+separate clean-tree reproducibility and protected-main release-readiness review;
+the `v0.4.0` development candidate has not been published as `v1.0.0`.

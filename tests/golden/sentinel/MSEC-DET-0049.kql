@@ -1,0 +1,3 @@
+DeviceProcessEvents
+| where ((FileName in~ ("mavinject.exe", "mavinject64.exe")) or (ProcessVersionInfoOriginalFileName in~ ("mavinject.exe", "mavinject64.exe"))) and (ProcessCommandLine contains "/INJECTRUNNING" or ProcessCommandLine contains "/HMODULE")
+| project TimeGenerated, Timestamp, DeviceId, DeviceName, AccountDomain, AccountName, AccountSid, InitiatingProcessFileName, FileName, ProcessVersionInfoOriginalFileName, FolderPath, ProcessCommandLine, ReportId

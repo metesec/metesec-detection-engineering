@@ -55,7 +55,7 @@
       "id": "MSEC-SDS-0003",
       "table": "DeviceProcessEvents",
       "display_name": "Microsoft Defender for Endpoint process events",
-      "consumers": ["MSEC-DET-0006", "MSEC-DET-0007", "MSEC-DET-0011", "MSEC-DET-0012", "MSEC-DET-0013", "MSEC-DET-0016", "MSEC-DET-0017", "MSEC-DET-0018", "MSEC-DET-0020", "MSEC-DET-0023", "MSEC-DET-0024", "MSEC-DET-0025", "MSEC-DET-0027", "MSEC-DET-0028", "MSEC-DET-0029", "MSEC-DET-0030", "MSEC-DET-0031", "MSEC-DET-0032", "MSEC-DET-0033", "MSEC-DET-0034", "MSEC-DET-0035", "MSEC-DET-0036", "MSEC-DET-0037", "MSEC-DET-0038", "MSEC-DET-0039", "MSEC-DET-0041", "MSEC-DET-0042", "MSEC-DET-0043", "MSEC-DET-0044", "MSEC-DET-0045"],
+      "consumers": ["MSEC-DET-0006", "MSEC-DET-0007", "MSEC-DET-0011", "MSEC-DET-0012", "MSEC-DET-0013", "MSEC-DET-0016", "MSEC-DET-0017", "MSEC-DET-0018", "MSEC-DET-0020", "MSEC-DET-0023", "MSEC-DET-0024", "MSEC-DET-0025", "MSEC-DET-0027", "MSEC-DET-0028", "MSEC-DET-0029", "MSEC-DET-0030", "MSEC-DET-0031", "MSEC-DET-0032", "MSEC-DET-0033", "MSEC-DET-0034", "MSEC-DET-0035", "MSEC-DET-0036", "MSEC-DET-0037", "MSEC-DET-0038", "MSEC-DET-0039", "MSEC-DET-0041", "MSEC-DET-0042", "MSEC-DET-0043", "MSEC-DET-0044", "MSEC-DET-0045", "MSEC-DET-0048", "MSEC-DET-0049", "MSEC-DET-0050"],
       "event_time_column": "Timestamp",
       "required_columns": [
         {"name": "TimeGenerated", "type": "datetime"},
@@ -104,7 +104,7 @@
       "id": "MSEC-SDS-0005",
       "table": "DeviceRegistryEvents",
       "display_name": "Microsoft Defender for Endpoint registry events",
-      "consumers": ["MSEC-DET-0040"],
+      "consumers": ["MSEC-DET-0040", "MSEC-DET-0046", "MSEC-DET-0047"],
       "event_time_column": "Timestamp",
       "required_columns": [
         {"name": "TimeGenerated", "type": "datetime"},

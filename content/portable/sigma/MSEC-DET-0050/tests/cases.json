@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "detection_id": "MSEC-DET-0050",
+  "implementation": "content/portable/sigma/MSEC-DET-0050/rule.yml",
+  "cases": [
+    {"id": "portproxy-add-v4tov4", "expectation": "match", "fixture": "fixtures/portproxy-add-v4tov4.json", "description": "Synthetic Netsh command adds an IPv4 PortProxy rule."},
+    {"id": "portproxy-add-uppercase-with-context", "expectation": "match", "fixture": "fixtures/portproxy-add-uppercase-with-context.json", "description": "Synthetic uppercase Netsh command adds a PortProxy rule with bounded context."},
+    {"id": "renamed-netsh-portproxy-add", "expectation": "match", "fixture": "fixtures/renamed-netsh-portproxy-add.json", "description": "Synthetic renamed Netsh binary retains its original filename and adds a PortProxy rule."},
+    {"id": "portproxy-show-all", "expectation": "no_match", "fixture": "fixtures/portproxy-show-all.json", "description": "Synthetic PortProxy display command does not add a rule."},
+    {"id": "portproxy-delete-rule", "expectation": "no_match", "fixture": "fixtures/portproxy-delete-rule.json", "description": "Synthetic PortProxy deletion does not add a rule."},
+    {"id": "advfirewall-add-rule", "expectation": "no_match", "fixture": "fixtures/advfirewall-add-rule.json", "description": "Synthetic Netsh firewall rule creation is outside PortProxy scope."},
+    {"id": "other-process-portproxy-text", "expectation": "no_match", "fixture": "fixtures/other-process-portproxy-text.json", "description": "Synthetic matching command text belongs to another executable."}
+  ]
+}

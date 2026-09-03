@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"FileName":"netsh.exe","ProcessVersionInfoOriginalFileName":"netsh.exe","ProcessCommandLine":"netsh.exe interface portproxy add v4tov4 listenaddress=127.0.0.1 listenport=8443 connectaddress=192.0.2.50 connectport=443"}}

@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "detection_id": "MSEC-DET-0048",
+  "implementation": "content/portable/sigma/MSEC-DET-0048/rule.yml",
+  "cases": [
+    {"id": "local-task-appdata-payload", "expectation": "match", "fixture": "fixtures/local-task-appdata-payload.json", "description": "Synthetic local task launches an executable from AppData."},
+    {"id": "renamed-schtasks-encoded-powershell", "expectation": "match", "fixture": "fixtures/renamed-schtasks-encoded-powershell.json", "description": "Synthetic renamed Schtasks binary creates a task using encoded PowerShell."},
+    {"id": "local-task-mshta-with-context", "expectation": "match", "fixture": "fixtures/local-task-mshta-with-context.json", "description": "Synthetic mixed-case local task launches remote content through Mshta with bounded context."},
+    {"id": "remote-suspicious-task", "expectation": "no_match", "fixture": "fixtures/remote-suspicious-task.json", "description": "Synthetic suspicious remote task remains owned by the separate remote-task detection."},
+    {"id": "ordinary-program-files-task", "expectation": "no_match", "fixture": "fixtures/ordinary-program-files-task.json", "description": "Synthetic local task launches an ordinary Program Files executable."},
+    {"id": "local-task-query", "expectation": "no_match", "fixture": "fixtures/local-task-query.json", "description": "Synthetic Schtasks query does not create a task."},
+    {"id": "other-process-task-text", "expectation": "no_match", "fixture": "fixtures/other-process-task-text.json", "description": "Synthetic matching command text belongs to another executable."}
+  ]
+}

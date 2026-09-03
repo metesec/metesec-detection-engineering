@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"ActionType":"RegistryValueSet","RegistryKey":"HKEY_LOCAL_MACHINE\\Software\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\RunOnce","RegistryValueName":"SyntheticUpdate","RegistryValueData":"powershell.exe -NoProfile -WindowStyle Hidden -EncodedCommand U1lOVEhFVElD"}}

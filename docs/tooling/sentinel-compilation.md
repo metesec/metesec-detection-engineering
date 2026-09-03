@@ -50,7 +50,7 @@ Generated queries are written to `dist/sentinel/<DETECTION-ID>/query.kql`. They 
 
 The separate `targets/sentinel/analytics-rules.json` profile adds explicit
 Scheduled-rule frequency, period, threshold, suppression, event-grouping and
-incident settings to the same forty-four bindings. Validate its JSON Schema and the
+incident settings to the same forty-nine bindings. Validate its JSON Schema and the
 complete renderer with:
 
 ```powershell
@@ -110,13 +110,17 @@ can be derived deterministically from the reviewed sources. The repository still
 contains no Azure client, authentication flow, target scope, deployment command
 or live-write capability.
 
-The completed read-only live probes for all forty-four bound detections used only
+The completed read-only live probes for all forty-nine bound detections used only
 aggregate counts in an existing user-authorized Microsoft Sentinel workspace.
 They established that the bound `SigninLogs`, `AuditLogs`,
 `DeviceProcessEvents`, `DeviceRegistryEvents` and `AADUserRiskEvents` fields were queryable and that all
-forty-four generated predicates were accepted. In Wave 8, four predicates returned
-no match in the current 30-day aggregate baseline and the remote-MSI predicate
-returned a small non-zero result across several devices, requiring tuning rather
-than being treated as confirmed malicious activity. No raw rows, user
+forty-nine generated predicates were accepted. In Wave 9, a broad Run/RunOnce
+candidate was narrowed to selected script and LOLBin payloads after its aggregate
+baseline proved too noisy. A blanket successful Device Code sign-in candidate was
+rejected and replaced by Netsh PortProxy creation because legitimate Device Code
+use could not be separated faithfully in a portable single-event Sigma rule. All
+five final Wave 9 predicates returned no match in the current 30-day aggregate
+baseline. Earlier non-zero baselines remain tuning signals rather than confirmed
+malicious activity. No raw rows, user
 identifiers, tenant identifiers, workspace identifiers or exact result counts
 are stored here. None of these results proves that a detection is production-ready.

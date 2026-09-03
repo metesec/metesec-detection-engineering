@@ -66,6 +66,11 @@ EXPECTED_IDS = [
     "MSEC-DET-0043",
     "MSEC-DET-0044",
     "MSEC-DET-0045",
+    "MSEC-DET-0046",
+    "MSEC-DET-0047",
+    "MSEC-DET-0048",
+    "MSEC-DET-0049",
+    "MSEC-DET-0050",
 ]
 EXPECTED_RULE_IDS = {
     "MSEC-DET-0002": "249adb3e-5bd1-5348-82ba-00a0ade97c7d",
@@ -112,6 +117,11 @@ EXPECTED_RULE_IDS = {
     "MSEC-DET-0043": "35b23fd5-e7b2-5651-a643-3057bd361985",
     "MSEC-DET-0044": "97636268-9f74-5a3e-8b8a-a91bd0c87e11",
     "MSEC-DET-0045": "8bc0fbcf-dfcd-5ac4-bb2f-638be40e1976",
+    "MSEC-DET-0046": "25783278-c27a-595a-9e1b-934fdd3084db",
+    "MSEC-DET-0047": "f2ae7422-1338-51cb-90d5-75df90c052ca",
+    "MSEC-DET-0048": "a14d4aff-435d-5301-b075-7930984c48ee",
+    "MSEC-DET-0049": "30ed1b39-8a97-5eec-8896-768e9dae2d54",
+    "MSEC-DET-0050": "176554d0-b7c1-578b-b2ab-ca38942730ea",
 }
 SIGNIN_ENTITY_MAPPINGS = [
     {
@@ -176,6 +186,14 @@ DEVICE_ENTITY_MAPPINGS = [
         ],
     },
 ]
+REGISTRY_ENTITY_MAPPINGS = [
+    {
+        "entityType": "Account",
+        "fieldMappings": [
+            {"identifier": "Name", "columnName": "InitiatingProcessAccountName"},
+        ],
+    },
+]
 AUDIT_ACCOUNT_ENTITY_MAPPINGS = [
     *AUDIT_ENTITY_MAPPINGS[:3],
     {
@@ -203,7 +221,7 @@ class SentinelRuleRendererTests(unittest.TestCase):
     def setUpClass(cls) -> None:
         cls.rendered = render_profile(REPO_ROOT, PROFILE)
 
-    def test_current_profile_renders_forty_four_disabled_scheduled_rules(self) -> None:
+    def test_current_profile_renders_forty_nine_disabled_scheduled_rules(self) -> None:
         self.assertEqual(
             [item.detection_id for item in self.rendered],
             EXPECTED_IDS,
@@ -285,6 +303,11 @@ class SentinelRuleRendererTests(unittest.TestCase):
             "MSEC-DET-0043": ("Medium", ["CommandAndControl"], ["T1218", "T1105"]),
             "MSEC-DET-0044": ("Medium", ["CommandAndControl"], ["T1218", "T1105"]),
             "MSEC-DET-0045": ("High", ["Execution"], ["T1127"]),
+            "MSEC-DET-0046": ("Medium", ["Persistence", "PrivilegeEscalation"], ["T1547"]),
+            "MSEC-DET-0047": ("High", ["Persistence", "PrivilegeEscalation"], ["T1547"]),
+            "MSEC-DET-0048": ("Medium", ["Execution", "Persistence", "PrivilegeEscalation"], ["T1053"]),
+            "MSEC-DET-0049": ("High", [], ["T1218"]),
+            "MSEC-DET-0050": ("Medium", ["CommandAndControl"], ["T1090"]),
         }
         for item in self.rendered:
             properties = item.request_body["properties"]
@@ -349,19 +372,17 @@ class SentinelRuleRendererTests(unittest.TestCase):
                 "MSEC-DET-0037": DEVICE_ENTITY_MAPPINGS,
                 "MSEC-DET-0038": DEVICE_ENTITY_MAPPINGS,
                 "MSEC-DET-0039": DEVICE_ENTITY_MAPPINGS,
-                "MSEC-DET-0040": [
-                    {
-                        "entityType": "Account",
-                        "fieldMappings": [
-                            {"identifier": "Name", "columnName": "InitiatingProcessAccountName"},
-                        ],
-                    },
-                ],
+                "MSEC-DET-0040": REGISTRY_ENTITY_MAPPINGS,
                 "MSEC-DET-0041": DEVICE_ENTITY_MAPPINGS,
                 "MSEC-DET-0042": DEVICE_ENTITY_MAPPINGS,
                 "MSEC-DET-0043": DEVICE_ENTITY_MAPPINGS,
                 "MSEC-DET-0044": DEVICE_ENTITY_MAPPINGS,
                 "MSEC-DET-0045": DEVICE_ENTITY_MAPPINGS,
+                "MSEC-DET-0046": REGISTRY_ENTITY_MAPPINGS,
+                "MSEC-DET-0047": REGISTRY_ENTITY_MAPPINGS,
+                "MSEC-DET-0048": DEVICE_ENTITY_MAPPINGS,
+                "MSEC-DET-0049": DEVICE_ENTITY_MAPPINGS,
+                "MSEC-DET-0050": DEVICE_ENTITY_MAPPINGS,
             }[item.detection_id]
             properties = item.request_body["properties"]
             self.assertEqual(properties["entityMappings"], expected)

@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"FileName":"synthetic-tool.exe","ProcessVersionInfoOriginalFileName":"synthetic-tool.exe","ProcessCommandLine":"synthetic-tool.exe 4242 /INJECTRUNNING C:\\Temp\\synthetic.dll"}}

@@ -6,10 +6,10 @@ This index is generated deterministically from the versioned detection manifests
 
 ## Summary
 
-- Detection packages: **45**
-- Implementations: **45**
-- Synthetic evidence: **135 positive / 180 negative cases**
-- Sentinel preview bindings: **44**
+- Detection packages: **50**
+- Implementations: **50**
+- Synthetic evidence: **150 positive / 200 negative cases**
+- Sentinel preview bindings: **49**
 
 ## Coverage
 
@@ -60,6 +60,11 @@ This index is generated deterministically from the versioned detection manifests
 | [`MSEC-DET-0043`](catalog/detections/MSEC-DET-0043/manifest.json) | Msiexec installs a remote web package | experimental | medium | `T1218.007`, `T1105` | Microsoft Defender for Endpoint process events | 3 positive / 4 negative | `DeviceProcessEvents` |
 | [`MSEC-DET-0044`](catalog/detections/MSEC-DET-0044/manifest.json) | InstallUtil references a remote payload | experimental | medium | `T1218.004`, `T1105` | Microsoft Defender for Endpoint process events | 3 positive / 4 negative | `DeviceProcessEvents` |
 | [`MSEC-DET-0045`](catalog/detections/MSEC-DET-0045/manifest.json) | MSBuild spawns a suspicious child process | experimental | high | `T1127.001`, `T1127.001` | Microsoft Defender for Endpoint process events | 3 positive / 4 negative | `DeviceProcessEvents` |
+| [`MSEC-DET-0046`](catalog/detections/MSEC-DET-0046/manifest.json) | Suspicious script or LOLBin payload in a Run key | experimental | medium | `T1547.001`, `T1547.001` | Microsoft Defender for Endpoint registry events | 3 positive / 4 negative | `DeviceRegistryEvents` |
+| [`MSEC-DET-0047`](catalog/detections/MSEC-DET-0047/manifest.json) | Winlogon Shell or Userinit value hijack | experimental | high | `T1547.004`, `T1547.004` | Microsoft Defender for Endpoint registry events | 3 positive / 4 negative | `DeviceRegistryEvents` |
+| [`MSEC-DET-0048`](catalog/detections/MSEC-DET-0048/manifest.json) | Suspicious local scheduled task creation | experimental | medium | `T1053.005`, `T1053.005`, `T1053.005` | Microsoft Defender for Endpoint process events | 3 positive / 4 negative | `DeviceProcessEvents` |
+| [`MSEC-DET-0049`](catalog/detections/MSEC-DET-0049/manifest.json) | Mavinject process injection command | experimental | high | `T1218.013` | Microsoft Defender for Endpoint process events | 3 positive / 4 negative | `DeviceProcessEvents` |
+| [`MSEC-DET-0050`](catalog/detections/MSEC-DET-0050/manifest.json) | Netsh creates a Windows PortProxy rule | experimental | medium | `T1090.001` | Microsoft Defender for Endpoint process events | 3 positive / 4 negative | `DeviceProcessEvents` |
 
 ## Records
 
@@ -736,3 +741,78 @@ Detects MSBuild creating a selected command, script or signed proxy-execution pr
 - Sentinel preview:
   - Table `DeviceProcessEvents`; [reviewed Golden query](tests/golden/sentinel/MSEC-DET-0045.kql)
 - Source: [catalog/detections/MSEC-DET-0045/manifest.json](catalog/detections/MSEC-DET-0045/manifest.json)
+
+### MSEC-DET-0046 — Suspicious script or LOLBin payload in a Run key
+
+Detects a Run, RunOnce or Explorer policy Run value set to a selected script payload or suspicious signed Windows utility command.
+
+- Lifecycle: `experimental`; created 2026-09-03; review every 90 days
+- Severity / confidence: `medium` / `medium`
+- ATT&CK: `T1547.001` (Persistence), `T1547.001` (Privilege Escalation)
+- Data sources: Microsoft Defender for Endpoint registry events (Endpoint registry modification)
+- Synthetic evidence: 3 positive and 4 negative cases
+- Implementations:
+  - [content/portable/sigma/MSEC-DET-0046/rule.yml](content/portable/sigma/MSEC-DET-0046/rule.yml) — `active`; targets `sentinel`
+- Sentinel preview:
+  - Table `DeviceRegistryEvents`; [reviewed Golden query](tests/golden/sentinel/MSEC-DET-0046.kql)
+- Source: [catalog/detections/MSEC-DET-0046/manifest.json](catalog/detections/MSEC-DET-0046/manifest.json)
+
+### MSEC-DET-0047 — Winlogon Shell or Userinit value hijack
+
+Detects a Winlogon Shell or Userinit registry value set to a non-default executable command.
+
+- Lifecycle: `experimental`; created 2026-09-03; review every 90 days
+- Severity / confidence: `high` / `medium`
+- ATT&CK: `T1547.004` (Persistence), `T1547.004` (Privilege Escalation)
+- Data sources: Microsoft Defender for Endpoint registry events (Endpoint registry modification)
+- Synthetic evidence: 3 positive and 4 negative cases
+- Implementations:
+  - [content/portable/sigma/MSEC-DET-0047/rule.yml](content/portable/sigma/MSEC-DET-0047/rule.yml) — `active`; targets `sentinel`
+- Sentinel preview:
+  - Table `DeviceRegistryEvents`; [reviewed Golden query](tests/golden/sentinel/MSEC-DET-0047.kql)
+- Source: [catalog/detections/MSEC-DET-0047/manifest.json](catalog/detections/MSEC-DET-0047/manifest.json)
+
+### MSEC-DET-0048 — Suspicious local scheduled task creation
+
+Detects local Schtasks task creation whose task action contains a selected user-writable payload or behavior-bearing script and proxy-execution command.
+
+- Lifecycle: `experimental`; created 2026-09-03; review every 90 days
+- Severity / confidence: `medium` / `medium`
+- ATT&CK: `T1053.005` (Execution), `T1053.005` (Persistence), `T1053.005` (Privilege Escalation)
+- Data sources: Microsoft Defender for Endpoint process events (Endpoint process creation)
+- Synthetic evidence: 3 positive and 4 negative cases
+- Implementations:
+  - [content/portable/sigma/MSEC-DET-0048/rule.yml](content/portable/sigma/MSEC-DET-0048/rule.yml) — `active`; targets `sentinel`
+- Sentinel preview:
+  - Table `DeviceProcessEvents`; [reviewed Golden query](tests/golden/sentinel/MSEC-DET-0048.kql)
+- Source: [catalog/detections/MSEC-DET-0048/manifest.json](catalog/detections/MSEC-DET-0048/manifest.json)
+
+### MSEC-DET-0049 — Mavinject process injection command
+
+Detects Mavinject or a renamed Mavinject binary using the INJECTRUNNING or HMODULE injection switches.
+
+- Lifecycle: `experimental`; created 2026-09-03; review every 90 days
+- Severity / confidence: `high` / `high`
+- ATT&CK: `T1218.013` (Stealth)
+- Data sources: Microsoft Defender for Endpoint process events (Endpoint process creation)
+- Synthetic evidence: 3 positive and 4 negative cases
+- Implementations:
+  - [content/portable/sigma/MSEC-DET-0049/rule.yml](content/portable/sigma/MSEC-DET-0049/rule.yml) — `active`; targets `sentinel`
+- Sentinel preview:
+  - Table `DeviceProcessEvents`; [reviewed Golden query](tests/golden/sentinel/MSEC-DET-0049.kql)
+- Source: [catalog/detections/MSEC-DET-0049/manifest.json](catalog/detections/MSEC-DET-0049/manifest.json)
+
+### MSEC-DET-0050 — Netsh creates a Windows PortProxy rule
+
+Detects Netsh or a renamed Netsh binary adding a Windows interface PortProxy forwarding rule.
+
+- Lifecycle: `experimental`; created 2026-09-03; review every 90 days
+- Severity / confidence: `medium` / `medium`
+- ATT&CK: `T1090.001` (Command and Control)
+- Data sources: Microsoft Defender for Endpoint process events (Endpoint process creation)
+- Synthetic evidence: 3 positive and 4 negative cases
+- Implementations:
+  - [content/portable/sigma/MSEC-DET-0050/rule.yml](content/portable/sigma/MSEC-DET-0050/rule.yml) — `active`; targets `sentinel`
+- Sentinel preview:
+  - Table `DeviceProcessEvents`; [reviewed Golden query](tests/golden/sentinel/MSEC-DET-0050.kql)
+- Source: [catalog/detections/MSEC-DET-0050/manifest.json](catalog/detections/MSEC-DET-0050/manifest.json)

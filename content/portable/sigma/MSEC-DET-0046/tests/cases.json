@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "detection_id": "MSEC-DET-0046",
+  "implementation": "content/portable/sigma/MSEC-DET-0046/rule.yml",
+  "cases": [
+    {"id": "runonce-powershell-encoded", "expectation": "match", "fixture": "fixtures/runonce-powershell-encoded.json", "description": "Synthetic 32-bit redirected RunOnce value contains encoded PowerShell."},
+    {"id": "policy-run-mshta-remote", "expectation": "match", "fixture": "fixtures/policy-run-mshta-remote.json", "description": "Synthetic Explorer policy Run value launches a remote HTA through Mshta."},
+    {"id": "run-appdata-script-with-context", "expectation": "match", "fixture": "fixtures/run-appdata-script-with-context.json", "description": "Synthetic mixed-case Run value launches a script through an AppData environment variable with bounded context."},
+    {"id": "ordinary-onedrive-startup", "expectation": "no_match", "fixture": "fixtures/ordinary-onedrive-startup.json", "description": "Synthetic ordinary application startup value contains no selected behavior."},
+    {"id": "suspicious-payload-unrelated-key", "expectation": "no_match", "fixture": "fixtures/suspicious-payload-unrelated-key.json", "description": "Synthetic matching PowerShell text is written outside a selected Run key."},
+    {"id": "ordinary-rundll32-run-value", "expectation": "no_match", "fixture": "fixtures/ordinary-rundll32-run-value.json", "description": "Synthetic Run value uses Rundll32 without a selected script behavior."},
+    {"id": "suspicious-run-value-deleted", "expectation": "no_match", "fixture": "fixtures/suspicious-run-value-deleted.json", "description": "Synthetic suspicious Run value belongs to a deletion event rather than a value set."}
+  ]
+}

@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"FileName":"network-helper.exe","ProcessVersionInfoOriginalFileName":"netsh.exe","ProcessCommandLine":"network-helper.exe interface portproxy add v6tov4 listenaddress=::1 listenport=9443 connectaddress=192.0.2.60 connectport=443"}}

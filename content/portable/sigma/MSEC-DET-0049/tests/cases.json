@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "detection_id": "MSEC-DET-0049",
+  "implementation": "content/portable/sigma/MSEC-DET-0049/rule.yml",
+  "cases": [
+    {"id": "mavinject-injectrunning", "expectation": "match", "fixture": "fixtures/mavinject-injectrunning.json", "description": "Synthetic Mavinject command uses INJECTRUNNING."},
+    {"id": "mavinject-hmodule-with-context", "expectation": "match", "fixture": "fixtures/mavinject-hmodule-with-context.json", "description": "Synthetic mixed-case Mavinject command uses HMODULE with bounded context."},
+    {"id": "renamed-mavinject-injection", "expectation": "match", "fixture": "fixtures/renamed-mavinject-injection.json", "description": "Synthetic renamed Mavinject binary retains its original filename and requests injection."},
+    {"id": "mavinject-help", "expectation": "no_match", "fixture": "fixtures/mavinject-help.json", "description": "Synthetic Mavinject help invocation contains no injection switch."},
+    {"id": "other-process-injection-switch", "expectation": "no_match", "fixture": "fixtures/other-process-injection-switch.json", "description": "Synthetic injection switch belongs to another executable."},
+    {"id": "mavinject-without-injection", "expectation": "no_match", "fixture": "fixtures/mavinject-without-injection.json", "description": "Synthetic Mavinject invocation contains no selected injection command."},
+    {"id": "mavinject-missing-command-line", "expectation": "no_match", "fixture": "fixtures/mavinject-missing-command-line.json", "description": "Synthetic Mavinject event lacks the command line required by the rule."}
+  ]
+}

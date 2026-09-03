@@ -43,11 +43,11 @@ Status: **complete**
 - [x] Document consumer-owned temporary rendering and deployment handoff
 - [x] Clearly document semantic and platform limitations
 
-Target status: forty-four explicitly bound rules across `SigninLogs`, `AuditLogs`,
+Target status: forty-nine explicitly bound rules across `SigninLogs`, `AuditLogs`,
 `DeviceProcessEvents`, `DeviceRegistryEvents` and `AADUserRiskEvents`
 compile to reviewed Golden queries and render into deterministic disabled Scheduled-rule
 REST bodies with stable rule IDs, governed output fields, entity mappings and
-provenance hashes. All forty-four have passed separate read-only live
+provenance hashes. All forty-nine have passed separate read-only live
 query-acceptance probes.
 Consumers render temporary files in their own pipeline;
 MeteSec deliberately publishes no separate prebuilt Sentinel target archive and
@@ -71,15 +71,15 @@ and `unknown` states. No live monitor or production-health claim exists.
 Environment-specific tuning and exceptions remain consumer-owned and are not a
 planned public repository contract.
 
-The generated coverage outputs expose thirty-five declared ATT&CK techniques, eleven
-tactics, six logical sources, five Sentinel source contracts and the one
-intentional unbound detection without inventing a completeness score.
+The generated coverage outputs expose the declared ATT&CK techniques and tactics,
+six logical sources, five Sentinel source contracts and the one intentional
+unbound detection without inventing a completeness score.
 Lifecycle validation now derives review dates from existing manifest fields,
 fails on due or overdue records and can enforce forward-only transitions when a
 consumer supplies a previous catalogue baseline. No runtime status file is
 committed.
 
-Rule-runtime validation now derives the expected forty-four execution schedules from
+Rule-runtime validation now derives the expected forty-nine execution schedules from
 the Sentinel analytics-rule profile and evaluates a consumer-supplied local
 observation as `healthy`, `degraded`, `failed` or `unknown`. Alert and incident
 counts are optional context and never influence health; no Azure client, live
@@ -92,7 +92,7 @@ Status: **in progress**
 - [x] Make Sigma the only authored detection format through version 1
 - [x] Keep Microsoft Sentinel as the only supported and validated target
 - [x] Inventory available Sentinel tables and candidate fields read-only
-- [ ] Approve and review forty-five additional detections in bounded waves
+- [x] Approve and review forty-five additional detections in bounded waves
 - [x] Complete Wave 1: 10 of 50 Sigma detections
 - [x] Complete Wave 2: 15 of 50 Sigma detections
 - [x] Complete Wave 3: 20 of 50 Sigma detections
@@ -101,27 +101,30 @@ Status: **in progress**
 - [x] Complete Wave 6: 35 of 50 Sigma detections
 - [x] Complete Wave 7: 40 of 50 Sigma detections
 - [x] Complete Wave 8: 45 of 50 Sigma detections
-- [ ] Complete Wave 9: 50 of 50 Sigma detections
+- [x] Complete Wave 9: 50 of 50 Sigma detections
 - [x] Pass every applicable manifest, package, Sigma, synthetic-fixture,
   Sentinel compilation, Golden-query, disabled-renderer, source, lifecycle and
   coverage gate
 - [ ] Publish the protected-main `v1.0.0` release after reproducibility and
   checksum verification
 
-Current status: forty-five of fifty planned Sigma detections exist. Forty-four have
-explicit Sentinel bindings and one Windows Event detection remains intentionally
-unbound because the available target has no suitable Windows event telemetry.
-Wave 8 added CMSTP child-process execution, Odbcconf DLL registration, remote
-Msiexec package installation, remote InstallUtil content and suspicious MSBuild
-children. Each has three positive and four negative synthetic cases, a reviewed
-KQL Golden, an explicit source contract and a disabled Scheduled-rule body. The
-complete local validation passes and all five predicates passed the bounded
-read-only live query-acceptance probe. Four returned no match in the current
-30-day aggregate baseline; the remote-MSI predicate returned a small non-zero
-aggregate result across several devices and remains tuning-required. No raw row,
-exact count or identifying result was retained. The next milestone is to research
-Wave 9 toward 50 of 50; release-readiness review begins only after the complete
-fifty-rule pack is verified.
+Current status: all fifty planned Sigma detections exist. Forty-nine have explicit
+Sentinel bindings and one Windows Event detection remains intentionally unbound
+because the available target has no suitable Windows event telemetry. Wave 9
+added suspicious script or LOLBin payloads in Run keys, non-default Winlogon
+Shell or Userinit values, suspicious local scheduled-task creation, Mavinject
+process injection and Netsh PortProxy creation. The broad Run/RunOnce candidate
+was narrowed after its aggregate baseline proved too noisy, while a blanket
+successful Device Code sign-in candidate was rejected and replaced because its
+legitimate baseline could not be separated faithfully in a portable single-event
+Sigma rule. Each final package has three positive and four negative synthetic
+cases, a reviewed KQL Golden, an explicit source contract and a disabled
+Scheduled-rule body. All five final predicates passed the bounded read-only live
+query-acceptance probe and returned no match in the current 30-day aggregate
+baseline. No raw row, exact count or identifying result was retained. The
+`v0.4.0` development candidate remains unreleased; the next milestone is the
+separate reproducibility and protected-main release-readiness review for
+`v1.0.0`.
 
 ## Future Signal
 

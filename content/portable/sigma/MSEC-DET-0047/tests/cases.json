@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "detection_id": "MSEC-DET-0047",
+  "implementation": "content/portable/sigma/MSEC-DET-0047/rule.yml",
+  "cases": [
+    {"id": "shell-replaced-with-cmd", "expectation": "match", "fixture": "fixtures/shell-replaced-with-cmd.json", "description": "Synthetic Winlogon Shell value launches cmd.exe."},
+    {"id": "userinit-appends-powershell", "expectation": "match", "fixture": "fixtures/userinit-appends-powershell.json", "description": "Synthetic Userinit value appends PowerShell to the standard command."},
+    {"id": "shell-mshta-with-context", "expectation": "match", "fixture": "fixtures/shell-mshta-with-context.json", "description": "Synthetic mixed-case 32-bit redirected Shell value launches Mshta with bounded registry context."},
+    {"id": "default-explorer-shell", "expectation": "no_match", "fixture": "fixtures/default-explorer-shell.json", "description": "Synthetic standard Explorer Shell value remains excluded."},
+    {"id": "default-userinit-value", "expectation": "no_match", "fixture": "fixtures/default-userinit-value.json", "description": "Synthetic standard Userinit value remains excluded."},
+    {"id": "shell-value-unrelated-key", "expectation": "no_match", "fixture": "fixtures/shell-value-unrelated-key.json", "description": "Synthetic Shell value is written outside the Winlogon key."},
+    {"id": "suspicious-shell-deleted", "expectation": "no_match", "fixture": "fixtures/suspicious-shell-deleted.json", "description": "Synthetic suspicious Shell value belongs to a deletion event rather than a value set."}
+  ]
+}

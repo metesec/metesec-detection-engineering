@@ -1,0 +1,3 @@
+DeviceProcessEvents
+| where (FileName =~ "netsh.exe" or ProcessVersionInfoOriginalFileName =~ "netsh.exe") and (ProcessCommandLine contains "interface" and ProcessCommandLine contains "portproxy" and ProcessCommandLine contains " add ")
+| project TimeGenerated, Timestamp, DeviceId, DeviceName, AccountDomain, AccountName, AccountSid, InitiatingProcessFileName, FileName, ProcessVersionInfoOriginalFileName, FolderPath, ProcessCommandLine, ReportId
