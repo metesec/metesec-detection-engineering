@@ -31,6 +31,11 @@ EXPECTED_IDS = [
     "MSEC-DET-0008",
     "MSEC-DET-0009",
     "MSEC-DET-0010",
+    "MSEC-DET-0011",
+    "MSEC-DET-0012",
+    "MSEC-DET-0013",
+    "MSEC-DET-0014",
+    "MSEC-DET-0015",
 ]
 EXPECTED_RULE_IDS = {
     "MSEC-DET-0002": "249adb3e-5bd1-5348-82ba-00a0ade97c7d",
@@ -42,6 +47,11 @@ EXPECTED_RULE_IDS = {
     "MSEC-DET-0008": "e6278947-b6ee-55ec-b967-c70b930158b0",
     "MSEC-DET-0009": "f2d6f91c-fd6e-5a33-9912-853e8f438c10",
     "MSEC-DET-0010": "7ff5a2bc-a328-5335-9e16-d5554513fe83",
+    "MSEC-DET-0011": "fb53221b-1f90-5e11-88e0-546644d2b40d",
+    "MSEC-DET-0012": "9217df00-bcf9-5728-a1d7-e7cfc105fc47",
+    "MSEC-DET-0013": "927ef83f-8be3-57e8-a3df-823c7bf58fa2",
+    "MSEC-DET-0014": "ae998d96-08ea-5450-b11c-90e22f12617e",
+    "MSEC-DET-0015": "1744748d-113d-55e9-9e16-d3e5da54bef0",
 }
 SIGNIN_ENTITY_MAPPINGS = [
     {
@@ -125,6 +135,16 @@ RISK_ENTITY_MAPPINGS = [
         ],
     },
 ]
+AUDIT_INITIATOR_ENTITY_MAPPINGS = AUDIT_ENTITY_MAPPINGS[:3]
+AUDIT_APPLICATION_ENTITY_MAPPINGS = [
+    *AUDIT_INITIATOR_ENTITY_MAPPINGS,
+    {
+        "entityType": "CloudApplication",
+        "fieldMappings": [
+            {"identifier": "Name", "columnName": "TargetApplicationName"},
+        ],
+    },
+]
 
 
 class SentinelRuleRendererTests(unittest.TestCase):
@@ -132,7 +152,7 @@ class SentinelRuleRendererTests(unittest.TestCase):
     def setUpClass(cls) -> None:
         cls.rendered = render_profile(REPO_ROOT, PROFILE)
 
-    def test_current_profile_renders_nine_disabled_scheduled_rules(self) -> None:
+    def test_current_profile_renders_fourteen_disabled_scheduled_rules(self) -> None:
         self.assertEqual(
             [item.detection_id for item in self.rendered],
             EXPECTED_IDS,
@@ -167,6 +187,11 @@ class SentinelRuleRendererTests(unittest.TestCase):
             "MSEC-DET-0008": ("High", ["PrivilegeEscalation"], ["T1098"]),
             "MSEC-DET-0009": ("Medium", ["Persistence"], ["T1098"]),
             "MSEC-DET-0010": ("High", ["InitialAccess"], ["T1078"]),
+            "MSEC-DET-0011": ("High", ["CredentialAccess"], ["T1003"]),
+            "MSEC-DET-0012": ("High", ["DefenseEvasion"], ["T1218"]),
+            "MSEC-DET-0013": ("Medium", ["DefenseEvasion"], ["T1218"]),
+            "MSEC-DET-0014": ("Medium", ["DefenseEvasion"], ["T1556"]),
+            "MSEC-DET-0015": ("Medium", ["PrivilegeEscalation"], ["T1098"]),
         }
         for item in self.rendered:
             properties = item.request_body["properties"]
@@ -202,6 +227,11 @@ class SentinelRuleRendererTests(unittest.TestCase):
                 "MSEC-DET-0008": AUDIT_ACCOUNT_ENTITY_MAPPINGS,
                 "MSEC-DET-0009": AUDIT_ACCOUNT_ENTITY_MAPPINGS,
                 "MSEC-DET-0010": RISK_ENTITY_MAPPINGS,
+                "MSEC-DET-0011": DEVICE_ENTITY_MAPPINGS,
+                "MSEC-DET-0012": DEVICE_ENTITY_MAPPINGS,
+                "MSEC-DET-0013": DEVICE_ENTITY_MAPPINGS,
+                "MSEC-DET-0014": AUDIT_INITIATOR_ENTITY_MAPPINGS,
+                "MSEC-DET-0015": AUDIT_APPLICATION_ENTITY_MAPPINGS,
             }[item.detection_id]
             properties = item.request_body["properties"]
             self.assertEqual(properties["entityMappings"], expected)

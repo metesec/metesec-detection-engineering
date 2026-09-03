@@ -2,11 +2,11 @@
   "schema_version": 1,
   "source": "catalog/detections/*/manifest.json",
   "summary": {
-    "detections": 10,
-    "implementations": 10,
-    "positive_cases": 30,
-    "negative_cases": 40,
-    "sentinel_preview_bindings": 9
+    "detections": 15,
+    "implementations": 15,
+    "positive_cases": 45,
+    "negative_cases": 60,
+    "sentinel_preview_bindings": 14
   },
   "detections": [
     {
@@ -560,6 +560,295 @@
         }
       ],
       "manifest": "catalog/detections/MSEC-DET-0010/manifest.json"
+    },
+    {
+      "id": "MSEC-DET-0011",
+      "title": "Potential LSASS memory dump through rundll32 and comsvcs",
+      "description": "Detects rundll32 invoking the comsvcs MiniDump export or ordinal 24, a documented process-dump primitive that can target LSASS. The process event alone does not resolve the target PID.",
+      "lifecycle": {
+        "status": "experimental",
+        "created": "2026-09-03",
+        "modified": "2026-09-03",
+        "review_interval_days": 90
+      },
+      "severity": "high",
+      "confidence": "high",
+      "attack": [
+        {
+          "technique_id": "T1003.001",
+          "tactic": "Credential Access"
+        }
+      ],
+      "data_sources": [
+        {
+          "name": "Microsoft Defender for Endpoint process events",
+          "category": "Endpoint process creation",
+          "required_fields": [
+            "TimeGenerated",
+            "Timestamp",
+            "DeviceId",
+            "DeviceName",
+            "AccountName",
+            "InitiatingProcessFileName",
+            "FileName",
+            "FolderPath",
+            "ProcessCommandLine",
+            "ReportId"
+          ]
+        }
+      ],
+      "validation": {
+        "positive_cases": 3,
+        "negative_cases": 4
+      },
+      "implementations": [
+        {
+          "type": "sigma",
+          "path": "content/portable/sigma/MSEC-DET-0011/rule.yml",
+          "targets": [
+            "sentinel"
+          ],
+          "status": "active"
+        }
+      ],
+      "target_bindings": [
+        {
+          "target": "microsoft-sentinel",
+          "table": "DeviceProcessEvents",
+          "golden": "tests/golden/sentinel/MSEC-DET-0011.kql"
+        }
+      ],
+      "manifest": "catalog/detections/MSEC-DET-0011/manifest.json"
+    },
+    {
+      "id": "MSEC-DET-0012",
+      "title": "Mshta executes content from a remote location",
+      "description": "Detects mshta command lines that reference HTTP, HTTPS or FTP content in Microsoft Defender for Endpoint process telemetry.",
+      "lifecycle": {
+        "status": "experimental",
+        "created": "2026-09-03",
+        "modified": "2026-09-03",
+        "review_interval_days": 90
+      },
+      "severity": "high",
+      "confidence": "medium",
+      "attack": [
+        {
+          "technique_id": "T1218.005",
+          "tactic": "Defense Evasion"
+        }
+      ],
+      "data_sources": [
+        {
+          "name": "Microsoft Defender for Endpoint process events",
+          "category": "Endpoint process creation",
+          "required_fields": [
+            "TimeGenerated",
+            "Timestamp",
+            "DeviceId",
+            "DeviceName",
+            "AccountName",
+            "InitiatingProcessFileName",
+            "FileName",
+            "FolderPath",
+            "ProcessCommandLine",
+            "ReportId"
+          ]
+        }
+      ],
+      "validation": {
+        "positive_cases": 3,
+        "negative_cases": 4
+      },
+      "implementations": [
+        {
+          "type": "sigma",
+          "path": "content/portable/sigma/MSEC-DET-0012/rule.yml",
+          "targets": [
+            "sentinel"
+          ],
+          "status": "active"
+        }
+      ],
+      "target_bindings": [
+        {
+          "target": "microsoft-sentinel",
+          "table": "DeviceProcessEvents",
+          "golden": "tests/golden/sentinel/MSEC-DET-0012.kql"
+        }
+      ],
+      "manifest": "catalog/detections/MSEC-DET-0012/manifest.json"
+    },
+    {
+      "id": "MSEC-DET-0013",
+      "title": "Regsvr32 references a remote scriptlet or DLL",
+      "description": "Detects regsvr32 command lines that combine the install flag with an HTTP, HTTPS or FTP resource in Microsoft Defender for Endpoint process telemetry.",
+      "lifecycle": {
+        "status": "experimental",
+        "created": "2026-09-03",
+        "modified": "2026-09-03",
+        "review_interval_days": 90
+      },
+      "severity": "medium",
+      "confidence": "medium",
+      "attack": [
+        {
+          "technique_id": "T1218.010",
+          "tactic": "Defense Evasion"
+        }
+      ],
+      "data_sources": [
+        {
+          "name": "Microsoft Defender for Endpoint process events",
+          "category": "Endpoint process creation",
+          "required_fields": [
+            "TimeGenerated",
+            "Timestamp",
+            "DeviceId",
+            "DeviceName",
+            "AccountName",
+            "InitiatingProcessFileName",
+            "FileName",
+            "FolderPath",
+            "ProcessCommandLine",
+            "ReportId"
+          ]
+        }
+      ],
+      "validation": {
+        "positive_cases": 3,
+        "negative_cases": 4
+      },
+      "implementations": [
+        {
+          "type": "sigma",
+          "path": "content/portable/sigma/MSEC-DET-0013/rule.yml",
+          "targets": [
+            "sentinel"
+          ],
+          "status": "active"
+        }
+      ],
+      "target_bindings": [
+        {
+          "target": "microsoft-sentinel",
+          "table": "DeviceProcessEvents",
+          "golden": "tests/golden/sentinel/MSEC-DET-0013.kql"
+        }
+      ],
+      "manifest": "catalog/detections/MSEC-DET-0013/manifest.json"
+    },
+    {
+      "id": "MSEC-DET-0014",
+      "title": "Microsoft Entra Conditional Access policy deleted",
+      "description": "Detects a successful Microsoft Entra audit operation that deletes a Conditional Access policy.",
+      "lifecycle": {
+        "status": "experimental",
+        "created": "2026-09-03",
+        "modified": "2026-09-03",
+        "review_interval_days": 90
+      },
+      "severity": "medium",
+      "confidence": "medium",
+      "attack": [
+        {
+          "technique_id": "T1556.009",
+          "tactic": "Defense Evasion"
+        }
+      ],
+      "data_sources": [
+        {
+          "name": "Microsoft Entra audit logs",
+          "category": "Identity directory audit",
+          "required_fields": [
+            "TimeGenerated",
+            "CorrelationId",
+            "InitiatedBy",
+            "LoggedByService",
+            "OperationName",
+            "Result",
+            "TargetResources"
+          ]
+        }
+      ],
+      "validation": {
+        "positive_cases": 3,
+        "negative_cases": 4
+      },
+      "implementations": [
+        {
+          "type": "sigma",
+          "path": "content/portable/sigma/MSEC-DET-0014/rule.yml",
+          "targets": [
+            "sentinel"
+          ],
+          "status": "active"
+        }
+      ],
+      "target_bindings": [
+        {
+          "target": "microsoft-sentinel",
+          "table": "AuditLogs",
+          "golden": "tests/golden/sentinel/MSEC-DET-0014.kql"
+        }
+      ],
+      "manifest": "catalog/detections/MSEC-DET-0014/manifest.json"
+    },
+    {
+      "id": "MSEC-DET-0015",
+      "title": "Owner added to a Microsoft Entra application or service principal",
+      "description": "Detects a successful Microsoft Entra audit operation that adds an owner to an application registration or enterprise application service principal.",
+      "lifecycle": {
+        "status": "experimental",
+        "created": "2026-09-03",
+        "modified": "2026-09-03",
+        "review_interval_days": 90
+      },
+      "severity": "medium",
+      "confidence": "medium",
+      "attack": [
+        {
+          "technique_id": "T1098.003",
+          "tactic": "Privilege Escalation"
+        }
+      ],
+      "data_sources": [
+        {
+          "name": "Microsoft Entra audit logs",
+          "category": "Identity directory audit",
+          "required_fields": [
+            "TimeGenerated",
+            "CorrelationId",
+            "InitiatedBy",
+            "LoggedByService",
+            "OperationName",
+            "Result",
+            "TargetResources"
+          ]
+        }
+      ],
+      "validation": {
+        "positive_cases": 3,
+        "negative_cases": 4
+      },
+      "implementations": [
+        {
+          "type": "sigma",
+          "path": "content/portable/sigma/MSEC-DET-0015/rule.yml",
+          "targets": [
+            "sentinel"
+          ],
+          "status": "active"
+        }
+      ],
+      "target_bindings": [
+        {
+          "target": "microsoft-sentinel",
+          "table": "AuditLogs",
+          "golden": "tests/golden/sentinel/MSEC-DET-0015.kql"
+        }
+      ],
+      "manifest": "catalog/detections/MSEC-DET-0015/manifest.json"
     }
   ]
 }

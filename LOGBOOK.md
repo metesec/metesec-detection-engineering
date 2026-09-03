@@ -1335,3 +1335,109 @@ Wave 1 is complete: the modular Sigma catalogue now contains ten of the planned
 thirty detections, nine have deterministic Sentinel output and one unsupported
 Windows Event dependency remains visible. The next bounded milestone is to
 review the five candidates for Wave 2 before adding rules 11 through 15.
+
+## 2026-09-03 — Sigma expansion Wave 2 reached 15 of 30 locally
+
+### Starting state and selection basis
+
+- Ten reviewed Sigma detections existed; nine had explicit Microsoft Sentinel
+  bindings and one Windows Event rule remained intentionally unbound.
+- Wave 2 was selected against already observed and contracted
+  `DeviceProcessEvents` and `AuditLogs` fields rather than adding an unverified
+  table dependency.
+- MITRE ATT&CK documents the comsvcs LSASS dump, mshta remote execution,
+  regsvr32 remote scriptlet and Conditional Access modification techniques.
+  Microsoft's Entra audit reference names the exact policy-deletion and
+  application-owner operations, while its security-operations guidance
+  recommends monitoring both control families.
+- SigmaHQ process-rule patterns were used as a public comparison for the mshta
+  and regsvr32 predicates. No upstream rule file or bulk community content was
+  copied into the repository; every package was authored and tested locally.
+
+### Detection packages
+
+- Added `MSEC-DET-0011` for potential LSASS dumping through rundll32 invoking
+  comsvcs with the named MiniDump export or ordinal 24, mapped to `T1003.001`.
+  The manifest explicitly requires target-PID resolution during triage because
+  the process command line alone cannot prove that the PID belongs to LSASS.
+- Added `MSEC-DET-0012` for mshta command lines referencing HTTP, HTTPS or FTP
+  content, mapped to `T1218.005`.
+- Added `MSEC-DET-0013` for regsvr32 combining an install flag with an HTTP,
+  HTTPS or FTP resource, mapped to `T1218.010`.
+- Added `MSEC-DET-0014` for the successful Entra operation
+  `Delete Conditional Access policy`, mapped to `T1556.009`.
+- Added `MSEC-DET-0015` for successful `Add owner to application` or
+  `Add owner to service principal` operations, mapped to `T1098.003`.
+- Each package contains one manifest, one Sigma rule, three positive and four
+  negative synthetic fixtures. The catalogue now contains fifteen rules and
+  105 fixture expectations.
+
+### Sentinel contracts and read-only target validation
+
+- Added explicit `DeviceProcessEvents` or `AuditLogs` bindings, reviewed Golden
+  KQL and disabled five-minute Scheduled-rule settings for all five detections.
+- Reused the existing source schemas because every predicate and projected
+  field was already verified and contracted. Consumer lists now cover fourteen
+  Sentinel-bound detections.
+- Endpoint rules retain only the observed account-name entity mapping. The
+  Conditional Access rule maps only the initiating Account, IP and application;
+  a policy is not mislabeled as another Sentinel entity. The owner-change rule
+  additionally maps the target application name without treating its object ID
+  as an application ID.
+- With the user's explicit authorization to inspect query results, one
+  read-only 30-day aggregate query returned only detection ID and a Boolean
+  match state. All five predicates were accepted. `MSEC-DET-0011` through
+  `MSEC-DET-0013` had no match; `MSEC-DET-0014` and `MSEC-DET-0015` had at least
+  one match.
+- No raw event, exact count, user, device, address, tenant, subscription,
+  workspace, customer value, copied result or screenshot was stored. A live
+  match is triage input, not proof of malicious activity or production tuning.
+
+### Validation and corrections
+
+- An initial file-inspection command guessed a fixture filename that did not
+  exist. The directory was enumerated before inspection continued; no file was
+  changed by the failed read.
+- The first partial JavaScript checks could not find the bundled Node runtime.
+  The explicit bundled Node path and repository Python 3.12.13 virtual
+  environment were then used for every validation command.
+- Sentinel compilation initially stopped because the five new Golden paths had
+  not yet been created. The deterministic compiler output was reviewed, pinned
+  into those paths and then passed exact Golden comparison.
+- The first coverage test exposed a different category label for the same Entra
+  audit source. Both new manifests were aligned with the established `Identity
+  directory audit` category, preventing a false sixth logical data source.
+- The first complete aggregate run then correctly rejected the stale catalogue
+  generated before that category correction. Regenerating the catalogue and
+  coverage outputs from the final manifests restored deterministic equality.
+- Existing Advanced Hunting tabs could not be reattached reliably, and direct
+  typing into the Monaco editor retained only the tail of the aggregate query.
+  A fresh tab in the same authenticated browser and a full clipboard paste
+  restored the complete query; the visible first lines and five-result status
+  were checked before accepting the target result.
+- The final aggregate check passed all 81 unit tests plus every manifest,
+  package, catalogue, Sigma, fixture, Sentinel Golden, profile, renderer,
+  data-source, coverage, lifecycle, runtime-health and release gate. All 105
+  synthetic fixture expectations passed and all fourteen disabled Sentinel
+  Scheduled-rule bodies rendered successfully.
+- The deterministic local `v0.4.0` candidate contains 203 ZIP members,
+  including 202 allowlisted sources, and has SHA-256
+  `c938107694047fc42594a56c05b0fe88ce2a37526f0596e4367f9d9a4a54ccad`.
+- `git diff --check` passed; Windows line-ending notices did not identify
+  whitespace errors.
+
+### Explicitly untouched
+
+- No Sentinel analytics rule was deployed or enabled and no cloud
+  configuration was changed.
+- No environment-specific exception, allowlist, tuning overlay, raw live data
+  or native KQL detection was added.
+- No commit was pushed. Forgejo, the GitHub mirror and the immutable published
+  `v0.1.0` release remain unchanged.
+
+### Result
+
+Wave 2 is complete locally: fifteen of thirty Sigma detections now exist,
+fourteen have deterministic disabled Sentinel output and the single unsupported
+Windows Event dependency remains explicit. Wave 3 must be selected as another
+separately reviewed five-rule set.

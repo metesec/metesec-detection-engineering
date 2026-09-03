@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0011",
+  "title": "Potential LSASS memory dump through rundll32 and comsvcs",
+  "description": "Detects rundll32 invoking the comsvcs MiniDump export or ordinal 24, a documented process-dump primitive that can target LSASS. The process event alone does not resolve the target PID.",
+  "hypothesis": {
+    "summary": "An adversary may invoke comsvcs through rundll32 to dump LSASS memory and obtain credentials.",
+    "rationale": "The combination of rundll32, comsvcs and its MiniDump export is a high-signal credential-dumping pattern, although authorized incident response or diagnostic collection can use the same Windows components.",
+    "detection_goal": "Identify rundll32 command lines that invoke comsvcs with MiniDump or ordinal 24 while leaving unrelated rundll32 activity and incomplete events unmatched; confirm the target PID during triage."
+  },
+  "ownership": {
+    "owner": "MeteSec Detection Engineering",
+    "reviewers": []
+  },
+  "lifecycle": {
+    "status": "experimental",
+    "created": "2026-09-03",
+    "modified": "2026-09-03",
+    "review_interval_days": 90
+  },
+  "severity": "high",
+  "confidence": "high",
+  "data_sources": [
+    {
+      "name": "Microsoft Defender for Endpoint process events",
+      "category": "Endpoint process creation",
+      "required_fields": ["TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountName", "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"]
+    }
+  ],
+  "attack": [
+    {
+      "technique_id": "T1003.001",
+      "tactic": "Credential Access"
+    }
+  ],
+  "triage": {
+    "summary": "Resolve the target PID, confirm whether it was LSASS or another process and determine whether the dump was authorized before containment.",
+    "steps": [
+      "Review the complete command line, process tree, target PID, output path, signer information and initiating account.",
+      "Confirm whether an approved diagnostic, incident-response or forensic workflow intentionally created the dump.",
+      "Inspect access to LSASS, dump-file creation and subsequent archive, credential use or outbound-transfer activity; isolate the device if unexplained."
+    ],
+    "false_positives": [
+      "Authorized crash diagnostics, forensic acquisition and incident-response workflows using comsvcs MiniDump"
+    ]
+  },
+  "validation": {
+    "expected_outcome": "Match only when rundll32 invokes comsvcs with MiniDump or ordinal 24; treat LSASS targeting as a triage question and do not match unrelated DLL execution, other processes or incomplete events.",
+    "positive_tests": true,
+    "negative_tests": true
+  },
+  "implementations": [
+    {
+      "type": "sigma",
+      "path": "content/portable/sigma/MSEC-DET-0011/rule.yml",
+      "targets": ["sentinel"],
+      "status": "active"
+    }
+  ]
+}

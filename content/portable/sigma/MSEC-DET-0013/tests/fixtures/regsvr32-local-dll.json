@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"FileName":"regsvr32.exe","ProcessCommandLine":"regsvr32.exe /s C:\\Program Files\\Approved\\library.dll"}}

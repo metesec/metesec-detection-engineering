@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"FileName":"rundll32.exe","ProcessCommandLine":"rundll32.exe C:\\Windows\\System32\\comsvcs.dll,GetObjectContext"}}

@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "detection_id": "MSEC-DET-0015",
+  "implementation": "content/portable/sigma/MSEC-DET-0015/rule.yml",
+  "cases": [
+    {"id": "application-owner-added", "expectation": "match", "fixture": "fixtures/application-owner-added.json", "description": "Synthetic owner addition targets an application registration."},
+    {"id": "service-principal-owner-added", "expectation": "match", "fixture": "fixtures/service-principal-owner-added.json", "description": "Synthetic owner addition targets a service principal."},
+    {"id": "uppercase-owner-addition-with-context", "expectation": "match", "fixture": "fixtures/uppercase-owner-addition-with-context.json", "description": "Synthetic uppercase operation includes bounded audit investigation context."},
+    {"id": "failed-owner-addition", "expectation": "no_match", "fixture": "fixtures/failed-owner-addition.json", "description": "Synthetic failed owner addition does not match."},
+    {"id": "application-owner-removed", "expectation": "no_match", "fixture": "fixtures/application-owner-removed.json", "description": "Synthetic owner removal is outside this addition rule."},
+    {"id": "group-owner-added", "expectation": "no_match", "fixture": "fixtures/group-owner-added.json", "description": "Synthetic owner addition to another object type does not match."},
+    {"id": "missing-result", "expectation": "no_match", "fixture": "fixtures/missing-result.json", "description": "Synthetic application owner addition without a result fails closed."}
+  ]
+}

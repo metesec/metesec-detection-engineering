@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "detection_id": "MSEC-DET-0014",
+  "implementation": "content/portable/sigma/MSEC-DET-0014/rule.yml",
+  "cases": [
+    {"id": "policy-deleted", "expectation": "match", "fixture": "fixtures/policy-deleted.json", "description": "Synthetic successful Conditional Access policy deletion."},
+    {"id": "uppercase-policy-deletion", "expectation": "match", "fixture": "fixtures/uppercase-policy-deletion.json", "description": "Synthetic uppercase operation and result preserve case-insensitive matching."},
+    {"id": "policy-deleted-with-context", "expectation": "match", "fixture": "fixtures/policy-deleted-with-context.json", "description": "Synthetic deletion includes bounded audit investigation context."},
+    {"id": "failed-policy-deletion", "expectation": "no_match", "fixture": "fixtures/failed-policy-deletion.json", "description": "Synthetic failed deletion does not match."},
+    {"id": "policy-updated", "expectation": "no_match", "fixture": "fixtures/policy-updated.json", "description": "Synthetic policy update is outside this deletion rule."},
+    {"id": "policy-added", "expectation": "no_match", "fixture": "fixtures/policy-added.json", "description": "Synthetic policy creation is outside this deletion rule."},
+    {"id": "missing-result", "expectation": "no_match", "fixture": "fixtures/missing-result.json", "description": "Synthetic deletion without a result fails closed."}
+  ]
+}

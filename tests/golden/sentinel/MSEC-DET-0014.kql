@@ -1,0 +1,12 @@
+AuditLogs
+| where OperationName =~ "Delete Conditional Access policy" and Result =~ "success"
+| extend InitiatingUserPrincipalName = tostring(InitiatedBy.user.userPrincipalName)
+| extend InitiatingAccountName = tostring(split(InitiatingUserPrincipalName, "@")[0])
+| extend InitiatingAccountUPNSuffix = tostring(split(InitiatingUserPrincipalName, "@")[1])
+| extend InitiatingUserId = tostring(InitiatedBy.user.id)
+| extend InitiatingIPAddress = tostring(InitiatedBy.user.ipAddress)
+| extend InitiatingApplicationId = tostring(InitiatedBy.app.appId)
+| extend InitiatingApplicationName = tostring(InitiatedBy.app.displayName)
+| extend TargetPolicyId = tostring(TargetResources[0].id)
+| extend TargetPolicyName = tostring(TargetResources[0].displayName)
+| project TimeGenerated, OperationName, InitiatingUserPrincipalName, InitiatingAccountName, InitiatingAccountUPNSuffix, InitiatingUserId, InitiatingIPAddress, InitiatingApplicationId, InitiatingApplicationName, TargetPolicyId, TargetPolicyName, CorrelationId, LoggedByService

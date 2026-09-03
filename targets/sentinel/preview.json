@@ -460,6 +460,219 @@
           }
         ]
       }
+    },
+    {
+      "id": "MSEC-DET-0011",
+      "implementation": "content/portable/sigma/MSEC-DET-0011/rule.yml",
+      "query_table": "DeviceProcessEvents",
+      "golden": "tests/golden/sentinel/MSEC-DET-0011.kql",
+      "output": {
+        "extend": [],
+        "columns": [
+          "TimeGenerated",
+          "Timestamp",
+          "DeviceId",
+          "DeviceName",
+          "AccountDomain",
+          "AccountName",
+          "AccountSid",
+          "InitiatingProcessFileName",
+          "FileName",
+          "FolderPath",
+          "ProcessCommandLine",
+          "ReportId"
+        ],
+        "entity_mappings": [
+          {
+            "entity_type": "Account",
+            "field_mappings": [
+              {"identifier": "Name", "column": "AccountName"}
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "MSEC-DET-0012",
+      "implementation": "content/portable/sigma/MSEC-DET-0012/rule.yml",
+      "query_table": "DeviceProcessEvents",
+      "golden": "tests/golden/sentinel/MSEC-DET-0012.kql",
+      "output": {
+        "extend": [],
+        "columns": [
+          "TimeGenerated",
+          "Timestamp",
+          "DeviceId",
+          "DeviceName",
+          "AccountDomain",
+          "AccountName",
+          "AccountSid",
+          "InitiatingProcessFileName",
+          "FileName",
+          "FolderPath",
+          "ProcessCommandLine",
+          "ReportId"
+        ],
+        "entity_mappings": [
+          {
+            "entity_type": "Account",
+            "field_mappings": [
+              {"identifier": "Name", "column": "AccountName"}
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "MSEC-DET-0013",
+      "implementation": "content/portable/sigma/MSEC-DET-0013/rule.yml",
+      "query_table": "DeviceProcessEvents",
+      "golden": "tests/golden/sentinel/MSEC-DET-0013.kql",
+      "output": {
+        "extend": [],
+        "columns": [
+          "TimeGenerated",
+          "Timestamp",
+          "DeviceId",
+          "DeviceName",
+          "AccountDomain",
+          "AccountName",
+          "AccountSid",
+          "InitiatingProcessFileName",
+          "FileName",
+          "FolderPath",
+          "ProcessCommandLine",
+          "ReportId"
+        ],
+        "entity_mappings": [
+          {
+            "entity_type": "Account",
+            "field_mappings": [
+              {"identifier": "Name", "column": "AccountName"}
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "MSEC-DET-0014",
+      "implementation": "content/portable/sigma/MSEC-DET-0014/rule.yml",
+      "query_table": "AuditLogs",
+      "golden": "tests/golden/sentinel/MSEC-DET-0014.kql",
+      "output": {
+        "extend": [
+          {"column": "InitiatingUserPrincipalName", "expression": "tostring(InitiatedBy.user.userPrincipalName)"},
+          {"column": "InitiatingAccountName", "expression": "tostring(split(InitiatingUserPrincipalName, \"@\")[0])"},
+          {"column": "InitiatingAccountUPNSuffix", "expression": "tostring(split(InitiatingUserPrincipalName, \"@\")[1])"},
+          {"column": "InitiatingUserId", "expression": "tostring(InitiatedBy.user.id)"},
+          {"column": "InitiatingIPAddress", "expression": "tostring(InitiatedBy.user.ipAddress)"},
+          {"column": "InitiatingApplicationId", "expression": "tostring(InitiatedBy.app.appId)"},
+          {"column": "InitiatingApplicationName", "expression": "tostring(InitiatedBy.app.displayName)"},
+          {"column": "TargetPolicyId", "expression": "tostring(TargetResources[0].id)"},
+          {"column": "TargetPolicyName", "expression": "tostring(TargetResources[0].displayName)"}
+        ],
+        "columns": [
+          "TimeGenerated",
+          "OperationName",
+          "InitiatingUserPrincipalName",
+          "InitiatingAccountName",
+          "InitiatingAccountUPNSuffix",
+          "InitiatingUserId",
+          "InitiatingIPAddress",
+          "InitiatingApplicationId",
+          "InitiatingApplicationName",
+          "TargetPolicyId",
+          "TargetPolicyName",
+          "CorrelationId",
+          "LoggedByService"
+        ],
+        "entity_mappings": [
+          {
+            "entity_type": "Account",
+            "field_mappings": [
+              {"identifier": "Name", "column": "InitiatingAccountName"},
+              {"identifier": "UPNSuffix", "column": "InitiatingAccountUPNSuffix"},
+              {"identifier": "AadUserId", "column": "InitiatingUserId"}
+            ]
+          },
+          {
+            "entity_type": "IP",
+            "field_mappings": [
+              {"identifier": "Address", "column": "InitiatingIPAddress"}
+            ]
+          },
+          {
+            "entity_type": "CloudApplication",
+            "field_mappings": [
+              {"identifier": "AppId", "column": "InitiatingApplicationId"},
+              {"identifier": "Name", "column": "InitiatingApplicationName"}
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "MSEC-DET-0015",
+      "implementation": "content/portable/sigma/MSEC-DET-0015/rule.yml",
+      "query_table": "AuditLogs",
+      "golden": "tests/golden/sentinel/MSEC-DET-0015.kql",
+      "output": {
+        "extend": [
+          {"column": "InitiatingUserPrincipalName", "expression": "tostring(InitiatedBy.user.userPrincipalName)"},
+          {"column": "InitiatingAccountName", "expression": "tostring(split(InitiatingUserPrincipalName, \"@\")[0])"},
+          {"column": "InitiatingAccountUPNSuffix", "expression": "tostring(split(InitiatingUserPrincipalName, \"@\")[1])"},
+          {"column": "InitiatingUserId", "expression": "tostring(InitiatedBy.user.id)"},
+          {"column": "InitiatingIPAddress", "expression": "tostring(InitiatedBy.user.ipAddress)"},
+          {"column": "InitiatingApplicationId", "expression": "tostring(InitiatedBy.app.appId)"},
+          {"column": "InitiatingApplicationName", "expression": "tostring(InitiatedBy.app.displayName)"},
+          {"column": "TargetApplicationObjectId", "expression": "tostring(TargetResources[0].id)"},
+          {"column": "TargetApplicationName", "expression": "tostring(TargetResources[0].displayName)"}
+        ],
+        "columns": [
+          "TimeGenerated",
+          "OperationName",
+          "InitiatingUserPrincipalName",
+          "InitiatingAccountName",
+          "InitiatingAccountUPNSuffix",
+          "InitiatingUserId",
+          "InitiatingIPAddress",
+          "InitiatingApplicationId",
+          "InitiatingApplicationName",
+          "TargetApplicationObjectId",
+          "TargetApplicationName",
+          "CorrelationId",
+          "LoggedByService"
+        ],
+        "entity_mappings": [
+          {
+            "entity_type": "Account",
+            "field_mappings": [
+              {"identifier": "Name", "column": "InitiatingAccountName"},
+              {"identifier": "UPNSuffix", "column": "InitiatingAccountUPNSuffix"},
+              {"identifier": "AadUserId", "column": "InitiatingUserId"}
+            ]
+          },
+          {
+            "entity_type": "IP",
+            "field_mappings": [
+              {"identifier": "Address", "column": "InitiatingIPAddress"}
+            ]
+          },
+          {
+            "entity_type": "CloudApplication",
+            "field_mappings": [
+              {"identifier": "AppId", "column": "InitiatingApplicationId"},
+              {"identifier": "Name", "column": "InitiatingApplicationName"}
+            ]
+          },
+          {
+            "entity_type": "CloudApplication",
+            "field_mappings": [
+              {"identifier": "Name", "column": "TargetApplicationName"}
+            ]
+          }
+        ]
+      }
     }
   ]
 }

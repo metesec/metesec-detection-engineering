@@ -98,12 +98,20 @@ class SentinelDataSourceHealthTests(unittest.TestCase):
                         "MSEC-DET-0005",
                         "MSEC-DET-0008",
                         "MSEC-DET-0009",
+                        "MSEC-DET-0014",
+                        "MSEC-DET-0015",
                     ),
                 ),
                 (
                     "MSEC-SDS-0003",
                     "DeviceProcessEvents",
-                    ("MSEC-DET-0006", "MSEC-DET-0007"),
+                    (
+                        "MSEC-DET-0006",
+                        "MSEC-DET-0007",
+                        "MSEC-DET-0011",
+                        "MSEC-DET-0012",
+                        "MSEC-DET-0013",
+                    ),
                 ),
                 (
                     "MSEC-SDS-0004",

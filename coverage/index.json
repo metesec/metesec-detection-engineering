@@ -6,17 +6,26 @@
     "sentinel_data_sources": "targets/sentinel/data-sources.json"
   },
   "summary": {
-    "detections": 10,
-    "attack_mappings": 10,
-    "attack_techniques": 6,
-    "attack_tactics": 4,
+    "detections": 15,
+    "attack_mappings": 15,
+    "attack_techniques": 10,
+    "attack_tactics": 6,
     "logical_data_sources": 5,
-    "sentinel_preview_bindings": 9,
+    "sentinel_preview_bindings": 14,
     "sentinel_data_source_contracts": 4,
     "detections_without_sentinel_binding": 1
   },
   "attack": {
     "techniques": [
+      {
+        "technique_id": "T1003.001",
+        "tactics": [
+          "Credential Access"
+        ],
+        "detections": [
+          "MSEC-DET-0011"
+        ]
+      },
       {
         "technique_id": "T1059",
         "tactics": [
@@ -63,7 +72,26 @@
         ],
         "detections": [
           "MSEC-DET-0005",
-          "MSEC-DET-0008"
+          "MSEC-DET-0008",
+          "MSEC-DET-0015"
+        ]
+      },
+      {
+        "technique_id": "T1218.005",
+        "tactics": [
+          "Defense Evasion"
+        ],
+        "detections": [
+          "MSEC-DET-0012"
+        ]
+      },
+      {
+        "technique_id": "T1218.010",
+        "tactics": [
+          "Defense Evasion"
+        ],
+        "detections": [
+          "MSEC-DET-0013"
         ]
       },
       {
@@ -74,9 +102,40 @@
         "detections": [
           "MSEC-DET-0001"
         ]
+      },
+      {
+        "technique_id": "T1556.009",
+        "tactics": [
+          "Defense Evasion"
+        ],
+        "detections": [
+          "MSEC-DET-0014"
+        ]
       }
     ],
     "tactics": [
+      {
+        "tactic": "Credential Access",
+        "techniques": [
+          "T1003.001"
+        ],
+        "detections": [
+          "MSEC-DET-0011"
+        ]
+      },
+      {
+        "tactic": "Defense Evasion",
+        "techniques": [
+          "T1218.005",
+          "T1218.010",
+          "T1556.009"
+        ],
+        "detections": [
+          "MSEC-DET-0012",
+          "MSEC-DET-0013",
+          "MSEC-DET-0014"
+        ]
+      },
       {
         "tactic": "Execution",
         "techniques": [
@@ -118,7 +177,8 @@
         ],
         "detections": [
           "MSEC-DET-0005",
-          "MSEC-DET-0008"
+          "MSEC-DET-0008",
+          "MSEC-DET-0015"
         ]
       }
     ]
@@ -130,7 +190,10 @@
         "category": "Endpoint process creation",
         "detections": [
           "MSEC-DET-0006",
-          "MSEC-DET-0007"
+          "MSEC-DET-0007",
+          "MSEC-DET-0011",
+          "MSEC-DET-0012",
+          "MSEC-DET-0013"
         ],
         "required_fields": [
           "AccountName",
@@ -152,11 +215,14 @@
           "MSEC-DET-0004",
           "MSEC-DET-0005",
           "MSEC-DET-0008",
-          "MSEC-DET-0009"
+          "MSEC-DET-0009",
+          "MSEC-DET-0014",
+          "MSEC-DET-0015"
         ],
         "required_fields": [
           "CorrelationId",
           "InitiatedBy",
+          "LoggedByService",
           "OperationName",
           "Result",
           "TargetResources",
@@ -296,7 +362,9 @@
           "MSEC-DET-0004",
           "MSEC-DET-0005",
           "MSEC-DET-0008",
-          "MSEC-DET-0009"
+          "MSEC-DET-0009",
+          "MSEC-DET-0014",
+          "MSEC-DET-0015"
         ],
         "event_time_column": "TimeGenerated",
         "required_columns": [
@@ -340,7 +408,10 @@
         "display_name": "Microsoft Defender for Endpoint process events",
         "detections": [
           "MSEC-DET-0006",
-          "MSEC-DET-0007"
+          "MSEC-DET-0007",
+          "MSEC-DET-0011",
+          "MSEC-DET-0012",
+          "MSEC-DET-0013"
         ],
         "event_time_column": "Timestamp",
         "required_columns": [

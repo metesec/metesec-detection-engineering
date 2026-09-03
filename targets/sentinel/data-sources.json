@@ -34,7 +34,7 @@
       "id": "MSEC-SDS-0002",
       "table": "AuditLogs",
       "display_name": "Microsoft Entra audit logs",
-      "consumers": ["MSEC-DET-0004", "MSEC-DET-0005", "MSEC-DET-0008", "MSEC-DET-0009"],
+      "consumers": ["MSEC-DET-0004", "MSEC-DET-0005", "MSEC-DET-0008", "MSEC-DET-0009", "MSEC-DET-0014", "MSEC-DET-0015"],
       "event_time_column": "TimeGenerated",
       "required_columns": [
         {"name": "TimeGenerated", "type": "datetime"},
@@ -54,7 +54,7 @@
       "id": "MSEC-SDS-0003",
       "table": "DeviceProcessEvents",
       "display_name": "Microsoft Defender for Endpoint process events",
-      "consumers": ["MSEC-DET-0006", "MSEC-DET-0007"],
+      "consumers": ["MSEC-DET-0006", "MSEC-DET-0007", "MSEC-DET-0011", "MSEC-DET-0012", "MSEC-DET-0013"],
       "event_time_column": "Timestamp",
       "required_columns": [
         {"name": "TimeGenerated", "type": "datetime"},

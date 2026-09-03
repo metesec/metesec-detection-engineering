@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0012",
+  "title": "Mshta executes content from a remote location",
+  "description": "Detects mshta command lines that reference HTTP, HTTPS or FTP content in Microsoft Defender for Endpoint process telemetry.",
+  "hypothesis": {
+    "summary": "An adversary may use mshta to retrieve and execute remotely hosted script or HTA content.",
+    "rationale": "Remote content passed to the Windows-signed mshta binary is a recognized proxy-execution pattern that can bypass normal application expectations, although some legacy applications and administrative workflows may use remote HTA resources.",
+    "detection_goal": "Identify mshta processes whose command line references a remote HTTP, HTTPS or FTP resource while leaving local HTA execution and unrelated processes unmatched."
+  },
+  "ownership": {
+    "owner": "MeteSec Detection Engineering",
+    "reviewers": []
+  },
+  "lifecycle": {
+    "status": "experimental",
+    "created": "2026-09-03",
+    "modified": "2026-09-03",
+    "review_interval_days": 90
+  },
+  "severity": "high",
+  "confidence": "medium",
+  "data_sources": [
+    {
+      "name": "Microsoft Defender for Endpoint process events",
+      "category": "Endpoint process creation",
+      "required_fields": ["TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountName", "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"]
+    }
+  ],
+  "attack": [
+    {
+      "technique_id": "T1218.005",
+      "tactic": "Defense Evasion"
+    }
+  ],
+  "triage": {
+    "summary": "Validate the remote resource, originating process and user intent, then inspect the process tree and network activity for follow-on execution.",
+    "steps": [
+      "Review the complete mshta command line, parent process, remote URL, file path, initiating account and device context.",
+      "Determine whether the URL and HTA workflow belong to an approved legacy application, installer or administrative process.",
+      "Inspect child processes, downloaded files, script execution and network connections; isolate the device if the remote content is untrusted or unexplained."
+    ],
+    "false_positives": [
+      "Approved legacy applications, installers and administrative workflows that launch a remote HTA resource"
+    ]
+  },
+  "validation": {
+    "expected_outcome": "Match mshta command lines containing HTTP, HTTPS or FTP resources; do not match local HTA files, other processes or incomplete events.",
+    "positive_tests": true,
+    "negative_tests": true
+  },
+  "implementations": [
+    {
+      "type": "sigma",
+      "path": "content/portable/sigma/MSEC-DET-0012/rule.yml",
+      "targets": ["sentinel"],
+      "status": "active"
+    }
+  ]
+}

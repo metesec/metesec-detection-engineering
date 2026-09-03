@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "detection_id": "MSEC-DET-0011",
+  "implementation": "content/portable/sigma/MSEC-DET-0011/rule.yml",
+  "cases": [
+    {"id": "rundll32-minidump", "expectation": "match", "fixture": "fixtures/rundll32-minidump.json", "description": "Synthetic rundll32 command invokes the named comsvcs MiniDump export."},
+    {"id": "rundll32-ordinal-24", "expectation": "match", "fixture": "fixtures/rundll32-ordinal-24.json", "description": "Synthetic rundll32 command invokes comsvcs ordinal 24."},
+    {"id": "uppercase-with-context", "expectation": "match", "fixture": "fixtures/uppercase-with-context.json", "description": "Synthetic uppercase command includes endpoint investigation context."},
+    {"id": "rundll32-other-dll", "expectation": "no_match", "fixture": "fixtures/rundll32-other-dll.json", "description": "Synthetic rundll32 command invokes an unrelated DLL."},
+    {"id": "comsvcs-without-dump", "expectation": "no_match", "fixture": "fixtures/comsvcs-without-dump.json", "description": "Synthetic comsvcs command omits MiniDump and ordinal 24."},
+    {"id": "other-process-minidump", "expectation": "no_match", "fixture": "fixtures/other-process-minidump.json", "description": "Synthetic command contains the pattern but is not rundll32."},
+    {"id": "missing-command-line", "expectation": "no_match", "fixture": "fixtures/missing-command-line.json", "description": "Synthetic rundll32 event without a command line fails closed."}
+  ]
+}

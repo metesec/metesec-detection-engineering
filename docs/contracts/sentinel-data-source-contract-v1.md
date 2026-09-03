@@ -1,7 +1,8 @@
 # Microsoft Sentinel data-source contract v1
 
 The contract at `targets/sentinel/data-sources.json` defines what the current
-Sentinel detections need from `SigninLogs` and `AuditLogs`. Its JSON Schema is
+Sentinel detections need from `SigninLogs`, `AuditLogs`, `DeviceProcessEvents`
+and `AADUserRiskEvents`. Its JSON Schema is
 `governance/schemas/sentinel-data-source-contract-v1.schema.json`.
 
 This is a telemetry dependency contract, not a connector deployment, live

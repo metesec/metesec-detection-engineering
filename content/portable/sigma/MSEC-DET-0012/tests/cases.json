@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "detection_id": "MSEC-DET-0012",
+  "implementation": "content/portable/sigma/MSEC-DET-0012/rule.yml",
+  "cases": [
+    {"id": "mshta-http", "expectation": "match", "fixture": "fixtures/mshta-http.json", "description": "Synthetic mshta command references a remote HTTP resource."},
+    {"id": "mshta-https-script", "expectation": "match", "fixture": "fixtures/mshta-https-script.json", "description": "Synthetic mshta command executes a remote HTTPS script expression."},
+    {"id": "uppercase-ftp-with-context", "expectation": "match", "fixture": "fixtures/uppercase-ftp-with-context.json", "description": "Synthetic uppercase FTP command includes endpoint investigation context."},
+    {"id": "mshta-local-hta", "expectation": "no_match", "fixture": "fixtures/mshta-local-hta.json", "description": "Synthetic mshta command opens a local HTA file."},
+    {"id": "other-process-remote-url", "expectation": "no_match", "fixture": "fixtures/other-process-remote-url.json", "description": "Synthetic remote URL belongs to another process."},
+    {"id": "mshta-without-remote", "expectation": "no_match", "fixture": "fixtures/mshta-without-remote.json", "description": "Synthetic mshta command contains no selected protocol."},
+    {"id": "missing-command-line", "expectation": "no_match", "fixture": "fixtures/missing-command-line.json", "description": "Synthetic mshta event without a command line fails closed."}
+  ]
+}
