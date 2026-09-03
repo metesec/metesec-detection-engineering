@@ -9,6 +9,8 @@ import zipfile
 
 from scripts.build_release import (
     FIXED_ZIP_TIMESTAMP,
+    ReleaseBuildError,
+    _display_path,
     build_release,
 )
 
@@ -17,6 +19,13 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 
 
 class ReleaseBuilderTests(unittest.TestCase):
+    def test_display_path_supports_external_output_directory(self) -> None:
+        with TemporaryDirectory() as directory:
+            external = Path(directory) / "release.zip"
+            self.assertEqual(
+                _display_path(external, REPO_ROOT), external.resolve().as_posix()
+            )
+
     def test_two_independent_builds_are_byte_identical(self) -> None:
         with TemporaryDirectory() as directory:
             root = Path(directory)
@@ -42,7 +51,7 @@ class ReleaseBuilderTests(unittest.TestCase):
                 manifest_name = f"{expected_root}/RELEASE-MANIFEST.json"
                 manifest = json.loads(archive.read(manifest_name))
                 self.assertEqual(manifest["format_version"], 1)
-                self.assertEqual(manifest["release"], "v0.4.0")
+                self.assertEqual(manifest["release"], "v1.0.0")
                 self.assertEqual(manifest["summary"]["detections"], 50)
                 self.assertEqual(manifest["summary"]["sentinel_preview_bindings"], 49)
                 self.assertTrue(manifest["scope"]["sentinel_data_source_contract"])
@@ -70,6 +79,7 @@ class ReleaseBuilderTests(unittest.TestCase):
                 self.assertIn(
                     "docs/tooling/sentinel-source-inventory.md", packaged
                 )
+                self.assertIn("docs/releases/v1.0.0.md", packaged)
                 self.assertEqual(set(declared), packaged)
                 for relative, item in declared.items():
                     content = archive.read(f"{expected_root}/{relative}")
@@ -84,6 +94,18 @@ class ReleaseBuilderTests(unittest.TestCase):
             )
             self.assertEqual(filename, archive_path.name)
             self.assertEqual(digest, hashlib.sha256(archive_path.read_bytes()).hexdigest())
+
+    def test_current_version_release_notes_are_required(self) -> None:
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "package.json").write_text(
+                '{"version": "1.0.0"}\n', encoding="utf-8"
+            )
+            with self.assertRaisesRegex(
+                ReleaseBuildError,
+                r"current release notes are missing: docs/releases/v1\.0\.0\.md",
+            ):
+                build_release(root, root / "out")
 
 
 if __name__ == "__main__":

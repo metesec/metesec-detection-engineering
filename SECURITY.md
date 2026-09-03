@@ -23,5 +23,6 @@ All fixtures must be synthetic, safely redacted, or explicitly licensed for publ
 ## Supported versions
 
 Security fixes apply to the current `main` branch and the latest published
-`0.1.x` release. The Detection Pack remains experimental and is not a production
-deployment bundle.
+release. Older release lines are unsupported unless a release note explicitly
+states otherwise. Detection content remains experimental and the Detection Pack
+is not a production deployment bundle.

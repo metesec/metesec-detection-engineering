@@ -17,7 +17,12 @@ content/portable/sigma/MSEC-DET-0001/
         └── approved-software-install.json
 ```
 
-Only `catalog/detections/<ID>/manifest.json` is required for a draft without an implementation. The implementation and test paths are created when executable behavior is added. Native implementations use `content/native/<target>/<ID>/` and receive their exact file convention with the first real native milestone.
+Only `catalog/detections/<ID>/manifest.json` is required for a draft without an
+implementation. The implementation and test paths are created when executable
+behavior is added. The active version 1 pack authors only Sigma under
+`content/portable/sigma/<ID>/`; native implementations, their file convention
+and any resolver remain outside the release scope until a real target-backed
+milestone justifies them.
 
 ## Package rules
 
@@ -42,17 +47,18 @@ The package manifests and their linked evidence also feed the derived [generated
 
 The schema deliberately does not define a field vocabulary. Field names belong to the implementation and its declared log source. The bounded local evaluator and its supported Sigma subset are documented in [Local Sigma fixture evaluation](../testing/sigma-fixture-evaluation.md). Local results must not be presented as universal target-platform behavior.
 
-## Current catalogue entry
+## Current package set
 
-`MSEC-DET-0001` is an experimental Windows service-installation detection. Its Sigma implementation matches Service Control Manager event 7045 when `ImagePath` contains one of three selected public-user or temporary path fragments. Three positive and four negative synthetic cases pass the bounded local evaluator. The package makes no compilation or target-validation claim.
+The version 1 pack contains fifty experimental packages. Every package has one
+Sigma implementation plus three positive and four negative synthetic cases,
+for one hundred fifty positive and two hundred negative expectations in total.
+Forty-nine packages have an explicit Microsoft Sentinel preview binding;
+`MSEC-DET-0001` remains visibly unbound because the verified target has no
+suitable Windows event telemetry.
 
-`MSEC-DET-0002` is an experimental identity detection. Its Sigma implementation matches a successful Microsoft Entra sign-in when `ClientAppUsed` reports one of seven selected legacy client categories. Three positive and four negative synthetic cases pass the bounded local evaluator. Its separate Sentinel preview binding and validation boundary are documented in the [Sentinel compilation guide](../tooling/sentinel-compilation.md).
-
-`MSEC-DET-0003` is an experimental identity detection. Its Sigma implementation matches a successful Microsoft Entra sign-in when `RiskLevelDuringSignIn` reports `high`. Three positive and four negative synthetic cases pass the bounded local evaluator. Its separate Sentinel preview binding and validation boundary are documented in the [Sentinel compilation guide](../tooling/sentinel-compilation.md).
-
-`MSEC-DET-0004` is an experimental identity detection. Its Sigma implementation matches a successful Microsoft Entra audit operation that adds credentials to a service principal. Three positive and four negative synthetic cases pass the bounded local evaluator. Its separate Sentinel preview binding and validation boundary are documented in the [Sentinel compilation guide](../tooling/sentinel-compilation.md).
-
-`MSEC-DET-0005` is an experimental identity detection. Its Sigma implementation matches a successful Microsoft Entra audit operation that grants an application role to a service principal. Three positive and four negative synthetic cases pass the bounded local evaluator. Its separate Sentinel preview binding and validation boundary are documented in the [Sentinel compilation guide](../tooling/sentinel-compilation.md).
+The generated [CATALOGUE.md](../../CATALOGUE.md) is the current per-detection
+index. This contract deliberately avoids duplicating fifty descriptions that
+would become stale independently of the manifests and generated catalogue.
 
 ## Validation
 

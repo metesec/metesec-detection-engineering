@@ -24,8 +24,10 @@ The normal repository check uses the current UTC date. It exits successfully
 only when every detection is current. Due or overdue records return exit code
 `2`; malformed or impossible lifecycle data returns `1`.
 
-All five current records were modified on 3 September 2026 and use a 90-day
-interval, so their next review date is 2 December 2026.
+All fifty version 1 records were modified on 3 September 2026 and use a 90-day
+interval, so their next review date is 2 December 2026. The executable
+validator, rather than this summary sentence, remains authoritative as records
+change.
 
 ## Transition policy
 

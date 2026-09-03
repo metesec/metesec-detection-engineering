@@ -80,7 +80,7 @@ The job begins failing when any review becomes due or overdue; no time-dependent
 assessment file is written. Cross-revision transition validation requires an
 explicit previous catalogue and is not claimed by the default workflow.
 Finally, it validates the Sentinel runtime-health policy, its exact relationship
-to the four scheduled-rule definitions, the fail-closed evaluator and its
+to the forty-nine scheduled-rule definitions, the fail-closed evaluator and its
 machine-output schema. CI supplies no rule observation, so this proves only the
 portable contract. It neither queries Sentinel nor claims that a deployed rule
 is healthy.

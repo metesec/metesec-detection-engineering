@@ -1,6 +1,7 @@
 # Contributing
 
-MeteSec Detection Engineering is in its foundation phase. Contributions should remain small, reviewable, and backed by evidence.
+MeteSec Detection Engineering is a public Detection-as-Code reference project.
+Contributions should remain small, reviewable, and backed by evidence.
 
 ## Before proposing a change
 

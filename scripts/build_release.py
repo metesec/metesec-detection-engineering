@@ -56,8 +56,14 @@ def _normalized_text(path: Path) -> bytes:
     return text.replace("\r\n", "\n").replace("\r", "\n").encode("utf-8")
 
 
-def _source_paths(repo_root: Path) -> list[Path]:
-    paths: set[Path] = set()
+def _source_paths(repo_root: Path, version: str) -> list[Path]:
+    current_release_notes = repo_root / f"docs/releases/v{version}.md"
+    if not current_release_notes.is_file():
+        raise ReleaseBuildError(
+            f"current release notes are missing: docs/releases/v{version}.md"
+        )
+
+    paths: set[Path] = {current_release_notes}
     for relative in EXACT_SOURCES:
         path = repo_root / relative
         if not path.is_file():
@@ -101,6 +107,14 @@ def _zip_info(name: str) -> zipfile.ZipInfo:
     return info
 
 
+def _display_path(path: Path, repo_root: Path = REPO_ROOT) -> str:
+    resolved = path.resolve()
+    try:
+        return resolved.relative_to(repo_root.resolve()).as_posix()
+    except ValueError:
+        return resolved.as_posix()
+
+
 def build_release(repo_root: Path, output_dir: Path) -> tuple[Path, Path]:
     repo_root = repo_root.resolve()
     version = _version(repo_root)
@@ -112,7 +126,7 @@ def build_release(repo_root: Path, output_dir: Path) -> tuple[Path, Path]:
 
     members: dict[str, bytes] = {}
     manifest_files = []
-    for path in _source_paths(repo_root):
+    for path in _source_paths(repo_root, version):
         relative = path.relative_to(repo_root).as_posix()
         if PurePosixPath(relative).is_absolute() or ".." in PurePosixPath(relative).parts:
             raise ReleaseBuildError(f"unsafe release path: {relative}")
@@ -186,8 +200,8 @@ def main() -> int:
         return 1
 
     digest = hashlib.sha256(archive.read_bytes()).hexdigest()
-    print(f"WROTE {archive.relative_to(REPO_ROOT).as_posix()}")
-    print(f"WROTE {checksums.relative_to(REPO_ROOT).as_posix()}")
+    print(f"WROTE {_display_path(archive)}")
+    print(f"WROTE {_display_path(checksums)}")
     print(f"SHA256 {digest}  {archive.name}")
     return 0
 

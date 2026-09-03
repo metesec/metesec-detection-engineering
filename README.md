@@ -2,7 +2,7 @@
 
 Detection-as-Code reference implementation for portable, tested, and reviewable security detections.
 
-> **Project status: Sigma Detection Pack Expansion — 50 of 50 rules implemented**
+> **Project status: Version 1 scope complete — 50 of 50 rules implemented**
 > Microsoft Sentinel is the only supported target, with forty-nine current rules rendering as deterministic, disabled Scheduled rules and one explicit unsupported Windows Event dependency.
 
 ## Purpose
@@ -22,6 +22,7 @@ The first main release targets fifty complete Sigma detections with executable v
 
 - **Canonical source:** self-hosted MeteSec Forgejo
 - **Public distribution:** [GitHub read-only mirror](https://github.com/metesec/metesec-detection-engineering)
+- **Published releases:** [canonical Forgejo releases](https://git.metesec.com/metesec/metesec-detection-engineering/releases)
 - **Project presentation:** the public [MeteSec Projects page](https://metesec.com/projects/detection-engineering/)
 - **Engineering stories:** supporting articles on the MeteSec Blog
 
@@ -33,12 +34,12 @@ tests and rendering boundary without prescribing customer policy.
 
 ## Documentation
 
-- [Project roadmap](ROADMAP.md)
-- [Contributor guide](CONTRIBUTING.md)
+- [Project roadmap](https://github.com/metesec/metesec-detection-engineering/blob/main/ROADMAP.md)
+- [Contributor guide](https://github.com/metesec/metesec-detection-engineering/blob/main/CONTRIBUTING.md)
 - [Security policy](SECURITY.md)
-- [Current project handoff](AGENTS.md)
-- [Chronological project log](LOGBOOK.md)
-- [Architecture decisions](docs/architecture/adr/)
+- [Current project handoff](https://github.com/metesec/metesec-detection-engineering/blob/main/AGENTS.md)
+- [Chronological project log](https://github.com/metesec/metesec-detection-engineering/blob/main/LOGBOOK.md)
+- [Architecture decisions](https://github.com/metesec/metesec-detection-engineering/tree/main/docs/architecture/adr)
 - [Generated detection catalogue](CATALOGUE.md)
 - [Machine-readable detection catalogue](catalog/index.json)
 - [Generated ATT&CK and data-source coverage](COVERAGE.md)
@@ -46,8 +47,8 @@ tests and rendering boundary without prescribing customer policy.
 - [Logical detection manifest v1](docs/contracts/logical-detection-manifest-v1.md)
 - [Detection package v1](docs/contracts/detection-package-v1.md)
 - [Generated catalogue contract v1](docs/contracts/detection-catalogue-v1.md)
-- [Forgejo repository validation](docs/tooling/forgejo-validation.md)
-- [Sigma structural validation](docs/tooling/sigma-validation.md)
+- [Forgejo repository validation](https://github.com/metesec/metesec-detection-engineering/blob/main/docs/tooling/forgejo-validation.md)
+- [Sigma structural validation](https://github.com/metesec/metesec-detection-engineering/blob/main/docs/tooling/sigma-validation.md)
 - [Local Sigma fixture evaluation](docs/testing/sigma-fixture-evaluation.md)
 - [Microsoft Sentinel KQL preview compilation](docs/tooling/sentinel-compilation.md)
 - [Read-only Microsoft Sentinel source inventory](docs/tooling/sentinel-source-inventory.md)
@@ -57,10 +58,11 @@ tests and rendering boundary without prescribing customer policy.
 - [Detection lifecycle and review cadence v1](docs/contracts/detection-lifecycle-v1.md)
 - [Microsoft Sentinel runtime health v1](docs/contracts/sentinel-runtime-health-v1.md)
 - [Detection Pack release artifact v1](docs/releases/release-artifact-v1.md)
+- [Version 1.0.0 release notes](docs/releases/v1.0.0.md)
 
 ## Current milestone
 
-`0.4 — Sigma Detection Pack Expansion` (in progress)
+`1.0 — Release readiness` (protected publication pending)
 
 The version 1 direction is deliberately narrow: all detection logic is authored
 as Sigma, Microsoft Sentinel is the only supported target, and the first main
@@ -87,10 +89,12 @@ The human-readable `CATALOGUE.md` and machine-readable `catalog/index.json` are 
 
 The Forgejo validation workflow runs the same aggregate check on trusted pushes and manual dispatch. Its dedicated repository-scoped runner verifies the pinned Node.js and Python toolchain, installs exact pnpm, JavaScript, and Sigma dependencies in disposable job paths, and receives no deployment, cloud, SIEM, Kubernetes or package-publisher credential. Canonical main validation is operational; automatic public pull-request execution remains disabled while the runner uses Forgejo `host` execution mode.
 
-The first release artifact is a deterministic ZIP containing the public five-rule
-Detection Pack, its synthetic evidence and the bounded four-rule Sentinel preview.
-It includes an internal per-file digest manifest and is published together with a
-separate `SHA256SUMS` file. It is not a deployment bundle.
+The historical `v0.1.0` release established the deterministic archive format
+with five rules and four Sentinel preview bindings. In version 1, the same
+format contains all fifty Sigma packages, their synthetic evidence, forty-nine
+reviewed Sentinel preview bindings and the governed contracts. It includes an
+internal per-file digest manifest and is distributed with a separate
+`SHA256SUMS` file. It is not a deployment bundle.
 
 The forty-nine preview-bound detections also render into complete Scheduled-rule REST
 request bodies through the versioned Sentinel analytics-rule profile. Logical
@@ -129,7 +133,7 @@ boundaries. Optional alert and incident counts are informational only: a
 successful execution with zero alerts is healthy. The repository stores no live
 observation and contains no Sentinel monitoring client.
 
-Run the current contract validation with:
+From a repository checkout, run the current contract validation with:
 
 ```console
 pnpm install --frozen-lockfile
@@ -141,7 +145,7 @@ pnpm run render:sentinel
 pnpm run build:release
 ```
 
-See the [generated catalogue contract](docs/contracts/detection-catalogue-v1.md), [Forgejo validation guide](docs/tooling/forgejo-validation.md), [Sigma validation guide](docs/tooling/sigma-validation.md), [Sentinel compilation guide](docs/tooling/sentinel-compilation.md), [read-only source-inventory guide](docs/tooling/sentinel-source-inventory.md), [Sentinel data-source contract](docs/contracts/sentinel-data-source-contract-v1.md), and [Sentinel runtime-health contract](docs/contracts/sentinel-runtime-health-v1.md) for the exact scope of each result.
+See the [generated catalogue contract](docs/contracts/detection-catalogue-v1.md), [Forgejo validation guide](https://github.com/metesec/metesec-detection-engineering/blob/main/docs/tooling/forgejo-validation.md), [Sigma validation guide](https://github.com/metesec/metesec-detection-engineering/blob/main/docs/tooling/sigma-validation.md), [Sentinel compilation guide](docs/tooling/sentinel-compilation.md), [read-only source-inventory guide](docs/tooling/sentinel-source-inventory.md), [Sentinel data-source contract](docs/contracts/sentinel-data-source-contract-v1.md), and [Sentinel runtime-health contract](docs/contracts/sentinel-runtime-health-v1.md) for the exact scope of each result.
 
 ## License
 
