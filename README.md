@@ -56,7 +56,7 @@ The Sentinel preview pins the Kusto backend, maps `MSEC-DET-0002` and `MSEC-DET-
 
 The human-readable `CATALOGUE.md` and machine-readable `catalog/index.json` are generated from the manifests, fixture indexes, and explicit Sentinel preview profile. They contain no runtime timestamp or environment identifier, and `pnpm run check` fails when either tracked output is stale.
 
-The Forgejo validation workflow installs the pinned Node.js, pnpm, Python, JavaScript, and Sigma toolchains, then runs that same aggregate check on pushes and pull requests. It is read-only, secret-free, and contains no deployment step. Its definition is locally contract-tested; an actual Forgejo runner result remains required before it becomes an operational release gate.
+The Forgejo validation workflow runs the same aggregate check on trusted pushes and manual dispatch. Its dedicated repository-scoped runner verifies the pinned Node.js and Python toolchain, installs exact pnpm, JavaScript, and Sigma dependencies in disposable job paths, and receives no deployment, cloud, SIEM, Kubernetes or package-publisher credential. Canonical main validation is operational; automatic public pull-request execution remains disabled while the runner uses Forgejo `host` execution mode.
 
 Run the current contract validation with:
 
