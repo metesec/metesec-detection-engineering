@@ -1,6 +1,6 @@
 {
   "name": "metesec-detection-engineering",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "packageManager": "pnpm@11.19.0",
   "description": "Validation tooling for MeteSec Detection Engineering contracts",
@@ -20,9 +20,13 @@
     "test:sentinel-compiler": "python -m unittest tests.test_sentinel_compiler",
     "validate:sentinel-golden": "python scripts/compile_sentinel.py --check",
     "compile:sentinel": "python scripts/compile_sentinel.py",
+    "validate:sentinel-profile": "node scripts/validate-sentinel-profile.mjs",
+    "test:sentinel-renderer": "python -m unittest tests.test_sentinel_rule_renderer",
+    "validate:sentinel-rules": "python scripts/render_sentinel_rules.py --check",
+    "render:sentinel": "python scripts/render_sentinel_rules.py",
     "test:release": "python -m unittest tests.test_release_builder",
     "build:release": "python scripts/build_release.py",
-    "check": "pnpm run validate:manifests && pnpm run test:package-contract && pnpm run validate:packages && pnpm run test:catalogue && pnpm run validate:catalogue && pnpm run test:forgejo-workflow && pnpm run test:sigma-validation && pnpm run validate:sigma && pnpm run test:sigma-evaluator && pnpm run test:sigma-fixtures && pnpm run test:sentinel-compiler && pnpm run validate:sentinel-golden && pnpm run test:release"
+    "check": "pnpm run validate:manifests && pnpm run test:package-contract && pnpm run validate:packages && pnpm run test:catalogue && pnpm run validate:catalogue && pnpm run test:forgejo-workflow && pnpm run test:sigma-validation && pnpm run validate:sigma && pnpm run test:sigma-evaluator && pnpm run test:sigma-fixtures && pnpm run test:sentinel-compiler && pnpm run validate:sentinel-golden && pnpm run validate:sentinel-profile && pnpm run test:sentinel-renderer && pnpm run validate:sentinel-rules && pnpm run test:release"
   },
   "devDependencies": {
     "ajv": "8.17.1"

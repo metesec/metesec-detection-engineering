@@ -757,3 +757,85 @@ is protected by the proven validation result, and the first reproducible public
 Detection Pack can be verified independently. The next milestone is a generic
 Sentinel analytics-rule renderer built from the existing explicit preview
 bindings without deployment capability.
+
+## 2026-09-03 — Generic disabled Sentinel analytics-rule renderer implemented
+
+### Starting state
+
+- Four detections had explicit `SigninLogs` or `AuditLogs` bindings, deterministic
+  KQL and reviewed Golden queries.
+- The repository could not yet turn those queries into complete Microsoft
+  Sentinel Scheduled analytics-rule request bodies.
+- Deployment and all Azure write access remained outside the authorized scope.
+
+### Decision and implementation
+
+- Added version 1 of a separate Sentinel analytics-rule target profile and JSON
+  Schema. The profile contains only vendor runtime settings and must match the
+  existing preview bindings exactly and in order.
+- Pinned stable Microsoft SecurityInsights API `2025-09-01`, based on Microsoft's
+  current Scheduled alert-rule REST and ARM/Bicep reference.
+- Added a deterministic Python renderer that combines logical metadata from each
+  `manifest.json`, exact Golden-verified KQL from the existing compiler and the
+  target-only schedule settings.
+- The renderer performs the Golden comparison itself before creating a rule
+  body; direct rendering cannot bypass the reviewed-query gate.
+- Stable Sentinel rule UUIDs are UUIDv5 values derived from the immutable MeteSec
+  detection ID. The renderer fails closed on an unsupported severity, tactic,
+  duration, binding relationship or target configuration.
+- Each rule produces `query.kql`, exact REST request body `analytics-rule.json`
+  and hashed `render-manifest.json` under ignored `dist/sentinel/<ID>/` output.
+- Advanced the development-package version from `0.1.0` to `0.2.0` so new
+  source cannot be rebuilt under the already published `v0.1.0` identity. No
+  `v0.2.0` tag or release was created by this milestone.
+- Every rendered rule is disabled. Suppression is also disabled. No Azure scope,
+  credential, HTTP client, authentication flow or deployment command was added.
+- The stable API request maps sub-techniques to their base technique in the
+  `techniques` field. The complete source sub-technique remains authoritative in
+  the logical manifest and is retained in the render provenance.
+
+### Validation and correction
+
+- Added nine renderer unit tests covering the four exact rule identities,
+  disabled Scheduled-rule structure, manifest-derived metadata, Golden KQL
+  equality, tactic and technique mapping, artifact hashes, byte-identical writes
+  and fail-closed profile behavior. The ninth case deliberately changes compiled
+  KQL and proves that direct rendering stops before output when it differs from
+  the reviewed Golden query.
+- The first negative-test run expected a repository-traversal error after
+  changing `source_profile`. The stronger fixed-path contract rejected the value
+  earlier because it no longer equalled the only permitted preview profile. The
+  test expectation was corrected; production code did not need weakening.
+- Final parity review found that the direct Python duration expression accepted
+  an empty `T` component such as `P1DT` while the JSON Schema rejected it. The
+  loader expression and its negative test were tightened to fail closed in both
+  validation paths.
+- The first aggregate `pnpm run check` launch could not resolve `node` from the
+  isolated process search path. The repository and dependencies were unchanged;
+  the same declared checks were rerun with the pinned Node and repository Python
+  executables addressed directly.
+- The corrected test suite passed all nine cases. A separate temporary build
+  produced exactly four rule bodies, four queries and four render manifests;
+  all four rules were disabled and all temporary output was removed.
+- The complete repository check then passed, including the JSON Schema validator,
+  all 35 Sigma fixture expectations, four Golden KQL comparisons, the no-write
+  renderer check and the release-builder tests.
+- A local unreleased `v0.2.0` candidate build completed at SHA-256
+  `5576f2fb791d30790029f44165aa75909b7438ff9b84f534cbf564d6ee7515db`.
+  It remains ignored local output and was not tagged or published.
+
+### Explicitly untouched
+
+- No Sentinel analytics rule, Azure resource, tenant, subscription, workspace,
+  identity, credential, query result or live telemetry changed.
+- No deployment package, Azure validation request, production enablement,
+  exception object or entity mapping was introduced.
+- Forgejo protection, runners, Website, infrastructure and published `v0.1.0`
+  release remained unchanged.
+
+### Result
+
+The first Microsoft Sentinel target renderer now exists as a deterministic,
+reviewable and disabled build step. The next bounded milestone is immutable
+checksummed packaging of the rendered rule, query and provenance files without
+adding live deployment.

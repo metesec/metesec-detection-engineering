@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metesec.com/schemas/sentinel-analytics-rule-profile-v1.schema.json",
+  "title": "MeteSec Microsoft Sentinel analytics-rule profile v1",
+  "description": "Target-specific scheduled-rule settings for already bound and compiled detections.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "target", "api_version", "source_profile", "rules"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "target": { "const": "microsoft-sentinel" },
+    "api_version": { "const": "2025-09-01" },
+    "source_profile": { "const": "targets/sentinel/preview.json" },
+    "rules": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/rule" }
+    }
+  },
+  "$defs": {
+    "duration": {
+      "type": "string",
+      "pattern": "^P(?=.+)(?:[0-9]+D)?(?:T(?=.+)(?:[0-9]+H)?(?:[0-9]+M)?(?:[0-9]+S)?)?$"
+    },
+    "rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "enabled",
+        "query_frequency",
+        "query_period",
+        "trigger_operator",
+        "trigger_threshold",
+        "suppression_duration",
+        "suppression_enabled",
+        "event_grouping",
+        "create_incident",
+        "incident_lookback"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^MSEC-DET-[0-9]{4}$" },
+        "enabled": { "const": false },
+        "query_frequency": { "$ref": "#/$defs/duration" },
+        "query_period": { "$ref": "#/$defs/duration" },
+        "trigger_operator": { "enum": ["Equal", "GreaterThan", "LessThan", "NotEqual"] },
+        "trigger_threshold": { "type": "integer", "minimum": 0 },
+        "suppression_duration": { "$ref": "#/$defs/duration" },
+        "suppression_enabled": { "const": false },
+        "event_grouping": { "enum": ["AlertPerResult", "SingleAlert"] },
+        "create_incident": { "type": "boolean" },
+        "incident_lookback": { "$ref": "#/$defs/duration" }
+      }
+    }
+  }
+}
