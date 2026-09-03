@@ -17,7 +17,7 @@ Status: **in progress**
 - [x] Implement positive and negative fixture-test model
 - [x] Add first complete Sigma detection
 - [x] Grow to five reviewed detections (5 of 5 complete)
-- [ ] Generate a machine-readable and human-readable catalogue
+- [x] Generate a machine-readable and human-readable catalogue
 - [ ] Add Forgejo validation pipeline
 - [ ] Publish first signed or checksummed release artifact
 

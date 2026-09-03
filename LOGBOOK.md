@@ -477,3 +477,49 @@ The repository had four complete experimental detections. The final package need
 ### Result
 
 `MSEC-DET-0005` completes the first five reviewed experimental detection packages. Four have deterministic Sentinel compilation and separate read-only target-acceptance evidence; `MSEC-DET-0001` remains intentionally local-only because the available target has no suitable Windows event telemetry. The next Functional Foundation milestone is reproducible machine-readable and human-readable catalogue generation.
+
+## 2026-09-03 — Deterministic machine and human detection catalogue verified locally
+
+### Starting state
+
+The repository contained five complete detection packages and four explicit Sentinel preview bindings, but users and tooling still had to inspect individual manifests, fixture indexes, and the target profile separately. The Roadmap still listed aggregate catalogue generation as incomplete, and `dist/README.md` still described the obsolete empty foundation state.
+
+### Decision
+
+- Keep each detection manifest as the only authored source of identity, lifecycle, severity, ATT&CK, data-source, and implementation metadata.
+- Derive fixture counts from each implementation-local `tests/cases.json` and target information only from the explicit Sentinel preview profile.
+- Publish a tracked JSON discovery index for tools and an equivalent Markdown index for people.
+- Omit timestamps, Git revisions, environment identifiers, live result counts, and telemetry so the same source revision produces byte-identical output.
+- Fail the aggregate repository check whenever either generated file is missing or stale.
+
+### Changes
+
+- Added the reusable catalogue builder and command-line generator.
+- Added JSON Schema version 1 for the generated machine catalogue.
+- Added `catalog/index.json` and `CATALOGUE.md`, both generated from repository sources rather than maintained independently.
+- Added generator tests for stable ordering, exact aggregate evidence, Sentinel mapping, schema conformance, and byte-for-byte tracked output freshness.
+- Added dedicated build, test, and validation commands and included the catalogue gates in `pnpm run check`.
+- Documented the source boundary and refreshed the README, Roadmap, package contract, generated-output guidance, and project handoff.
+
+### Problems and corrections
+
+- No implementation defect was found during the first generation. The generated outputs satisfied their schema and matched a second in-memory rendering exactly.
+- The existing `dist/README.md` still claimed the directory was empty for the repository-foundation milestone. It was corrected to distinguish ignored target or release builds from the two tracked public discovery indexes.
+
+### Verification
+
+- Catalogue unit tests passed all three cases.
+- Schema and stale-output validation accepted exactly five detections, five implementations, fifteen positive cases, twenty negative cases, and four Sentinel preview bindings.
+- A repeated generation produced byte-identical JSON and Markdown files.
+- The complete repository check, Python bytecode compilation, whitespace validation, repository-link validation, and public-safety scan passed.
+
+### Explicitly untouched
+
+- No detection hypothesis, Sigma rule, fixture, Golden KQL query, live target result, or target profile binding changed.
+- No production telemetry, result count, user, device, tenant, subscription, or workspace identifier was added.
+- No pipeline, deployment, Forgejo setting, GitHub mirror, Website, image, infrastructure, or production state changed.
+- No commit was pushed.
+
+### Result
+
+The five packages now have one reproducible discovery surface for readers and one schema-controlled index for tooling without creating a second authored source of truth. The next Functional Foundation milestone is the Forgejo validation pipeline.

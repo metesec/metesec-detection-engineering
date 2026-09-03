@@ -44,6 +44,8 @@ The architectural rule is: one logical detection has one stable identity but may
 - Detection package contract: version 1 documented and enforced through executable filesystem relationship validation
 - Fixture-set contract: version 1 schema implemented for future implementation-local positive and negative evidence indexes
 - Catalogue: five experimental packages: `MSEC-DET-0001` for Windows service installation from selected public-user or temporary paths, `MSEC-DET-0002` for successful Microsoft Entra sign-ins from selected legacy client categories, `MSEC-DET-0003` for successful Microsoft Entra sign-ins assessed as high risk during sign-in, `MSEC-DET-0004` for successful credential additions to Microsoft Entra service principals, and `MSEC-DET-0005` for successful application-role grants to Microsoft Entra service principals
+- Generated discovery catalogue: deterministic `catalog/index.json` and `CATALOGUE.md` are derived from the five manifests, implementation-local fixture indexes, and explicit Sentinel preview profile; neither output contains timestamps, environment identifiers, or live result data
+- Catalogue contract and validation: JSON Schema version 1, three generator tests, and a stale-output gate are included in the aggregate repository check; the current output reports five implementations, fifteen positive cases, twenty negative cases, and four Sentinel preview bindings
 - Portable implementations: five structurally valid Sigma rules, one per package
 - Synthetic evidence: fifteen positive and twenty negative flat event fixtures, all explicitly marked synthetic and all passing locally
 - Package contract tests: eight passing cases cover the valid draft, identity mismatch, missing implementation, implementation traversal, missing evidence index, valid linked evidence, fixture traversal, and invalid event-fixture structure
@@ -82,6 +84,8 @@ The `0.1` milestone will grow only as functionality is introduced:
 
 ```text
 catalog/detections/       logical detection packages
+catalog/index.json        generated machine-readable discovery index
+CATALOGUE.md              generated human-readable discovery index
 content/portable/sigma/  portable Sigma implementations
 governance/schemas/      machine-readable contracts
 tests/                    shared validation framework and fixtures
@@ -149,4 +153,4 @@ After every completed milestone:
 
 ## Immediate next milestone
 
-Generate the first reproducible machine-readable and human-readable catalogue from the five validated manifests without duplicating authored detection metadata. Keep generated files deterministic, test them against committed expectations, and do not introduce deployment behavior.
+Add the first Forgejo validation pipeline. It must install the pinned toolchains, run the existing aggregate check including catalogue freshness, change no target or production state, and expose a clear pass or failure before a revision can be treated as releasable.

@@ -8,6 +8,9 @@
     "validate:manifests": "node scripts/validate-manifests.mjs",
     "test:package-contract": "node --test tests/package-contract.test.mjs",
     "validate:packages": "node scripts/validate-packages.mjs",
+    "build:catalogue": "node scripts/generate-catalogue.mjs",
+    "test:catalogue": "node --test tests/catalogue-generator.test.mjs",
+    "validate:catalogue": "node scripts/generate-catalogue.mjs --check",
     "test:sigma-validation": "python -m unittest tests.test_sigma_validation",
     "validate:sigma": "python scripts/validate_sigma.py",
     "test:sigma-evaluator": "python -m unittest tests.test_sigma_fixture_evaluator",
@@ -15,7 +18,7 @@
     "test:sentinel-compiler": "python -m unittest tests.test_sentinel_compiler",
     "validate:sentinel-golden": "python scripts/compile_sentinel.py --check",
     "compile:sentinel": "python scripts/compile_sentinel.py",
-    "check": "pnpm run validate:manifests && pnpm run test:package-contract && pnpm run validate:packages && pnpm run test:sigma-validation && pnpm run validate:sigma && pnpm run test:sigma-evaluator && pnpm run test:sigma-fixtures && pnpm run test:sentinel-compiler && pnpm run validate:sentinel-golden"
+    "check": "pnpm run validate:manifests && pnpm run test:package-contract && pnpm run validate:packages && pnpm run test:catalogue && pnpm run validate:catalogue && pnpm run test:sigma-validation && pnpm run validate:sigma && pnpm run test:sigma-evaluator && pnpm run test:sigma-fixtures && pnpm run test:sentinel-compiler && pnpm run validate:sentinel-golden"
   },
   "devDependencies": {
     "ajv": "8.17.1"

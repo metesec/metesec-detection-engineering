@@ -3,7 +3,7 @@
 Detection-as-Code reference implementation for portable, tested, and reviewable security detections.
 
 > **Project status: Functional Foundation**
-> The repository now includes the versioned logical-detection contract, the compact package contract, executable relationship validation, five locally tested experimental Sigma detections, and a bounded Microsoft Sentinel KQL preview for four explicitly mapped rules. Deployment remains a future milestone tracked in [ROADMAP.md](ROADMAP.md).
+> The repository now includes the versioned logical-detection contract, the compact package contract, executable relationship validation, five locally tested experimental Sigma detections, a deterministic generated catalogue, and a bounded Microsoft Sentinel KQL preview for four explicitly mapped rules. Deployment remains a future milestone tracked in [ROADMAP.md](ROADMAP.md).
 
 ## Purpose
 
@@ -36,8 +36,11 @@ Forgejo remains the source of truth. GitHub receives only the reviewed public `m
 - [Current project handoff](AGENTS.md)
 - [Chronological project log](LOGBOOK.md)
 - [Architecture decisions](docs/architecture/adr/)
+- [Generated detection catalogue](CATALOGUE.md)
+- [Machine-readable detection catalogue](catalog/index.json)
 - [Logical detection manifest v1](docs/contracts/logical-detection-manifest-v1.md)
 - [Detection package v1](docs/contracts/detection-package-v1.md)
+- [Generated catalogue contract v1](docs/contracts/detection-catalogue-v1.md)
 - [Sigma structural validation](docs/tooling/sigma-validation.md)
 - [Local Sigma fixture evaluation](docs/testing/sigma-fixture-evaluation.md)
 - [Microsoft Sentinel KQL preview compilation](docs/tooling/sentinel-compilation.md)
@@ -50,6 +53,8 @@ The logical manifest, compact package contract, pinned pySigma boundary, and bou
 
 The Sentinel preview pins the Kusto backend, maps `MSEC-DET-0002` and `MSEC-DET-0003` to `SigninLogs`, maps `MSEC-DET-0004` and `MSEC-DET-0005` to `AuditLogs`, and verifies all four generated KQL queries against committed Golden snapshots. Separate authorized read-only target probes accepted every generated predicate: the legacy-client result was negative, while the other three results were positive. No raw telemetry, result count, or target identifier is stored, and these results are not deployment or production-readiness claims.
 
+The human-readable `CATALOGUE.md` and machine-readable `catalog/index.json` are generated from the manifests, fixture indexes, and explicit Sentinel preview profile. They contain no runtime timestamp or environment identifier, and `pnpm run check` fails when either tracked output is stale.
+
 Run the current contract validation with:
 
 ```console
@@ -60,7 +65,7 @@ pnpm run setup:sigma
 pnpm run check
 ```
 
-See the [Sigma validation guide](docs/tooling/sigma-validation.md) and [Sentinel compilation guide](docs/tooling/sentinel-compilation.md) for the exact scope of each result.
+See the [generated catalogue contract](docs/contracts/detection-catalogue-v1.md), [Sigma validation guide](docs/tooling/sigma-validation.md), and [Sentinel compilation guide](docs/tooling/sentinel-compilation.md) for the exact scope of each result.
 
 ## License
 

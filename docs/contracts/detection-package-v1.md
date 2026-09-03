@@ -34,6 +34,8 @@ The package validator enforces these repository relationships:
 
 These checks establish package integrity. They do not execute Sigma logic or prove behavior in a target SIEM.
 
+The package manifests and their linked evidence also feed the derived [generated detection catalogue v1](detection-catalogue-v1.md). That index is never an independent authored metadata source.
+
 ## Fixture-set boundary
 
 `governance/schemas/detection-fixture-set-v1.schema.json` defines the evidence index. A fixture set identifies the detection, the exact implementation path, and one or more synthetic cases with either `match` or `no_match` as the expected local result. `governance/schemas/synthetic-event-fixture-v1.schema.json` requires every referenced event to declare itself synthetic and contain one non-empty flat event object.
@@ -60,4 +62,4 @@ Run all current repository checks:
 pnpm run check
 ```
 
-The command validates manifest examples and the real catalogue, tests the package validator's boundary cases, validates every catalogue package and event fixture, parses every Sigma source, and executes every declared synthetic fixture expectation.
+The command validates manifest examples and the real packages, tests the package validator's boundary cases, validates every event fixture, checks that both generated catalogue outputs are current, parses every Sigma source, executes every declared synthetic fixture expectation, and verifies the Sentinel Golden queries.
