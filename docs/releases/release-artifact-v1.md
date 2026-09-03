@@ -1,0 +1,41 @@
+# Detection Pack release artifact v1
+
+The public release is a deterministic ZIP archive named
+`metesec-detection-pack-v<VERSION>.zip`. `VERSION` comes from `package.json`.
+The build also produces `SHA256SUMS` for independent integrity verification.
+
+## Included material
+
+The archive contains the public catalogue, logical manifests, schema contracts,
+portable Sigma rules, synthetic positive and negative fixtures, explicit
+Microsoft Sentinel preview bindings, reviewed Golden KQL snapshots, essential
+scope documentation, the security policy and the Apache-2.0 license.
+
+`RELEASE-MANIFEST.json` records every included source path, normalized byte size
+and SHA-256 digest. It also states the catalogue totals and makes the boundary
+explicit: the archive contains a Sentinel preview, not a SIEM deployment bundle.
+
+## Reproducibility contract
+
+The builder:
+
+- discovers only an allowlisted set of repository paths;
+- rejects missing sources, symlinks, path traversal and non-UTF-8 input;
+- normalizes all packaged text to LF line endings;
+- sorts every archive member;
+- uses one fixed ZIP timestamp and file mode;
+- stores members without platform-dependent compression;
+- emits no runtime timestamp, workstation path, Git credential or environment ID.
+
+Build and verify locally with:
+
+```console
+pnpm run build:release
+python -m unittest tests.test_release_builder
+```
+
+Two independent builds from the same source revision must produce byte-identical
+ZIP and `SHA256SUMS` files. A published Forgejo release must point to the exact
+validated `main` commit and attach both files. The checksum proves integrity, not
+authorship; a future signing milestone may add a cryptographic signature without
+changing this format.

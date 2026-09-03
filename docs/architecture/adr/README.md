@@ -10,3 +10,4 @@ Accepted records are not silently rewritten. A later decision supersedes the ear
 - [ADR-0004: Tests near implementations](ADR-0004-tests-near-implementations.md)
 - [ADR-0005: Bounded local Sigma evaluator](ADR-0005-bounded-local-sigma-evaluator.md)
 - [ADR-0006: Explicit Sentinel table bindings](ADR-0006-explicit-sentinel-table-bindings.md)
+- [ADR-0007: Reproducible release pack](ADR-0007-reproducible-release-pack.md)
