@@ -86,6 +86,7 @@ The architectural rule is: one logical detection has one stable identity but may
 - Sentinel output columns and entity mappings are governed together by the version 2 preview profile and the complete generated KQL remains Golden-reviewed.
 - Consumers render ignored temporary Sentinel files inside their own controlled pipeline; the project publishes no separate prebuilt Sentinel target archive and implements no Azure deployment client.
 - Data-source health is evaluated separately from detection results; an empty or missing observation cannot become a healthy zero.
+- Environment-specific tuning, exclusions, allowlists and exceptions are consumer-owned; the public repository provides no customer policy layer.
 - Detection-local tests live beside the implementation; reusable test code lives centrally.
 - Generated build output is never a manually edited source of truth.
 - Package v1 uses the logical manifest as its only authored metadata source; no second package descriptor duplicates identity or lifecycle data.
@@ -170,8 +171,9 @@ After every completed milestone:
 
 ## Immediate next milestone
 
-Add versioned public exception objects with mandatory owner, reason, bounded
-scope, creation time and expiry. Use only reserved synthetic values in examples,
-reject expired or open-ended exceptions, and keep customer-specific exceptions
-outside the public repository. Keep public pull-request execution disabled until
-the runner gains hard per-job isolation.
+Generate deterministic ATT&CK and data-source coverage reports from the existing
+logical manifests, Sentinel preview and data-source contract. The reports must
+show only declared repository coverage, expose gaps without treating them as
+failures, contain no environment observation and fail validation when tracked
+output becomes stale. Keep public pull-request execution disabled until the
+runner gains hard per-job isolation.

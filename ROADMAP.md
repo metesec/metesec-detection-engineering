@@ -57,7 +57,6 @@ Status: **in progress**
 
 - [x] Introduce data-source contracts
 - [x] Keep target rendering consumer-owned instead of publishing deployment bundles
-- [ ] Add versioned exception objects with expiry
 - [ ] Generate ATT&CK and data-source coverage reports
 - [ ] Introduce lifecycle and review-cadence validation
 - [ ] Add rule-execution and alert-outcome health definitions
@@ -66,6 +65,8 @@ Current status: `SigninLogs` and `AuditLogs` have exact field and type
 requirements, freshness expectations, preview-consumer relationships and a
 local observation evaluator with explicit `ready`, `degraded`, `unavailable`
 and `unknown` states. No live monitor or production-health claim exists.
+Environment-specific tuning and exceptions remain consumer-owned and are not a
+planned public repository contract.
 
 ## 0.4 — Native Implementations and Resolution
 

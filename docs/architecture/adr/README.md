@@ -14,3 +14,4 @@ Accepted records are not silently rewritten. A later decision supersedes the ear
 - [ADR-0008: Render disabled Sentinel rule bodies before deployment](ADR-0008-disabled-sentinel-rule-rendering.md)
 - [ADR-0009: Govern Sentinel output columns and entity mappings together](ADR-0009-explicit-sentinel-output-contract.md)
 - [ADR-0010: Separate data-source health from detection results](ADR-0010-explicit-data-source-health.md)
+- [ADR-0011: Keep environment exceptions consumer-owned](ADR-0011-consumer-owned-exceptions.md)

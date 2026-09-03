@@ -15,7 +15,7 @@ This project explores how security detections can be managed with the same disci
 - positive, negative, edge, and regression tests;
 - reproducible compilation and packaging;
 - explicit telemetry dependencies;
-- reviewable lifecycle, exceptions, and releases.
+- reviewable lifecycle and releases.
 
 The first working release will focus on a small, complete Sigma detection pack with executable validation and Microsoft Sentinel compilation. Empty vendor directories and unsupported platform claims are deliberately avoided.
 
@@ -27,6 +27,10 @@ The first working release will focus on a small, complete Sigma detection pack w
 - **Engineering stories:** supporting articles on the MeteSec Blog
 
 Forgejo remains the source of truth. GitHub receives only the reviewed public `main` branch through a one-way push mirror and holds no deployment credential or control over MeteSec infrastructure. Public visitors should use GitHub; authoring and review remain internal to Forgejo.
+
+Environment-specific tuning, exclusions and allowlists belong to the consumer's
+own reviewed pipeline. This repository supplies the modular contracts, rules,
+tests and rendering boundary without prescribing customer policy.
 
 ## Documentation
 

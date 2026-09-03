@@ -990,3 +990,21 @@ stale or structurally incompatible telemetry without confusing any of those
 conditions with a clean detection result. The next bounded Detection Operations
 milestone is a versioned exception object with mandatory expiry and synthetic
 public examples only.
+
+## 2026-09-03 — Public exception-object milestone deliberately removed
+
+### Decision
+
+- The project remains a modular Detection-as-Code foundation rather than a
+  prescriptive customer-policy framework.
+- Environment-specific tuning, exclusions, allowlists and exceptions stay in
+  each consumer's own reviewed pipeline.
+- Removed the planned exception-object milestone from `0.3` and recorded the
+  boundary in ADR-0011. No exception schema, example or runtime behavior was
+  added.
+
+### Result
+
+The next bounded milestone is a deterministic ATT&CK and data-source coverage
+report generated only from the existing public manifests, Sentinel preview and
+data-source contract.
