@@ -18,10 +18,10 @@ field or multi-statement expression fails closed.
 The contract follows Microsoft's current
 [entity-mapping guidance](https://learn.microsoft.com/azure/sentinel/map-data-fields-to-entities),
 [entity identifier reference](https://learn.microsoft.com/azure/sentinel/entities-reference),
-[SigninLogs schema](https://learn.microsoft.com/azure/azure-monitor/reference/tables/signinlogs)
-and
+[SigninLogs schema](https://learn.microsoft.com/azure/azure-monitor/reference/tables/signinlogs),
 [AuditLogs schema](https://learn.microsoft.com/azure/azure-monitor/reference/tables/auditlogs),
-[DeviceProcessEvents schema](https://learn.microsoft.com/defender-xdr/advanced-hunting-deviceprocessevents-table)
+[DeviceProcessEvents schema](https://learn.microsoft.com/defender-xdr/advanced-hunting-deviceprocessevents-table),
+[DeviceRegistryEvents schema](https://learn.microsoft.com/defender-xdr/advanced-hunting-deviceregistryevents-table)
 and
 [AADUserRiskEvents schema](https://learn.microsoft.com/azure/azure-monitor/reference/tables/aaduserriskevents).
 The rendered request shape follows the stable
@@ -50,7 +50,7 @@ Generated queries are written to `dist/sentinel/<DETECTION-ID>/query.kql`. They 
 
 The separate `targets/sentinel/analytics-rules.json` profile adds explicit
 Scheduled-rule frequency, period, threshold, suppression, event-grouping and
-incident settings to the same nineteen bindings. Validate its JSON Schema and the
+incident settings to the same thirty-nine bindings. Validate its JSON Schema and the
 complete renderer with:
 
 ```powershell
@@ -110,10 +110,10 @@ can be derived deterministically from the reviewed sources. The repository still
 contains no Azure client, authentication flow, target scope, deployment command
 or live-write capability.
 
-The read-only live probes for the nineteen bound detections used only
+The read-only live probes for the thirty-nine bound detections used only
 aggregate counts in an existing user-authorized Microsoft Sentinel workspace.
 They established that the bound `SigninLogs`, `AuditLogs`,
-`DeviceProcessEvents` and `AADUserRiskEvents` fields were queryable and that all
-nineteen generated predicates were accepted. No raw rows, user
+`DeviceProcessEvents`, `DeviceRegistryEvents` and `AADUserRiskEvents` fields were queryable and that all
+thirty-nine generated predicates were accepted. No raw rows, user
 identifiers, tenant identifiers, workspace identifiers or result counts are
 stored here. None of these results proves that a detection is production-ready.

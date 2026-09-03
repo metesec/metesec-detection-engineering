@@ -1,8 +1,8 @@
 # Microsoft Sentinel data-source contract v1
 
 The contract at `targets/sentinel/data-sources.json` defines what the current
-Sentinel detections need from `SigninLogs`, `AuditLogs`, `DeviceProcessEvents`
-and `AADUserRiskEvents`. Its JSON Schema is
+Sentinel detections need from `SigninLogs`, `AuditLogs`, `DeviceProcessEvents`,
+`DeviceRegistryEvents` and `AADUserRiskEvents`. Its JSON Schema is
 `governance/schemas/sentinel-data-source-contract-v1.schema.json`.
 
 This is a telemetry dependency contract, not a connector deployment, live
@@ -74,8 +74,8 @@ invalid. Machine-readable output contains only derived status information.
 
 A consumer can collect the required inputs through its own approved read-only
 Azure process. `getschema | project ColumnName, ColumnType` provides the schema
-shape, and `summarize LatestEvent=max(TimeGenerated)` provides the freshness
-input for an existing table. The repository deliberately does not authenticate,
+shape, and `summarize LatestEvent=max(<event_time_column>)` provides the freshness
+input for an existing table using the column declared by that source. The repository deliberately does not authenticate,
 query a workspace or store an observation.
 
 Environment observations can reveal operational state. Keep them in temporary

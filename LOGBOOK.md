@@ -1886,3 +1886,108 @@ Wave 6 is complete locally: thirty-five of fifty planned Sigma detections now
 exist, thirty-four have deterministic disabled Sentinel output and the single
 unsupported Windows Event dependency remains explicit. Wave 7 is the next
 bounded five-rule milestone toward 40 of 50.
+
+## 2026-09-03 — Sigma expansion Wave 7 reached 40 of 50 locally
+
+### Scope decision and selection gate
+
+- Wave 7 retained the Sigma-only, Sentinel-first version 1 boundary and selected
+  five non-duplicate mechanisms from telemetry already confirmed in the
+  authorized target. Four use `DeviceProcessEvents`; one introduces the first
+  explicit `DeviceRegistryEvents` contract after schema and population checks.
+- Current MITRE ATT&CK technique pages, official Microsoft product or hunting
+  schemas and relevant SigmaHQ precedents were reviewed before implementation.
+  No upstream rule file was copied; the final predicates, manifests, triage
+  guidance and fixtures were authored for this repository's bounded contracts.
+- An RDP-enablement candidate was researched and deferred. The mechanism is
+  valid, but legitimate provisioning and administration make it a weaker
+  portable default than the five selected signals.
+
+### Detection packages and reviewed basis
+
+- Added `MSEC-DET-0036` for ProcDump or a renamed ProcDump binary requesting a
+  selected dump mode against LSASS, KeyIso or SamSs, mapped to `T1003.001`.
+  Microsoft documents the dump switches, and ATT&CK plus SigmaHQ document the
+  credential-access mechanism. Binary name and original filename metadata are
+  both supported without allowing an unrelated lookalike executable.
+- Added `MSEC-DET-0037` for selected command or proxy-execution children spawned
+  by `fodhelper.exe`, mapped to `T1548.002` under Privilege Escalation and
+  Defense Evasion. Other parents and adjacent auto-elevated binaries remain
+  outside the bounded rule.
+- Added `MSEC-DET-0038` for selected command, transfer and discovery utilities
+  spawned by `wsmprovhost.exe`, mapped to current `T1021.006` under Lateral
+  Movement. The rule covers target-side WinRM execution rather than only the
+  caller-side `winrs.exe` process.
+- Added `MSEC-DET-0039` for PowerShell commands that combine a selected network
+  download primitive with IEX or Invoke-Expression, mapped to `T1059.001`.
+  Its authorized baseline was non-zero across several devices, so the rule and
+  manifest explicitly require environment tuning and do not classify the
+  observed activity as malicious.
+- Added `MSEC-DET-0040` for an IFEO `Debugger` value under selected Windows
+  accessibility and logon-helper executable keys, mapped to `T1546.008` under
+  Persistence and Privilege Escalation. MITRE's current strategy explicitly
+  recommends monitoring this registry mechanism.
+- Each package contains one manifest, one Sigma source, three positive and four
+  negative synthetic fixtures. The catalogue now contains forty rules and 280
+  fixture expectations.
+
+### Sentinel contracts and generated coverage
+
+- Added four `DeviceProcessEvents` bindings and one `DeviceRegistryEvents`
+  binding, five reviewed Golden KQL files and five disabled five-minute
+  Scheduled-rule configurations. Thirty-nine of forty detections now have
+  deterministic Sentinel output.
+- Extended the process contract with
+  `ProcessVersionInfoOriginalFileName` for renamed ProcDump identification.
+  Added stable source `MSEC-SDS-0005` for `DeviceRegistryEvents` with exact
+  event-time, registry, initiator and report fields. The registry binding maps
+  only the initiating account name as a supported entity.
+- Regenerated the catalogue and coverage outputs. Coverage now records
+  fifty-two ATT&CK mappings across thirty techniques and eleven tactics, six
+  logical data sources, five Sentinel source contracts and one explicit target
+  gap.
+
+### Read-only live validation
+
+- All five selected predicates completed as bounded read-only aggregate queries
+  in the existing authorized security workspace. The ProcDump, Fodhelper,
+  WinRM-child and IFEO predicates had no match in the current 30-day aggregate
+  baseline. The PowerShell cradle predicate had a small non-zero aggregate
+  baseline across several devices and was therefore retained only with an
+  explicit tuning requirement.
+- The complete generated `MSEC-DET-0040` query, including every projected
+  `DeviceRegistryEvents` field, also executed successfully and returned no row
+  in the current portal time range. This verifies query acceptance and output
+  shape, not production readiness or future performance.
+- No exact result count, raw row, user, device, address, tenant, subscription,
+  workspace, customer value, copied result or screenshot was stored.
+
+### Validation and reproducibility
+
+- Advanced catalogue, compiler, renderer, data-source, coverage, lifecycle,
+  runtime-health and release assertions to the exact Wave 7 totals. The
+  complete aggregate repository check passed 83 unit tests plus every
+  structural, generated-output and Golden gate.
+- All 280 synthetic fixture expectations passed. All thirty-nine compiled KQL
+  queries matched their reviewed Golden snapshots and all thirty-nine disabled
+  Sentinel Scheduled-rule bodies rendered successfully.
+- Two consecutive local `v0.4.0` builds were byte-identical. The candidate is
+  848,689 bytes, contains 478 ZIP members including 477 allowlisted sources,
+  and has SHA-256
+  `102b99efeed3eb12953246dbbe51c1f599cb4278644ca77d8816df511ab70745`.
+
+### Explicitly untouched
+
+- No Sentinel analytics rule was deployed or enabled and no cloud
+  configuration was changed.
+- No environment-specific exception, allowlist, tuning overlay, raw live data,
+  native KQL detection or separate prebuilt Sentinel target artifact was added.
+- No commit was pushed. Forgejo, the GitHub mirror and the immutable published
+  `v0.1.0` release remain unchanged.
+
+### Result
+
+Wave 7 is complete locally: forty of fifty planned Sigma detections now exist,
+thirty-nine have deterministic disabled Sentinel output and the single
+unsupported Windows Event dependency remains explicit. Wave 8 is the next
+bounded five-rule milestone toward 45 of 50.

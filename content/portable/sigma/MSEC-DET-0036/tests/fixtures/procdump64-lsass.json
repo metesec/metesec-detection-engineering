@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"FileName":"procdump64.exe","ProcessVersionInfoOriginalFileName":"procdump.exe","ProcessCommandLine":"procdump64.exe -accepteula -ma lsass.exe C:\\Temp\\lsass.dmp"}}

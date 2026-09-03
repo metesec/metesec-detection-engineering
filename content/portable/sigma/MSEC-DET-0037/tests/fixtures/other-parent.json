@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"InitiatingProcessFileName":"explorer.exe","FileName":"powershell.exe","ProcessCommandLine":"powershell.exe -NoProfile"}}

@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "detection_id": "MSEC-DET-0039",
+  "implementation": "content/portable/sigma/MSEC-DET-0039/rule.yml",
+  "cases": [
+    {"id": "downloadstring-iex", "expectation": "match", "fixture": "fixtures/downloadstring-iex.json", "description": "Synthetic PowerShell command downloads a string and pipes it to IEX."},
+    {"id": "webrequest-iex", "expectation": "match", "fixture": "fixtures/webrequest-iex.json", "description": "Synthetic PowerShell command uses Invoke-WebRequest and IEX."},
+    {"id": "restmethod-invoke-expression-with-context", "expectation": "match", "fixture": "fixtures/restmethod-invoke-expression-with-context.json", "description": "Synthetic PowerShell command combines Invoke-RestMethod with Invoke-Expression and bounded context."},
+    {"id": "download-only", "expectation": "no_match", "fixture": "fixtures/download-only.json", "description": "Synthetic download command does not execute the returned content."},
+    {"id": "execute-only", "expectation": "no_match", "fixture": "fixtures/execute-only.json", "description": "Synthetic IEX command has no selected network download primitive."},
+    {"id": "other-process", "expectation": "no_match", "fixture": "fixtures/other-process.json", "description": "Synthetic other process carries matching text outside PowerShell."},
+    {"id": "encoded-only", "expectation": "no_match", "fixture": "fixtures/encoded-only.json", "description": "Synthetic encoded PowerShell command lacks the selected raw cradle markers."}
+  ]
+}

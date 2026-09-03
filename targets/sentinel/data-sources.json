@@ -55,7 +55,7 @@
       "id": "MSEC-SDS-0003",
       "table": "DeviceProcessEvents",
       "display_name": "Microsoft Defender for Endpoint process events",
-      "consumers": ["MSEC-DET-0006", "MSEC-DET-0007", "MSEC-DET-0011", "MSEC-DET-0012", "MSEC-DET-0013", "MSEC-DET-0016", "MSEC-DET-0017", "MSEC-DET-0018", "MSEC-DET-0020", "MSEC-DET-0023", "MSEC-DET-0024", "MSEC-DET-0025", "MSEC-DET-0027", "MSEC-DET-0028", "MSEC-DET-0029", "MSEC-DET-0030", "MSEC-DET-0031", "MSEC-DET-0032", "MSEC-DET-0033", "MSEC-DET-0034", "MSEC-DET-0035"],
+      "consumers": ["MSEC-DET-0006", "MSEC-DET-0007", "MSEC-DET-0011", "MSEC-DET-0012", "MSEC-DET-0013", "MSEC-DET-0016", "MSEC-DET-0017", "MSEC-DET-0018", "MSEC-DET-0020", "MSEC-DET-0023", "MSEC-DET-0024", "MSEC-DET-0025", "MSEC-DET-0027", "MSEC-DET-0028", "MSEC-DET-0029", "MSEC-DET-0030", "MSEC-DET-0031", "MSEC-DET-0032", "MSEC-DET-0033", "MSEC-DET-0034", "MSEC-DET-0035", "MSEC-DET-0036", "MSEC-DET-0037", "MSEC-DET-0038", "MSEC-DET-0039"],
       "event_time_column": "Timestamp",
       "required_columns": [
         {"name": "TimeGenerated", "type": "datetime"},
@@ -68,6 +68,7 @@
         {"name": "FileName", "type": "string"},
         {"name": "FolderPath", "type": "string"},
         {"name": "InitiatingProcessFileName", "type": "string"},
+        {"name": "ProcessVersionInfoOriginalFileName", "type": "string"},
         {"name": "ProcessCommandLine", "type": "string"},
         {"name": "ReportId", "type": "long"}
       ],
@@ -93,6 +94,33 @@
         {"name": "UserDisplayName", "type": "string"},
         {"name": "UserId", "type": "string"},
         {"name": "UserPrincipalName", "type": "string"}
+      ],
+      "freshness": {
+        "degraded_after": "PT6H",
+        "unavailable_after": "P1D"
+      }
+    },
+    {
+      "id": "MSEC-SDS-0005",
+      "table": "DeviceRegistryEvents",
+      "display_name": "Microsoft Defender for Endpoint registry events",
+      "consumers": ["MSEC-DET-0040"],
+      "event_time_column": "Timestamp",
+      "required_columns": [
+        {"name": "TimeGenerated", "type": "datetime"},
+        {"name": "Timestamp", "type": "datetime"},
+        {"name": "ActionType", "type": "string"},
+        {"name": "DeviceId", "type": "string"},
+        {"name": "DeviceName", "type": "string"},
+        {"name": "RegistryKey", "type": "string"},
+        {"name": "RegistryValueName", "type": "string"},
+        {"name": "RegistryValueData", "type": "string"},
+        {"name": "InitiatingProcessAccountDomain", "type": "string"},
+        {"name": "InitiatingProcessAccountName", "type": "string"},
+        {"name": "InitiatingProcessAccountSid", "type": "string"},
+        {"name": "InitiatingProcessFileName", "type": "string"},
+        {"name": "InitiatingProcessCommandLine", "type": "string"},
+        {"name": "ReportId", "type": "long"}
       ],
       "freshness": {
         "degraded_after": "PT6H",

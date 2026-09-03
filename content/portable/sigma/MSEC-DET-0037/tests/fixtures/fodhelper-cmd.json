@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"InitiatingProcessFileName":"fodhelper.exe","FileName":"cmd.exe","ProcessCommandLine":"cmd.exe /c whoami"}}

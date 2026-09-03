@@ -1,0 +1,51 @@
+title: ProcDump Targets a Sensitive Authentication Process
+id: 11430711-798b-4db8-be95-9b449c73be43
+status: experimental
+description: Detects ProcDump or a renamed ProcDump binary requesting a dump of LSASS, KeyIso, or SamSs.
+references:
+  - https://attack.mitre.org/techniques/T1003/001/
+  - https://learn.microsoft.com/en-us/sysinternals/downloads/procdump
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_sysinternals_procdump_lsass.yml
+  - https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table
+author: MeteSec Detection Engineering
+date: 2026-09-03
+tags:
+  - attack.credential-access
+  - attack.t1003.001
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  image_name:
+    FileName:
+      - procdump.exe
+      - procdump64.exe
+      - procdump64a.exe
+  original_name:
+    ProcessVersionInfoOriginalFileName: procdump.exe
+  dump_mode:
+    ProcessCommandLine|contains:
+      - ' -ma '
+      - ' -mm '
+      - ' -mp '
+  sensitive_target:
+    ProcessCommandLine|contains:
+      - lsass
+      - keyiso
+      - samss
+  condition: (image_name or original_name) and dump_mode and sensitive_target
+fields:
+  - TimeGenerated
+  - Timestamp
+  - DeviceId
+  - DeviceName
+  - AccountName
+  - InitiatingProcessFileName
+  - FileName
+  - ProcessVersionInfoOriginalFileName
+  - FolderPath
+  - ProcessCommandLine
+  - ReportId
+falsepositives:
+  - Approved crash diagnostics, forensic acquisition, or incident-response workflows using ProcDump against an authentication process.
+level: high

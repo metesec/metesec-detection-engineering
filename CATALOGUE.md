@@ -6,10 +6,10 @@ This index is generated deterministically from the versioned detection manifests
 
 ## Summary
 
-- Detection packages: **35**
-- Implementations: **35**
-- Synthetic evidence: **105 positive / 140 negative cases**
-- Sentinel preview bindings: **34**
+- Detection packages: **40**
+- Implementations: **40**
+- Synthetic evidence: **120 positive / 160 negative cases**
+- Sentinel preview bindings: **39**
 
 ## Coverage
 
@@ -50,6 +50,11 @@ This index is generated deterministically from the versioned detection manifests
 | [`MSEC-DET-0033`](catalog/detections/MSEC-DET-0033/manifest.json) | Windows Firewall profile disabled | experimental | high | `T1686.003` | Microsoft Defender for Endpoint process events | 3 positive / 4 negative | `DeviceProcessEvents` |
 | [`MSEC-DET-0034`](catalog/detections/MSEC-DET-0034/manifest.json) | Remote Windows service creation through SC | experimental | high | `T1543.003`, `T1543.003` | Microsoft Defender for Endpoint process events | 3 positive / 4 negative | `DeviceProcessEvents` |
 | [`MSEC-DET-0035`](catalog/detections/MSEC-DET-0035/manifest.json) | Certutil decodes Base64 or hexadecimal content | experimental | medium | `T1140` | Microsoft Defender for Endpoint process events | 3 positive / 4 negative | `DeviceProcessEvents` |
+| [`MSEC-DET-0036`](catalog/detections/MSEC-DET-0036/manifest.json) | ProcDump targets a sensitive authentication process | experimental | high | `T1003.001` | Microsoft Defender for Endpoint process events | 3 positive / 4 negative | `DeviceProcessEvents` |
+| [`MSEC-DET-0037`](catalog/detections/MSEC-DET-0037/manifest.json) | Fodhelper spawns a suspicious child process | experimental | high | `T1548.002`, `T1548.002` | Microsoft Defender for Endpoint process events | 3 positive / 4 negative | `DeviceProcessEvents` |
+| [`MSEC-DET-0038`](catalog/detections/MSEC-DET-0038/manifest.json) | WinRM host spawns a suspicious child process | experimental | high | `T1021.006` | Microsoft Defender for Endpoint process events | 3 positive / 4 negative | `DeviceProcessEvents` |
+| [`MSEC-DET-0039`](catalog/detections/MSEC-DET-0039/manifest.json) | PowerShell download-and-execute cradle | experimental | high | `T1059.001` | Microsoft Defender for Endpoint process events | 3 positive / 4 negative | `DeviceProcessEvents` |
+| [`MSEC-DET-0040`](catalog/detections/MSEC-DET-0040/manifest.json) | Accessibility feature IFEO debugger hijack | experimental | high | `T1546.008`, `T1546.008` | Microsoft Defender for Endpoint registry events | 3 positive / 4 negative | `DeviceRegistryEvents` |
 
 ## Records
 
@@ -576,3 +581,78 @@ Detects certutil.exe using decode or decodehex to transform encoded file content
 - Sentinel preview:
   - Table `DeviceProcessEvents`; [reviewed Golden query](tests/golden/sentinel/MSEC-DET-0035.kql)
 - Source: [catalog/detections/MSEC-DET-0035/manifest.json](catalog/detections/MSEC-DET-0035/manifest.json)
+
+### MSEC-DET-0036 — ProcDump targets a sensitive authentication process
+
+Detects ProcDump or a renamed ProcDump binary requesting a dump of LSASS, KeyIso or SamSs.
+
+- Lifecycle: `experimental`; created 2026-09-03; review every 90 days
+- Severity / confidence: `high` / `high`
+- ATT&CK: `T1003.001` (Credential Access)
+- Data sources: Microsoft Defender for Endpoint process events (Endpoint process creation)
+- Synthetic evidence: 3 positive and 4 negative cases
+- Implementations:
+  - [content/portable/sigma/MSEC-DET-0036/rule.yml](content/portable/sigma/MSEC-DET-0036/rule.yml) — `active`; targets `sentinel`
+- Sentinel preview:
+  - Table `DeviceProcessEvents`; [reviewed Golden query](tests/golden/sentinel/MSEC-DET-0036.kql)
+- Source: [catalog/detections/MSEC-DET-0036/manifest.json](catalog/detections/MSEC-DET-0036/manifest.json)
+
+### MSEC-DET-0037 — Fodhelper spawns a suspicious child process
+
+Detects fodhelper.exe spawning a command interpreter or administrative utility associated with UAC bypass activity.
+
+- Lifecycle: `experimental`; created 2026-09-03; review every 90 days
+- Severity / confidence: `high` / `medium`
+- ATT&CK: `T1548.002` (Privilege Escalation), `T1548.002` (Defense Evasion)
+- Data sources: Microsoft Defender for Endpoint process events (Endpoint process creation)
+- Synthetic evidence: 3 positive and 4 negative cases
+- Implementations:
+  - [content/portable/sigma/MSEC-DET-0037/rule.yml](content/portable/sigma/MSEC-DET-0037/rule.yml) — `active`; targets `sentinel`
+- Sentinel preview:
+  - Table `DeviceProcessEvents`; [reviewed Golden query](tests/golden/sentinel/MSEC-DET-0037.kql)
+- Source: [catalog/detections/MSEC-DET-0037/manifest.json](catalog/detections/MSEC-DET-0037/manifest.json)
+
+### MSEC-DET-0038 — WinRM host spawns a suspicious child process
+
+Detects wsmprovhost.exe spawning a command interpreter or administrative utility associated with remote execution.
+
+- Lifecycle: `experimental`; created 2026-09-03; review every 90 days
+- Severity / confidence: `high` / `medium`
+- ATT&CK: `T1021.006` (Lateral Movement)
+- Data sources: Microsoft Defender for Endpoint process events (Endpoint process creation)
+- Synthetic evidence: 3 positive and 4 negative cases
+- Implementations:
+  - [content/portable/sigma/MSEC-DET-0038/rule.yml](content/portable/sigma/MSEC-DET-0038/rule.yml) — `active`; targets `sentinel`
+- Sentinel preview:
+  - Table `DeviceProcessEvents`; [reviewed Golden query](tests/golden/sentinel/MSEC-DET-0038.kql)
+- Source: [catalog/detections/MSEC-DET-0038/manifest.json](catalog/detections/MSEC-DET-0038/manifest.json)
+
+### MSEC-DET-0039 — PowerShell download-and-execute cradle
+
+Detects PowerShell commands that combine a selected network download primitive with immediate expression execution.
+
+- Lifecycle: `experimental`; created 2026-09-03; review every 90 days
+- Severity / confidence: `high` / `medium`
+- ATT&CK: `T1059.001` (Execution)
+- Data sources: Microsoft Defender for Endpoint process events (Endpoint process creation)
+- Synthetic evidence: 3 positive and 4 negative cases
+- Implementations:
+  - [content/portable/sigma/MSEC-DET-0039/rule.yml](content/portable/sigma/MSEC-DET-0039/rule.yml) — `active`; targets `sentinel`
+- Sentinel preview:
+  - Table `DeviceProcessEvents`; [reviewed Golden query](tests/golden/sentinel/MSEC-DET-0039.kql)
+- Source: [catalog/detections/MSEC-DET-0039/manifest.json](catalog/detections/MSEC-DET-0039/manifest.json)
+
+### MSEC-DET-0040 — Accessibility feature IFEO debugger hijack
+
+Detects a Debugger value set under an Image File Execution Options key for a Windows accessibility or logon helper executable.
+
+- Lifecycle: `experimental`; created 2026-09-03; review every 90 days
+- Severity / confidence: `high` / `high`
+- ATT&CK: `T1546.008` (Persistence), `T1546.008` (Privilege Escalation)
+- Data sources: Microsoft Defender for Endpoint registry events (Endpoint registry modification)
+- Synthetic evidence: 3 positive and 4 negative cases
+- Implementations:
+  - [content/portable/sigma/MSEC-DET-0040/rule.yml](content/portable/sigma/MSEC-DET-0040/rule.yml) — `active`; targets `sentinel`
+- Sentinel preview:
+  - Table `DeviceRegistryEvents`; [reviewed Golden query](tests/golden/sentinel/MSEC-DET-0040.kql)
+- Source: [catalog/detections/MSEC-DET-0040/manifest.json](catalog/detections/MSEC-DET-0040/manifest.json)

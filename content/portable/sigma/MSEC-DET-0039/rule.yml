@@ -1,0 +1,53 @@
+title: PowerShell Download-and-Execute Cradle
+id: afcf6b04-8b72-4635-ac81-15361578f7e6
+status: experimental
+description: Detects PowerShell commands that combine a selected network download primitive with immediate expression execution.
+references:
+  - https://attack.mitre.org/techniques/T1059/001/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_powershell_download_cradle.yml
+  - https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table
+author: MeteSec Detection Engineering
+date: 2026-09-03
+tags:
+  - attack.execution
+  - attack.t1059.001
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection_image:
+    FileName:
+      - powershell.exe
+      - pwsh.exe
+  selection_download:
+    ProcessCommandLine|contains:
+      - '.DownloadString('
+      - '.DownloadFile('
+      - 'Invoke-WebRequest '
+      - 'iwr '
+      - 'Invoke-RestMethod '
+      - 'irm '
+  selection_execute:
+    ProcessCommandLine|contains:
+      - ';iex $'
+      - '| IEX'
+      - '|IEX '
+      - 'iex '
+      - 'IEX('
+      - 'Invoke-Expression'
+  condition: selection_image and selection_download and selection_execute
+fields:
+  - TimeGenerated
+  - Timestamp
+  - DeviceId
+  - DeviceName
+  - AccountName
+  - InitiatingProcessFileName
+  - FileName
+  - FolderPath
+  - ProcessCommandLine
+  - ReportId
+falsepositives:
+  - Approved deployment, bootstrap, support, or administration scripts that intentionally download and execute PowerShell content.
+  - The authorized thirty-day aggregate baseline was non-zero across several devices and requires environment-specific owner review before enablement.
+level: high

@@ -47,7 +47,7 @@ class DetectionLifecycleTests(unittest.TestCase):
 
     def test_current_manifests_have_exact_review_due_dates(self) -> None:
         assessments = assess_lifecycle(self.records, date(2026, 9, 3))
-        self.assertEqual(len(assessments), 35)
+        self.assertEqual(len(assessments), 40)
         self.assertTrue(all(item.review_state == "current" for item in assessments))
         self.assertTrue(
             all(item.review_due == date(2026, 12, 2) for item in assessments)
@@ -101,9 +101,9 @@ class DetectionLifecycleTests(unittest.TestCase):
 
     def test_cli_json_and_exit_codes_are_deterministic_with_as_of(self) -> None:
         scenarios = [
-            ("2026-09-03", 0, {"current": 35, "due": 0, "overdue": 0}),
-            ("2026-12-02", 2, {"current": 0, "due": 35, "overdue": 0}),
-            ("2026-12-03", 2, {"current": 0, "due": 0, "overdue": 35}),
+            ("2026-09-03", 0, {"current": 40, "due": 0, "overdue": 0}),
+            ("2026-12-02", 2, {"current": 0, "due": 40, "overdue": 0}),
+            ("2026-12-03", 2, {"current": 0, "due": 0, "overdue": 40}),
         ]
         for as_of, expected_exit, expected_counts in scenarios:
             output = StringIO()

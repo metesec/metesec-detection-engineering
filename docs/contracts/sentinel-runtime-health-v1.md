@@ -1,6 +1,6 @@
 # Microsoft Sentinel runtime health v1
 
-This contract answers one operational question for the nineteen Sentinel-bound
+This contract answers one operational question for the thirty-nine Sentinel-bound
 detections: is the scheduled rule present, enabled and executing on time?
 
 It deliberately treats alert and incident volume as context, not health. A rule

@@ -1,0 +1,47 @@
+title: Accessibility Feature IFEO Debugger Hijack
+id: e2d2e6f8-83ca-49dd-85cf-f8a2fb877074
+status: experimental
+description: Detects a Debugger value set under an Image File Execution Options key for a Windows accessibility or logon helper executable.
+references:
+  - https://attack.mitre.org/techniques/T1546/008/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/registry/registry_set/registry_set_ifeo_accessibility_debugger.yml
+  - https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceregistryevents-table
+author: MeteSec Detection Engineering
+date: 2026-09-03
+tags:
+  - attack.persistence
+  - attack.privilege-escalation
+  - attack.t1546.008
+logsource:
+  product: windows
+  category: registry_set
+detection:
+  selection_value:
+    RegistryValueName: Debugger
+  selection_key:
+    RegistryKey|endswith:
+      - '\Image File Execution Options\sethc.exe'
+      - '\Image File Execution Options\utilman.exe'
+      - '\Image File Execution Options\osk.exe'
+      - '\Image File Execution Options\Magnify.exe'
+      - '\Image File Execution Options\Narrator.exe'
+      - '\Image File Execution Options\DisplaySwitch.exe'
+      - '\Image File Execution Options\atbroker.exe'
+      - '\Image File Execution Options\HelpPane.exe'
+  condition: selection_value and selection_key
+fields:
+  - TimeGenerated
+  - Timestamp
+  - ActionType
+  - DeviceId
+  - DeviceName
+  - RegistryKey
+  - RegistryValueName
+  - RegistryValueData
+  - InitiatingProcessAccountName
+  - InitiatingProcessFileName
+  - InitiatingProcessCommandLine
+  - ReportId
+falsepositives:
+  - Rare approved debugging or accessibility-support workflows that intentionally configure IFEO Debugger values for the selected Windows executables.
+level: high

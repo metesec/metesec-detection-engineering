@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0037",
+  "title": "Fodhelper spawns a suspicious child process",
+  "description": "Detects fodhelper.exe spawning a command interpreter or administrative utility associated with UAC bypass activity.",
+  "hypothesis": {
+    "summary": "An adversary may abuse the auto-elevated Fodhelper binary to launch a high-integrity command interpreter or proxy-execution utility without a normal consent prompt.",
+    "rationale": "MITRE documents Fodhelper abuse under UAC bypass and SigmaHQ maintains a matching parent-child analytic; rare legitimate automation can still create the same process relationship.",
+    "detection_goal": "Identify selected command interpreters and administrative utilities spawned directly by Fodhelper while leaving ordinary Fodhelper children, other parents and adjacent auto-elevated binaries unmatched."
+  },
+  "ownership": {"owner": "MeteSec Detection Engineering", "reviewers": []},
+  "lifecycle": {"status": "experimental", "created": "2026-09-03", "modified": "2026-09-03", "review_interval_days": 90},
+  "severity": "high",
+  "confidence": "medium",
+  "data_sources": [
+    {"name": "Microsoft Defender for Endpoint process events", "category": "Endpoint process creation", "required_fields": ["TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountName", "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"]}
+  ],
+  "attack": [
+    {"technique_id": "T1548.002", "tactic": "Privilege Escalation"},
+    {"technique_id": "T1548.002", "tactic": "Defense Evasion"}
+  ],
+  "triage": {
+    "summary": "Determine why Fodhelper launched the selected child and correlate registry changes, integrity level and subsequent commands before treating it as a UAC bypass.",
+    "steps": [
+      "Review the child command, account, process tree, integrity level and endpoint role.",
+      "Inspect recent per-user registry changes associated with the ms-settings handler and correlate follow-on execution, persistence and network activity.",
+      "Confirm an approved management or testing workflow; contain the endpoint and remove unauthorized handler changes when unexplained."
+    ],
+    "false_positives": ["Approved administrative automation or security testing that intentionally launches a selected child through Fodhelper"]
+  },
+  "validation": {"expected_outcome": "Match selected suspicious children spawned by Fodhelper; do not match ordinary children, another parent, another auto-elevated binary or missing parent context.", "positive_tests": true, "negative_tests": true},
+  "implementations": [{"type": "sigma", "path": "content/portable/sigma/MSEC-DET-0037/rule.yml", "targets": ["sentinel"], "status": "active"}]
+}

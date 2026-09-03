@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"RegistryKey":"HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\notepad.exe","RegistryValueName":"Debugger","RegistryValueData":"C:\\Debuggers\\windbg.exe"}}

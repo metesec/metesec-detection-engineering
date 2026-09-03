@@ -6,13 +6,13 @@
     "sentinel_data_sources": "targets/sentinel/data-sources.json"
   },
   "summary": {
-    "detections": 35,
-    "attack_mappings": 45,
-    "attack_techniques": 27,
-    "attack_tactics": 10,
-    "logical_data_sources": 5,
-    "sentinel_preview_bindings": 34,
-    "sentinel_data_source_contracts": 4,
+    "detections": 40,
+    "attack_mappings": 52,
+    "attack_techniques": 30,
+    "attack_tactics": 11,
+    "logical_data_sources": 6,
+    "sentinel_preview_bindings": 39,
+    "sentinel_data_source_contracts": 5,
     "detections_without_sentinel_binding": 1
   },
   "attack": {
@@ -23,7 +23,8 @@
           "Credential Access"
         ],
         "detections": [
-          "MSEC-DET-0011"
+          "MSEC-DET-0011",
+          "MSEC-DET-0036"
         ]
       },
       {
@@ -42,6 +43,15 @@
         ],
         "detections": [
           "MSEC-DET-0030"
+        ]
+      },
+      {
+        "technique_id": "T1021.006",
+        "tactics": [
+          "Lateral Movement"
+        ],
+        "detections": [
+          "MSEC-DET-0038"
         ]
       },
       {
@@ -79,7 +89,8 @@
           "Execution"
         ],
         "detections": [
-          "MSEC-DET-0007"
+          "MSEC-DET-0007",
+          "MSEC-DET-0039"
         ]
       },
       {
@@ -223,6 +234,26 @@
         ]
       },
       {
+        "technique_id": "T1546.008",
+        "tactics": [
+          "Persistence",
+          "Privilege Escalation"
+        ],
+        "detections": [
+          "MSEC-DET-0040"
+        ]
+      },
+      {
+        "technique_id": "T1548.002",
+        "tactics": [
+          "Defense Evasion",
+          "Privilege Escalation"
+        ],
+        "detections": [
+          "MSEC-DET-0037"
+        ]
+      },
+      {
         "technique_id": "T1556.006",
         "tactics": [
           "Credential Access",
@@ -301,7 +332,8 @@
           "MSEC-DET-0011",
           "MSEC-DET-0022",
           "MSEC-DET-0023",
-          "MSEC-DET-0030"
+          "MSEC-DET-0030",
+          "MSEC-DET-0036"
         ]
       },
       {
@@ -309,12 +341,14 @@
         "techniques": [
           "T1218.005",
           "T1218.010",
+          "T1548.002",
           "T1556.009"
         ],
         "detections": [
           "MSEC-DET-0012",
           "MSEC-DET-0013",
-          "MSEC-DET-0014"
+          "MSEC-DET-0014",
+          "MSEC-DET-0037"
         ]
       },
       {
@@ -350,7 +384,8 @@
           "MSEC-DET-0007",
           "MSEC-DET-0024",
           "MSEC-DET-0025",
-          "MSEC-DET-0028"
+          "MSEC-DET-0028",
+          "MSEC-DET-0039"
         ]
       },
       {
@@ -375,6 +410,15 @@
         ]
       },
       {
+        "tactic": "Lateral Movement",
+        "techniques": [
+          "T1021.006"
+        ],
+        "detections": [
+          "MSEC-DET-0038"
+        ]
+      },
+      {
         "tactic": "Persistence",
         "techniques": [
           "T1053.005",
@@ -384,6 +428,7 @@
           "T1197",
           "T1505.003",
           "T1543.003",
+          "T1546.008",
           "T1556.006"
         ],
         "detections": [
@@ -396,7 +441,8 @@
           "MSEC-DET-0028",
           "MSEC-DET-0029",
           "MSEC-DET-0031",
-          "MSEC-DET-0034"
+          "MSEC-DET-0034",
+          "MSEC-DET-0040"
         ]
       },
       {
@@ -406,7 +452,9 @@
           "T1098.003",
           "T1098.007",
           "T1484.002",
-          "T1543.003"
+          "T1543.003",
+          "T1546.008",
+          "T1548.002"
         ],
         "detections": [
           "MSEC-DET-0005",
@@ -416,7 +464,9 @@
           "MSEC-DET-0021",
           "MSEC-DET-0028",
           "MSEC-DET-0029",
-          "MSEC-DET-0034"
+          "MSEC-DET-0034",
+          "MSEC-DET-0037",
+          "MSEC-DET-0040"
         ]
       },
       {
@@ -460,7 +510,11 @@
           "MSEC-DET-0032",
           "MSEC-DET-0033",
           "MSEC-DET-0034",
-          "MSEC-DET-0035"
+          "MSEC-DET-0035",
+          "MSEC-DET-0036",
+          "MSEC-DET-0037",
+          "MSEC-DET-0038",
+          "MSEC-DET-0039"
         ],
         "required_fields": [
           "AccountName",
@@ -470,6 +524,28 @@
           "FolderPath",
           "InitiatingProcessFileName",
           "ProcessCommandLine",
+          "ProcessVersionInfoOriginalFileName",
+          "ReportId",
+          "TimeGenerated",
+          "Timestamp"
+        ]
+      },
+      {
+        "name": "Microsoft Defender for Endpoint registry events",
+        "category": "Endpoint registry modification",
+        "detections": [
+          "MSEC-DET-0040"
+        ],
+        "required_fields": [
+          "ActionType",
+          "DeviceId",
+          "DeviceName",
+          "InitiatingProcessAccountName",
+          "InitiatingProcessCommandLine",
+          "InitiatingProcessFileName",
+          "RegistryKey",
+          "RegistryValueData",
+          "RegistryValueName",
           "ReportId",
           "TimeGenerated",
           "Timestamp"
@@ -707,7 +783,11 @@
           "MSEC-DET-0032",
           "MSEC-DET-0033",
           "MSEC-DET-0034",
-          "MSEC-DET-0035"
+          "MSEC-DET-0035",
+          "MSEC-DET-0036",
+          "MSEC-DET-0037",
+          "MSEC-DET-0038",
+          "MSEC-DET-0039"
         ],
         "event_time_column": "Timestamp",
         "required_columns": [
@@ -749,6 +829,10 @@
           },
           {
             "name": "InitiatingProcessFileName",
+            "type": "string"
+          },
+          {
+            "name": "ProcessVersionInfoOriginalFileName",
             "type": "string"
           },
           {
@@ -813,6 +897,77 @@
           {
             "name": "UserPrincipalName",
             "type": "string"
+          }
+        ],
+        "freshness": {
+          "degraded_after": "PT6H",
+          "unavailable_after": "P1D"
+        }
+      },
+      {
+        "source_id": "MSEC-SDS-0005",
+        "table": "DeviceRegistryEvents",
+        "display_name": "Microsoft Defender for Endpoint registry events",
+        "detections": [
+          "MSEC-DET-0040"
+        ],
+        "event_time_column": "Timestamp",
+        "required_columns": [
+          {
+            "name": "TimeGenerated",
+            "type": "datetime"
+          },
+          {
+            "name": "Timestamp",
+            "type": "datetime"
+          },
+          {
+            "name": "ActionType",
+            "type": "string"
+          },
+          {
+            "name": "DeviceId",
+            "type": "string"
+          },
+          {
+            "name": "DeviceName",
+            "type": "string"
+          },
+          {
+            "name": "RegistryKey",
+            "type": "string"
+          },
+          {
+            "name": "RegistryValueName",
+            "type": "string"
+          },
+          {
+            "name": "RegistryValueData",
+            "type": "string"
+          },
+          {
+            "name": "InitiatingProcessAccountDomain",
+            "type": "string"
+          },
+          {
+            "name": "InitiatingProcessAccountName",
+            "type": "string"
+          },
+          {
+            "name": "InitiatingProcessAccountSid",
+            "type": "string"
+          },
+          {
+            "name": "InitiatingProcessFileName",
+            "type": "string"
+          },
+          {
+            "name": "InitiatingProcessCommandLine",
+            "type": "string"
+          },
+          {
+            "name": "ReportId",
+            "type": "long"
           }
         ],
         "freshness": {

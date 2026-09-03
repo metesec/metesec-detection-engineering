@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"FileName":"powershell.exe","ProcessCommandLine":"powershell.exe -Command Invoke-WebRequest https://example.invalid/file.txt -OutFile C:\\Temp\\file.txt"}}

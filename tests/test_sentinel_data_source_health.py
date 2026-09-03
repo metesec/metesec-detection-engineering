@@ -71,6 +71,13 @@ class SentinelDataSourceHealthTests(unittest.TestCase):
                     "latest_event_at": "2026-09-03T11:15:00Z",
                     "columns": self._columns("MSEC-SDS-0004"),
                 },
+                {
+                    "id": "MSEC-SDS-0005",
+                    "table": "DeviceRegistryEvents",
+                    "table_exists": True,
+                    "latest_event_at": "2026-09-03T11:50:00Z",
+                    "columns": self._columns("MSEC-SDS-0005"),
+                },
             ],
         }
 
@@ -130,6 +137,10 @@ class SentinelDataSourceHealthTests(unittest.TestCase):
                         "MSEC-DET-0033",
                         "MSEC-DET-0034",
                         "MSEC-DET-0035",
+                        "MSEC-DET-0036",
+                        "MSEC-DET-0037",
+                        "MSEC-DET-0038",
+                        "MSEC-DET-0039",
                     ),
                 ),
                 (
@@ -137,12 +148,17 @@ class SentinelDataSourceHealthTests(unittest.TestCase):
                     "AADUserRiskEvents",
                     ("MSEC-DET-0010",),
                 ),
+                (
+                    "MSEC-SDS-0005",
+                    "DeviceRegistryEvents",
+                    ("MSEC-DET-0040",),
+                ),
             ],
         )
 
     def test_complete_fresh_observation_is_ready(self) -> None:
         assessments = self._assess(self._observation())
-        self.assertEqual([item.status for item in assessments], ["ready"] * 4)
+        self.assertEqual([item.status for item in assessments], ["ready"] * 5)
         self.assertTrue(
             all(item.reasons == ("contract_satisfied",) for item in assessments)
         )
@@ -214,14 +230,14 @@ class SentinelDataSourceHealthTests(unittest.TestCase):
 
     def test_cli_exit_codes_distinguish_ready_from_unknown(self) -> None:
         observations = [
-            (self._observation(), 0, ["ready"] * 4),
+            (self._observation(), 0, ["ready"] * 5),
             (
                 {
                     **self._observation(),
                     "sources": self._observation()["sources"][:1],
                 },
                 2,
-                ["ready", "unknown", "unknown", "unknown"],
+                ["ready", "unknown", "unknown", "unknown", "unknown"],
             ),
         ]
         with TemporaryDirectory() as directory:

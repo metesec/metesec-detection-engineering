@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"InitiatingProcessFileName":"wsmprovhost.exe","FileName":"conhost.exe","ProcessCommandLine":"conhost.exe 0xffffffff -ForceV1"}}

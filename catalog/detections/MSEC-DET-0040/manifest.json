@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0040",
+  "title": "Accessibility feature IFEO debugger hijack",
+  "description": "Detects a Debugger value set under an Image File Execution Options key for a Windows accessibility or logon helper executable.",
+  "hypothesis": {
+    "summary": "An adversary may configure an Image File Execution Options debugger for a Windows accessibility executable to obtain persistence or privileged execution from the logon screen.",
+    "rationale": "MITRE documents accessibility-feature backdoors and explicitly recommends monitoring IFEO debugger modifications, while SigmaHQ maintains a critical registry analytic for the same mechanism; legitimate debugging of these binaries is uncommon.",
+    "detection_goal": "Identify Debugger values written to bounded IFEO keys for selected accessibility or logon helper executables while leaving unrelated IFEO targets, other value names and non-IFEO registry paths unmatched."
+  },
+  "ownership": {"owner": "MeteSec Detection Engineering", "reviewers": []},
+  "lifecycle": {"status": "experimental", "created": "2026-09-03", "modified": "2026-09-03", "review_interval_days": 90},
+  "severity": "high",
+  "confidence": "high",
+  "data_sources": [
+    {"name": "Microsoft Defender for Endpoint registry events", "category": "Endpoint registry modification", "required_fields": ["TimeGenerated", "Timestamp", "ActionType", "DeviceId", "DeviceName", "RegistryKey", "RegistryValueName", "RegistryValueData", "InitiatingProcessAccountName", "InitiatingProcessFileName", "InitiatingProcessCommandLine", "ReportId"]}
+  ],
+  "attack": [
+    {"technique_id": "T1546.008", "tactic": "Persistence"},
+    {"technique_id": "T1546.008", "tactic": "Privilege Escalation"}
+  ],
+  "triage": {
+    "summary": "Inspect the debugger payload, modifying process and endpoint context immediately; this mechanism is high-confidence but still requires confirmation before containment.",
+    "steps": [
+      "Review the complete registry key, debugger value, initiating process, command line, account and endpoint role.",
+      "Inspect the configured debugger binary, signer, creation source and executions from the logon screen or accessibility shortcut.",
+      "Confirm a documented debugging or accessibility-support change; remove unauthorized values, isolate the endpoint and investigate privileged follow-on activity."
+    ],
+    "false_positives": ["Rare approved debugging or accessibility-support workflows that intentionally configure IFEO Debugger values for the selected Windows executables"]
+  },
+  "validation": {"expected_outcome": "Match Debugger values set under selected accessibility IFEO keys; do not match unrelated executables, other value names, other paths or incomplete events.", "positive_tests": true, "negative_tests": true},
+  "implementations": [{"type": "sigma", "path": "content/portable/sigma/MSEC-DET-0040/rule.yml", "targets": ["sentinel"], "status": "active"}]
+}

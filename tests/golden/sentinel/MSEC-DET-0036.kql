@@ -1,0 +1,3 @@
+DeviceProcessEvents
+| where ((FileName in~ ("procdump.exe", "procdump64.exe", "procdump64a.exe")) or ProcessVersionInfoOriginalFileName =~ "procdump.exe") and (ProcessCommandLine contains " -ma " or ProcessCommandLine contains " -mm " or ProcessCommandLine contains " -mp ") and (ProcessCommandLine contains "lsass" or ProcessCommandLine contains "keyiso" or ProcessCommandLine contains "samss")
+| project TimeGenerated, Timestamp, DeviceId, DeviceName, AccountDomain, AccountName, AccountSid, InitiatingProcessFileName, FileName, ProcessVersionInfoOriginalFileName, FolderPath, ProcessCommandLine, ReportId

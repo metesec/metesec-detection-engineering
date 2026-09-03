@@ -86,7 +86,7 @@ table name alone is not sufficient evidence.
 
 ## Current repository boundary
 
-`SigninLogs`, `AuditLogs`, `DeviceProcessEvents` and `AADUserRiskEvents` have
-explicit contracts and nineteen reviewed Sentinel preview consumers. The
+`SigninLogs`, `AuditLogs`, `DeviceProcessEvents`, `DeviceRegistryEvents` and
+`AADUserRiskEvents` have explicit contracts and thirty-nine reviewed Sentinel preview consumers. The
 Windows service-installation detection remains portable but intentionally
 unbound because the available target has no suitable Windows event telemetry.

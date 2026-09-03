@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "detection_id": "MSEC-DET-0037",
+  "implementation": "content/portable/sigma/MSEC-DET-0037/rule.yml",
+  "cases": [
+    {"id": "fodhelper-cmd", "expectation": "match", "fixture": "fixtures/fodhelper-cmd.json", "description": "Synthetic Fodhelper parent launches cmd.exe."},
+    {"id": "fodhelper-powershell-uppercase", "expectation": "match", "fixture": "fixtures/fodhelper-powershell-uppercase.json", "description": "Synthetic mixed-case Fodhelper parent launches PowerShell."},
+    {"id": "fodhelper-mshta-with-context", "expectation": "match", "fixture": "fixtures/fodhelper-mshta-with-context.json", "description": "Synthetic Fodhelper parent launches Mshta with bounded endpoint context."},
+    {"id": "ordinary-child", "expectation": "no_match", "fixture": "fixtures/ordinary-child.json", "description": "Synthetic Fodhelper parent launches an unselected child."},
+    {"id": "other-parent", "expectation": "no_match", "fixture": "fixtures/other-parent.json", "description": "Synthetic selected child has an ordinary parent."},
+    {"id": "computerdefaults-parent", "expectation": "no_match", "fixture": "fixtures/computerdefaults-parent.json", "description": "Synthetic adjacent auto-elevated binary remains outside this bounded rule."},
+    {"id": "missing-parent", "expectation": "no_match", "fixture": "fixtures/missing-parent.json", "description": "Synthetic selected child lacks parent context."}
+  ]
+}

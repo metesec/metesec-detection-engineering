@@ -56,6 +56,11 @@ EXPECTED_IDS = [
     "MSEC-DET-0033",
     "MSEC-DET-0034",
     "MSEC-DET-0035",
+    "MSEC-DET-0036",
+    "MSEC-DET-0037",
+    "MSEC-DET-0038",
+    "MSEC-DET-0039",
+    "MSEC-DET-0040",
 ]
 EXPECTED_RULE_IDS = {
     "MSEC-DET-0002": "249adb3e-5bd1-5348-82ba-00a0ade97c7d",
@@ -92,6 +97,11 @@ EXPECTED_RULE_IDS = {
     "MSEC-DET-0033": "40b747a2-7eca-5be7-9db9-a9ad96a92f6b",
     "MSEC-DET-0034": "e97b2c50-09f7-56cd-a4c7-7b592653fdae",
     "MSEC-DET-0035": "bf9bf449-c952-50c6-9494-89bc93024ceb",
+    "MSEC-DET-0036": "e8931616-a64c-565e-95a2-2cfbc8f1c391",
+    "MSEC-DET-0037": "f3237e25-8d75-597e-852e-628cb4fc0b07",
+    "MSEC-DET-0038": "181d258f-2f8a-5795-99d5-4e68f3dba78c",
+    "MSEC-DET-0039": "d8c0de61-0a7d-598e-8f0a-95286f82a602",
+    "MSEC-DET-0040": "e7453579-b5f7-5572-85b4-e2b40a3b9448",
 }
 SIGNIN_ENTITY_MAPPINGS = [
     {
@@ -183,7 +193,7 @@ class SentinelRuleRendererTests(unittest.TestCase):
     def setUpClass(cls) -> None:
         cls.rendered = render_profile(REPO_ROOT, PROFILE)
 
-    def test_current_profile_renders_thirty_four_disabled_scheduled_rules(self) -> None:
+    def test_current_profile_renders_thirty_nine_disabled_scheduled_rules(self) -> None:
         self.assertEqual(
             [item.detection_id for item in self.rendered],
             EXPECTED_IDS,
@@ -255,6 +265,11 @@ class SentinelRuleRendererTests(unittest.TestCase):
                 ["T1543"],
             ),
             "MSEC-DET-0035": ("Medium", [], ["T1140"]),
+            "MSEC-DET-0036": ("High", ["CredentialAccess"], ["T1003"]),
+            "MSEC-DET-0037": ("High", ["PrivilegeEscalation", "DefenseEvasion"], ["T1548"]),
+            "MSEC-DET-0038": ("High", ["LateralMovement"], ["T1021"]),
+            "MSEC-DET-0039": ("High", ["Execution"], ["T1059"]),
+            "MSEC-DET-0040": ("High", ["Persistence", "PrivilegeEscalation"], ["T1546"]),
         }
         for item in self.rendered:
             properties = item.request_body["properties"]
@@ -315,6 +330,18 @@ class SentinelRuleRendererTests(unittest.TestCase):
                 "MSEC-DET-0033": DEVICE_ENTITY_MAPPINGS,
                 "MSEC-DET-0034": DEVICE_ENTITY_MAPPINGS,
                 "MSEC-DET-0035": DEVICE_ENTITY_MAPPINGS,
+                "MSEC-DET-0036": DEVICE_ENTITY_MAPPINGS,
+                "MSEC-DET-0037": DEVICE_ENTITY_MAPPINGS,
+                "MSEC-DET-0038": DEVICE_ENTITY_MAPPINGS,
+                "MSEC-DET-0039": DEVICE_ENTITY_MAPPINGS,
+                "MSEC-DET-0040": [
+                    {
+                        "entityType": "Account",
+                        "fieldMappings": [
+                            {"identifier": "Name", "columnName": "InitiatingProcessAccountName"},
+                        ],
+                    },
+                ],
             }[item.detection_id]
             properties = item.request_body["properties"]
             self.assertEqual(properties["entityMappings"], expected)

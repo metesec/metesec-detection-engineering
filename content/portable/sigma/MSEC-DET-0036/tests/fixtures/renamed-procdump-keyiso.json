@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"FileName":"diagnostic.exe","ProcessVersionInfoOriginalFileName":"procdump.exe","ProcessCommandLine":"diagnostic.exe -mm keyiso.exe C:\\ProgramData\\keyiso.dmp"}}

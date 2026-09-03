@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"RegistryKey":"HKEY_LOCAL_MACHINE\\SOFTWARE\\MICROSOFT\\WINDOWS NT\\CURRENTVERSION\\IMAGE FILE EXECUTION OPTIONS\\UTILMAN.EXE","RegistryValueName":"DEBUGGER","RegistryValueData":"C:\\Windows\\System32\\cmd.exe"}}
