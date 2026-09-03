@@ -37,7 +37,7 @@ The architectural rule is: one logical detection has one stable identity but may
 - Mirror direction: Forgejo `main` to GitHub `main` only; sync on Forgejo commits
 - Mirror authentication: repository-scoped SSH deploy key stored by Forgejo; GitHub Actions, Issues, and Wiki are disabled
 - MeteSec Projects page: implemented and public at `https://metesec.com/projects/detection-engineering/`
-- Current phase: `0.1 — Functional Foundation`
+- Current phase: `0.1 — Functional Foundation` complete; `0.2 — Microsoft Sentinel Target` is next
 - Logical manifest contract: version 1 implemented as JSON Schema Draft 2020-12
 - Contract examples: one valid draft and one deliberately invalid stable-state example
 - Structural validation: executable with pinned Ajv `8.17.1`; the valid example is accepted and the invalid example is rejected
@@ -48,7 +48,10 @@ The architectural rule is: one logical detection has one stable identity but may
 - Catalogue contract and validation: JSON Schema version 1, three generator tests, and a stale-output gate are included in the aggregate repository check; the current output reports five implementations, fifteen positive cases, twenty negative cases, and four Sentinel preview bindings
 - Forgejo validation definition: `.forgejo/workflows/validate.yml` runs on trusted pushes and manual dispatch using the repository-specific `metesec-detection-validate` label; it requests read-only contents, removes persisted checkout credentials, references no secrets, pins the sole remote action by commit, verifies exact Node.js `24.19.0` and Python `3.12.13` runner versions, installs pnpm `11.19.0` and exact JavaScript/Sigma dependencies in disposable job paths, then runs the aggregate repository check
 - Forgejo workflow contract: four local unit tests verify the trusted trigger set, repository-specific runner selection, permissions, absence of secret and `pull_request_target` use, immutable action references, exact tool versions, disposable installation paths, frozen installation, and the final check command
-- Forgejo runtime status: operational on dedicated repository-scoped Runner `metesec-detection-validator`; branch run `#1` and canonical main run `#4` passed, isolated run `#2` rejected a deliberately invalid schema version with the exact file and schema error, and cleanup run `#3` passed
+- Forgejo runtime status: operational on dedicated repository-scoped Runner `metesec-detection-validator`; original proof runs `#1` through `#6` remain recorded, release branch run `#7`, protected-merge main run `#8` and annotated-tag run `#9` all passed
+- Branch protection: exact rule `main` disables direct pushes, applies to administrators, blocks rejected reviews and outdated branches, requires zero approvals in the current single-owner phase, and requires exact successful context `Repository validation / Contracts, detections, catalogue, and Sentinel preview (push)`
+- First public release: Forgejo tag and release `v0.1.0` target protected main commit `f33f602a2fb6ecbc98475c6de567aa7d9b810ebe`; the release exposes only `metesec-detection-pack-v0.1.0.zip` and `SHA256SUMS`, hides Forgejo's unchecksummed automatic source archives, and the public ZIP is 133,113 bytes with SHA-256 `547f8a66d64d7fac7dc33670a3c3397c77a2a46b737d619a8c498d5abfb2dfc6`
+- Release contract: the deterministic uncompressed ZIP has 72 members under one versioned root, including an internal manifest with path, normalized size and SHA-256 for each of 71 allowlisted sources; two independent clean builds and an anonymous post-publication download produced the exact same archive digest
 - Portable implementations: five structurally valid Sigma rules, one per package
 - Synthetic evidence: fifteen positive and twenty negative flat event fixtures, all explicitly marked synthetic and all passing locally
 - Package contract tests: eight passing cases cover the valid draft, identity mismatch, missing implementation, implementation traversal, missing evidence index, valid linked evidence, fixture traversal, and invalid event-fixture structure
@@ -156,4 +159,4 @@ After every completed milestone:
 
 ## Immediate next milestone
 
-Review a branch-protection policy that requires the proven validation result for trusted changes, then build the first reproducible checksummed release artifact. Public pull-request execution must remain disabled until the runner gains hard per-job isolation.
+Build the first generic Microsoft Sentinel analytics-rule renderer from the existing explicit preview bindings, without deployment or live-write capability. Keep public pull-request execution disabled until the runner gains hard per-job isolation.
