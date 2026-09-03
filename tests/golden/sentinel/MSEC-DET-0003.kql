@@ -1,2 +1,8 @@
 SigninLogs
 | where ResultType =~ "0" and RiskLevelDuringSignIn =~ "high"
+| extend AccountName = tostring(split(UserPrincipalName, "@")[0])
+| extend AccountUPNSuffix = tostring(split(UserPrincipalName, "@")[1])
+| extend SourceIPAddress = tostring(IPAddress)
+| extend ApplicationId = tostring(AppId)
+| extend ApplicationName = tostring(AppDisplayName)
+| project TimeGenerated, UserPrincipalName, AccountName, AccountUPNSuffix, UserId, SourceIPAddress, ApplicationId, ApplicationName, RiskLevelDuringSignIn, RiskEventTypes_V2, RiskDetail, RiskState, AuthenticationRequirement, ConditionalAccessStatus, CorrelationId

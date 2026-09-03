@@ -33,6 +33,61 @@ EXPECTED_RULE_IDS = {
     "MSEC-DET-0004": "014e057f-ad92-56c5-801f-0e3f00689d90",
     "MSEC-DET-0005": "395d6ea0-0706-511c-878b-e430c44f8c55",
 }
+SIGNIN_ENTITY_MAPPINGS = [
+    {
+        "entityType": "Account",
+        "fieldMappings": [
+            {"identifier": "Name", "columnName": "AccountName"},
+            {"identifier": "UPNSuffix", "columnName": "AccountUPNSuffix"},
+            {"identifier": "AadUserId", "columnName": "UserId"},
+        ],
+    },
+    {
+        "entityType": "IP",
+        "fieldMappings": [
+            {"identifier": "Address", "columnName": "SourceIPAddress"},
+        ],
+    },
+    {
+        "entityType": "CloudApplication",
+        "fieldMappings": [
+            {"identifier": "AppId", "columnName": "ApplicationId"},
+            {"identifier": "Name", "columnName": "ApplicationName"},
+        ],
+    },
+]
+AUDIT_ENTITY_MAPPINGS = [
+    {
+        "entityType": "Account",
+        "fieldMappings": [
+            {"identifier": "Name", "columnName": "InitiatingAccountName"},
+            {
+                "identifier": "UPNSuffix",
+                "columnName": "InitiatingAccountUPNSuffix",
+            },
+            {"identifier": "AadUserId", "columnName": "InitiatingUserId"},
+        ],
+    },
+    {
+        "entityType": "IP",
+        "fieldMappings": [
+            {"identifier": "Address", "columnName": "InitiatingIPAddress"},
+        ],
+    },
+    {
+        "entityType": "CloudApplication",
+        "fieldMappings": [
+            {"identifier": "AppId", "columnName": "InitiatingApplicationId"},
+            {"identifier": "Name", "columnName": "InitiatingApplicationName"},
+        ],
+    },
+    {
+        "entityType": "CloudApplication",
+        "fieldMappings": [
+            {"identifier": "Name", "columnName": "TargetServicePrincipalName"},
+        ],
+    },
+]
 
 
 class SentinelRuleRendererTests(unittest.TestCase):
@@ -92,6 +147,21 @@ class SentinelRuleRendererTests(unittest.TestCase):
             ).read_text(encoding="utf-8").replace("\r\n", "\n")
             self.assertEqual(item.query, golden)
             self.assertEqual(item.request_body["properties"]["query"], golden)
+
+    def test_output_columns_drive_exact_entity_mappings(self) -> None:
+        for item in self.rendered:
+            expected = (
+                SIGNIN_ENTITY_MAPPINGS
+                if item.detection_id in {"MSEC-DET-0002", "MSEC-DET-0003"}
+                else AUDIT_ENTITY_MAPPINGS
+            )
+            properties = item.request_body["properties"]
+            self.assertEqual(properties["entityMappings"], expected)
+            self.assertEqual(item.render_manifest["source"]["entity_mappings"], expected)
+            output_columns = set(item.render_manifest["source"]["output_columns"])
+            for mapping in expected:
+                for field in mapping["fieldMappings"]:
+                    self.assertIn(field["columnName"], output_columns)
 
     def test_renderer_rejects_query_that_differs_from_golden(self) -> None:
         source_profile = REPO_ROOT / "targets" / "sentinel" / "preview.json"

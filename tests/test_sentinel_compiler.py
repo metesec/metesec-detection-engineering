@@ -42,7 +42,7 @@ class SentinelCompilerTests(unittest.TestCase):
             profile.write_text(
                 json.dumps(
                     {
-                        "schema_version": 1,
+                        "schema_version": 2,
                         "target": "microsoft-sentinel",
                         "backend": "kusto",
                         "pipeline": "azure_monitor",
@@ -52,6 +52,11 @@ class SentinelCompilerTests(unittest.TestCase):
                                 "implementation": "../outside.yml",
                                 "query_table": "SigninLogs",
                                 "golden": "golden.kql",
+                                "output": {
+                                    "extend": [],
+                                    "columns": ["TimeGenerated"],
+                                    "entity_mappings": [],
+                                },
                             }
                         ],
                     }
@@ -71,7 +76,7 @@ class SentinelCompilerTests(unittest.TestCase):
             profile.write_text(
                 json.dumps(
                     {
-                        "schema_version": 1,
+                        "schema_version": 2,
                         "target": "microsoft-sentinel",
                         "backend": "kusto",
                         "pipeline": "azure_monitor",
@@ -81,6 +86,11 @@ class SentinelCompilerTests(unittest.TestCase):
                                 "implementation": "rule.yml",
                                 "query_table": "SigninLogs | take 1",
                                 "golden": "golden.kql",
+                                "output": {
+                                    "extend": [],
+                                    "columns": ["TimeGenerated"],
+                                    "entity_mappings": [],
+                                },
                             }
                         ],
                     }
@@ -90,6 +100,36 @@ class SentinelCompilerTests(unittest.TestCase):
 
             with self.assertRaisesRegex(SentinelCompilationError, "query_table"):
                 load_target_profile(root, profile)
+
+    def test_profile_rejects_entity_mapping_outside_output_contract(self) -> None:
+        profile = json.loads(PROFILE.read_text(encoding="utf-8"))
+        profile["detections"][0]["output"]["entity_mappings"][0][
+            "field_mappings"
+        ][0]["column"] = "UndeclaredColumn"
+
+        with TemporaryDirectory() as directory:
+            path = Path(directory) / "preview.json"
+            path.write_text(json.dumps(profile), encoding="utf-8")
+            with self.assertRaisesRegex(
+                SentinelCompilationError,
+                "not a declared output column",
+            ):
+                load_target_profile(REPO_ROOT, path)
+
+    def test_profile_rejects_unbounded_output_expression(self) -> None:
+        profile = json.loads(PROFILE.read_text(encoding="utf-8"))
+        profile["detections"][0]["output"]["extend"][0][
+            "expression"
+        ] = "tostring(UserPrincipalName) | take 1"
+
+        with TemporaryDirectory() as directory:
+            path = Path(directory) / "preview.json"
+            path.write_text(json.dumps(profile), encoding="utf-8")
+            with self.assertRaisesRegex(
+                SentinelCompilationError,
+                "one bounded KQL expression",
+            ):
+                load_target_profile(REPO_ROOT, path)
 
 
 if __name__ == "__main__":

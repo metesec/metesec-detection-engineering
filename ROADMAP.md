@@ -32,21 +32,24 @@ Exit criteria:
 
 ## 0.2 — Microsoft Sentinel Target
 
-Status: **in progress**
+Status: **complete**
 
 - [x] Pin pySigma and Microsoft Sentinel Kusto backend/pipeline dependencies
 - [x] Compile declared Sigma implementations to KQL
 - [x] Add approved Golden snapshots for generated queries
 - [x] Add a generic Sentinel analytics-rule renderer
 - [x] Define a non-production target profile
-- [ ] Package immutable Sentinel release artifacts
+- [x] Define explicit analyst output columns and Sentinel entity mappings
+- [x] Document consumer-owned temporary rendering and deployment handoff
 - [x] Clearly document semantic and platform limitations
 
 Target status: four explicitly bound rules across `SigninLogs` and `AuditLogs`
 compile to reviewed Golden queries, have passed separate read-only live
 query-acceptance probes, and render into deterministic disabled Scheduled-rule
-REST bodies with stable rule IDs and provenance hashes. Immutable Sentinel target
-packaging and deployment remain incomplete.
+REST bodies with stable rule IDs, governed output fields, entity mappings and
+provenance hashes. Consumers render temporary files in their own pipeline;
+MeteSec deliberately publishes no separate prebuilt Sentinel target archive and
+implements no deployment.
 
 ## 0.3 — Detection Operations
 

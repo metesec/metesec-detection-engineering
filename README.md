@@ -2,8 +2,8 @@
 
 Detection-as-Code reference implementation for portable, tested, and reviewable security detections.
 
-> **Project status: Microsoft Sentinel Target — in progress**
-> The functional foundation is complete. Four explicitly mapped detections now compile to reviewed KQL and render as deterministic, disabled Microsoft Sentinel Scheduled-rule request bodies with no Azure write path. Deployment remains a future milestone tracked in [ROADMAP.md](ROADMAP.md).
+> **Project status: Microsoft Sentinel Target — complete**
+> Four explicitly mapped detections compile to reviewed KQL and render as deterministic, disabled Microsoft Sentinel Scheduled-rule request bodies with governed output columns and entities. Azure deployment remains intentionally consumer-owned and outside this repository.
 
 ## Purpose
 
@@ -50,7 +50,7 @@ Forgejo remains the source of truth. GitHub receives only the reviewed public `m
 
 ## Current milestone
 
-`0.2 — Microsoft Sentinel Target` (in progress)
+`0.2 — Microsoft Sentinel Target` (complete)
 
 The logical manifest, compact package contract, pinned pySigma boundary, and bounded local fixture evaluator are implemented and locally verified. `MSEC-DET-0001` covers unusual Windows service installation paths. `MSEC-DET-0002` covers successful sign-ins from reported legacy client categories. `MSEC-DET-0003` covers successful Microsoft Entra sign-ins assessed as high risk during sign-in. `MSEC-DET-0004` covers successful credential additions to Microsoft Entra service principals. `MSEC-DET-0005` covers successful application-role grants to Microsoft Entra service principals. Together they have fifteen positive and twenty negative synthetic cases.
 
@@ -70,9 +70,11 @@ request bodies through the versioned Sentinel analytics-rule profile. Logical
 metadata continues to come from each detection manifest, KQL must match its
 reviewed Golden query, and each stable Sentinel rule UUID is derived from the
 immutable detection ID. Every rendered rule is disabled and contains no Azure
-scope or credential. The generated rule, query and provenance files remain
-ignored local build output; immutable Sentinel packaging is the next target
-milestone.
+scope or credential. The preview profile governs the final analyst-facing KQL
+columns and exact Account, IP and CloudApplication mappings. Generated rule,
+query and provenance files remain ignored temporary output. Consumers render
+and deploy them inside their own reviewed pipeline; no separate prebuilt
+Sentinel target archive or deployment client is shipped here.
 
 Run the current contract validation with:
 

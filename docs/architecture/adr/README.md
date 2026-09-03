@@ -12,3 +12,4 @@ Accepted records are not silently rewritten. A later decision supersedes the ear
 - [ADR-0006: Explicit Sentinel table bindings](ADR-0006-explicit-sentinel-table-bindings.md)
 - [ADR-0007: Reproducible release pack](ADR-0007-reproducible-release-pack.md)
 - [ADR-0008: Render disabled Sentinel rule bodies before deployment](ADR-0008-disabled-sentinel-rule-rendering.md)
+- [ADR-0009: Govern Sentinel output columns and entity mappings together](ADR-0009-explicit-sentinel-output-contract.md)

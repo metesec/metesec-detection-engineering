@@ -850,3 +850,75 @@ adding live deployment.
 - Merged-main run `#13` passed.
 - Canonical Forgejo `main` and public GitHub mirror `main` both resolved to exact
   commit `e8bebd5d3e72218b32378cd3e4f850d047d778ad`.
+
+## 2026-09-03 — Sentinel output contract and entity mappings completed locally
+
+### Starting state
+
+- Four detections compiled to reviewed predicates and rendered as disabled
+  Scheduled-rule bodies, but their analyst-facing output columns were implicit.
+- Entity mappings were deliberately absent because no executable output-column
+  contract existed.
+- The Roadmap still proposed a second immutable Sentinel target artifact, which
+  the user rejected in favor of consumer-owned rendering after local changes.
+
+### Decision and implementation
+
+- Advanced the explicit Sentinel preview profile to version 2. Every binding now
+  declares bounded output expressions, an exact ordered output list and its
+  permitted Sentinel entity mappings.
+- The compiler appends those expressions and one final `project` operation to
+  the Sigma-generated predicate. The complete enriched query, not only the base
+  predicate, must match its committed Golden snapshot.
+- The sign-in rules expose normalized Account name and UPN suffix, Entra user ID,
+  source IP, application ID and application name. Their Scheduled rules map
+  Account, IP and CloudApplication entities.
+- The audit rules expose the initiating user or application, initiating IP,
+  target service-principal name and target object ID. The target object ID is
+  retained for investigation but is not incorrectly mapped as an application ID.
+- The renderer now copies only contract-declared mappings into `entityMappings`
+  and records the exact output columns and mappings in its provenance manifest.
+- Added ADR-0009 and updated the public guides, contract, README and Roadmap. The
+  `0.2 — Microsoft Sentinel Target` milestone is complete without a separate
+  prebuilt Sentinel archive. Consumers render ignored temporary files inside
+  their own reviewed pipeline and own every Azure deployment control.
+
+### Validation and corrections
+
+- Added two compiler negative tests for an entity mapping outside the declared
+  output and a multi-statement output expression, plus one renderer test that
+  verifies all exact mappings and their relationship to returned columns.
+- All fifteen compiler and renderer tests passed. The complete Python suite
+  passed thirty-four cases and the JavaScript suites passed eleven cases.
+- Five manifest sources, five packages, both generated catalogues, all thirty-five
+  synthetic fixture expectations, four Golden queries, the disabled renderer,
+  analytics-rule profile and release-builder contract all passed.
+- The first parallel JavaScript-check invocation quoted the absolute Node path
+  as a PowerShell expression instead of invoking it. It failed before a project
+  check ran. Repeating the same checks with PowerShell's call operator passed;
+  no source or dependency change was needed.
+- The first browser batch used Monaco `fill`, which appended later queries to the
+  editor model and caused a syntax error before those three checks completed.
+  Replacing the editor content with explicit select-all then allowed all four
+  complete enriched queries to pass in the authorized Sentinel workspace.
+- Live checks added a bounded time condition and returned only one aggregate
+  validation column. No result value or operational identifier was copied.
+
+### Explicitly untouched
+
+- No Sentinel rule, Azure resource, target scope, credential, production setting,
+  live telemetry row or deployment state changed.
+- No separate Sentinel target archive, Azure client, authentication flow,
+  deployment command, custom alert detail or alert override was added.
+- `MSEC-DET-0001` remains intentionally unbound because the authorized target has
+  no suitable Windows event telemetry.
+- The published `v0.1.0` Detection Pack, Website, Forgejo configuration, runner,
+  GitHub mirror and production infrastructure were unchanged.
+
+### Result
+
+The Sentinel target now produces useful, predictable analyst fields and valid
+Account, IP and CloudApplication entities while remaining deterministic,
+disabled and deployment-free. The next bounded milestone is an executable
+data-source contract for `SigninLogs` and `AuditLogs`, including required fields,
+freshness expectations and explicit degraded or unavailable states.
