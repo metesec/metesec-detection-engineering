@@ -1,6 +1,6 @@
 # Forgejo repository validation
 
-The workflow at `.forgejo/workflows/validate.yml` runs the same aggregate repository check used by contributors. It is validation only: it does not compile a release, deploy a detection, query a SIEM, publish an artifact, or change repository content.
+The workflow at `.forgejo/workflows/validate.yml` runs the same aggregate repository check used by contributors and builds a credential-free release candidate. It does not deploy a detection, query a SIEM, publish an artifact, or change repository content.
 
 ## Events
 
@@ -61,12 +61,14 @@ python -m venv "$RUNNER_TEMP/venv"
 pnpm install --frozen-lockfile
 python -m pip install --requirement requirements-sigma.lock
 pnpm run check
+pnpm run build:release
 ```
 
 The aggregate check includes a workflow contract test. It rejects a changed
 trusted trigger set, a different runner label, missing read-only permission,
 persisted checkout credentials, an unpinned remote action, changed tool
 versions, or a command that no longer runs the complete repository validation.
+It also requires the deterministic release candidate build after validation.
 
 The live Forgejo pipeline is operational. Branch run `#1` and canonical main run
 `#4` completed the full aggregate check successfully. Isolated verification run

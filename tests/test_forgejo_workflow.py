@@ -70,6 +70,10 @@ class ForgejoWorkflowTests(unittest.TestCase):
             self.steps["Run complete repository validation"]["run"],
             "pnpm run check",
         )
+        self.assertEqual(
+            self.steps["Build reproducible release candidate"]["run"],
+            "pnpm run build:release",
+        )
 
 
 if __name__ == "__main__":

@@ -22,4 +22,6 @@ All fixtures must be synthetic, safely redacted, or explicitly licensed for publ
 
 ## Supported versions
 
-No stable release exists yet. Security fixes apply to the current `main` branch until the first versioned release is published.
+Security fixes apply to the current `main` branch and the latest published
+`0.1.x` release. The Detection Pack remains experimental and is not a production
+deployment bundle.

@@ -45,6 +45,7 @@ Forgejo remains the source of truth. GitHub receives only the reviewed public `m
 - [Sigma structural validation](docs/tooling/sigma-validation.md)
 - [Local Sigma fixture evaluation](docs/testing/sigma-fixture-evaluation.md)
 - [Microsoft Sentinel KQL preview compilation](docs/tooling/sentinel-compilation.md)
+- [Detection Pack release artifact v1](docs/releases/release-artifact-v1.md)
 
 ## Current milestone
 
@@ -58,6 +59,11 @@ The human-readable `CATALOGUE.md` and machine-readable `catalog/index.json` are 
 
 The Forgejo validation workflow runs the same aggregate check on trusted pushes and manual dispatch. Its dedicated repository-scoped runner verifies the pinned Node.js and Python toolchain, installs exact pnpm, JavaScript, and Sigma dependencies in disposable job paths, and receives no deployment, cloud, SIEM, Kubernetes or package-publisher credential. Canonical main validation is operational; automatic public pull-request execution remains disabled while the runner uses Forgejo `host` execution mode.
 
+The first release artifact is a deterministic ZIP containing the public five-rule
+Detection Pack, its synthetic evidence and the bounded four-rule Sentinel preview.
+It includes an internal per-file digest manifest and is published together with a
+separate `SHA256SUMS` file. It is not a deployment bundle.
+
 Run the current contract validation with:
 
 ```console
@@ -66,6 +72,7 @@ python -m venv .venv
 .venv\Scripts\activate
 pnpm run setup:sigma
 pnpm run check
+pnpm run build:release
 ```
 
 See the [generated catalogue contract](docs/contracts/detection-catalogue-v1.md), [Forgejo validation guide](docs/tooling/forgejo-validation.md), [Sigma validation guide](docs/tooling/sigma-validation.md), and [Sentinel compilation guide](docs/tooling/sentinel-compilation.md) for the exact scope of each result.

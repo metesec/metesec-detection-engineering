@@ -45,3 +45,6 @@ jobs:
 
       - name: Run complete repository validation
         run: pnpm run check
+
+      - name: Build reproducible release candidate
+        run: pnpm run build:release
