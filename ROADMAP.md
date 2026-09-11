@@ -4,7 +4,8 @@ The roadmap describes intended capability, not current implementation. Verified 
 
 ## 1.1 — Reviewed enterprise baseline
 
-Status: **implemented locally; canonical review/publication and target pilot pending**.
+Status: **candidate source published on protected main and mirrored; versioned
+release and target pilot pending**.
 
 - [x] Review all 50 existing rules and all 50 additional candidate IDs.
 - [x] Admit 17 bounded additions; record 33 deferred candidates.
@@ -12,9 +13,10 @@ Status: **implemented locally; canonical review/publication and target pilot pen
 - [x] Add regression evidence, per-rule limitations/provenance and stronger gates.
 - [x] Extend explicit Sentinel source contracts and safe disabled scheduling.
 - [x] Make the source pack self-contained for validation and rebuilding.
-- [ ] Canonical Forgejo review and trusted CI for this revision.
+- [x] Canonical Forgejo review and trusted branch/main CI for this revision.
+- [x] Publish candidate source on protected main and verify the GitHub mirror.
 - [ ] Full generated-query target tests, source/ingestion verification and pilot.
-- [ ] Publish the reviewed release through the protected canonical workflow.
+- [ ] Publish a versioned v1.1.0 tag and checksummed release assets.
 
 No fixed future rule-count target. Existing v1.0 milestones below are historical;
 their live-query results and counts do not certify current rewritten content.

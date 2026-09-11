@@ -2493,3 +2493,46 @@ was deployed/enabled, no remote repository changed, no credentials inspected,
 and no internet-wide originality or rights guarantee is claimed. Canonical
 review/CI, full target-query validation and a controlled pilot remain separate
 authorized steps before production use.
+
+## 2026-09-11 — Publish the 67-rule candidate source through protected main
+
+### Scope and protected publication
+
+The owner requested that the completed work be pushed live into the repository.
+This authorized source publication, not SIEM activation or a versioned release.
+The reviewed source commit `cf90e649d3e4c9de6a05481cf0b1e5acbccbffbd` was pushed
+on `codex/enterprise-baseline-review` and submitted as
+[Forgejo PR #11](https://git.metesec.com/metesec/metesec-detection-engineering/pulls/11).
+Existing main protection was inspected and retained: no direct pushes, the
+required successful validation context and no outdated-branch bypass.
+
+After verifying the exact PR head and successful required check, the ordinary
+protected merge created `5f45542ace6108230bd41fb7daf4d8c460cbf52d` at
+2026-09-11 20:47:48 UTC. No force push, protection change or mirror reconfiguration
+was used. The branch was retained for traceability.
+
+### Verified evidence
+
+- [Trusted branch run #21](https://git.metesec.com/metesec/metesec-detection-engineering/actions/runs/21)
+  passed at source commit `cf90e649d3e4c9de6a05481cf0b1e5acbccbffbd`.
+- [Merged-main run #22](https://git.metesec.com/metesec/metesec-detection-engineering/actions/runs/22)
+  passed at merge commit `5f45542ace6108230bd41fb7daf4d8c460cbf52d`, completing
+  at 2026-09-11 20:49:07 UTC.
+- Fetching canonical main and anonymously reading the public GitHub main ref
+  returned the same full merge commit, confirming the source distribution.
+- README, release-candidate notes, handoff and roadmap now distinguish public
+  candidate source from pending versioned tags/assets and target validation.
+- The documentation follow-up passed the full local `pnpm run check`,
+  `git diff --check` and an independent consistency review before submission.
+
+### Operational limits and failed discovery
+
+The instance's Swagger discovery URLs returned HTTP 404. Publication used the
+working authenticated repository API and normal protected PR workflow instead;
+credentials were neither printed nor stored in repository files.
+
+All rules remain experimental with synthetic-only current-revision evidence.
+No Sentinel rule was deployed or enabled, no live telemetry was published and
+no target-validation or production-readiness claim was added. Existing v1.0.0
+and v0.1.0 tags/assets remain unchanged. No v1.1.0 tag or release asset was
+created; ignored local build outputs were not committed as authored source.

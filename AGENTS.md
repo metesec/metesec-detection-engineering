@@ -34,9 +34,11 @@ multi-implementation resolver belongs in the active version 1 design.
 
 ## Current state
 
-The current development baseline is **1.1.0, local release candidate** on
-`codex/enterprise-baseline-review`, branched from `bea9b71`. This section
-supersedes historical 1.0 counts and the former fifty-rule scope below.
+The current development baseline is **1.1.0, repository-published release
+candidate** on protected canonical `main` and the GitHub distribution mirror.
+PR #11 published the reviewed source as merge commit
+`5f45542ace6108230bd41fb7daf4d8c460cbf52d`. This section supersedes historical
+1.0 counts and the former fifty-rule scope below.
 
 - All 50 existing and 50 supplied additional candidate IDs reviewed; 17 new
   packages admitted, 33 deferred with reasons. The hardened archive overlaps IDs.
@@ -52,8 +54,10 @@ supersedes historical 1.0 counts and the former fifty-rule scope below.
 - Hunting Goldens remain separate from derived scheduled queries. All schedules
   use disabled 15-minute/one-hour pilot settings, ingestion slicing, no automatic
   incident creation and no claim of exactly-once delivery.
-- Source pack includes validation/rebuild tooling and tests. Published versions
-  remain immutable; no remote publication, new CI result or deployment is claimed.
+- Source pack includes validation/rebuild tooling and tests. Trusted Forgejo
+  branch run #21 and merged-main run #22 passed; the GitHub mirror was verified
+  at the exact PR #11 merge commit. No v1.1.0 tag/assets or deployment were
+  published. Existing versioned releases remain immutable.
 - Architecture: ADR-0017. Adoption: `docs/enterprise-baseline.md`. Per-ID review:
   `docs/reviews/`. Record verified final checks in the latest LOGBOOK entry.
 - Verified on Node 24.19.0, Python 3.12.13 and pnpm 11.19.0: full aggregate check
@@ -221,10 +225,12 @@ After every completed milestone:
 
 ## Immediate next milestone
 
-Keep published tags/assets immutable. The 1.1 local baseline needs canonical
-Forgejo review/CI and a separate authorized full-query target validation/pilot
-before publication or production claims. Use the explicit adoption/evidence
-gates, not historical predicate probes. Do not deploy or enable rules, publish a
+Keep published tags/assets immutable. The 1.1 candidate source has passed
+canonical Forgejo review/CI and is public on main and its mirror. Versioned
+v1.1.0 tag/asset publication remains a separate milestone. Full-query target
+validation and a controlled pilot remain required before production claims.
+Use the explicit adoption/evidence gates, not historical predicate probes.
+Do not deploy or enable rules, publish a
 separate target archive or store raw live query output as an inferred next step.
 Keep public pull-request execution disabled until the runner gains hard per-job
 isolation.
