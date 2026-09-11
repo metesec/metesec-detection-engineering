@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "event": {
+    "ActionType": "RegistryValueSet",
+    "RegistryKey": "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run",
+    "RegistryValueName": "SyntheticUpdater",
+    "RegistryValueData": "C:\\Program Files\\Synthetic\\updater.exe C:\\Users\\synthetic\\AppData\\Local\\notes.ps1.txt"
+  }
+}

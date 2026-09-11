@@ -1,3 +1,3 @@
 DeviceProcessEvents
-| where FileName =~ "sc.exe" and (ProcessCommandLine contains "sc.exe \\" or ProcessCommandLine contains "sc \\") and ProcessCommandLine contains " create "
-| project TimeGenerated, Timestamp, DeviceId, DeviceName, AccountDomain, AccountName, AccountSid, InitiatingProcessFileName, FileName, FolderPath, ProcessCommandLine, ReportId
+| where (FileName =~ "sc.exe" or ProcessVersionInfoOriginalFileName =~ "sc.exe") and ProcessCommandLine matches regex "(?i)^\\s*(?:\"[^\"]+\"|\\S+)\\s+\"?\\\\\\\\[^\\\\\\s\"]+\"?\\s+create\\s+\\S+"
+| project TimeGenerated, Timestamp, DeviceId, DeviceName, AccountDomain, AccountName, AccountSid, InitiatingProcessFileName, FileName, ProcessVersionInfoOriginalFileName, FolderPath, ProcessCommandLine, ReportId

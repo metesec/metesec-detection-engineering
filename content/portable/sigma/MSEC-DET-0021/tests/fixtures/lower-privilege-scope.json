@@ -1,9 +1,1 @@
-{
-  "schema_version": 1,
-  "synthetic": true,
-  "event": {
-    "OperationName": "Add delegated permission grant",
-    "Result": "success",
-    "TargetResources": "DelegatedPermissionGrant.Scope=User.Read;DelegatedPermissionGrant.ConsentType=AllPrincipals"
-  }
-}
+{"schema_version":1,"synthetic":true,"event":{"OperationName":"Add delegated permission grant","Result":"success","TargetResources":"[{\"type\":\"ServicePrincipal\",\"displayName\":\"Synthetic governance app\",\"modifiedProperties\":[{\"displayName\":\"DelegatedPermissionGrant.Scope\",\"newValue\":\"User.Read\"},{\"displayName\":\"DelegatedPermissionGrant.ConsentType\",\"newValue\":\"AllPrincipals\"}]}]"}}

@@ -9,7 +9,9 @@ references:
   - https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table
   - https://attack.mitre.org/techniques/T1685/
 author: MeteSec Detection Engineering
+license: Apache-2.0
 date: 2026-09-03
+modified: 2026-09-11
 tags:
   - attack.defense-impairment
   - attack.t1685
@@ -21,28 +23,11 @@ detection:
     FileName:
       - powershell.exe
       - pwsh.exe
-  command_set:
-    ProcessCommandLine|contains: Set-MpPreference
-  command_preference:
-    ProcessCommandLine|contains:
-      - Set-MpPreference
-      - Add-MpPreference
-  command_disable_switch:
-    ProcessCommandLine|contains:
-      - DisableRealtimeMonitoring
-      - DisableBehaviorMonitoring
-      - DisableScriptScanning
-      - DisableIOAVProtection
-  command_true:
-    ProcessCommandLine|contains:
-      - '$true'
-      - ' true'
-  command_exclusion:
-    ProcessCommandLine|contains:
-      - ExclusionPath
-      - ExclusionProcess
-      - ExclusionExtension
-  condition: image_powershell and ((command_set and command_disable_switch and command_true) or (command_preference and command_exclusion))
+  command_disable:
+    ProcessCommandLine|re: '(?i)(?:^|[\s";{&])Set-MpPreference\s+[^;|\r\n]*-Disable(?:RealtimeMonitoring|BehaviorMonitoring|ScriptScanning|IOAVProtection)(?:\s+|:\s*)(?:\$true|1)(?:\s|[;"})]|$)'
+  command_exclusion_literal:
+    ProcessCommandLine|re: '(?i)(?:^|[\s";{&])(?:Set|Add)-MpPreference\s+[^;|\r\n]*-Exclusion(?:Path|Process|Extension)(?:\s+|:\s*)(?:"[^"\r\n]+"|''[^''\r\n]+''|[a-z0-9*?.\\][^\s;|]*)'
+  condition: image_powershell and (command_disable or command_exclusion_literal)
 fields:
   - TimeGenerated
   - Timestamp

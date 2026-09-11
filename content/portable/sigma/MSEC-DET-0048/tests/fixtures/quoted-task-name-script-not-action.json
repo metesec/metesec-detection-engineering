@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "event": {
+    "FileName": "schtasks.exe",
+    "ProcessCommandLine": "schtasks.exe /create /tn \"powershell -encodedcommand synthetic\" /tr \"C:\\Program Files\\Synthetic\\updater.exe\" /sc daily"
+  }
+}

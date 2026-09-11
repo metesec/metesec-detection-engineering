@@ -15,7 +15,7 @@
   "lifecycle": {
     "status": "experimental",
     "created": "2026-09-03",
-    "modified": "2026-09-03",
+    "modified": "2026-09-11",
     "review_interval_days": 90
   },
   "severity": "medium",
@@ -24,7 +24,15 @@
     {
       "name": "Microsoft Entra audit logs",
       "category": "Identity directory audit",
-      "required_fields": ["TimeGenerated", "CorrelationId", "InitiatedBy", "LoggedByService", "OperationName", "Result", "TargetResources"]
+      "required_fields": [
+        "TimeGenerated",
+        "CorrelationId",
+        "InitiatedBy",
+        "LoggedByService",
+        "OperationName",
+        "Result",
+        "TargetResources"
+      ]
     }
   ],
   "attack": [
@@ -53,8 +61,24 @@
     {
       "type": "sigma",
       "path": "content/portable/sigma/MSEC-DET-0014/rule.yml",
-      "targets": ["sentinel"],
+      "targets": [
+        "sentinel"
+      ],
       "status": "active"
     }
-  ]
+  ],
+  "quality": {
+    "reviewed_on": "2026-09-11",
+    "signal_type": "configuration-change",
+    "limitations": [
+      "The recorded configuration event does not establish malicious intent, persistence effectiveness or the final security state. Verify the actor, value, approval and subsequent behavior.",
+      "Current-revision evidence is synthetic only. Validate full generated KQL, source fields, ingestion delay, alert volume and scoped exclusions in the target before enabling."
+    ],
+    "validation_level": "synthetic-only",
+    "provenance": {
+      "origin": "reviewed-existing",
+      "license": "Apache-2.0",
+      "review": "docs/reviews/existing-0001-0025.md"
+    }
+  }
 }

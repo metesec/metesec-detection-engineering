@@ -1,13 +1,15 @@
-title: Fodhelper Spawns a Suspicious Child Process
+title: Fodhelper spawns a suspicious child process
 id: cb9040a8-6ce6-410c-91e7-90eb133626f1
 status: experimental
 description: Detects fodhelper.exe spawning a command interpreter or administrative utility associated with UAC bypass activity.
 references:
   - https://attack.mitre.org/techniques/T1548/002/
-  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_susp_fodhelper.yml
+  - https://github.com/SigmaHQ/sigma/blob/5c9b21756f4e3ba137c1773ac9ba5a8332188961/rules/windows/process_creation/proc_creation_win_uac_bypass_fodhelper.yml
   - https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table
 author: MeteSec Detection Engineering
+license: Apache-2.0
 date: 2026-09-03
+modified: 2026-09-11
 tags:
   - attack.privilege-escalation
   - attack.defense-evasion

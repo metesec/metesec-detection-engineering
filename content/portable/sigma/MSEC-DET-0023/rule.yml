@@ -7,7 +7,9 @@ references:
   - https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/reg-save
   - https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table
 author: MeteSec Detection Engineering
+license: Apache-2.0
 date: 2026-09-03
+modified: 2026-09-11
 tags:
   - attack.credential-access
   - attack.t1003.002
@@ -17,17 +19,9 @@ logsource:
 detection:
   image:
     FileName: reg.exe
-  action:
-    ProcessCommandLine|contains:
-      - ' save '
-      - ' export '
-  sensitive_hive:
-    ProcessCommandLine|contains:
-      - 'HKLM\SAM'
-      - 'HKEY_LOCAL_MACHINE\SAM'
-      - 'HKLM\SECURITY'
-      - 'HKEY_LOCAL_MACHINE\SECURITY'
-  condition: image and action and sensitive_hive
+  sensitive_hive_export:
+    ProcessCommandLine|re: '(?i)\s(?:save|export)\s+"?(?:HKLM|HKEY_LOCAL_MACHINE)\\(?:SAM|SECURITY)(?:\\[^"\s]*)?"?\s+\S'
+  condition: image and sensitive_hive_export
 fields:
   - TimeGenerated
   - Timestamp

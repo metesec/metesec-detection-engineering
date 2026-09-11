@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
   "id": "MSEC-DET-0025",
-  "title": "BITSAdmin creates a remote file-transfer job",
-  "description": "Detects bitsadmin.exe command lines that create a BITS transfer involving an HTTP or HTTPS resource.",
+  "title": "BITSAdmin requests a remote transfer or adds a remote file",
+  "description": "Detects BITSAdmin transfer requests and standalone addfile commands with an HTTP or HTTPS URL. Addfile configures an existing job; neither it nor process creation proves a successful transfer.",
   "hypothesis": {
     "summary": "An adversary may use BITSAdmin to transfer a payload or supporting content through a trusted Windows service.",
     "rationale": "Microsoft documents BITSAdmin transfer syntax, SigmaHQ identifies remote transfer commands as a medium-severity signal and MITRE records BITS abuse for stealth, execution and persistence; approved deployment and support tools can use the same interface.",
-    "detection_goal": "Identify bitsadmin.exe commands that combine an HTTP or HTTPS resource with transfer or create-and-addfile syntax while leaving local job administration and unrelated processes unmatched."
+    "detection_goal": "Identify remote transfer or standalone addfile commands. BITS create and addfile are separate invocations; do not require both in one process event."
   },
   "ownership": {
     "owner": "MeteSec Detection Engineering",
@@ -15,7 +15,7 @@
   "lifecycle": {
     "status": "experimental",
     "created": "2026-09-03",
-    "modified": "2026-09-03",
+    "modified": "2026-09-11",
     "review_interval_days": 90
   },
   "severity": "medium",
@@ -24,7 +24,18 @@
     {
       "name": "Microsoft Defender for Endpoint process events",
       "category": "Endpoint process creation",
-      "required_fields": ["TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountName", "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"]
+      "required_fields": [
+        "TimeGenerated",
+        "Timestamp",
+        "DeviceId",
+        "DeviceName",
+        "AccountName",
+        "InitiatingProcessFileName",
+        "FileName",
+        "FolderPath",
+        "ProcessCommandLine",
+        "ReportId"
+      ]
     }
   ],
   "attack": [
@@ -53,7 +64,7 @@
     ]
   },
   "validation": {
-    "expected_outcome": "Match BITSAdmin remote transfer or create-and-addfile commands; do not match local job administration, incomplete create commands, unrelated tools or commands without a remote resource.",
+    "expected_outcome": "Match BITSAdmin transfer or standalone addfile commands containing a remote resource; reject job listing, create-only operations and missing remote resources.",
     "positive_tests": true,
     "negative_tests": true
   },
@@ -61,8 +72,24 @@
     {
       "type": "sigma",
       "path": "content/portable/sigma/MSEC-DET-0025/rule.yml",
-      "targets": ["sentinel"],
+      "targets": [
+        "sentinel"
+      ],
       "status": "active"
     }
-  ]
+  ],
+  "quality": {
+    "reviewed_on": "2026-09-11",
+    "signal_type": "behavior",
+    "limitations": [
+      "This single-event signal does not establish malicious intent or successful execution. Renamed binaries, alternate tools, obfuscation and unlogged activity can evade the bounded predicates.",
+      "Current-revision evidence is synthetic only. Validate full generated KQL, source fields, ingestion delay, alert volume and scoped exclusions in the target before enabling."
+    ],
+    "validation_level": "synthetic-only",
+    "provenance": {
+      "origin": "reviewed-existing",
+      "license": "Apache-2.0",
+      "review": "docs/reviews/existing-0001-0025.md"
+    }
+  }
 }

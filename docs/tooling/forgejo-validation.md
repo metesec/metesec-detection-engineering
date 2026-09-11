@@ -80,12 +80,13 @@ The job begins failing when any review becomes due or overdue; no time-dependent
 assessment file is written. Cross-revision transition validation requires an
 explicit previous catalogue and is not claimed by the default workflow.
 Finally, it validates the Sentinel runtime-health policy, its exact relationship
-to the forty-nine scheduled-rule definitions, the fail-closed evaluator and its
+to every scheduled-rule definition, the fail-closed evaluator and its
 machine-output schema. CI supplies no rule observation, so this proves only the
 portable contract. It neither queries Sentinel nor claims that a deployed rule
 is healthy.
 
-The live Forgejo pipeline is operational. Branch run `#1` and canonical main run
+The historical live Forgejo pipeline is operational; a new 1.1 revision still
+requires its own trusted run. Branch run `#1` and canonical main run
 `#4` completed the original full aggregate check successfully. Isolated verification run
 `#2` changed only the valid example's schema version and failed with the direct
 message `valid/draft-windows-service-install.json: /schema_version must be equal

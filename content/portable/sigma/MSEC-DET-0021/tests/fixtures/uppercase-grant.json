@@ -1,9 +1,1 @@
-{
-  "schema_version": 1,
-  "synthetic": true,
-  "event": {
-    "OperationName": "ADD DELEGATED PERMISSION GRANT",
-    "Result": "SUCCESS",
-    "TargetResources": "DELEGATEDPERMISSIONGRANT.SCOPE=ROLEMANAGEMENT.READWRITE.DIRECTORY;DELEGATEDPERMISSIONGRANT.CONSENTTYPE=ALLPRINCIPALS"
-  }
-}
+{"schema_version":1,"synthetic":true,"event":{"OperationName":"ADD DELEGATED PERMISSION GRANT","Result":"SUCCESS","TargetResources":"[{\"type\":\"ServicePrincipal\",\"displayName\":\"Synthetic governance app\",\"modifiedProperties\":[{\"displayName\":\"DelegatedPermissionGrant.Scope\",\"newValue\":\"ROLEMANAGEMENT.READWRITE.DIRECTORY\"},{\"displayName\":\"DelegatedPermissionGrant.ConsentType\",\"newValue\":\"ALLPRINCIPALS\"}]}]"}}

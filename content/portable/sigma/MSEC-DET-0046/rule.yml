@@ -1,12 +1,14 @@
-title: Suspicious Script or LOLBin Payload in a Run Key
+title: Suspicious script or LOLBin payload in a Run key
 id: d2ff02e1-d020-4b3e-bdb1-0ae0fc54049a
 status: experimental
-description: Detects a Run, RunOnce, or Explorer policy Run value set to a selected script payload or suspicious signed Windows utility command.
+description: Detects a Run, RunOnce or Explorer policy Run value set to a selected script payload or suspicious signed Windows utility command.
 references:
   - https://attack.mitre.org/techniques/T1547/001/
   - https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceregistryevents-table
 author: MeteSec Detection Engineering
+license: Apache-2.0
 date: 2026-09-03
+modified: 2026-09-11
 tags:
   - attack.persistence
   - attack.privilege-escalation
@@ -34,14 +36,7 @@ detection:
       - '%LOCALAPPDATA%'
       - '%TEMP%'
   script_type:
-    RegistryValueData|contains:
-      - '.ps1'
-      - '.vbs'
-      - '.vbe'
-      - '.js'
-      - '.jse'
-      - '.wsf'
-      - '.hta'
+    RegistryValueData|re|i: '\.(?:ps1|vbs|vbe|js|jse|wsf|hta)(?:["''\s,]|$)'
   powershell_image:
     RegistryValueData|contains:
       - powershell

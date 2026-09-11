@@ -21,11 +21,13 @@ are deliberately not packaged. They remain temporary inputs owned by the
 consuming environment. Alert and incident counts never enter the public source
 artifact as live environment results.
 
-The ZIP is a curated Detection Pack, not a complete repository checkout. The
-validators, generators and CI definitions remain in the canonical source
-repository. Use `SHA256SUMS` and the internal manifest to verify a downloaded
-pack; use a repository checkout when rebuilding or running the complete test
-suite.
+Starting with 1.1, the ZIP is a curated, self-contained source pack. It includes
+validators, generators, shared tests, examples, the trusted workflow definition,
+pinned dependency declarations, NOTICE and the overlap-review report. It excludes
+Git history, installed dependencies, caches, build output and real observations.
+Use `SHA256SUMS` and the internal manifest to verify it. After installing pinned
+dependencies, an extracted pack can run the complete suite and rebuild itself.
+Published 1.0 and earlier packs retain their historical narrower contents.
 
 `RELEASE-MANIFEST.json` records every included source path, normalized byte size
 and SHA-256 digest. It also states the catalogue totals and makes the boundary

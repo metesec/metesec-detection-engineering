@@ -8,7 +8,9 @@ references:
   - https://attack.mitre.org/detectionstrategies/DET0532/
   - https://attack.mitre.org/techniques/T1685/005/
 author: MeteSec Detection Engineering
+license: Apache-2.0
 date: 2026-09-03
+modified: 2026-09-11
 tags:
   - attack.defense-impairment
   - attack.t1685.005
@@ -19,15 +21,13 @@ detection:
   image_wevtutil:
     FileName: wevtutil.exe
   command_wevtutil_clear:
-    ProcessCommandLine|contains:
-      - ' cl '
-      - ' clear-log '
+    ProcessCommandLine|re: '(?i)\s(?:cl|clear-log)\s+\S'
   image_powershell:
     FileName:
       - powershell.exe
       - pwsh.exe
   command_powershell_clear:
-    ProcessCommandLine|contains: Clear-EventLog
+    ProcessCommandLine|re: '(?i)(?:^|[\s";{&])Clear-EventLog\s+(?:-LogName\s+)?[\w"''*]'
   condition: (image_wevtutil and command_wevtutil_clear) or (image_powershell and command_powershell_clear)
 fields:
   - TimeGenerated

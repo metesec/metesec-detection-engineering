@@ -1,0 +1,3 @@
+DeviceImageLoadEvents
+| where ActionType =~ "ImageLoaded" and InitiatingProcessFileName =~ "MsMpEng.exe" and FileName endswith ".dll" and FolderPath matches regex "(?i)^(?:[a-z]:\\\\(?:users|windows\\\\temp|temp|perflogs|\\$recycle\\.bin)(?:\\\\|$)|\\\\\\\\[a-z0-9_-][^\\\\/:*?\"<>|\\r\\n]*\\\\[^\\\\/:*?\"<>|\\r\\n]+(?:\\\\|$))"
+| project TimeGenerated, DeviceId, DeviceName, ActionType, FileName, FolderPath, SHA1, InitiatingProcessAccountName, InitiatingProcessFileName, InitiatingProcessFolderPath, InitiatingProcessCommandLine, ReportId

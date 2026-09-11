@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"ActionType":"RegistryValueSet","RegistryKey":"HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Print\\Monitors\\Example Monitor","RegistryValueName":"Driver","RegistryValueData":"C:\\Users\\Public\\example.dll.backup"}}

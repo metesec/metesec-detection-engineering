@@ -132,6 +132,23 @@ def _duration(value: object, label: str) -> str:
     return value
 
 
+def duration_seconds(value: str) -> int:
+    _duration(value, "duration")
+    parts = re.fullmatch(r"P(?:(\d+)D)?(?:T(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?)?", value)
+    return sum(int(part or 0) * multiplier for part, multiplier in zip(parts.groups(), (86400, 3600, 60, 1)))
+
+
+def scheduled_query(query: str, settings: SentinelRuleSettings) -> str:
+    """Delay-tolerant single-event schedule, distinct from the hunting Golden."""
+    table, separator, rest = query.partition("\n")
+    if not separator or not re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", table):
+        raise SentinelRuleRenderError("scheduled query requires a bounded table prefix")
+    period, frequency = duration_seconds(settings.query_period), duration_seconds(settings.query_frequency)
+    return (f"{table}\n"
+            f"| where TimeGenerated >= ago({period}s) and TimeGenerated <= now()\n"
+            f"| where ingestion_time() > ago({frequency}s) and ingestion_time() <= now()\n" + rest)
+
+
 def load_rule_settings(
     repo_root: Path,
     profile_path: Path,
@@ -213,6 +230,15 @@ def load_rule_settings(
         event_grouping = raw.get("event_grouping")
         if event_grouping not in _EVENT_GROUPING:
             raise SentinelRuleRenderError(f"{label}.event_grouping is invalid")
+
+        frequency = duration_seconds(raw.get("query_frequency"))
+        period = duration_seconds(raw.get("query_period"))
+        if not 300 <= frequency <= period <= 14 * 86400:
+            raise SentinelRuleRenderError(f"{label}: require 5 minutes <= frequency <= period <= 14 days")
+        if not 300 <= duration_seconds(raw.get("suppression_duration")) <= 86400:
+            raise SentinelRuleRenderError(f"{label}: suppression duration must be 5 minutes to 1 day")
+        if not 300 <= duration_seconds(raw.get("incident_lookback")) <= 7 * 86400:
+            raise SentinelRuleRenderError(f"{label}: incident lookback must be 5 minutes to 7 days")
 
         settings.append(
             SentinelRuleSettings(
@@ -325,6 +351,7 @@ def _render_one(
     )
     rule_id = _stable_rule_id(target.detection_id)
     entity_mappings = _entity_mappings(target)
+    query = scheduled_query(compiled.query, settings)
     request_body: dict[str, object] = {
         "kind": "Scheduled",
         "properties": {
@@ -334,7 +361,7 @@ def _render_one(
             "enabled": settings.enabled,
             "tactics": tactics,
             "techniques": techniques,
-            "query": compiled.query,
+            "query": query,
             "entityMappings": entity_mappings,
             "queryFrequency": settings.query_frequency,
             "queryPeriod": settings.query_period,
@@ -358,7 +385,7 @@ def _render_one(
         },
     }
     request_bytes = (json.dumps(request_body, indent=2, ensure_ascii=False) + "\n").encode("utf-8")
-    query_bytes = compiled.query.encode("utf-8")
+    query_bytes = query.encode("utf-8")
     root = repo_root.resolve()
     render_manifest: dict[str, object] = {
         "format_version": 1,
@@ -372,6 +399,8 @@ def _render_one(
             "logical_manifest": profile_relative(manifest_path, root),
             "implementation": profile_relative(target.implementation, root),
             "golden_query": profile_relative(target.golden, root),
+            "golden_sha256": hashlib.sha256(compiled.query.encode("utf-8")).hexdigest(),
+            "scheduling": "event-time lookback with ingestion-time slice; not an exactly-once guarantee",
             "attack": source_attack,
             "output_columns": list(target.output.columns),
             "entity_mappings": entity_mappings,
@@ -391,7 +420,7 @@ def _render_one(
     return RenderedSentinelRule(
         detection_id=target.detection_id,
         rule_id=rule_id,
-        query=compiled.query,
+        query=query,
         request_body=request_body,
         render_manifest=render_manifest,
     )

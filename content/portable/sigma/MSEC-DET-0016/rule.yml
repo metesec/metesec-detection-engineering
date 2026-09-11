@@ -7,7 +7,9 @@ references:
   - https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table
   - https://attack.mitre.org/techniques/T1490/
 author: MeteSec Detection Engineering
+license: Apache-2.0
 date: 2026-09-03
+modified: 2026-09-11
 tags:
   - attack.impact
   - attack.t1490
@@ -17,33 +19,27 @@ logsource:
 detection:
   image_vssadmin:
     FileName: vssadmin.exe
-  command_delete:
-    ProcessCommandLine|contains: delete
-  command_shadows:
-    ProcessCommandLine|contains: shadows
+  command_delete_shadows:
+    ProcessCommandLine|re: '(?i)\sdelete\s+shadows(?:\s|$)'
   image_wmic:
     FileName: wmic.exe
   command_shadowcopy:
-    ProcessCommandLine|contains: shadowcopy
+    ProcessCommandLine|re: '(?i)\sshadowcopy(?:\s+[^\r\n]*)?\sdelete(?:\s|$)'
   image_wbadmin:
     FileName: wbadmin.exe
   command_catalog:
-    ProcessCommandLine|contains: catalog
+    ProcessCommandLine|re: '(?i)\sdelete\s+(?:catalog|systemstatebackup)(?:\s|$)'
   image_bcdedit:
     FileName: bcdedit.exe
   command_recoveryenabled:
-    ProcessCommandLine|contains: recoveryenabled
-  command_no:
-    ProcessCommandLine|contains: ' no'
+    ProcessCommandLine|re: '(?i)\s/set\s+(?:\{[^}]+\}\s+)?recoveryenabled\s+(?:no|off|0)(?:\s|$)'
   command_bootstatuspolicy:
-    ProcessCommandLine|contains: bootstatuspolicy
-  command_ignorefailures:
-    ProcessCommandLine|contains: ignoreallfailures
+    ProcessCommandLine|re: '(?i)\s/set\s+(?:\{[^}]+\}\s+)?bootstatuspolicy\s+ignoreallfailures(?:\s|$)'
   image_reagentc:
     FileName: reagentc.exe
   command_disable:
-    ProcessCommandLine|contains: /disable
-  condition: (image_vssadmin and command_delete and command_shadows) or (image_wmic and command_shadowcopy and command_delete) or (image_wbadmin and command_delete and command_catalog) or (image_bcdedit and command_recoveryenabled and command_no) or (image_bcdedit and command_bootstatuspolicy and command_ignorefailures) or (image_reagentc and command_disable)
+    ProcessCommandLine|re: '(?i)\s/disable(?:\s|$)'
+  condition: (image_vssadmin and command_delete_shadows) or (image_wmic and command_shadowcopy) or (image_wbadmin and command_catalog) or (image_bcdedit and (command_recoveryenabled or command_bootstatuspolicy)) or (image_reagentc and command_disable)
 fields:
   - TimeGenerated
   - Timestamp

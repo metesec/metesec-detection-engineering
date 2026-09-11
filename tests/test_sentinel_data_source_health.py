@@ -44,40 +44,13 @@ class SentinelDataSourceHealthTests(unittest.TestCase):
             "observed_at": "2026-09-03T12:00:00Z",
             "sources": [
                 {
-                    "id": "MSEC-SDS-0001",
-                    "table": "SigninLogs",
+                    "id": source["id"],
+                    "table": source["table"],
                     "table_exists": True,
                     "latest_event_at": "2026-09-03T11:30:00Z",
-                    "columns": self._columns("MSEC-SDS-0001"),
-                },
-                {
-                    "id": "MSEC-SDS-0002",
-                    "table": "AuditLogs",
-                    "table_exists": True,
-                    "latest_event_at": "2026-09-03T11:00:00Z",
-                    "columns": self._columns("MSEC-SDS-0002"),
-                },
-                {
-                    "id": "MSEC-SDS-0003",
-                    "table": "DeviceProcessEvents",
-                    "table_exists": True,
-                    "latest_event_at": "2026-09-03T11:45:00Z",
-                    "columns": self._columns("MSEC-SDS-0003"),
-                },
-                {
-                    "id": "MSEC-SDS-0004",
-                    "table": "AADUserRiskEvents",
-                    "table_exists": True,
-                    "latest_event_at": "2026-09-03T11:15:00Z",
-                    "columns": self._columns("MSEC-SDS-0004"),
-                },
-                {
-                    "id": "MSEC-SDS-0005",
-                    "table": "DeviceRegistryEvents",
-                    "table_exists": True,
-                    "latest_event_at": "2026-09-03T11:50:00Z",
-                    "columns": self._columns("MSEC-SDS-0005"),
-                },
+                    "columns": self._columns(source["id"]),
+                }
+                for source in self.contract_data["sources"]
             ],
         }
 
@@ -89,84 +62,56 @@ class SentinelDataSourceHealthTests(unittest.TestCase):
             return assess_data_sources(self.contracts, observed_at, sources)
 
     def test_contract_covers_exact_preview_bindings(self) -> None:
+        expected_tables = {
+            "MSEC-SDS-0001": "SigninLogs",
+            "MSEC-SDS-0002": "AuditLogs",
+            "MSEC-SDS-0003": "DeviceProcessEvents",
+            "MSEC-SDS-0004": "AADUserRiskEvents",
+            "MSEC-SDS-0005": "DeviceRegistryEvents",
+            "MSEC-SDS-0006": "AzureActivity",
+            "MSEC-SDS-0007": "DeviceImageLoadEvents",
+            "MSEC-SDS-0008": "DeviceNetworkEvents",
+            "MSEC-SDS-0009": "DeviceFileEvents",
+            "MSEC-SDS-0010": "AWSCloudTrail",
+        }
         self.assertEqual(
-            [(item.source_id, item.table, item.consumers) for item in self.contracts],
-            [
-                (
-                    "MSEC-SDS-0001",
-                    "SigninLogs",
-                    ("MSEC-DET-0002", "MSEC-DET-0003", "MSEC-DET-0026"),
-                ),
-                (
-                    "MSEC-SDS-0002",
-                    "AuditLogs",
-                    (
-                        "MSEC-DET-0004",
-                        "MSEC-DET-0005",
-                        "MSEC-DET-0008",
-                        "MSEC-DET-0009",
-                        "MSEC-DET-0014",
-                        "MSEC-DET-0015",
-                        "MSEC-DET-0019",
-                        "MSEC-DET-0021",
-                        "MSEC-DET-0022",
-                    ),
-                ),
-                (
-                    "MSEC-SDS-0003",
-                    "DeviceProcessEvents",
-                    (
-                        "MSEC-DET-0006",
-                        "MSEC-DET-0007",
-                        "MSEC-DET-0011",
-                        "MSEC-DET-0012",
-                        "MSEC-DET-0013",
-                        "MSEC-DET-0016",
-                        "MSEC-DET-0017",
-                        "MSEC-DET-0018",
-                        "MSEC-DET-0020",
-                        "MSEC-DET-0023",
-                        "MSEC-DET-0024",
-                        "MSEC-DET-0025",
-                        "MSEC-DET-0027",
-                        "MSEC-DET-0028",
-                        "MSEC-DET-0029",
-                        "MSEC-DET-0030",
-                        "MSEC-DET-0031",
-                        "MSEC-DET-0032",
-                        "MSEC-DET-0033",
-                        "MSEC-DET-0034",
-                        "MSEC-DET-0035",
-                        "MSEC-DET-0036",
-                        "MSEC-DET-0037",
-                        "MSEC-DET-0038",
-                        "MSEC-DET-0039",
-                        "MSEC-DET-0041",
-                        "MSEC-DET-0042",
-                        "MSEC-DET-0043",
-                        "MSEC-DET-0044",
-                        "MSEC-DET-0045",
-                        "MSEC-DET-0048",
-                        "MSEC-DET-0049",
-                        "MSEC-DET-0050",
-                    ),
-                ),
-                (
-                    "MSEC-SDS-0004",
-                    "AADUserRiskEvents",
-                    ("MSEC-DET-0010",),
-                ),
-                (
-                    "MSEC-SDS-0005",
-                    "DeviceRegistryEvents",
-                    ("MSEC-DET-0040", "MSEC-DET-0046", "MSEC-DET-0047"),
-                ),
-            ],
+            {item.source_id: item.table for item in self.contracts}, expected_tables
         )
+        preview = json.loads(PREVIEW.read_text(encoding="utf-8"))
+        expected_consumers = {}
+        for detection in preview["detections"]:
+            expected_consumers.setdefault(detection["query_table"], []).append(detection["id"])
+        self.assertEqual(
+            {item.table: list(item.consumers) for item in self.contracts},
+            expected_consumers,
+        )
+
+    def test_new_source_types_and_time_columns_are_explicit(self) -> None:
+        source_by_table = {
+            source["table"]: source for source in self.contract_data["sources"]
+        }
+        aws_columns = {
+            column["name"]: column["type"]
+            for column in source_by_table["AWSCloudTrail"]["required_columns"]
+        }
+        self.assertEqual(aws_columns["ManagementEvent"], "bool")
+        self.assertEqual(aws_columns["ReadOnly"], "bool")
+        self.assertEqual(aws_columns["ErrorCode"], "string")
+        self.assertEqual(aws_columns["ErrorMessage"], "string")
+        for table in ("DeviceFileEvents", "DeviceImageLoadEvents", "DeviceNetworkEvents"):
+            self.assertEqual(source_by_table[table]["event_time_column"], "TimeGenerated")
+            self.assertNotIn(
+                "Timestamp", {column["name"] for column in source_by_table[table]["required_columns"]}
+            )
+        network_columns = {
+            column["name"]: column["type"]
+            for column in source_by_table["DeviceNetworkEvents"]["required_columns"]
+        }
+        self.assertEqual(network_columns["RemotePort"], "int")
 
     def test_complete_fresh_observation_is_ready(self) -> None:
         assessments = self._assess(self._observation())
-        self.assertEqual([item.status for item in assessments], ["ready"] * 5)
+        self.assertEqual([item.status for item in assessments], ["ready"] * len(self.contracts))
         self.assertTrue(
             all(item.reasons == ("contract_satisfied",) for item in assessments)
         )
@@ -238,14 +183,14 @@ class SentinelDataSourceHealthTests(unittest.TestCase):
 
     def test_cli_exit_codes_distinguish_ready_from_unknown(self) -> None:
         observations = [
-            (self._observation(), 0, ["ready"] * 5),
+            (self._observation(), 0, ["ready"] * len(self.contracts)),
             (
                 {
                     **self._observation(),
                     "sources": self._observation()["sources"][:1],
                 },
                 2,
-                ["ready", "unknown", "unknown", "unknown", "unknown"],
+                ["ready"] + ["unknown"] * (len(self.contracts) - 1),
             ),
         ]
         with TemporaryDirectory() as directory:

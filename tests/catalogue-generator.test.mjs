@@ -12,46 +12,44 @@ import {
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const catalogue = buildDetectionCatalogue(root);
+const readJson = (relative) => JSON.parse(fs.readFileSync(path.join(root, relative), "utf8"));
+const manifestDirectories = fs.readdirSync(path.join(root, "catalog/detections"), { withFileTypes: true })
+  .filter((entry) => entry.isDirectory()).map((entry) => entry.name).sort();
+const manifests = manifestDirectories.map((id) => readJson("catalog/detections/" + id + "/manifest.json"));
+const preview = readJson("targets/sentinel/preview.json");
 
-test("builds the expected ordered catalogue and aggregate evidence", () => {
-  assert.deepEqual(
-    catalogue.detections.map((detection) => detection.id),
-    [
-      "MSEC-DET-0001", "MSEC-DET-0002", "MSEC-DET-0003", "MSEC-DET-0004", "MSEC-DET-0005",
-      "MSEC-DET-0006", "MSEC-DET-0007", "MSEC-DET-0008", "MSEC-DET-0009", "MSEC-DET-0010",
-      "MSEC-DET-0011", "MSEC-DET-0012", "MSEC-DET-0013", "MSEC-DET-0014", "MSEC-DET-0015",
-      "MSEC-DET-0016", "MSEC-DET-0017", "MSEC-DET-0018", "MSEC-DET-0019", "MSEC-DET-0020",
-      "MSEC-DET-0021", "MSEC-DET-0022", "MSEC-DET-0023", "MSEC-DET-0024", "MSEC-DET-0025",
-      "MSEC-DET-0026", "MSEC-DET-0027", "MSEC-DET-0028", "MSEC-DET-0029", "MSEC-DET-0030",
-      "MSEC-DET-0031", "MSEC-DET-0032", "MSEC-DET-0033", "MSEC-DET-0034", "MSEC-DET-0035",
-      "MSEC-DET-0036", "MSEC-DET-0037", "MSEC-DET-0038", "MSEC-DET-0039", "MSEC-DET-0040",
-      "MSEC-DET-0041", "MSEC-DET-0042", "MSEC-DET-0043", "MSEC-DET-0044", "MSEC-DET-0045",
-      "MSEC-DET-0046", "MSEC-DET-0047", "MSEC-DET-0048", "MSEC-DET-0049", "MSEC-DET-0050"
-    ]
-  );
+test("builds every authored detection and counts its independent fixture evidence", () => {
+  assert.ok(manifests.length > 0);
+  assert.deepEqual(manifests.map((item) => item.id), manifestDirectories);
+  assert.deepEqual(catalogue.detections.map((item) => item.id), manifestDirectories);
+  assert.equal(new Set(catalogue.detections.map((item) => item.id)).size, manifests.length);
+  const fixtureCases = manifests.flatMap((manifest) => manifest.implementations.flatMap(
+    (implementation) => readJson(path.posix.join(path.posix.dirname(implementation.path), "tests/cases.json")).cases,
+  ));
   assert.deepEqual(catalogue.summary, {
-    detections: 50,
-    implementations: 50,
-    positive_cases: 150,
-    negative_cases: 200,
-    sentinel_preview_bindings: 49
+    detections: manifests.length,
+    implementations: manifests.flatMap((manifest) => manifest.implementations).length,
+    positive_cases: fixtureCases.filter((item) => item.expectation === "match").length,
+    negative_cases: fixtureCases.filter((item) => item.expectation === "no_match").length,
+    sentinel_preview_bindings: preview.detections.length,
   });
-  assert.deepEqual(catalogue.detections[0].target_bindings, []);
-  assert.deepEqual(
-    catalogue.detections.slice(1).map((detection) => detection.target_bindings[0].table),
-    [
-      "SigninLogs", "SigninLogs", "AuditLogs", "AuditLogs", "DeviceProcessEvents",
-      "DeviceProcessEvents", "AuditLogs", "AuditLogs", "AADUserRiskEvents",
-      "DeviceProcessEvents", "DeviceProcessEvents", "DeviceProcessEvents", "AuditLogs", "AuditLogs",
-      "DeviceProcessEvents", "DeviceProcessEvents", "DeviceProcessEvents", "AuditLogs", "DeviceProcessEvents",
-      "AuditLogs", "AuditLogs", "DeviceProcessEvents", "DeviceProcessEvents", "DeviceProcessEvents",
-      "SigninLogs", "DeviceProcessEvents", "DeviceProcessEvents", "DeviceProcessEvents", "DeviceProcessEvents",
-      "DeviceProcessEvents", "DeviceProcessEvents", "DeviceProcessEvents", "DeviceProcessEvents", "DeviceProcessEvents",
-      "DeviceProcessEvents", "DeviceProcessEvents", "DeviceProcessEvents", "DeviceProcessEvents", "DeviceRegistryEvents",
-      "DeviceProcessEvents", "DeviceProcessEvents", "DeviceProcessEvents", "DeviceProcessEvents", "DeviceProcessEvents",
-      "DeviceRegistryEvents", "DeviceRegistryEvents", "DeviceProcessEvents", "DeviceProcessEvents", "DeviceProcessEvents"
-    ]
-  );
+  for (const manifest of manifests) {
+    const actual = catalogue.detections.find((item) => item.id === manifest.id);
+    for (const field of ["title", "description", "lifecycle", "severity", "confidence", "attack", "data_sources", "implementations"]) {
+      assert.deepEqual(actual[field], manifest[field], manifest.id + " " + field);
+    }
+    const cases = manifest.implementations.flatMap(
+      (implementation) => readJson(path.posix.join(path.posix.dirname(implementation.path), "tests/cases.json")).cases,
+    );
+    assert.deepEqual(actual.validation, {
+      positive_cases: cases.filter((item) => item.expectation === "match").length,
+      negative_cases: cases.filter((item) => item.expectation === "no_match").length,
+    });
+    assert.deepEqual(actual.target_bindings, preview.detections.filter((entry) => entry.id === manifest.id).map(
+      (entry) => ({ target: preview.target, table: entry.query_table, golden: entry.golden }),
+    ));
+  }
+  assert.deepEqual(catalogue.detections.find((item) => item.id === "MSEC-DET-0001").target_bindings, []);
 });
 
 test("generated machine catalogue satisfies its versioned schema", () => {

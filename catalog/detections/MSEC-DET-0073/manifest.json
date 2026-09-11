@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0073",
+  "title": "LSASS credential-theft ASR rule configured as disabled",
+  "description": "Detects 9e6c4e1f-7d60-472f-ba1a-a39ef669e4b2 set to a decimal or hexadecimal zero at its machine registry configuration location.",
+  "hypothesis": {
+    "summary": "An adversary may disable the ASR rule protecting LSASS from credential theft before attempting memory access.",
+    "rationale": "Tamper protection and policy precedence may prevent the write from changing effective ASR behavior. Audit and warning states are outside this explicit-zero analytic.",
+    "detection_goal": "Detects 9e6c4e1f-7d60-472f-ba1a-a39ef669e4b2 set to a decimal or hexadecimal zero at its machine registry configuration location."
+  },
+  "ownership": {
+    "owner": "MeteSec Detection Engineering",
+    "reviewers": []
+  },
+  "lifecycle": {
+    "status": "experimental",
+    "created": "2026-09-11",
+    "modified": "2026-09-11",
+    "review_interval_days": 90
+  },
+  "severity": "medium",
+  "confidence": "medium",
+  "data_sources": [
+    {
+      "name": "Microsoft Defender for Endpoint registry events",
+      "category": "Endpoint registry modification",
+      "required_fields": [
+        "TimeGenerated",
+        "Timestamp",
+        "DeviceId",
+        "DeviceName",
+        "ActionType",
+        "InitiatingProcessAccountDomain",
+        "InitiatingProcessAccountName",
+        "InitiatingProcessAccountSid",
+        "InitiatingProcessFileName",
+        "InitiatingProcessCommandLine",
+        "RegistryKey",
+        "RegistryValueName",
+        "RegistryValueData",
+        "ReportId"
+      ]
+    }
+  ],
+  "attack": [
+    {
+      "technique_id": "T1685",
+      "tactic": "Defense Impairment"
+    }
+  ],
+  "triage": {
+    "summary": "Tamper protection and policy precedence may prevent the write from changing effective ASR behavior. Audit and warning states are outside this explicit-zero analytic.",
+    "steps": [
+      "Review the exact value, previous state where available, actor, initiating process and associated management-policy changes.",
+      "Verify effective protection on the device, including policy precedence, tamper protection, UEFI lock and reboot requirements.",
+      "Confirm the change owner and correlate with credential-access activity before escalation or an approved restoration."
+    ],
+    "false_positives": [
+      "Approved security-policy rollback, compatibility troubleshooting or repeated application of an already-disabled configuration."
+    ]
+  },
+  "validation": {
+    "expected_outcome": "Match the bounded event, key/action/path or successful operation combination; reject one-field mutations, lookalikes and absent required fields. Synthetic tests do not establish live telemetry or production performance.",
+    "positive_tests": true,
+    "negative_tests": true
+  },
+  "implementations": [
+    {
+      "type": "sigma",
+      "path": "content/portable/sigma/MSEC-DET-0073/rule.yml",
+      "targets": [
+        "sentinel"
+      ],
+      "status": "active"
+    }
+  ],
+  "quality": {
+    "reviewed_on": "2026-09-11",
+    "signal_type": "configuration-change",
+    "limitations": [
+      "Tamper protection and policy precedence may prevent the write from changing effective ASR behavior. Audit and warning states are outside this explicit-zero analytic.",
+      "Current-revision evidence is synthetic only. Validate full generated KQL, source fields, ingestion delay, alert volume and scoped exclusions in the target before enabling."
+    ],
+    "validation_level": "synthetic-only",
+    "provenance": {
+      "origin": "reworked-supplied",
+      "license": "Apache-2.0",
+      "review": "docs/reviews/candidates-0051-0100.md"
+    }
+  }
+}

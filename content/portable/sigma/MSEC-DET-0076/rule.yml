@@ -1,0 +1,57 @@
+# Modified 2026-09-11 by MeteSec Detection Engineering.
+# Adapted from MeteSec Hardened 23 (Apache-2.0): raw source fields,
+# bounded predicates and repository-local synthetic evidence replace normalization.
+title: "AWS CloudTrail logging stopped or trail deleted"
+id: "3210bbee-1f59-5746-832a-cedafc952161"
+status: "experimental"
+description: "Detects an AWS management API write for the selected security-control removal operation with both error fields empty."
+references:
+  - "https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_StopLogging.html"
+  - "https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_DeleteTrail.html"
+  - "https://learn.microsoft.com/en-us/azure/azure-monitor/reference/tables/awscloudtrail"
+  - "https://attack.mitre.org/techniques/T1685/002/"
+  - "https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/aws/cloudtrail/aws_cloudtrail_disable_logging.yml"
+author: "MeteSec (AI-assisted implementation; human review pending)"
+date: "2026-09-11"
+modified: 2026-09-11
+license: "Apache-2.0"
+tags:
+  - "attack.defense-impairment"
+  - "attack.t1685.002"
+logsource:
+  product: "aws"
+  service: "cloudtrail"
+detection:
+  selection:
+    EventSource: "cloudtrail.amazonaws.com"
+    EventName:
+      - "StopLogging"
+      - "DeleteTrail"
+    EventTypeName: "AwsApiCall"
+    ManagementEvent: true
+    ReadOnly: false
+    ErrorCode: ""
+    ErrorMessage: ""
+  condition: "selection"
+fields:
+  - "TimeGenerated"
+  - "EventSource"
+  - "EventName"
+  - "EventTypeName"
+  - "ManagementEvent"
+  - "ReadOnly"
+  - "ErrorCode"
+  - "ErrorMessage"
+  - "AWSRegion"
+  - "SourceIpAddress"
+  - "UserIdentityType"
+  - "UserIdentityArn"
+  - "RecipientAccountId"
+  - "AwsEventId"
+falsepositives:
+  - "Approved trail replacement, region consolidation or account decommissioning."
+level: "high"
+related:
+  -
+    id: "4db60cc0-36fb-42b7-9b58-a5b53019fb74"
+    type: "similar"

@@ -3,12 +3,71 @@
   "detection_id": "MSEC-DET-0033",
   "implementation": "content/portable/sigma/MSEC-DET-0033/rule.yml",
   "cases": [
-    {"id": "netsh-all-profiles-off", "expectation": "match", "fixture": "fixtures/netsh-all-profiles-off.json", "description": "Synthetic Netsh command disables every Windows Firewall profile."},
-    {"id": "powershell-disable-false", "expectation": "match", "fixture": "fixtures/powershell-disable-false.json", "description": "Synthetic Windows PowerShell command disables selected firewall profiles."},
-    {"id": "pwsh-disable-dollar-false-with-context", "expectation": "match", "fixture": "fixtures/pwsh-disable-dollar-false-with-context.json", "description": "Synthetic PowerShell Core command uses the Boolean false form with endpoint context."},
-    {"id": "netsh-profile-on", "expectation": "no_match", "fixture": "fixtures/netsh-profile-on.json", "description": "Synthetic Netsh command enables rather than disables the firewall."},
-    {"id": "netsh-add-rule", "expectation": "no_match", "fixture": "fixtures/netsh-add-rule.json", "description": "Synthetic ordinary firewall-rule creation remains outside the disable condition."},
-    {"id": "powershell-enable-true", "expectation": "no_match", "fixture": "fixtures/powershell-enable-true.json", "description": "Synthetic PowerShell command enables selected firewall profiles."},
-    {"id": "other-process", "expectation": "no_match", "fixture": "fixtures/other-process.json", "description": "Synthetic other process carrying disable text remains outside the rule."}
+    {
+      "id": "netsh-all-profiles-off",
+      "expectation": "match",
+      "fixture": "fixtures/netsh-all-profiles-off.json",
+      "description": "Synthetic Netsh command disables every Windows Firewall profile."
+    },
+    {
+      "id": "powershell-disable-false",
+      "expectation": "match",
+      "fixture": "fixtures/powershell-disable-false.json",
+      "description": "Synthetic Windows PowerShell command disables selected firewall profiles."
+    },
+    {
+      "id": "pwsh-disable-dollar-false-with-context",
+      "expectation": "match",
+      "fixture": "fixtures/pwsh-disable-dollar-false-with-context.json",
+      "description": "Synthetic PowerShell Core command uses the Boolean false form with endpoint context."
+    },
+    {
+      "id": "netsh-profile-on",
+      "expectation": "no_match",
+      "fixture": "fixtures/netsh-profile-on.json",
+      "description": "Synthetic Netsh command enables rather than disables the firewall."
+    },
+    {
+      "id": "netsh-add-rule",
+      "expectation": "no_match",
+      "fixture": "fixtures/netsh-add-rule.json",
+      "description": "Synthetic ordinary firewall-rule creation remains outside the disable condition."
+    },
+    {
+      "id": "powershell-enable-true",
+      "expectation": "no_match",
+      "fixture": "fixtures/powershell-enable-true.json",
+      "description": "Synthetic PowerShell command enables selected firewall profiles."
+    },
+    {
+      "id": "other-process",
+      "expectation": "no_match",
+      "fixture": "fixtures/other-process.json",
+      "description": "Synthetic other process carrying disable text remains outside the rule."
+    },
+    {
+      "id": "enabled-true-other-false",
+      "expectation": "no_match",
+      "fixture": "fixtures/enabled-true-other-false.json",
+      "description": "Synthetic regression: False on LogBlocked does not imply Enabled=False."
+    },
+    {
+      "id": "enabled-colon-false",
+      "expectation": "match",
+      "fixture": "fixtures/enabled-colon-false.json",
+      "description": "Synthetic regression: the colon form binds False to Enabled."
+    },
+    {
+      "id": "netsh-off-prefix",
+      "expectation": "no_match",
+      "fixture": "fixtures/netsh-off-prefix.json",
+      "description": "Synthetic regression: offload is not state off."
+    },
+    {
+      "id": "quoted-firewall-command",
+      "expectation": "match",
+      "fixture": "fixtures/quoted-firewall-command.json",
+      "description": "Synthetic regression: A quoted PowerShell command still binds Enabled to False."
+    }
   ]
 }

@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0057",
+  "title": "System-named process connects publicly from a staging or remote location",
+  "description": "Detects a successful public-IP connection by a selected Windows system-process name whose executable resides in a rooted profile, temporary, recycle-bin or UNC location.",
+  "hypothesis": {
+    "summary": "An adversary may masquerade as a Windows system process while executing from a staging directory and connecting to public infrastructure.",
+    "rationale": "The predicate uses the source's Public classification, not independent IP reputation. A system filename suggests masquerading but does not prove identity or malicious intent.",
+    "detection_goal": "Detects a successful public-IP connection by a selected Windows system-process name whose executable resides in a rooted profile, temporary, recycle-bin or UNC location."
+  },
+  "ownership": {
+    "owner": "MeteSec Detection Engineering",
+    "reviewers": []
+  },
+  "lifecycle": {
+    "status": "experimental",
+    "created": "2026-09-11",
+    "modified": "2026-09-11",
+    "review_interval_days": 90
+  },
+  "severity": "high",
+  "confidence": "medium",
+  "data_sources": [
+    {
+      "name": "Microsoft Defender for Endpoint network events",
+      "category": "Endpoint network connection",
+      "required_fields": [
+        "TimeGenerated",
+        "DeviceId",
+        "DeviceName",
+        "ActionType",
+        "RemoteIP",
+        "RemoteIPType",
+        "RemotePort",
+        "InitiatingProcessAccountName",
+        "InitiatingProcessFileName",
+        "InitiatingProcessFolderPath",
+        "InitiatingProcessCommandLine",
+        "ReportId"
+      ]
+    }
+  ],
+  "attack": [
+    {
+      "technique_id": "T1036.005",
+      "tactic": "Defense Evasion"
+    }
+  ],
+  "triage": {
+    "summary": "The predicate uses the source's Public classification, not independent IP reputation. A system filename suggests masquerading but does not prove identity or malicious intent.",
+    "steps": [
+      "Inspect the actual executable path, hash, signature, process tree, account and destination context.",
+      "Validate the device's network classification and correlate preceding file creation, persistence and later network activity.",
+      "Confirm any approved vendor or testing purpose and investigate unexplained system-name impersonation."
+    ],
+    "false_positives": [
+      "Approved software deliberately using a system-like executable name in a selected staging path, or controlled security testing."
+    ]
+  },
+  "validation": {
+    "expected_outcome": "Match the bounded event, key/action/path or successful operation combination; reject one-field mutations, lookalikes and absent required fields. Synthetic tests do not establish live telemetry or production performance.",
+    "positive_tests": true,
+    "negative_tests": true
+  },
+  "implementations": [
+    {
+      "type": "sigma",
+      "path": "content/portable/sigma/MSEC-DET-0057/rule.yml",
+      "targets": [
+        "sentinel"
+      ],
+      "status": "active"
+    }
+  ],
+  "quality": {
+    "reviewed_on": "2026-09-11",
+    "signal_type": "behavior",
+    "limitations": [
+      "The predicate uses the source's Public classification, not independent IP reputation. A system filename suggests masquerading but does not prove identity or malicious intent.",
+      "Current-revision evidence is synthetic only. Validate full generated KQL, source fields, ingestion delay, alert volume and scoped exclusions in the target before enabling."
+    ],
+    "validation_level": "synthetic-only",
+    "provenance": {
+      "origin": "reworked-supplied",
+      "license": "Apache-2.0",
+      "review": "docs/reviews/candidates-0051-0100.md"
+    }
+  }
+}

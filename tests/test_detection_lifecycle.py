@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from contextlib import redirect_stdout
-from datetime import date
+from datetime import date, timedelta
 from io import StringIO
 import json
 from pathlib import Path
@@ -31,6 +31,7 @@ class DetectionLifecycleTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.records = load_manifest_records(CATALOG_ROOT)
+        cls.manifests = [json.loads(path.read_text()) for path in sorted(CATALOG_ROOT.glob('*/manifest.json'))]
         cls.transitions = load_policy(POLICY)
 
     def _record(self, **changes: object) -> LifecycleRecord:
@@ -46,12 +47,14 @@ class DetectionLifecycleTests(unittest.TestCase):
         return LifecycleRecord(**values)  # type: ignore[arg-type]
 
     def test_current_manifests_have_exact_review_due_dates(self) -> None:
-        assessments = assess_lifecycle(self.records, date(2026, 9, 3))
-        self.assertEqual(len(assessments), 50)
-        self.assertTrue(all(item.review_state == "current" for item in assessments))
-        self.assertTrue(
-            all(item.review_due == date(2026, 12, 2) for item in assessments)
-        )
+        as_of = max(date.fromisoformat(item["lifecycle"]["modified"]) for item in self.manifests)
+        assessments = assess_lifecycle(self.records, as_of)
+        self.assertEqual([item.detection_id for item in assessments], [item["id"] for item in self.manifests])
+        for manifest, assessment in zip(self.manifests, assessments, strict=True):
+            expected_due = date.fromisoformat(manifest["lifecycle"]["modified"]) + timedelta(days=manifest["lifecycle"]["review_interval_days"])
+            self.assertEqual(assessment.review_due, expected_due)
+            self.assertEqual(assessment.days_until_due, (expected_due - as_of).days)
+            self.assertEqual(assessment.review_state, "current" if expected_due > as_of else "due" if expected_due == as_of else "overdue")
 
     def test_due_and_overdue_boundaries_are_explicit(self) -> None:
         record = self._record()
@@ -100,11 +103,23 @@ class DetectionLifecycleTests(unittest.TestCase):
         validate_transitions(self.records, baseline, self.transitions)
 
     def test_cli_json_and_exit_codes_are_deterministic_with_as_of(self) -> None:
-        scenarios = [
-            ("2026-09-03", 0, {"current": 50, "due": 0, "overdue": 0}),
-            ("2026-12-02", 2, {"current": 0, "due": 50, "overdue": 0}),
-            ("2026-12-03", 2, {"current": 0, "due": 0, "overdue": 50}),
+        due_dates = [
+            date.fromisoformat(item["lifecycle"]["modified"]) + timedelta(days=item["lifecycle"]["review_interval_days"])
+            for item in self.manifests
         ]
+        dates = [
+            max(date.fromisoformat(item["lifecycle"]["modified"]) for item in self.manifests),
+            min(due_dates),
+            max(due_dates) + timedelta(days=1),
+        ]
+        scenarios = []
+        for assessment_date in dates:
+            counts = {
+                "current": sum(due > assessment_date for due in due_dates),
+                "due": sum(due == assessment_date for due in due_dates),
+                "overdue": sum(due < assessment_date for due in due_dates),
+            }
+            scenarios.append((assessment_date.isoformat(), 2 if counts["due"] or counts["overdue"] else 0, counts))
         for as_of, expected_exit, expected_counts in scenarios:
             output = StringIO()
             with self.subTest(as_of=as_of), mock.patch(
@@ -118,7 +133,7 @@ class DetectionLifecycleTests(unittest.TestCase):
 
     def test_baseline_loader_rejects_invalid_date_order(self) -> None:
         source = json.loads(CATALOGUE.read_text(encoding="utf-8"))
-        source["detections"][0]["lifecycle"]["created"] = "2026-09-04"
+        source["detections"][0]["lifecycle"]["created"] = (date.fromisoformat(source["detections"][0]["lifecycle"]["modified"]) + timedelta(days=1)).isoformat()
         with TemporaryDirectory() as directory:
             path = Path(directory) / "baseline.json"
             path.write_text(json.dumps(source), encoding="utf-8")

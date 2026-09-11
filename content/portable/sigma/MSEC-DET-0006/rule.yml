@@ -6,7 +6,9 @@ references:
   - https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table
   - https://attack.mitre.org/techniques/T1059/
 author: MeteSec Detection Engineering
+license: Apache-2.0
 date: 2026-09-03
+modified: 2026-09-11
 tags:
   - attack.execution
   - attack.t1059
@@ -44,4 +46,4 @@ fields:
   - ReportId
 falsepositives:
   - Approved Office macros, add-ins, deployment tooling, troubleshooting scripts, and business automation.
-level: high
+level: medium

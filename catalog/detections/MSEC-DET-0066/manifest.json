@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0066",
+  "title": "Azure soft-deleted Key Vault purged",
+  "description": "Detects a successful administrative purge of a previously soft-deleted Azure Key Vault.",
+  "hypothesis": {
+    "summary": "An adversary may purge a soft-deleted Key Vault to prevent recovery of keys and secrets, disrupting systems that depend on them.",
+    "rationale": "This control-plane event does not disclose the vault's prior contents or whether independent backups exist; approved retirement is possible.",
+    "detection_goal": "Detects a successful administrative purge of a previously soft-deleted Azure Key Vault."
+  },
+  "ownership": {
+    "owner": "MeteSec Detection Engineering",
+    "reviewers": []
+  },
+  "lifecycle": {
+    "status": "experimental",
+    "created": "2026-09-11",
+    "modified": "2026-09-11",
+    "review_interval_days": 90
+  },
+  "severity": "high",
+  "confidence": "medium",
+  "data_sources": [
+    {
+      "name": "Azure Activity administrative events",
+      "category": "Azure control-plane administration",
+      "required_fields": [
+        "TimeGenerated",
+        "OperationNameValue",
+        "ActivityStatusValue",
+        "CategoryValue",
+        "Caller",
+        "CallerIpAddress",
+        "CorrelationId",
+        "EventDataId",
+        "ResourceId",
+        "SubscriptionId"
+      ]
+    }
+  ],
+  "attack": [
+    {
+      "technique_id": "T1485",
+      "tactic": "Impact"
+    }
+  ],
+  "triage": {
+    "summary": "This control-plane event does not disclose the vault's prior contents or whether independent backups exist; approved retirement is possible.",
+    "steps": [
+      "Review the operation, resource, caller, source address and correlation ID; establish the approved change or recovery owner.",
+      "Inspect effective post-change configuration and independent controls, then correlate related role, resource and logging changes.",
+      "Validate the business justification and restore the affected control or contain unauthorized access through the consumer's approved process."
+    ],
+    "false_positives": [
+      "Approved Key Vault decommissioning or a documented recovery lifecycle operation on a disposable vault."
+    ]
+  },
+  "validation": {
+    "expected_outcome": "Match the bounded event, key/action/path or successful operation combination; reject one-field mutations, lookalikes and absent required fields. Synthetic tests do not establish live telemetry or production performance.",
+    "positive_tests": true,
+    "negative_tests": true
+  },
+  "implementations": [
+    {
+      "type": "sigma",
+      "path": "content/portable/sigma/MSEC-DET-0066/rule.yml",
+      "targets": [
+        "sentinel"
+      ],
+      "status": "active"
+    }
+  ],
+  "quality": {
+    "reviewed_on": "2026-09-11",
+    "signal_type": "configuration-change",
+    "limitations": [
+      "This control-plane event does not disclose the vault's prior contents or whether independent backups exist; approved retirement is possible.",
+      "Current-revision evidence is synthetic only. Validate full generated KQL, source fields, ingestion delay, alert volume and scoped exclusions in the target before enabling."
+    ],
+    "validation_level": "synthetic-only",
+    "provenance": {
+      "origin": "reworked-supplied",
+      "license": "Apache-2.0",
+      "review": "docs/reviews/candidates-0051-0100.md"
+    }
+  }
+}

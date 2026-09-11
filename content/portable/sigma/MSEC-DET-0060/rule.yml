@@ -1,0 +1,45 @@
+# Modified 2026-09-11 by MeteSec Detection Engineering.
+# Adapted from MeteSec Hardened 23 (Apache-2.0): raw source fields,
+# bounded predicates and repository-local synthetic evidence replace normalization.
+title: "NTDS database filename created in a staging or remote location"
+id: "8e9aab0e-f0ad-4787-89bd-0e4212f62b3b"
+status: "experimental"
+description: "Detects creation or rename of a file named ntds.dit in rooted profile, temporary, recycle-bin or UNC locations."
+references:
+  - "https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-devicefileevents-table"
+  - "https://learn.microsoft.com/en-us/azure/azure-monitor/reference/tables/devicefileevents"
+  - "https://attack.mitre.org/techniques/T1003/003/"
+author: "MeteSec (AI-assisted implementation; human review pending)"
+date: "2026-09-11"
+modified: 2026-09-11
+license: "Apache-2.0"
+tags:
+  - "attack.credential-access"
+  - "attack.t1003.003"
+logsource:
+  product: "windows"
+  category: "file_event"
+detection:
+  selection:
+    ActionType:
+      - "FileCreated"
+      - "FileRenamed"
+    FileName: "ntds.dit"
+    FolderPath|re: "(?i)^(?:[a-z]:\\\\(?:users|windows\\\\temp|temp|perflogs|\\$recycle\\.bin)(?:\\\\|$)|\\\\\\\\[a-z0-9_-][^\\\\/:*?\"<>|\\r\\n]*\\\\[^\\\\/:*?\"<>|\\r\\n]+(?:\\\\|$))"
+  condition: "selection"
+fields:
+  - "TimeGenerated"
+  - "DeviceId"
+  - "DeviceName"
+  - "ActionType"
+  - "FileName"
+  - "FolderPath"
+  - "SHA1"
+  - "InitiatingProcessAccountName"
+  - "InitiatingProcessFileName"
+  - "InitiatingProcessFolderPath"
+  - "InitiatingProcessCommandLine"
+  - "ReportId"
+falsepositives:
+  - "Approved domain-controller backup, restore, migration or forensic collection staging an NTDS copy in one of the selected paths."
+level: "high"

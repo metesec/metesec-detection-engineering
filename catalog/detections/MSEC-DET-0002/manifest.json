@@ -2,7 +2,7 @@
   "schema_version": 1,
   "id": "MSEC-DET-0002",
   "title": "Successful sign-in from a legacy client category",
-  "description": "Detects a successful Microsoft Entra sign-in reported through a client category associated with legacy authentication and therefore requiring validation.",
+  "description": "Detects successful Microsoft Entra sign-ins reported through selected legacy client categories. This is a policy-hygiene signal; the client label alone does not establish the authentication mechanism, bypass or compromise.",
   "hypothesis": {
     "summary": "An adversary may use a legacy authentication path to obtain access without modern authentication protections.",
     "rationale": "Legacy client categories can indicate authentication paths that do not support the same controls as modern clients, although approved compatibility exceptions can still exist.",
@@ -15,16 +15,23 @@
   "lifecycle": {
     "status": "experimental",
     "created": "2026-09-03",
-    "modified": "2026-09-03",
+    "modified": "2026-09-11",
     "review_interval_days": 90
   },
-  "severity": "medium",
-  "confidence": "medium",
+  "severity": "low",
+  "confidence": "low",
   "data_sources": [
     {
       "name": "Microsoft Entra sign-in logs",
       "category": "Identity authentication",
-      "required_fields": ["TimeGenerated", "ResultType", "ClientAppUsed", "UserPrincipalName", "IPAddress", "AppDisplayName"]
+      "required_fields": [
+        "TimeGenerated",
+        "ResultType",
+        "ClientAppUsed",
+        "UserPrincipalName",
+        "IPAddress",
+        "AppDisplayName"
+      ]
     }
   ],
   "attack": [
@@ -38,7 +45,8 @@
     "steps": [
       "Confirm that the sign-in succeeded and determine which client or protocol produced the legacy category.",
       "Review the user, application, source network, device context, and adjacent sign-in activity for anomalies.",
-      "Confirm whether the activity is covered by an approved exception and escalate unexplained access."
+      "Confirm whether the activity is covered by an approved exception and escalate unexplained access.",
+      "Treat this as change or policy monitoring; correlate with actor risk and an approved change record before opening an incident."
     ],
     "false_positives": [
       "Approved applications, devices, or migration exceptions that still use a reported legacy client category"
@@ -53,8 +61,24 @@
     {
       "type": "sigma",
       "path": "content/portable/sigma/MSEC-DET-0002/rule.yml",
-      "targets": ["sentinel"],
+      "targets": [
+        "sentinel"
+      ],
       "status": "active"
     }
-  ]
+  ],
+  "quality": {
+    "reviewed_on": "2026-09-11",
+    "signal_type": "administrative-activity",
+    "limitations": [
+      "Authorized administration can produce this event. The rule does not independently establish compromise or completion of a command; assess identity, target and change approval.",
+      "Current-revision evidence is synthetic only. Validate full generated KQL, source fields, ingestion delay, alert volume and scoped exclusions in the target before enabling."
+    ],
+    "validation_level": "synthetic-only",
+    "provenance": {
+      "origin": "reviewed-existing",
+      "license": "Apache-2.0",
+      "review": "docs/reviews/existing-0001-0025.md"
+    }
+  }
 }

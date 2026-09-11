@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "event": {
+    "FileName": "helper.exe",
+    "ProcessCommandLine": "C:\\Temp\\helper.exe /create /tn Synthetic /tr \"C:\\Program Files\\Synthetic\\updater.exe\" /sc daily",
+    "ProcessVersionInfoOriginalFileName": "schtasks.exe"
+  }
+}

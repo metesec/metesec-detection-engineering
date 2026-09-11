@@ -1,13 +1,15 @@
-title: Msiexec Installs a Remote Web Package
+title: Msiexec remote web package installation command
 id: b9fe36d2-0886-4e23-ba77-c5a28624b8e4
 status: experimental
-description: Detects Msiexec execution that references an MSI package over HTTP or HTTPS.
+description: Detects Msiexec installation or administrative-install commands whose package argument is HTTP or HTTPS. URL properties on local packages are excluded and a .msi URL suffix is not required.
 references:
   - https://attack.mitre.org/techniques/T1218/007/
   - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_msiexec_web_install.yml
   - https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table
 author: MeteSec Detection Engineering
+license: Apache-2.0
 date: 2026-09-03
+modified: 2026-09-11
 tags:
   - attack.stealth
   - attack.command-and-control
@@ -21,13 +23,9 @@ detection:
     FileName: msiexec.exe
   selection_original:
     ProcessVersionInfoOriginalFileName: msiexec.exe
-  selection_protocol:
-    ProcessCommandLine|contains:
-      - 'http://'
-      - 'https://'
-  selection_package:
-    ProcessCommandLine|contains: '.msi'
-  condition: (selection_image or selection_original) and selection_protocol and selection_package
+  selection_remote_package:
+    ProcessCommandLine|re|i: '(?:^|\s)[/-](?:i|package|a)\s*"?https?://[^\s"]+'
+  condition: (selection_image or selection_original) and selection_remote_package
 fields:
   - TimeGenerated
   - Timestamp

@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "event": {
+    "FileName": "netsh.exe",
+    "ProcessCommandLine": "netsh.exe interface\tportproxy\tadd\tv4tov4 listenport=8443 connectport=443"
+  }
+}

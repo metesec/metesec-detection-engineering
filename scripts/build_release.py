@@ -17,8 +17,17 @@ FIXED_ZIP_TIMESTAMP = (1980, 1, 1, 0, 0, 0)
 ARCHIVE_BASENAME = "metesec-detection-pack"
 EXACT_SOURCES = (
     "LICENSE",
+    "NOTICE",
     "README.md",
+    "CONTRIBUTING.md",
+    "AGENTS.md",
+    "ROADMAP.md",
+    ".gitignore",
     "SECURITY.md",
+    "package.json",
+    "pnpm-lock.yaml",
+    "requirements-sigma.lock",
+    ".forgejo/workflows/validate.yml",
     "CATALOGUE.md",
     "catalog/index.json",
     "COVERAGE.md",
@@ -31,6 +40,7 @@ EXACT_SOURCES = (
     "docs/testing/sigma-fixture-evaluation.md",
     "docs/tooling/sentinel-compilation.md",
     "docs/tooling/sentinel-source-inventory.md",
+    "docs/reviews/upstream-overlap.json",
 )
 SOURCE_GLOBS = (
     "catalog/detections/*/manifest.json",
@@ -39,9 +49,16 @@ SOURCE_GLOBS = (
     "content/portable/sigma/*/tests/fixtures/*.json",
     "docs/contracts/*.md",
     "docs/releases/*.md",
+    "docs/**/*.md",
     "governance/schemas/*.json",
+    "scripts/**/*.py",
+    "scripts/**/*.mjs",
+    "tests/*.py",
+    "tests/*.mjs",
+    "examples/manifests/*/*.json",
     "tests/golden/sentinel/*.kql",
 )
+OPTIONAL_SOURCE_GLOBS = ("governance/evidence/*.json",)
 
 
 class ReleaseBuildError(RuntimeError):
@@ -70,9 +87,9 @@ def _source_paths(repo_root: Path, version: str) -> list[Path]:
             raise ReleaseBuildError(f"required release source is missing: {relative}")
         paths.add(path)
 
-    for pattern in SOURCE_GLOBS:
+    for pattern in SOURCE_GLOBS + OPTIONAL_SOURCE_GLOBS:
         matches = [path for path in repo_root.glob(pattern) if path.is_file()]
-        if not matches:
+        if not matches and pattern in SOURCE_GLOBS:
             raise ReleaseBuildError(f"release source pattern matched no files: {pattern}")
         paths.update(matches)
 
@@ -150,6 +167,8 @@ def build_release(repo_root: Path, output_dir: Path) -> tuple[Path, Path]:
         "scope": {
             "portable_sigma": True,
             "synthetic_fixture_evidence": True,
+            "validation_tooling": True,
+            "dependency_locks": True,
             "sentinel_preview": True,
             "sentinel_data_source_contract": True,
             "coverage_report": True,

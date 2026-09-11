@@ -3,12 +3,21 @@
   "detection_id": "MSEC-DET-0021",
   "implementation": "content/portable/sigma/MSEC-DET-0021/rule.yml",
   "cases": [
-    {"id": "tenant-wide-role-management-grant", "expectation": "match", "fixture": "fixtures/tenant-wide-role-management-grant.json", "description": "Synthetic successful tenant-wide grant of the selected privileged scope."},
-    {"id": "uppercase-grant", "expectation": "match", "fixture": "fixtures/uppercase-grant.json", "description": "Synthetic uppercase audit values preserve case-insensitive matching."},
-    {"id": "grant-with-context", "expectation": "match", "fixture": "fixtures/grant-with-context.json", "description": "Synthetic grant includes bounded audit context."},
-    {"id": "per-user-consent", "expectation": "no_match", "fixture": "fixtures/per-user-consent.json", "description": "Synthetic Principal consent is not tenant-wide."},
-    {"id": "lower-privilege-scope", "expectation": "no_match", "fixture": "fixtures/lower-privilege-scope.json", "description": "Synthetic tenant-wide grant of another scope is outside the rule."},
-    {"id": "failed-grant", "expectation": "no_match", "fixture": "fixtures/failed-grant.json", "description": "Synthetic failed privileged grant does not match."},
-    {"id": "application-role-grant", "expectation": "no_match", "fixture": "fixtures/application-role-grant.json", "description": "Synthetic application-role assignment remains covered by a separate detection."}
+    {"id":"tenant-wide-role-management-grant","expectation":"match","fixture":"fixtures/tenant-wide-role-management-grant.json","description":"Synthetic successful tenant-wide grant of the selected privileged scope."},
+    {"id":"uppercase-grant","expectation":"match","fixture":"fixtures/uppercase-grant.json","description":"Synthetic uppercase audit values preserve case-insensitive matching."},
+    {"id":"grant-with-context","expectation":"match","fixture":"fixtures/grant-with-context.json","description":"Synthetic grant includes bounded audit context."},
+    {"id":"per-user-consent","expectation":"no_match","fixture":"fixtures/per-user-consent.json","description":"Synthetic Principal consent is not tenant-wide."},
+    {"id":"lower-privilege-scope","expectation":"no_match","fixture":"fixtures/lower-privilege-scope.json","description":"Synthetic tenant-wide grant of another scope is outside the rule."},
+    {"id":"failed-grant","expectation":"no_match","fixture":"fixtures/failed-grant.json","description":"Synthetic failed privileged grant does not match."},
+    {"id":"application-role-grant","expectation":"no_match","fixture":"fixtures/application-role-grant.json","description":"Synthetic application-role assignment remains covered by a separate detection."},
+    {"id":"new-values-json-quoted","expectation":"match","fixture":"fixtures/new-values-json-quoted.json","description":"Synthetic regression: JSON-quoted scalar newValue strings are normalized."},
+    {"id":"reordered-properties-and-keys","expectation":"match","fixture":"fixtures/reordered-properties-and-keys.json","description":"Synthetic regression: JSON key and property order do not affect structural extraction."},
+    {"id":"old-values-only","expectation":"no_match","fixture":"fixtures/old-values-only.json","description":"Synthetic regression: old values cannot satisfy a new grant."},
+    {"id":"target-name-only","expectation":"no_match","fixture":"fixtures/target-name-only.json","description":"Synthetic regression: a target name cannot impersonate modified properties."},
+    {"id":"cross-target-properties","expectation":"no_match","fixture":"fixtures/cross-target-properties.json","description":"Synthetic regression: scope and consent must belong to the same target resource."},
+    {"id":"near-scope-prefix","expectation":"no_match","fixture":"fixtures/near-scope-prefix.json","description":"Synthetic regression: scope-token equality excludes prefix lookalikes."},
+    {"id":"invalid-target-json","expectation":"no_match","fixture":"fixtures/invalid-target-json.json","description":"Synthetic regression: old flat pseudo-fixture syntax is not real JSON telemetry."},
+    {"id":"duplicate-scope-property","expectation":"no_match","fixture":"fixtures/duplicate-scope-property.json","description":"Synthetic regression: ambiguous duplicate properties fail closed."},
+    {"id":"wrong-target-type","expectation":"no_match","fixture":"fixtures/wrong-target-type.json","description":"Synthetic regression: only ServicePrincipal target resources qualify."}
   ]
 }

@@ -1,13 +1,15 @@
-title: Account Added to the Local Administrators Group
+title: Local Administrators membership addition command
 id: 8ae70d41-eadb-49b7-a8ef-0f0589be5e7f
 status: experimental
-description: Detects net.exe, net1.exe or PowerShell adding an account to the built-in local Administrators group.
+description: Detects net or PowerShell commands requesting a member addition to the built-in local Administrators group using explicit English, German or SID forms. Confirm the actual membership change from account-management telemetry.
 references:
   - https://attack.mitre.org/techniques/T1098/007/
   - https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.localaccounts/add-localgroupmember
   - https://learn.microsoft.com/en-us/windows/security/identity-protection/access-control/local-accounts
 author: MeteSec Detection Engineering
+license: Apache-2.0
 date: 2026-09-03
+modified: 2026-09-11
 tags:
   - attack.persistence
   - attack.privilege-escalation
@@ -20,22 +22,28 @@ detection:
     FileName:
       - net.exe
       - net1.exe
-  selection_net_action:
-    ProcessCommandLine|contains|all:
-      - 'localgroup'
-      - '/add'
+  selection_net_group:
+    ProcessCommandLine|re|i: '(?:^|\s)localgroup\s+"?(?:Administrators|Administratoren)"?\s+(?:"[^"]+"|[^/\s]\S*)'
+  selection_net_add:
+    ProcessCommandLine|re|i: '(?:^|\s)/add(?:\s|$)'
+  filter_net_domain:
+    ProcessCommandLine|re|i: '(?:^|\s)/domain(?:\s|$)'
   selection_powershell_image:
     FileName:
       - powershell.exe
       - pwsh.exe
   selection_powershell_action:
-    ProcessCommandLine|contains: 'Add-LocalGroupMember'
-  selection_group:
-    ProcessCommandLine|contains:
-      - 'Administrators'
-      - 'Administratoren'
-      - 'S-1-5-32-544'
-  condition: ((selection_net_image and selection_net_action) or (selection_powershell_image and selection_powershell_action)) and selection_group
+    ProcessCommandLine|re|i: '(?:^|[\s;&|{"''])Add-LocalGroupMember(?:\s|$)'
+  selection_powershell_group:
+    ProcessCommandLine|re|i:
+      - '(?:^|\s)-Group(?:\s+|:\s*)[''"]?(?:Administrators|Administratoren)[''"]?(?:\s|$)'
+      - '(?:^|\s)-SID(?:\s+|:\s*)[''"]?S-1-5-32-544[''"]?(?:\s|$)'
+      - '(?:^|[\s;&|{"''])Add-LocalGroupMember\s+[''"]?(?:Administrators|Administratoren)[''"]?(?:\s|$)'
+  selection_powershell_member:
+    ProcessCommandLine|re|i:
+      - '(?:^|\s)-Member(?:\s+|:\s*)\S+'
+      - '(?:^|[\s;&|{"''])Add-LocalGroupMember\s+[''"]?(?:Administrators|Administratoren)[''"]?\s+[^\s-]\S*'
+  condition: (selection_net_image and selection_net_group and selection_net_add and not filter_net_domain) or (selection_powershell_image and selection_powershell_action and selection_powershell_group and selection_powershell_member)
 fields:
   - TimeGenerated
   - Timestamp

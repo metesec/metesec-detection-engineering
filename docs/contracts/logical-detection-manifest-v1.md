@@ -28,6 +28,16 @@ manually edited source of truth.
 
 ## Lifecycle guardrail
 
+Active repository content additionally requires the `quality` extension:
+dated review, signal type, nonempty limitations, validation level and explicit
+license/provenance with a per-ID review reference. Generic draft examples remain
+valid without this extension; the admission gate requires it for real packages.
+Cross-file checks enforce Sigma metadata parity and source/fixture ownership.
+
+Synthetic tests alone cannot promote a rule to stable. The current gate requires
+revision-bound target and accepted pilot evidence as specified in the
+[enterprise adoption guide](../enterprise-baseline.md).
+
 Draft and experimental manifests may exist before their implementation is complete. A manifest may claim `stable` only when:
 
 1. at least one implementation is declared `active`;

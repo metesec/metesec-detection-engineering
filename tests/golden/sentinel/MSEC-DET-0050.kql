@@ -1,3 +1,3 @@
 DeviceProcessEvents
-| where (FileName =~ "netsh.exe" or ProcessVersionInfoOriginalFileName =~ "netsh.exe") and (ProcessCommandLine contains "interface" and ProcessCommandLine contains "portproxy" and ProcessCommandLine contains " add ")
+| where (FileName =~ "netsh.exe" or ProcessVersionInfoOriginalFileName =~ "netsh.exe") and ProcessCommandLine matches regex "(?i)(?:^|\\s)(?:interface\\s+portproxy|-c\\s+\"?interface\\s+portproxy\"?)\\s+add\\s+(?:v4tov4|v4tov6|v6tov4|v6tov6)(?:\\s|$)"
 | project TimeGenerated, Timestamp, DeviceId, DeviceName, AccountDomain, AccountName, AccountSid, InitiatingProcessFileName, FileName, ProcessVersionInfoOriginalFileName, FolderPath, ProcessCommandLine, ReportId

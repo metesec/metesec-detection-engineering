@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "event": {
+    "FileName": "pwsh.exe",
+    "ProcessCommandLine": "pwsh.exe Set-NetFirewallProfile -Profile Domain -Enabled:$false"
+  }
+}

@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
   "id": "MSEC-DET-0029",
-  "title": "Account added to the local Administrators group",
-  "description": "Detects net.exe, net1.exe or PowerShell adding an account to the built-in local Administrators group.",
+  "title": "Local Administrators membership addition command",
+  "description": "Detects net or PowerShell commands requesting a member addition to the built-in local Administrators group using explicit English, German or SID forms. Confirm the actual membership change from account-management telemetry.",
   "hypothesis": {
     "summary": "An adversary may add an account to the local Administrators group to retain elevated access.",
     "rationale": "MITRE documents local group membership changes through net localgroup and PowerShell under additional local accounts, while Microsoft warns that Administrators members have full control; approved provisioning can produce the same event.",
-    "detection_goal": "Identify net or PowerShell commands that add a member to the built-in Administrators group using English, German or well-known SID notation while leaving group queries and non-privileged groups unmatched."
+    "detection_goal": "Identify explicit net localgroup additions to English or German local Administrators and PowerShell additions with a bounded Administrators group or well-known SID argument. Other locales, aliases and dynamically resolved groups require additional telemetry."
   },
   "ownership": {
     "owner": "MeteSec Detection Engineering",
@@ -15,7 +15,7 @@
   "lifecycle": {
     "status": "experimental",
     "created": "2026-09-03",
-    "modified": "2026-09-03",
+    "modified": "2026-09-11",
     "review_interval_days": 90
   },
   "severity": "high",
@@ -24,16 +24,34 @@
     {
       "name": "Microsoft Defender for Endpoint process events",
       "category": "Endpoint process creation",
-      "required_fields": ["TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountName", "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"]
+      "required_fields": [
+        "TimeGenerated",
+        "Timestamp",
+        "DeviceId",
+        "DeviceName",
+        "AccountName",
+        "InitiatingProcessFileName",
+        "FileName",
+        "FolderPath",
+        "ProcessCommandLine",
+        "ReportId"
+      ]
     }
   ],
   "attack": [
-    {"technique_id": "T1098.007", "tactic": "Persistence"},
-    {"technique_id": "T1098.007", "tactic": "Privilege Escalation"}
+    {
+      "technique_id": "T1098.007",
+      "tactic": "Persistence"
+    },
+    {
+      "technique_id": "T1098.007",
+      "tactic": "Privilege Escalation"
+    }
   ],
   "triage": {
     "summary": "Identify the added member and change initiator, then confirm the privilege grant against an approved access request.",
     "steps": [
+      "Confirm the command's result in follow-on process, file, registry or service telemetry; a process-start event records intent and does not prove successful execution.",
       "Review the full command line, device, initiating account, parent process and added member.",
       "Confirm the endpoint role, expected local Administrators baseline and an approved joiner, support or deployment change.",
       "Remove unauthorized membership, disable suspicious accounts and investigate subsequent privileged activity."
@@ -43,7 +61,7 @@
     ]
   },
   "validation": {
-    "expected_outcome": "Match net or PowerShell membership additions to the local Administrators group; do not match queries, removals, other groups, other binaries or incomplete commands.",
+    "expected_outcome": "Match explicit local Administrators addition commands; reject group-name prefixes, member-name coincidences, /domain net operations, queries and unrelated tools.",
     "positive_tests": true,
     "negative_tests": true
   },
@@ -51,8 +69,24 @@
     {
       "type": "sigma",
       "path": "content/portable/sigma/MSEC-DET-0029/rule.yml",
-      "targets": ["sentinel"],
+      "targets": [
+        "sentinel"
+      ],
       "status": "active"
     }
-  ]
+  ],
+  "quality": {
+    "reviewed_on": "2026-09-11",
+    "signal_type": "administrative-activity",
+    "limitations": [
+      "Authorized administration can produce this event. The rule does not independently establish compromise or completion of a command; assess identity, target and change approval.",
+      "Current-revision evidence is synthetic only. Validate full generated KQL, source fields, ingestion delay, alert volume and scoped exclusions in the target before enabling."
+    ],
+    "validation_level": "synthetic-only",
+    "provenance": {
+      "origin": "reviewed-existing",
+      "license": "Apache-2.0",
+      "review": "docs/reviews/existing-0026-0050.md"
+    }
+  }
 }

@@ -1,4 +1,4 @@
-title: Rundll32 Invokes Inline Script Through MSHTML
+title: Rundll32 invokes inline script through MSHTML
 id: 72f1c87f-eb1e-421a-8235-277863a560e3
 status: experimental
 description: Detects rundll32 command lines that invoke JavaScript or VBScript through the MSHTML RunHTMLApplication export.
@@ -6,7 +6,9 @@ references:
   - https://attack.mitre.org/techniques/T1218/011/
   - https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table
 author: MeteSec Detection Engineering
+license: Apache-2.0
 date: 2026-09-03
+modified: 2026-09-11
 tags:
   - attack.stealth
   - attack.t1218.011
@@ -16,6 +18,8 @@ logsource:
 detection:
   selection_image:
     FileName: rundll32.exe
+  selection_original:
+    ProcessVersionInfoOriginalFileName: rundll32.exe
   selection_script:
     ProcessCommandLine|contains:
       - 'javascript:'
@@ -24,7 +28,7 @@ detection:
     ProcessCommandLine|contains|all:
       - 'mshtml'
       - 'RunHTMLApplication'
-  condition: selection_image and selection_script and selection_engine
+  condition: (selection_image or selection_original) and selection_script and selection_engine
 fields:
   - TimeGenerated
   - Timestamp
@@ -33,6 +37,7 @@ fields:
   - AccountName
   - InitiatingProcessFileName
   - FileName
+  - ProcessVersionInfoOriginalFileName
   - FolderPath
   - ProcessCommandLine
   - ReportId

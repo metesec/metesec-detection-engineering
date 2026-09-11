@@ -1,13 +1,15 @@
-title: Mshta Executes Content From a Remote Location
+title: Mshta Command References a Remote Resource
 id: 2703f40a-1128-43b5-bebc-3d6f2c590678
 status: experimental
-description: Detects mshta command lines that reference remotely hosted HTTP, HTTPS, or FTP content.
+description: Detects mshta command lines that reference HTTP, HTTPS, or FTP resources, including inline script download expressions. Process creation alone does not prove that content was retrieved or executed.
 references:
   - https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table
   - https://attack.mitre.org/techniques/T1218/005/
   - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_mshta_http.yml
 author: MeteSec Detection Engineering
+license: Apache-2.0
 date: 2026-09-03
+modified: 2026-09-11
 tags:
   - attack.defense-evasion
   - attack.t1218.005

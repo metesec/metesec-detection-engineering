@@ -2,6 +2,24 @@
 
 The roadmap describes intended capability, not current implementation. Verified current state is maintained in `AGENTS.md`.
 
+## 1.1 — Reviewed enterprise baseline
+
+Status: **implemented locally; canonical review/publication and target pilot pending**.
+
+- [x] Review all 50 existing rules and all 50 additional candidate IDs.
+- [x] Admit 17 bounded additions; record 33 deferred candidates.
+- [x] Correct predicates, administrative claims, severity and confidence.
+- [x] Add regression evidence, per-rule limitations/provenance and stronger gates.
+- [x] Extend explicit Sentinel source contracts and safe disabled scheduling.
+- [x] Make the source pack self-contained for validation and rebuilding.
+- [ ] Canonical Forgejo review and trusted CI for this revision.
+- [ ] Full generated-query target tests, source/ingestion verification and pilot.
+- [ ] Publish the reviewed release through the protected canonical workflow.
+
+No fixed future rule-count target. Existing v1.0 milestones below are historical;
+their live-query results and counts do not certify current rewritten content.
+Use ADR-0017 and the enterprise adoption guide for current admission decisions.
+
 ## 0.1 — Functional Foundation
 
 Status: **complete**

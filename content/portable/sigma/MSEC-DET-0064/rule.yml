@@ -1,0 +1,50 @@
+# Modified 2026-09-11 by MeteSec Detection Engineering.
+# Adapted from MeteSec Hardened 23 (Apache-2.0): raw source fields,
+# bounded predicates and repository-local synthetic evidence replace normalization.
+title: "RunAsPPL explicitly zeroed or removed"
+id: "0800c10a-0d61-5abc-afd2-c57d36c34442"
+status: "experimental"
+description: "Detects RunAsPPL set to a decimal or hexadecimal zero, or deleted at its machine registry configuration location."
+references:
+  - "https://learn.microsoft.com/en-us/windows-server/security/credentials-protection-and-management/configuring-additional-lsa-protection"
+  - "https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceregistryevents-table"
+  - "https://attack.mitre.org/techniques/T1562/001/"
+  - "https://attack.mitre.org/techniques/T1685/"
+author: "MeteSec (AI-assisted implementation; human review pending)"
+date: "2026-09-11"
+modified: 2026-09-11
+license: "Apache-2.0"
+tags:
+  - "attack.defense-impairment"
+  - "attack.t1685"
+logsource:
+  product: "windows"
+  category: "registry_event"
+detection:
+  key:
+    RegistryKey|re: "(?i)^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\(?:CurrentControlSet|ControlSet[0-9]{3})\\\\Control\\\\Lsa$"
+    RegistryValueName: "RunAsPPL"
+  zero:
+    ActionType: "RegistryValueSet"
+    RegistryValueData|re: "(?i)^(?:0+|0x0+)$"
+  deleted:
+    ActionType: "RegistryValueDeleted"
+  condition: "key and (zero or deleted)"
+fields:
+  - "TimeGenerated"
+  - "Timestamp"
+  - "DeviceId"
+  - "DeviceName"
+  - "ActionType"
+  - "InitiatingProcessAccountDomain"
+  - "InitiatingProcessAccountName"
+  - "InitiatingProcessAccountSid"
+  - "InitiatingProcessFileName"
+  - "InitiatingProcessCommandLine"
+  - "RegistryKey"
+  - "RegistryValueName"
+  - "RegistryValueData"
+  - "ReportId"
+falsepositives:
+  - "Approved security-policy rollback, compatibility troubleshooting or repeated application of an already-disabled configuration."
+level: "medium"

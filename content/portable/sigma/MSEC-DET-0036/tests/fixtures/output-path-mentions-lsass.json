@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "event": {
+    "FileName": "procdump.exe",
+    "ProcessCommandLine": "procdump.exe -ma notepad.exe C:\\Temp\\lsass-notes.dmp"
+  }
+}

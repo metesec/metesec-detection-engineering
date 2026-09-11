@@ -54,6 +54,15 @@ class SigmaValidationTests(unittest.TestCase):
         with self.assertRaises(SigmaDocumentError):
             validate_sigma_text("not: [valid", "broken.yml")
 
+    def test_duplicate_selector_and_metadata_keys_fail_closed(self) -> None:
+        for source in (
+            VALID_RULE + "level: high\n",
+            VALID_RULE.replace("  condition: selection", "  condition: selection\n  condition: not selection"),
+            VALID_RULE.replace("  selection:\n", "  selection: {Image: other.exe}\n  selection:\n"),
+        ):
+            with self.subTest(source=source), self.assertRaisesRegex(SigmaDocumentError, "duplicate YAML key"):
+                validate_sigma_text(source)
+
     def test_parser_health_check_proves_both_paths(self) -> None:
         verify_parser_health()
 

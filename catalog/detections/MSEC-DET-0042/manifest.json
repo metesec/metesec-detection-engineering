@@ -1,30 +1,89 @@
 {
   "schema_version": 1,
   "id": "MSEC-DET-0042",
-  "title": "Odbcconf registers a DLL with REGSVR",
-  "description": "Detects Odbcconf use of the REGSVR action to register a DLL.",
+  "title": "Odbcconf REGSVR registration command",
+  "description": "Detects Odbcconf commands containing a braced REGSVR action and a payload argument, regardless of filename extension. Process start alone does not confirm successful registration.",
   "hypothesis": {
     "summary": "An adversary may use Odbcconf to proxy DLL registration through a signed Windows binary.",
-    "rationale": "MITRE documents Odbcconf proxy execution, Microsoft documents REGSVR as an Odbcconf installer action, and SigmaHQ maintains a comparable analytic for the action-plus-DLL combination.",
-    "detection_goal": "Identify Odbcconf commands that combine the REGSVR action with a DLL reference while leaving routine ODBC configuration, unrelated executables and incomplete commands unmatched."
+    "rationale": "Microsoft documents REGSVR as an Odbcconf action taking a library argument. Matching the action and argument together avoids unrelated marker coincidences and preserves registration attempts where the DLL has a nonstandard extension.",
+    "detection_goal": "Identify the documented braced REGSVR action with a payload argument. Do not require a .dll suffix or infer registration from independent REGSVR and DLL text elsewhere in the command."
   },
-  "ownership": {"owner": "MeteSec Detection Engineering", "reviewers": []},
-  "lifecycle": {"status": "experimental", "created": "2026-09-03", "modified": "2026-09-03", "review_interval_days": 90},
+  "ownership": {
+    "owner": "MeteSec Detection Engineering",
+    "reviewers": []
+  },
+  "lifecycle": {
+    "status": "experimental",
+    "created": "2026-09-03",
+    "modified": "2026-09-11",
+    "review_interval_days": 90
+  },
   "severity": "medium",
   "confidence": "medium",
   "data_sources": [
-    {"name": "Microsoft Defender for Endpoint process events", "category": "Endpoint process creation", "required_fields": ["TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountName", "InitiatingProcessFileName", "FileName", "ProcessVersionInfoOriginalFileName", "FolderPath", "ProcessCommandLine", "ReportId"]}
+    {
+      "name": "Microsoft Defender for Endpoint process events",
+      "category": "Endpoint process creation",
+      "required_fields": [
+        "TimeGenerated",
+        "Timestamp",
+        "DeviceId",
+        "DeviceName",
+        "AccountName",
+        "InitiatingProcessFileName",
+        "FileName",
+        "ProcessVersionInfoOriginalFileName",
+        "FolderPath",
+        "ProcessCommandLine",
+        "ReportId"
+      ]
+    }
   ],
-  "attack": [{"technique_id": "T1218.008", "tactic": "Stealth"}],
+  "attack": [
+    {
+      "technique_id": "T1218.008",
+      "tactic": "Stealth"
+    }
+  ],
   "triage": {
     "summary": "Verify the registered DLL and installer context; Odbcconf REGSVR is legitimate functionality but an unusual execution path on ordinary endpoints.",
     "steps": [
+      "Confirm the command's result in follow-on process, file, registry or service telemetry; a process-start event records intent and does not prove successful execution.",
       "Review the full command, effective original filename, DLL path, signer, hash, account and parent process.",
       "Inspect the DLL origin and correlate file writes, downloads, registry changes and child or follow-on execution.",
       "Confirm a documented ODBC driver installation or repair; otherwise contain the endpoint and investigate the delivery path."
     ],
-    "false_positives": ["Approved ODBC driver installation, registration or repair packages that use the documented REGSVR action"]
+    "false_positives": [
+      "Approved ODBC driver installation, registration or repair packages that use the documented REGSVR action"
+    ]
   },
-  "validation": {"expected_outcome": "Match Odbcconf commands containing both REGSVR and a DLL reference; do not match configuration-only actions, missing markers or unrelated executables.", "positive_tests": true, "negative_tests": true},
-  "implementations": [{"type": "sigma", "path": "content/portable/sigma/MSEC-DET-0042/rule.yml", "targets": ["sentinel"], "status": "active"}]
+  "validation": {
+    "expected_outcome": "Match braced REGSVR action arguments even without a DLL extension; reject missing action arguments, marker coincidences and unrelated processes.",
+    "positive_tests": true,
+    "negative_tests": true
+  },
+  "implementations": [
+    {
+      "type": "sigma",
+      "path": "content/portable/sigma/MSEC-DET-0042/rule.yml",
+      "targets": [
+        "sentinel"
+      ],
+      "status": "active"
+    }
+  ],
+  "quality": {
+    "reviewed_on": "2026-09-11",
+    "signal_type": "behavior",
+    "limitations": [
+      "This single-event signal does not establish malicious intent or successful execution. Renamed binaries, alternate tools, obfuscation and unlogged activity can evade the bounded predicates.",
+      "Current-revision evidence is synthetic only. Validate full generated KQL, source fields, ingestion delay, alert volume and scoped exclusions in the target before enabling."
+    ],
+    "validation_level": "synthetic-only",
+    "provenance": {
+      "origin": "reviewed-existing",
+      "license": "Apache-2.0",
+      "review": "docs/reviews/existing-0026-0050.md"
+    }
+  }
 }

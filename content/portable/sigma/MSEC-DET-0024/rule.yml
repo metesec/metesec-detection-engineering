@@ -1,13 +1,15 @@
-title: Remote Process Creation Through Windows WMI or CIM
+title: WMI or CIM Process Creation with an Explicit Target Selector
 id: 620e0a0a-c41a-4847-a38b-3b6b468dca45
 status: experimental
-description: Detects explicit remote Win32_Process creation through WMIC or PowerShell WMI and CIM commands.
+description: Detects Win32_Process creation commands with an explicit WMIC node, PowerShell computer-name or CIM-session selector. A named target or CIM session can resolve to the local computer; destination telemetry is needed to establish remote execution.
 references:
   - https://learn.microsoft.com/en-us/windows/win32/wmisdk/creating-processes-remotely
   - https://attack.mitre.org/techniques/T1047/
   - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_wmic_process_creation.yml
 author: MeteSec Detection Engineering
+license: Apache-2.0
 date: 2026-09-03
+modified: 2026-09-11
 tags:
   - attack.execution
   - attack.t1047
@@ -18,28 +20,21 @@ detection:
   wmic_image:
     FileName: wmic.exe
   wmic_remote:
-    ProcessCommandLine|contains: '/node:'
+    ProcessCommandLine|re: '(?i)\s/node:\s*\S'
   wmic_process_create:
-    ProcessCommandLine|contains|all:
-      - process
-      - call
-      - create
+    ProcessCommandLine|re: '(?i)\s(?:process|path\s+Win32_Process)\s+call\s+create(?:\s|$)'
   powershell_image:
     FileName:
       - powershell.exe
       - pwsh.exe
   powershell_method:
-    ProcessCommandLine|contains:
-      - Invoke-WmiMethod
-      - Invoke-CimMethod
+    ProcessCommandLine|re: '(?i)(?:^|[\s";{&])Invoke-(?:Wmi|Cim)Method(?:\s|$)'
   powershell_class:
-    ProcessCommandLine|contains: Win32_Process
+    ProcessCommandLine|re: '(?i)(?:^|[\s"''])Win32_Process(?:[\s"'']|$)'
   powershell_create:
-    ProcessCommandLine|contains: Create
+    ProcessCommandLine|re: '(?i)\s-(?:Name|MethodName)\s+["'']?Create(?:[\s"'']|$)'
   powershell_remote:
-    ProcessCommandLine|contains:
-      - '-ComputerName'
-      - '-CimSession'
+    ProcessCommandLine|re: '(?i)\s-(?:ComputerName|CimSession)(?:\s+|:)\S'
   condition: (wmic_image and wmic_remote and wmic_process_create) or (powershell_image and powershell_method and powershell_class and powershell_create and powershell_remote)
 fields:
   - TimeGenerated

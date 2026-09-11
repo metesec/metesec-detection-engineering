@@ -3,12 +3,65 @@
   "detection_id": "MSEC-DET-0036",
   "implementation": "content/portable/sigma/MSEC-DET-0036/rule.yml",
   "cases": [
-    {"id": "procdump64-lsass", "expectation": "match", "fixture": "fixtures/procdump64-lsass.json", "description": "Synthetic ProcDump64 command requests a full LSASS dump."},
-    {"id": "renamed-procdump-keyiso", "expectation": "match", "fixture": "fixtures/renamed-procdump-keyiso.json", "description": "Synthetic renamed ProcDump binary targets KeyIso using original filename metadata."},
-    {"id": "procdump-samss-with-context", "expectation": "match", "fixture": "fixtures/procdump-samss-with-context.json", "description": "Synthetic mixed-case ProcDump command targets SamSs with bounded endpoint context."},
-    {"id": "unrelated-target", "expectation": "no_match", "fixture": "fixtures/unrelated-target.json", "description": "Synthetic ProcDump command targets an unrelated process."},
-    {"id": "missing-dump-mode", "expectation": "no_match", "fixture": "fixtures/missing-dump-mode.json", "description": "Synthetic ProcDump command targets LSASS without a selected dump mode."},
-    {"id": "lookalike-executable", "expectation": "no_match", "fixture": "fixtures/lookalike-executable.json", "description": "Synthetic unrelated executable carries matching command text without ProcDump identity."},
-    {"id": "missing-command-line", "expectation": "no_match", "fixture": "fixtures/missing-command-line.json", "description": "Synthetic ProcDump event lacks the command line required by the rule."}
+    {
+      "id": "procdump64-lsass",
+      "expectation": "match",
+      "fixture": "fixtures/procdump64-lsass.json",
+      "description": "Synthetic ProcDump64 command requests a full LSASS dump."
+    },
+    {
+      "id": "renamed-procdump-keyiso",
+      "expectation": "no_match",
+      "fixture": "fixtures/renamed-procdump-keyiso.json",
+      "description": "Synthetic regression: KeyIso is a service label, not an LSASS process-name target."
+    },
+    {
+      "id": "procdump-samss-with-context",
+      "expectation": "no_match",
+      "fixture": "fixtures/procdump-samss-with-context.json",
+      "description": "Synthetic regression: SamSs is a service label and does not establish LSASS targeting."
+    },
+    {
+      "id": "unrelated-target",
+      "expectation": "no_match",
+      "fixture": "fixtures/unrelated-target.json",
+      "description": "Synthetic ProcDump command targets an unrelated process."
+    },
+    {
+      "id": "missing-dump-mode",
+      "expectation": "match",
+      "fixture": "fixtures/missing-dump-mode.json",
+      "description": "Synthetic regression: ProcDump defaults to a mini dump without a size option."
+    },
+    {
+      "id": "lookalike-executable",
+      "expectation": "no_match",
+      "fixture": "fixtures/lookalike-executable.json",
+      "description": "Synthetic unrelated executable carries matching command text without ProcDump identity."
+    },
+    {
+      "id": "missing-command-line",
+      "expectation": "no_match",
+      "fixture": "fixtures/missing-command-line.json",
+      "description": "Synthetic ProcDump event lacks the command line required by the rule."
+    },
+    {
+      "id": "output-path-mentions-lsass",
+      "expectation": "no_match",
+      "fixture": "fixtures/output-path-mentions-lsass.json",
+      "description": "Synthetic regression: output-filename text is not LSASS targeting."
+    },
+    {
+      "id": "pid-only-requires-correlation",
+      "expectation": "no_match",
+      "fixture": "fixtures/pid-only-requires-correlation.json",
+      "description": "Synthetic regression: a PID needs correlated target identity."
+    },
+    {
+      "id": "renamed-procdump-quoted-lsass",
+      "expectation": "match",
+      "fixture": "fixtures/renamed-procdump-quoted-lsass.json",
+      "description": "Synthetic regression: renamed ProcDump and quoted LSASS need no explicit size switch."
+    }
   ]
 }

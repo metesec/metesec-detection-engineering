@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "detection_id": "MSEC-DET-0073",
+  "implementation": "content/portable/sigma/MSEC-DET-0073/rule.yml",
+  "cases": [
+    {
+      "id": "bounded-positive",
+      "expectation": "match",
+      "fixture": "fixtures/bounded-positive.json",
+      "description": "Synthetic complete event matches the stated bounded predicate."
+    },
+    {
+      "id": "hexadecimal-zero",
+      "expectation": "match",
+      "fixture": "fixtures/hexadecimal-zero.json",
+      "description": "Synthetic positive variant: hexadecimal zero."
+    },
+    {
+      "id": "local-policy-key",
+      "expectation": "match",
+      "fixture": "fixtures/local-policy-key.json",
+      "description": "Synthetic positive variant: local policy key."
+    },
+    {
+      "id": "enabled-value",
+      "expectation": "no_match",
+      "fixture": "fixtures/enabled-value.json",
+      "description": "Synthetic one-field boundary: enabled value."
+    },
+    {
+      "id": "zero-prefix-nonzero",
+      "expectation": "no_match",
+      "fixture": "fixtures/zero-prefix-nonzero.json",
+      "description": "Synthetic one-field boundary: zero prefix nonzero."
+    },
+    {
+      "id": "wrong-value-name",
+      "expectation": "no_match",
+      "fixture": "fixtures/wrong-value-name.json",
+      "description": "Synthetic one-field boundary: wrong value name."
+    },
+    {
+      "id": "user-hive",
+      "expectation": "no_match",
+      "fixture": "fixtures/user-hive.json",
+      "description": "Synthetic one-field boundary: user hive."
+    },
+    {
+      "id": "extra-subkey",
+      "expectation": "no_match",
+      "fixture": "fixtures/extra-subkey.json",
+      "description": "Synthetic one-field boundary: extra subkey."
+    },
+    {
+      "id": "key-created",
+      "expectation": "no_match",
+      "fixture": "fixtures/key-created.json",
+      "description": "Synthetic one-field boundary: key created."
+    },
+    {
+      "id": "missing-registrykey",
+      "expectation": "no_match",
+      "fixture": "fixtures/missing-registrykey.json",
+      "description": "Synthetic event is missing required predicate field RegistryKey."
+    },
+    {
+      "id": "missing-registryvaluename",
+      "expectation": "no_match",
+      "fixture": "fixtures/missing-registryvaluename.json",
+      "description": "Synthetic event is missing required predicate field RegistryValueName."
+    },
+    {
+      "id": "missing-actiontype",
+      "expectation": "no_match",
+      "fixture": "fixtures/missing-actiontype.json",
+      "description": "Synthetic event is missing required predicate field ActionType."
+    },
+    {
+      "id": "missing-registryvaluedata",
+      "expectation": "no_match",
+      "fixture": "fixtures/missing-registryvaluedata.json",
+      "description": "Synthetic event is missing required predicate field RegistryValueData."
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"ActionType":"RegistryValueSet","RegistryKey":"HKEY_CURRENT_USER\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Windows Defender Exploit Guard\\ASR\\Rules","RegistryValueName":"9e6c4e1f-7d60-472f-ba1a-a39ef669e4b2","RegistryValueData":"0"}}

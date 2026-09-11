@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"EventSource":"cloudtrail.amazonaws.com","EventName":"StopLogging","EventTypeName":"AwsApiCall","ManagementEvent":"true","ReadOnly":false,"ErrorCode":"","ErrorMessage":""}}

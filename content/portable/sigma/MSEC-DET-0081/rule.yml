@@ -1,0 +1,57 @@
+# Modified 2026-09-11 by MeteSec Detection Engineering.
+# Adapted from MeteSec Hardened 23 (Apache-2.0): raw source fields,
+# bounded predicates and repository-local synthetic evidence replace normalization.
+title: "AWS GuardDuty detector deleted"
+id: "b48cbfa3-6393-513b-ae05-e628b8e17e42"
+status: "experimental"
+description: "Detects an AWS management API write for the selected security-control removal operation with both error fields empty."
+references:
+  - "https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DeleteDetector.html"
+  - "https://docs.aws.amazon.com/guardduty/latest/APIReference/API_UpdateDetector.html"
+  - "https://learn.microsoft.com/en-us/azure/azure-monitor/reference/tables/awscloudtrail"
+  - "https://attack.mitre.org/techniques/T1562/001/"
+  - "https://raw.githubusercontent.com/SigmaHQ/sigma/master/rules/cloud/aws/cloudtrail/aws_cloudtrail_guardduty_detector_deleted_or_updated.yml"
+  - "https://raw.githubusercontent.com/elastic/detection-rules/main/rules/integrations/aws/defense_evasion_guardduty_detector_deletion.toml"
+  - "https://attack.mitre.org/techniques/T1685/"
+author: "MeteSec (AI-assisted implementation; human review pending)"
+date: "2026-09-11"
+modified: 2026-09-11
+license: "Apache-2.0"
+tags:
+  - "attack.defense-impairment"
+  - "attack.t1685"
+logsource:
+  product: "aws"
+  service: "cloudtrail"
+detection:
+  selection:
+    EventSource: "guardduty.amazonaws.com"
+    EventName: "DeleteDetector"
+    EventTypeName: "AwsApiCall"
+    ManagementEvent: true
+    ReadOnly: false
+    ErrorCode: ""
+    ErrorMessage: ""
+  condition: "selection"
+fields:
+  - "TimeGenerated"
+  - "EventSource"
+  - "EventName"
+  - "EventTypeName"
+  - "ManagementEvent"
+  - "ReadOnly"
+  - "ErrorCode"
+  - "ErrorMessage"
+  - "AWSRegion"
+  - "SourceIpAddress"
+  - "UserIdentityType"
+  - "UserIdentityArn"
+  - "RecipientAccountId"
+  - "AwsEventId"
+falsepositives:
+  - "Approved account decommissioning or a documented GuardDuty detector replacement."
+level: "high"
+related:
+  -
+    id: "d2656e78-c069-4571-8220-9e0ab5913f19"
+    type: "similar"

@@ -1,0 +1,49 @@
+# Modified 2026-09-11 by MeteSec Detection Engineering.
+# Adapted from MeteSec Hardened 23 (Apache-2.0): raw source fields,
+# bounded predicates and repository-local synthetic evidence replace normalization.
+title: "AppCert DLL registered from a staging or remote path"
+id: "995ae25b-ff6b-5678-97af-32f125d05100"
+status: "experimental"
+description: "Detects a machine registry DLL registration whose complete value names a DLL in selected profile, temporary, environment-variable or UNC locations."
+references:
+  - "https://attack.mitre.org/techniques/T1546/009/"
+  - "https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceregistryevents-table"
+  - "https://raw.githubusercontent.com/SigmaHQ/sigma/master/rules/windows/registry/registry_event/registry_event_new_dll_added_to_appcertdlls_registry_key.yml"
+author: "MeteSec (AI-assisted implementation; human review pending)"
+date: "2026-09-11"
+modified: 2026-09-11
+license: "Apache-2.0"
+tags:
+  - "attack.persistence"
+  - "attack.t1546.009"
+logsource:
+  product: "windows"
+  category: "registry_event"
+detection:
+  selection:
+    ActionType: "RegistryValueSet"
+    RegistryKey|re: "(?i)^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\(?:CurrentControlSet|ControlSet[0-9]{3})\\\\Control\\\\Session Manager\\\\AppCertDlls$"
+    RegistryValueData|re: "(?i)^(?:\"(?:[a-z]:\\\\(?:users\\\\|windows\\\\temp\\\\|temp\\\\|perflogs\\\\|\\$recycle\\.bin\\\\)|%(?:temp|tmp|appdata|localappdata|userprofile)%\\\\|\\\\\\\\[a-z0-9_-][^\\\\/:*?\"<>|\\r\\n]*\\\\[^\\\\/:*?\"<>|\\r\\n]+\\\\)[^\"\\r\\n]*\\.dll\"|(?:[a-z]:\\\\(?:users\\\\|windows\\\\temp\\\\|temp\\\\|perflogs\\\\|\\$recycle\\.bin\\\\)|%(?:temp|tmp|appdata|localappdata|userprofile)%\\\\|\\\\\\\\[a-z0-9_-][^\\\\/:*?\"<>|\\r\\n]*\\\\[^\\\\/:*?\"<>|\\r\\n]+\\\\)[^\"\\r\\n]*\\.dll)$"
+  condition: "selection"
+fields:
+  - "TimeGenerated"
+  - "Timestamp"
+  - "DeviceId"
+  - "DeviceName"
+  - "ActionType"
+  - "InitiatingProcessAccountDomain"
+  - "InitiatingProcessAccountName"
+  - "InitiatingProcessAccountSid"
+  - "InitiatingProcessFileName"
+  - "InitiatingProcessCommandLine"
+  - "RegistryKey"
+  - "RegistryValueName"
+  - "RegistryValueData"
+  - "ReportId"
+falsepositives:
+  - "Authorized legacy compatibility software or controlled persistence validation using a test DLL."
+level: "high"
+related:
+  -
+    id: "6aa1d992-5925-4e9f-a49b-845e51d1de01"
+    type: "similar"

@@ -1,13 +1,15 @@
-title: Windows Firewall Profile Disabled
+title: Windows Firewall profile disable command
 id: a46792f3-81a8-492d-9413-3b90611f411f
 status: experimental
-description: Detects Netsh or PowerShell commands that disable one or more Windows Firewall profiles.
+description: Detects Netsh or PowerShell commands requesting Windows Firewall profile disablement. The false value must be the Enabled argument; process start alone does not establish a changed firewall state.
 references:
   - https://attack.mitre.org/techniques/T1686/003/
   - https://learn.microsoft.com/en-us/windows/security/operating-system-security/network-security/windows-firewall/configure-with-command-line
   - https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table
 author: MeteSec Detection Engineering
+license: Apache-2.0
 date: 2026-09-03
+modified: 2026-09-11
 tags:
   - attack.defense-impairment
   - attack.t1686.003
@@ -18,24 +20,16 @@ detection:
   selection_netsh_image:
     FileName: netsh.exe
   selection_netsh_disable:
-    ProcessCommandLine|contains|all:
-      - 'advfirewall'
-      - ' set '
-      - ' state '
-      - ' off'
+    ProcessCommandLine|re|i: '(?:^|\s)advfirewall\s+set\s+(?:allprofiles|currentprofile|domainprofile|privateprofile|publicprofile)\s+state\s+off(?:\s|$)'
   selection_powershell_image:
     FileName:
       - powershell.exe
       - pwsh.exe
   selection_powershell_command:
-    ProcessCommandLine|contains|all:
-      - 'Set-NetFirewallProfile'
-      - '-Enabled'
-  selection_powershell_false:
-    ProcessCommandLine|contains:
-      - 'False'
-      - '$false'
-  condition: (selection_netsh_image and selection_netsh_disable) or (selection_powershell_image and selection_powershell_command and selection_powershell_false)
+    ProcessCommandLine|re|i: '(?:^|[\s;&|{"''])Set-NetFirewallProfile(?:\s|$)'
+  selection_powershell_disabled:
+    ProcessCommandLine|re|i: '(?:^|\s)-Enabled(?:\s+|:\s*)[''"]?\$?false[''"]?(?:[\s;}"'']|$)'
+  condition: (selection_netsh_image and selection_netsh_disable) or (selection_powershell_image and selection_powershell_command and selection_powershell_disabled)
 fields:
   - TimeGenerated
   - Timestamp

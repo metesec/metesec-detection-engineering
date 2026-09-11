@@ -6,7 +6,9 @@ references:
   - https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table
   - https://attack.mitre.org/techniques/T1003/001/
 author: MeteSec Detection Engineering
+license: Apache-2.0
 date: 2026-09-03
+modified: 2026-09-11
 tags:
   - attack.credential-access
   - attack.t1003.001
@@ -16,13 +18,9 @@ logsource:
 detection:
   selection_image:
     FileName: rundll32.exe
-  selection_comsvcs:
-    ProcessCommandLine|contains: comsvcs.dll
-  selection_dump:
-    ProcessCommandLine|contains:
-      - MiniDump
-      - '#24'
-  condition: selection_image and selection_comsvcs and selection_dump
+  selection_dump_export:
+    ProcessCommandLine|re: '(?i)(?:^|[\s"\\])comsvcs\.dll"?\s*,\s*(?:MiniDump|#24)(?:\s|$)'
+  condition: selection_image and selection_dump_export
 fields:
   - TimeGenerated
   - Timestamp

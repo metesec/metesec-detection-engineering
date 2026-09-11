@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path
+import yaml
 
 from sigma.collection import SigmaCollection
 
@@ -52,9 +53,31 @@ class SigmaDocumentError(ValueError):
     """Raised when pySigma cannot accept a source as a valid collection."""
 
 
+class UniqueKeyLoader(yaml.SafeLoader):
+    """Do not silently overwrite a selector, condition, or metadata key."""
+
+
+def _unique_mapping(loader, node, deep=False):
+    result = {}
+    for key_node, value_node in node.value:
+        key = loader.construct_object(key_node, deep=deep)
+        if key in result:
+            raise SigmaDocumentError(f"duplicate YAML key {key!r} at line {key_node.start_mark.line + 1}")
+        result[key] = loader.construct_object(value_node, deep=deep)
+    return result
+
+
+UniqueKeyLoader.add_constructor(yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG, _unique_mapping)
+
+
+def load_sigma_documents(yaml_text: str):
+    return list(yaml.load_all(yaml_text, Loader=UniqueKeyLoader))
+
+
 def parse_sigma_collection(yaml_text: str, source: str = "<memory>") -> SigmaCollection:
     """Parse a Sigma YAML document and reject every collected parser error."""
     try:
+        load_sigma_documents(yaml_text)
         collection = SigmaCollection.from_yaml(yaml_text, collect_errors=True)
     except Exception as error:  # pySigma exposes multiple format-specific errors.
         raise SigmaDocumentError(f"{source}: {type(error).__name__}: {error}") from error

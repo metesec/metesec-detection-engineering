@@ -1,0 +1,2861 @@
+{
+  "schema_version": 1,
+  "method": "Pinned-source overlap inventory; no network, fuzzy scoring or legal clearance.",
+  "upstream": {
+    "repository": "https://github.com/SigmaHQ/sigma",
+    "commit": "5c9b21756f4e3ba137c1773ac9ba5a8332188961",
+    "license": "Detection Rule License 1.1",
+    "license_reference": "https://github.com/SigmaHQ/Detection-Rule-License",
+    "scope": "All tracked YAML under rules*, deprecated and unsupported at the pinned commit.",
+    "yaml_files": 4042,
+    "rule_documents": 4045,
+    "dataset_sha256": "d40de78e52fa71cb767cd53574f968fceef771367c0e5f1cdf2d0233adff9b9e",
+    "parse_errors": [],
+    "normalization_supported": 3766,
+    "normalization_unsupported": [
+      {
+        "path": "deprecated/other/generic_brute_force.yml",
+        "document": 1,
+        "title": "Brute Force",
+        "sigma_uuid": "53c7cca0-2901-493a-95db-d00d6fcf0a37",
+        "author": "Aleksandr Akhremchik, oscd.community",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      },
+      {
+        "path": "deprecated/web/proxy_webdav_search_ms.yml",
+        "document": 1,
+        "title": "Search-ms and WebDAV Suspicious Indicators in URL",
+        "sigma_uuid": "5039f3d2-406a-4c1a-9350-7a5a85dc84c2",
+        "author": "Micah Babinski",
+        "reason": "ValueError: unsupported predicate value: SigmaCIDRExpression"
+      },
+      {
+        "path": "deprecated/windows/image_load_alternate_powershell_hosts_moduleload.yml",
+        "document": 1,
+        "title": "Alternate PowerShell Hosts - Image",
+        "sigma_uuid": "fe6e002f-f244-4278-9263-20e4b593827f",
+        "author": "Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "deprecated/windows/net_connection_win_susp_epmap.yml",
+        "document": 1,
+        "title": "Suspicious Epmap Connection",
+        "sigma_uuid": "628d7a0b-7b84-4466-8552-e6138bc03b43",
+        "author": "frack113, Tim Shelton (fps)",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules-emerging-threats/2021/Exploits/CVE-2021-22123/web_cve_2021_22123_fortinet_exploit.yml",
+        "document": 1,
+        "title": "Fortinet CVE-2021-22123 Exploitation",
+        "sigma_uuid": "f425637f-891c-4191-a6c4-3bb1b70513b4",
+        "author": "Bhabesh Raj, Florian Roth",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules-emerging-threats/2022/Exploits/CVE-2022-29072/proc_creation_win_exploit_cve_2022_29072_7zip.yml",
+        "document": 1,
+        "title": "Potential CVE-2022-29072 Exploitation Attempt",
+        "sigma_uuid": "9a4ccd1a-3526-4d99-b980-9f9c5d3a6ee3",
+        "author": "frack113, @kostastsale",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules-emerging-threats/2022/Exploits/CVE-2022-41120/proc_creation_win_exploit_cve_2022_41120_sysmon_eop.yml",
+        "document": 1,
+        "title": "Suspicious Sysmon as Execution Parent",
+        "sigma_uuid": "6d1058a4-407e-4f3a-a144-1968c11dc5c3",
+        "author": "Florian Roth (Nextron Systems), Tim Shelton (fp werfault)",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules-emerging-threats/2022/Malware/Raspberry-Robin/proc_creation_win_malware_raspberry_robin_execution.yml",
+        "document": 1,
+        "title": "Raspberry Robin Subsequent Execution of Commands",
+        "sigma_uuid": "d52d2e87-eb03-4fac-961d-eb616da79788",
+        "author": "@kostastsale",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules-emerging-threats/2022/Malware/Raspberry-Robin/proc_creation_win_malware_raspberry_robin_external_drive_exec.yml",
+        "document": 1,
+        "title": "Raspberry Robin Initial Execution From External Drive",
+        "sigma_uuid": "2c6bea3a-ef58-4f2e-a775-4928f6b7c58a",
+        "author": "@kostastsale",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules-emerging-threats/2023/Exploits/CVE-2023-23397/win_smbclient_connectivity_exploit_cve_2023_23397_outlook_remote_file.yml",
+        "document": 1,
+        "title": "Potential CVE-2023-23397 Exploitation Attempt - SMB",
+        "sigma_uuid": "de96b824-02b0-4241-9356-7e9b47f04bac",
+        "author": "Nasreddine Bencherchali (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaCIDRExpression"
+      },
+      {
+        "path": "rules-emerging-threats/2023/Malware/Qakbot/proc_creation_win_malware_qakbot_regsvr32_calc_pattern.yml",
+        "document": 1,
+        "title": "Qakbot Regsvr32 Calc Pattern",
+        "sigma_uuid": "0033cf83-fb87-446d-9cac-43d63ad4d5a9",
+        "author": "Nasreddine Bencherchali (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules-emerging-threats/2023/Malware/SNAKE/proc_creation_win_malware_snake_installer_exec.yml",
+        "document": 1,
+        "title": "Potential SNAKE Malware Installation Binary Indicator",
+        "sigma_uuid": "d91ff53f-fd0c-419d-a6b8-ae038d5c3733",
+        "author": "Nasreddine Bencherchali (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules-emerging-threats/2025/Exploits/CVE-2025-53770/proc_creation_win_exploit_cve_2025_53770_indicators.yml",
+        "document": 1,
+        "title": "Potential SharePoint ToolShell CVE-2025-53770 Exploitation Indicators",
+        "sigma_uuid": "7477881c-ec3b-49d6-aced-7255944e5c59",
+        "author": "Swachchhanda Shrawan Poudel (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules-emerging-threats/2026/Exploits/CVE-2026-63030/web_exploit_cve_2026_63030_webshell_plugin_access.yml",
+        "document": 1,
+        "title": "WordPress Wp2shell Webshell Plugin Access",
+        "sigma_uuid": "c9e6f412-3d50-4f7e-bf94-5b6c7d8e9f0a",
+        "author": "Swachchhanda Shrawan Poudel (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules-threat-hunting/windows/file/file_rename/file_rename_win_non_dll_to_dll_ext.yml",
+        "document": 1,
+        "title": "Non-DLL Extension File Renamed With DLL Extension",
+        "sigma_uuid": "bbfd974c-248e-4435-8de6-1e938c79c5c1",
+        "author": "frack113",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules-threat-hunting/windows/image_load/image_load_dll_amsi_uncommon_process.yml",
+        "document": 1,
+        "title": "Amsi.DLL Load By Uncommon Process",
+        "sigma_uuid": "facd1549-e416-48e0-b8c4-41d7215eedc8",
+        "author": "frack113",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules-threat-hunting/windows/image_load/image_load_win_signed_dll_no_metadata.yml",
+        "document": 1,
+        "title": "Signed DLL Loaded With Missing PE Version Metadata",
+        "sigma_uuid": "2a297820-04ce-41f2-b60d-5afe139aaab3",
+        "author": "Swachchhanda Shrawan Poudel (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules-threat-hunting/windows/network_connection/net_connection_win_dfsvc_non_local_ip.yml",
+        "document": 1,
+        "title": "Dfsvc.EXE Network Connection To Non-Local IPs",
+        "sigma_uuid": "3c21219b-49b5-4268-bce6-c914ed50f09c",
+        "author": "Nasreddine Bencherchali (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaCIDRExpression"
+      },
+      {
+        "path": "rules-threat-hunting/windows/network_connection/net_connection_win_dllhost_non_local_ip.yml",
+        "document": 1,
+        "title": "Dllhost.EXE Initiated Network Connection To Non-Local IP Address",
+        "sigma_uuid": "cfed2f44-16df-4bf3-833a-79405198b277",
+        "author": "bartblaze",
+        "reason": "ValueError: unsupported predicate value: SigmaCIDRExpression"
+      },
+      {
+        "path": "rules-threat-hunting/windows/network_connection/net_connection_win_powershell_network_connection.yml",
+        "document": 1,
+        "title": "Network Connection Initiated By PowerShell Process",
+        "sigma_uuid": "1f21ec3f-810d-4b0e-8045-322202e22b4b",
+        "author": "Florian Roth (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaCIDRExpression"
+      },
+      {
+        "path": "rules-threat-hunting/windows/process_creation/proc_creation_win_diskshadow_script_mode.yml",
+        "document": 1,
+        "title": "Diskshadow Script Mode Execution",
+        "sigma_uuid": "0c2f8629-7129-4a8a-9897-7e0768f13ff2",
+        "author": "Ivan Dyachkov, oscd.community",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules-threat-hunting/windows/process_creation/proc_creation_win_susp_execution_from_guid_folder_names.yml",
+        "document": 1,
+        "title": "Potential Suspicious Execution From GUID Like Folder Names",
+        "sigma_uuid": "90b63c33-2b97-4631-a011-ceb0f47b77c3",
+        "author": "Nasreddine Bencherchali (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules-threat-hunting/windows/process_creation/proc_creation_win_susp_parent_execute_itself.yml",
+        "document": 1,
+        "title": "Potential Executable Run Itself As Sacrificial Process",
+        "sigma_uuid": "bafd07c6-3ea5-454a-b4be-058fbb073de7",
+        "author": "frack113",
+        "reason": "ValueError: unsupported predicate value: SigmaFieldReference"
+      },
+      {
+        "path": "rules-threat-hunting/windows/process_creation/proc_creation_win_taskkill_execution.yml",
+        "document": 1,
+        "title": "Process Terminated Via Taskkill",
+        "sigma_uuid": "86085955-ea48-42a2-9dd3-85d4c36b167d",
+        "author": "frack113, MalGamy (Nextron Systems), Nasreddine Bencherchali",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules-threat-hunting/windows/process_creation/proc_creation_win_winscp_command_open_ftp.yml",
+        "document": 1,
+        "title": "FTP Connection Open Attempt Via Winscp CLI",
+        "sigma_uuid": "c1477deb-37cf-4439-9ffb-44499acb89d0",
+        "author": "frack113",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/cloud/aws/cloudtrail/aws_cloudtrail_bucket_deleted.yml",
+        "document": 1,
+        "title": "AWS Bucket Deleted",
+        "sigma_uuid": "39c9f26d-6e3b-4dbb-9c7a-4154b0281112",
+        "author": "Ivan Saakov, Nasreddine Bencherchali",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/cloud/aws/cloudtrail/aws_cloudtrail_guardduty_detector_deleted_or_updated.yml",
+        "document": 1,
+        "title": "AWS GuardDuty Detector Deleted Or Updated",
+        "sigma_uuid": "d2656e78-c069-4571-8220-9e0ab5913f19",
+        "author": "suktech24",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/cloud/aws/cloudtrail/aws_cloudtrail_ssm_malicious_usage.yml",
+        "document": 1,
+        "title": "Potential Malicious Usage of CloudTrail System Manager",
+        "sigma_uuid": "38e7f511-3f74-41d4-836e-f57dfa18eead",
+        "author": "jamesc-grafana",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/cloud/aws/cloudtrail/aws_cloudtrail_vpc_flow_logs_deleted.yml",
+        "document": 1,
+        "title": "AWS VPC Flow Logs Deleted",
+        "sigma_uuid": "e386b9b5-af12-450e-afff-761730fb8a98",
+        "author": "Ivan Saakov",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/cloud/aws/cloudtrail/aws_iam_backdoor_users_keys.yml",
+        "document": 1,
+        "title": "AWS IAM Backdoor Users Keys",
+        "sigma_uuid": "0a5177f4-6ca9-44c2-aacf-d3f3d8b6e4d2",
+        "author": "faloker",
+        "reason": "ValueError: unsupported predicate value: SigmaFieldReference"
+      },
+      {
+        "path": "rules/cloud/aws/cloudtrail/aws_update_login_profile.yml",
+        "document": 1,
+        "title": "AWS User Login Profile Was Modified",
+        "sigma_uuid": "055fb148-60f8-462d-ad16-26926ce050f1",
+        "author": "toffeebr33k",
+        "reason": "ValueError: unsupported predicate value: SigmaFieldReference"
+      },
+      {
+        "path": "rules/cloud/azure/signin_logs/azure_ad_risky_sign_ins_with_singlefactorauth_from_unknown_devices.yml",
+        "document": 1,
+        "title": "Suspicious SignIns From A Non Registered Device",
+        "sigma_uuid": "572b12d4-9062-11ed-a1eb-0242ac120002",
+        "author": "Harjot Singh, '@cyb3rjy0t'",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/linux/network_connection/net_connection_lnx_susp_malware_callback_port.yml",
+        "document": 1,
+        "title": "Potentially Suspicious Malware Callback Communication - Linux",
+        "sigma_uuid": "dbfc7c98-04ab-4ab7-aa94-c74d22aa7376",
+        "author": "hasselj",
+        "reason": "ValueError: unsupported predicate value: SigmaCIDRExpression"
+      },
+      {
+        "path": "rules/macos/process_creation/proc_creation_macos_susp_browser_child_process.yml",
+        "document": 1,
+        "title": "Suspicious Browser Child Process - MacOS",
+        "sigma_uuid": "0250638a-2b28-4541-86fc-ea4c558fa0c6",
+        "author": "Sohan G (D4rkCiph3r)",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/network/zeek/zeek_http_webdav_put_request.yml",
+        "document": 1,
+        "title": "WebDav Put Request",
+        "sigma_uuid": "705072a5-bb6f-4ced-95b6-ecfa6602090b",
+        "author": "Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)",
+        "reason": "ValueError: unsupported predicate value: SigmaCIDRExpression"
+      },
+      {
+        "path": "rules/network/zeek/zeek_rdp_public_listener.yml",
+        "document": 1,
+        "title": "Publicly Accessible RDP Service",
+        "sigma_uuid": "1fc0809e-06bf-4de3-ad52-25e5263b7623",
+        "author": "Josh Brower @DefensiveDepth",
+        "reason": "ValueError: unsupported predicate value: SigmaCIDRExpression"
+      },
+      {
+        "path": "rules/web/proxy_generic/proxy_webdav_external_execution.yml",
+        "document": 1,
+        "title": "Suspicious External WebDAV Execution",
+        "sigma_uuid": "1ae64f96-72b6-48b3-ad3d-e71dff6c6398",
+        "author": "Ahmed Farouk",
+        "reason": "ValueError: unsupported predicate value: SigmaCIDRExpression"
+      },
+      {
+        "path": "rules/web/webserver_generic/web_webshell_regeorg.yml",
+        "document": 1,
+        "title": "Webshell ReGeorg Detection Via Web Logs",
+        "sigma_uuid": "2ea44a60-cfda-11ea-87d0-0242ac130003",
+        "author": "Cian Heasley",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/builtin/firewall_as/win_firewall_as_add_rule.yml",
+        "document": 1,
+        "title": "Uncommon New Firewall Rule Added In Windows Firewall Exception List",
+        "sigma_uuid": "cde0a575-7d3d-4a49-9817-b8004a7bf105",
+        "author": "frack113",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/builtin/firewall_as/win_firewall_as_delete_rule.yml",
+        "document": 1,
+        "title": "A Rule Has Been Deleted From The Windows Firewall Exception List",
+        "sigma_uuid": "c187c075-bb3e-4c62-b4fa-beae0ffc211f",
+        "author": "frack113",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/builtin/security/account_management/win_security_successful_external_remote_rdp_login.yml",
+        "document": 1,
+        "title": "External Remote RDP Logon from Public IP",
+        "sigma_uuid": "259a9cdf-c4dd-4fa2-b243-2269e5ab18a2",
+        "author": "Micah Babinski (@micahbabinski), Zach Mathis (@yamatosecurity)",
+        "reason": "ValueError: unsupported predicate value: SigmaCIDRExpression"
+      },
+      {
+        "path": "rules/windows/builtin/security/account_management/win_security_successful_external_remote_smb_login.yml",
+        "document": 1,
+        "title": "External Remote SMB Logon from Public IP",
+        "sigma_uuid": "78d5cab4-557e-454f-9fb9-a222bd0d5edc",
+        "author": "Micah Babinski (@micahbabinski), Zach Mathis (@yamatosecurity)",
+        "reason": "ValueError: unsupported predicate value: SigmaCIDRExpression"
+      },
+      {
+        "path": "rules/windows/builtin/security/account_management/win_security_susp_failed_logon_source.yml",
+        "document": 1,
+        "title": "Failed Logon From Public IP",
+        "sigma_uuid": "f88e112a-21aa-44bd-9b01-6ee2a2bbbed1",
+        "author": "NVISO",
+        "reason": "ValueError: unsupported predicate value: SigmaCIDRExpression"
+      },
+      {
+        "path": "rules/windows/builtin/security/win_security_alert_ad_user_backdoors.yml",
+        "document": 1,
+        "title": "Active Directory User Backdoors",
+        "sigma_uuid": "300bac00-e041-4ee2-9c36-e262656a6ecc",
+        "author": "@neu5ron",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/builtin/security/win_security_cobaltstrike_service_installs.yml",
+        "document": 1,
+        "title": "CobaltStrike Service Installations - Security",
+        "sigma_uuid": "d7a95147-145f-4678-b85d-d1ff4a3bb3f6",
+        "author": "Florian Roth (Nextron Systems), Wojciech Lesicki",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/builtin/security/win_security_explicit_credential_local_logon.yml",
+        "document": 1,
+        "title": "Potentially Suspicious Explicit Credential Local Logon",
+        "sigma_uuid": "e3c6d245-7b8f-4e2a-c17f-a9d0e5b38f62",
+        "author": "Swachchhanda Shrawan Poudel (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaFieldReference"
+      },
+      {
+        "path": "rules/windows/builtin/security/win_security_susp_add_sid_history.yml",
+        "document": 1,
+        "title": "Addition of SID History to Active Directory Object",
+        "sigma_uuid": "2632954e-db1c-49cb-9936-67d1ef1d17d2",
+        "author": "Thomas Patzke, @atc_project (improvements)",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/builtin/smbserver/connectivity/win_smbserver_connectivity_unsigned_and_unencrypted_share_connection.yml",
+        "document": 1,
+        "title": "Unsigned or Unencrypted SMB Connection to Share Established",
+        "sigma_uuid": "8d91f6e4-9f3b-4c21-ae41-2c5b7d9f7a12",
+        "author": "Mohamed Abdelghani",
+        "reason": "ValueError: unsupported predicate value: SigmaCIDRExpression"
+      },
+      {
+        "path": "rules/windows/builtin/system/microsoft_windows_Iphlpsvc/win_system_isatap_router_address_set.yml",
+        "document": 1,
+        "title": "ISATAP Router Address Was Set",
+        "sigma_uuid": "d22df9cd-2aee-4089-93c7-9dc4eae77f2c",
+        "author": "hamid",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/builtin/system/service_control_manager/win_system_cobaltstrike_service_installs.yml",
+        "document": 1,
+        "title": "CobaltStrike Service Installations - System",
+        "sigma_uuid": "5a105d34-05fc-401e-8553-272b45c1522d",
+        "author": "Florian Roth (Nextron Systems), Wojciech Lesicki",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/builtin/system/service_control_manager/win_system_susp_service_installation_script.yml",
+        "document": 1,
+        "title": "Suspicious Service Installation Script",
+        "sigma_uuid": "70f00d10-60b2-4f34-b9a0-dc3df3fe762a",
+        "author": "pH-T (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/create_remote_thread/create_remote_thread_win_hktl_cactustorch.yml",
+        "document": 1,
+        "title": "HackTool - CACTUSTORCH Remote Thread Creation",
+        "sigma_uuid": "2e4e488a-6164-4811-9ea1-f960c7359c40",
+        "author": "@SBousseaden (detection), Thomas Patzke (rule)",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/create_remote_thread/create_remote_thread_win_susp_uncommon_source_image.yml",
+        "document": 1,
+        "title": "Remote Thread Creation By Uncommon Source Image",
+        "sigma_uuid": "66d31e5f-52d6-40a4-9615-002d3789a119",
+        "author": "Perez Diego (@darkquassar), oscd.community",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/dns_query/dns_query_win_dns_server_discovery_via_ldap_query.yml",
+        "document": 1,
+        "title": "DNS Server Discovery Via LDAP Query",
+        "sigma_uuid": "a21bcd7e-38ec-49ad-b69a-9ea17e69509e",
+        "author": "frack113",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/file/file_delete/file_delete_win_delete_own_image.yml",
+        "document": 1,
+        "title": "Process Deletion of Its Own Executable",
+        "sigma_uuid": "f01d1f70-cd41-42ec-9c0b-26dd9c22bf29",
+        "author": "Max Altgelt (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaFieldReference"
+      },
+      {
+        "path": "rules/windows/image_load/image_load_dll_azure_microsoft_account_token_provider_dll_load.yml",
+        "document": 1,
+        "title": "Potential Azure Browser SSO Abuse",
+        "sigma_uuid": "50f852e6-af22-4c78-9ede-42ef36aa3453",
+        "author": "Den Iuzvyk",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/image_load/image_load_dll_system_management_automation_susp_load.yml",
+        "document": 1,
+        "title": "PowerShell Core DLL Loaded By Non PowerShell Process",
+        "sigma_uuid": "092bc4b9-3d1d-43b4-a6b4-8c8acd83522f",
+        "author": "Tom Kern, oscd.community, Natalia Shornikova, Tim Shelton, Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/image_load/image_load_dll_vss_ps_susp_load.yml",
+        "document": 1,
+        "title": "Suspicious Volume Shadow Copy VSS_PS.dll Load",
+        "sigma_uuid": "333cdbe8-27bb-4246-bf82-b41a0dca4b70",
+        "author": "Markus Neis, @markus_neis",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/image_load/image_load_dll_vssapi_susp_load.yml",
+        "document": 1,
+        "title": "Suspicious Volume Shadow Copy Vssapi.dll Load",
+        "sigma_uuid": "37774c23-25a1-4adb-bb6d-8bb9fd59c0f8",
+        "author": "frack113",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/image_load/image_load_dll_vsstrace_susp_load.yml",
+        "document": 1,
+        "title": "Potentially Suspicious Volume Shadow Copy Vsstrace.dll Load",
+        "sigma_uuid": "48bfd177-7cf2-412b-ad77-baf923489e82",
+        "author": "frack113",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/image_load/image_load_susp_python_image_load.yml",
+        "document": 1,
+        "title": "Python Image Load By Non-Python Process",
+        "sigma_uuid": "cbb56d62-4060-40f7-9466-d8aaf3123f83",
+        "author": "Patrick St. John, OTR (Open Threat Research)",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/image_load/image_load_susp_unsigned_dll.yml",
+        "document": 1,
+        "title": "Unsigned DLL Loaded by Windows Utility",
+        "sigma_uuid": "b5de0c9a-6f19-43e0-af4e-55ad01f550af",
+        "author": "Swachchhanda Shrawan Poudel",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/image_load/image_load_wsman_provider_image_load.yml",
+        "document": 1,
+        "title": "Suspicious WSMAN Provider Image Loads",
+        "sigma_uuid": "ad1f4bb9-8dfb-4765-adb6-2a7cfb6c0f94",
+        "author": "Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/network_connection/net_connection_win_cmstp_initiated_connection.yml",
+        "document": 1,
+        "title": "Outbound Network Connection Initiated By Cmstp.EXE",
+        "sigma_uuid": "efafe0bf-4238-479e-af8f-797bd3490d2d",
+        "author": "Nasreddine Bencherchali (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaCIDRExpression"
+      },
+      {
+        "path": "rules/windows/network_connection/net_connection_win_dialer_initiated_connection.yml",
+        "document": 1,
+        "title": "Outbound Network Connection Initiated By Microsoft Dialer",
+        "sigma_uuid": "37e4024a-6c80-4d8f-b95d-2e7e94f3a8d1",
+        "author": "CertainlyP",
+        "reason": "ValueError: unsupported predicate value: SigmaCIDRExpression"
+      },
+      {
+        "path": "rules/windows/network_connection/net_connection_win_domain_azurewebsites.yml",
+        "document": 1,
+        "title": "Network Connection Initiated To AzureWebsites.NET By Non-Browser Process",
+        "sigma_uuid": "5c80b618-0dbb-46e6-acbb-03d90bcb6d83",
+        "author": "Nasreddine Bencherchali (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/network_connection/net_connection_win_domain_dead_drop_resolvers.yml",
+        "document": 1,
+        "title": "New Connection Initiated To Potential Dead Drop Resolver Domain",
+        "sigma_uuid": "297ae038-edc2-4b2e-bb3e-7c5fc94dd5c7",
+        "author": "Sorina Ionescu, X__Junior (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/network_connection/net_connection_win_domain_google_api_non_browser_access.yml",
+        "document": 1,
+        "title": "Suspicious Non-Browser Network Communication With Google API",
+        "sigma_uuid": "7e9cf7b6-e827-11ed-a05b-0242ac120003",
+        "author": "Gavin Knapp",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/network_connection/net_connection_win_office_outbound_non_local_ip.yml",
+        "document": 1,
+        "title": "Office Application Initiated Network Connection To Non-Local IP",
+        "sigma_uuid": "75e33ce3-ae32-4dcc-9aa8-a2a3029d6f84",
+        "author": "Christopher Peacock '@securepeacock', SCYTHE '@scythe_io', Florian Roth (Nextron Systems), Tim Shelton, Nasreddine Bencherchali (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaCIDRExpression"
+      },
+      {
+        "path": "rules/windows/network_connection/net_connection_win_rdp_outbound_over_non_standard_tools.yml",
+        "document": 1,
+        "title": "Outbound RDP Connections Over Non-Standard Tools",
+        "sigma_uuid": "ed74fe75-7594-4b4b-ae38-e38e3fd2eb23",
+        "author": "Markus Neis",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/network_connection/net_connection_win_rdp_reverse_tunnel.yml",
+        "document": 1,
+        "title": "RDP Over Reverse SSH Tunnel",
+        "sigma_uuid": "5f699bc5-5446-4a4a-a0b7-5ef2885a3eb4",
+        "author": "Samir Bousseaden",
+        "reason": "ValueError: unsupported predicate value: SigmaCIDRExpression"
+      },
+      {
+        "path": "rules/windows/network_connection/net_connection_win_regasm_network_activity.yml",
+        "document": 1,
+        "title": "RegAsm.EXE Initiating Network Connection To Public IP",
+        "sigma_uuid": "0531e43a-d77d-47c2-b89f-5fe50321c805",
+        "author": "frack113",
+        "reason": "ValueError: unsupported predicate value: SigmaCIDRExpression"
+      },
+      {
+        "path": "rules/windows/network_connection/net_connection_win_rundll32_net_connections.yml",
+        "document": 1,
+        "title": "Rundll32 Internet Connection",
+        "sigma_uuid": "cdc8da7d-c303-42f8-b08c-b4ab47230263",
+        "author": "Florian Roth (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaCIDRExpression"
+      },
+      {
+        "path": "rules/windows/network_connection/net_connection_win_susp_binary_no_cmdline.yml",
+        "document": 1,
+        "title": "Suspicious Network Connection Binary No CommandLine",
+        "sigma_uuid": "20384606-a124-4fec-acbb-8bd373728613",
+        "author": "Florian Roth (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/network_connection/net_connection_win_susp_malware_callback_port.yml",
+        "document": 1,
+        "title": "Potentially Suspicious Malware Callback Communication",
+        "sigma_uuid": "4b89abaa-99fe-4232-afdd-8f9aa4d20382",
+        "author": "Florian Roth (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaCIDRExpression"
+      },
+      {
+        "path": "rules/windows/network_connection/net_connection_win_susp_malware_callback_ports_uncommon.yml",
+        "document": 1,
+        "title": "Communication To Uncommon Destination Ports",
+        "sigma_uuid": "6d8c3d20-a5e1-494f-8412-4571d716cf5c",
+        "author": "Florian Roth (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaCIDRExpression"
+      },
+      {
+        "path": "rules/windows/network_connection/net_connection_win_susp_outbound_mobsync_connection.yml",
+        "document": 1,
+        "title": "Microsoft Sync Center Suspicious Network Connections",
+        "sigma_uuid": "9f2cc74d-78af-4eb2-bb64-9cd1d292b87b",
+        "author": "elhoim",
+        "reason": "ValueError: unsupported predicate value: SigmaCIDRExpression"
+      },
+      {
+        "path": "rules/windows/network_connection/net_connection_win_winlogon_net_connections.yml",
+        "document": 1,
+        "title": "Outbound Network Connection To Public IP Via Winlogon",
+        "sigma_uuid": "7610a4ea-c06d-495f-a2ac-0a696abcfd3b",
+        "author": "Christopher Peacock @securepeacock, SCYTHE @scythe_io",
+        "reason": "ValueError: unsupported predicate value: SigmaCIDRExpression"
+      },
+      {
+        "path": "rules/windows/network_connection/net_connection_win_wscript_cscript_local_connection.yml",
+        "document": 1,
+        "title": "Local Network Connection Initiated By Script Interpreter",
+        "sigma_uuid": "08249dc0-a28d-4555-8ba5-9255a198e08c",
+        "author": "frack113",
+        "reason": "ValueError: unsupported predicate value: SigmaCIDRExpression"
+      },
+      {
+        "path": "rules/windows/network_connection/net_connection_win_wscript_cscript_outbound_connection.yml",
+        "document": 1,
+        "title": "Outbound Network Connection Initiated By Script Interpreter",
+        "sigma_uuid": "992a6cae-db6a-43c8-9cec-76d7195c96fc",
+        "author": "frack113, Florian Roth (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaCIDRExpression"
+      },
+      {
+        "path": "rules/windows/network_connection/net_connection_win_wuauclt_network_connection.yml",
+        "document": 1,
+        "title": "Potentially Suspicious Wuauclt Network Connection",
+        "sigma_uuid": "c649a6c7-cd8c-4a78-9c04-000fc76df954",
+        "author": "Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)",
+        "reason": "ValueError: unsupported predicate value: SigmaCIDRExpression"
+      },
+      {
+        "path": "rules/windows/pipe_created/pipe_created_powershell_alternate_host_pipe.yml",
+        "document": 1,
+        "title": "Alternate PowerShell Hosts Pipe",
+        "sigma_uuid": "58cb02d5-78ce-4692-b3e1-dce850aae41a",
+        "author": "Roberto Rodriguez @Cyb3rWard0g, Tim Shelton",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_bash_file_execution.yml",
+        "document": 1,
+        "title": "Indirect Command Execution From Script File Via Bash.EXE",
+        "sigma_uuid": "2d22a514-e024-4428-9dba-41505bd63a5b",
+        "author": "Nasreddine Bencherchali (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_certoc_load_dll.yml",
+        "document": 1,
+        "title": "DLL Loaded via CertOC.EXE",
+        "sigma_uuid": "242301bc-f92f-4476-8718-78004a6efd9f",
+        "author": "Austin Songer @austinsonger",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_certoc_load_dll_susp_locations.yml",
+        "document": 1,
+        "title": "Suspicious DLL Loaded via CertOC.EXE",
+        "sigma_uuid": "84232095-ecca-4015-b0d7-7726507ee793",
+        "author": "Nasreddine Bencherchali (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_certreq_download.yml",
+        "document": 1,
+        "title": "Suspicious CertReq Command to Download",
+        "sigma_uuid": "4480827a-9799-4232-b2c4-ccc6c4e9e12b",
+        "author": "Christian Burkard (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_certutil_certificate_installation.yml",
+        "document": 1,
+        "title": "New Root Certificate Installed Via Certutil.EXE",
+        "sigma_uuid": "d2125259-ddea-4c1c-9c22-977eb5b29cf0",
+        "author": "oscd.community, @redcanary, Zach Stanford @svch0st",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_certutil_decode.yml",
+        "document": 1,
+        "title": "File Decoded From Base64/Hex Via Certutil.EXE",
+        "sigma_uuid": "cc9cbe82-7bc0-4ef5-bc23-bbfb83947be7",
+        "author": "Florian Roth (Nextron Systems), Jonhnathan Ribeiro, oscd.community",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_certutil_encode.yml",
+        "document": 1,
+        "title": "File Encoded To Base64 Via Certutil.EXE",
+        "sigma_uuid": "e62a9f0c-ca1e-46b2-85d5-a6da77f86d1a",
+        "author": "Florian Roth (Nextron Systems), Jonhnathan Ribeiro, oscd.community, Nasreddine Bencherchali (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_certutil_encode_susp_extensions.yml",
+        "document": 1,
+        "title": "Suspicious File Encoded To Base64 Via Certutil.EXE",
+        "sigma_uuid": "ea0cdc3e-2239-4f26-a947-4e8f8224e464",
+        "author": "Nasreddine Bencherchali (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_certutil_encode_susp_location.yml",
+        "document": 1,
+        "title": "File In Suspicious Location Encoded To Base64 Via Certutil.EXE",
+        "sigma_uuid": "82a6714f-4899-4f16-9c1e-9a333544d4c3",
+        "author": "Nasreddine Bencherchali (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_certutil_export_pfx.yml",
+        "document": 1,
+        "title": "Certificate Exported Via Certutil.EXE",
+        "sigma_uuid": "3ffd6f51-e6c1-47b7-94b4-c1e61d4117c5",
+        "author": "Florian Roth (Nextron Systems), Jonhnathan Ribeiro, oscd.community, Nasreddine Bencherchali (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_chcp_codepage_lookup.yml",
+        "document": 1,
+        "title": "Console CodePage Lookup Via CHCP",
+        "sigma_uuid": "7090adee-82e2-4269-bd59-80691e7c6338",
+        "author": "_pete_0, TheDFIRReport",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_citrix_trolleyexpress_procdump.yml",
+        "document": 1,
+        "title": "Process Access via TrolleyExpress Exclusion",
+        "sigma_uuid": "4c0aaedc-154c-4427-ada0-d80ef9c9deb6",
+        "author": "Florian Roth (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_cmd_curl_download_exec_combo.yml",
+        "document": 1,
+        "title": "Curl Download And Execute Combination",
+        "sigma_uuid": "21dd6d38-2b18-4453-9404-a0fe4a0cc288",
+        "author": "Sreeman, Nasreddine Bencherchali (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_cmd_del_execution.yml",
+        "document": 1,
+        "title": "File Deletion Via Del",
+        "sigma_uuid": "379fa130-190e-4c3f-b7bc-6c8e834485f3",
+        "author": "frack113",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_cmd_dir_execution.yml",
+        "document": 1,
+        "title": "File And SubFolder Enumeration Via Dir Command",
+        "sigma_uuid": "7c9340a9-e2ee-4e43-94c5-c54ebbea1006",
+        "author": "frack113",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_cmd_launched_with_hidden_start_flag.yml",
+        "document": 1,
+        "title": "Cmd Launched with Hidden Start Flags to Suspicious Targets",
+        "sigma_uuid": "5a6b7c8d-9e0f-1a2b-3c4d-5e6f7a8b9c0d",
+        "author": "Vladan Sekulic, Swachchhanda Shrawan Poudel (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_cmd_ping_copy_combined_execution.yml",
+        "document": 1,
+        "title": "Potentially Suspicious Ping/Copy Command Combination",
+        "sigma_uuid": "ded2b07a-d12f-4284-9b76-653e37b6c8b0",
+        "author": "X__Junior (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_cmd_ping_del_combined_execution.yml",
+        "document": 1,
+        "title": "Suspicious Ping/Del Command Combination",
+        "sigma_uuid": "54786ddc-5b8a-11ed-9b6a-0242ac120002",
+        "author": "Ilya Krestinichev",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_cmdkey_adding_generic_creds.yml",
+        "document": 1,
+        "title": "New Generic Credentials Added Via Cmdkey.EXE",
+        "sigma_uuid": "b1ec66c6-f4d1-4b5c-96dd-af28ccae7727",
+        "author": "frack113, Nasreddine Bencherchali (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_cmdkey_recon.yml",
+        "document": 1,
+        "title": "Potential Reconnaissance For Cached Credentials Via Cmdkey.EXE",
+        "sigma_uuid": "07f8bdc2-c9b3-472a-9817-5a670b872f53",
+        "author": "jmallette, Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_conhost_susp_child_process.yml",
+        "document": 1,
+        "title": "Uncommon Child Process Of Conhost.EXE",
+        "sigma_uuid": "7dc2dedd-7603-461a-bc13-15803d132355",
+        "author": "omkar72",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_discovery_via_reg_queries.yml",
+        "document": 1,
+        "title": "System Information Discovery via Registry Queries",
+        "sigma_uuid": "0022869c-49f7-4ff2-ba03-85ac42ddac58",
+        "author": "lazarg",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_diskshadow_script_mode_susp_ext.yml",
+        "document": 1,
+        "title": "Diskshadow Script Mode - Uncommon Script Extension Execution",
+        "sigma_uuid": "1dde5376-a648-492e-9e54-4241dd9b0c7f",
+        "author": "Nasreddine Bencherchali (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_diskshadow_script_mode_susp_location.yml",
+        "document": 1,
+        "title": "Diskshadow Script Mode - Execution From Potential Suspicious Location",
+        "sigma_uuid": "fa1a7e52-3d02-435b-81b8-00da14dd66c1",
+        "author": "Nasreddine Bencherchali (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_dllhost_no_cli_execution.yml",
+        "document": 1,
+        "title": "Dllhost.EXE Execution Anomaly",
+        "sigma_uuid": "e7888eb1-13b0-4616-bd99-4bc0c2b054b9",
+        "author": "Nasreddine Bencherchali (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_esentutl_sensitive_file_copy.yml",
+        "document": 1,
+        "title": "Copying Sensitive Files with Credential Data",
+        "sigma_uuid": "e7be6119-fc37-43f0-ad4f-1f3f99be2f9f",
+        "author": "Teymur Kheirkhabarov, Daniil Yugoslavskiy, oscd.community",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_esentutl_webcache.yml",
+        "document": 1,
+        "title": "Esentutl Steals Browser Information",
+        "sigma_uuid": "6a69f62d-ce75-4b57-8dce-6351eb55b362",
+        "author": "frack113",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_expand_cabinet_files.yml",
+        "document": 1,
+        "title": "Potentially Suspicious Cabinet File Expansion",
+        "sigma_uuid": "9f107a84-532c-41af-b005-8d12a607639f",
+        "author": "Bhabesh Raj, X__Junior (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_explorer_break_process_tree.yml",
+        "document": 1,
+        "title": "Explorer Process Tree Break",
+        "sigma_uuid": "949f1ffb-6e85-4f00-ae1e-c3c5b190d605",
+        "author": "Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems), @gott_cyber",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_findstr_download.yml",
+        "document": 1,
+        "title": "Remote File Download Via Findstr.EXE",
+        "sigma_uuid": "587254ee-a24b-4335-b3cd-065c0f1f4baa",
+        "author": "Furkan CALISKAN, @caliskanfurkan_, @oscd_initiative, Nasreddine Bencherchali (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_findstr_lsass.yml",
+        "document": 1,
+        "title": "LSASS Process Reconnaissance Via Findstr.EXE",
+        "sigma_uuid": "fe63010f-8823-4864-a96b-a7b4a0f7b929",
+        "author": "Florian Roth (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_findstr_subfolder_search.yml",
+        "document": 1,
+        "title": "Insensitive Subfolder Search Via Findstr.EXE",
+        "sigma_uuid": "04936b66-3915-43ad-a8e5-809eadfd1141",
+        "author": "Furkan CALISKAN, @caliskanfurkan_, @oscd_initiative, Nasreddine Bencherchali (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_forfiles_proxy_execution_.yml",
+        "document": 1,
+        "title": "Forfiles Command Execution",
+        "sigma_uuid": "9aa5106d-bce3-4b13-86df-3a20f1d5cf0b",
+        "author": "Tim Rauch, Elastic, E.M. Anhaus (originally from Atomic Blue Detections, Endgame), oscd.community",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_ftp_arbitrary_command_execution.yml",
+        "document": 1,
+        "title": "Potential Arbitrary Command Execution Via FTP.EXE",
+        "sigma_uuid": "06b401f4-107c-4ff9-947f-9ec1e7649f1e",
+        "author": "Victor Sergeev, oscd.community",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_googleupdate_susp_child_process.yml",
+        "document": 1,
+        "title": "Potentially Suspicious GoogleUpdate Child Process",
+        "sigma_uuid": "84b1ecf9-6eff-4004-bafb-bae5c0e251b2",
+        "author": "Nasreddine Bencherchali (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_gup_arbitrary_binary_execution.yml",
+        "document": 1,
+        "title": "Arbitrary Binary Execution Using GUP Utility",
+        "sigma_uuid": "d65aee4d-2292-4cea-b832-83accd6cfa43",
+        "author": "Nasreddine Bencherchali (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_iexpress_susp_execution.yml",
+        "document": 1,
+        "title": "Self Extracting Package Creation Via Iexpress.EXE From Potentially Suspicious Location",
+        "sigma_uuid": "b2b048b0-7857-4380-b0fb-d3f0ab820b71",
+        "author": "Joseliyo Sanchez, @Joseliyo_Jstnk, Nasreddine Bencherchali (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_iis_appcmd_susp_module_install.yml",
+        "document": 1,
+        "title": "IIS Native-Code Module Command Line Installation",
+        "sigma_uuid": "9465ddf4-f9e4-4ebd-8d98-702df3a93239",
+        "author": "Florian Roth (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_lodctr_performance_counter_tampering.yml",
+        "document": 1,
+        "title": "Rebuild Performance Counter Values Via Lodctr.EXE",
+        "sigma_uuid": "cc9d3712-6310-4320-b2df-7cb408274d53",
+        "author": "Nasreddine Bencherchali (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_lolbin_ie4uinit.yml",
+        "document": 1,
+        "title": "Ie4uinit Lolbin Use From Invalid Path",
+        "sigma_uuid": "d3bf399f-b0cf-4250-8bb4-dfc192ab81dc",
+        "author": "frack113",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_lolbin_replace.yml",
+        "document": 1,
+        "title": "Replace.exe Usage",
+        "sigma_uuid": "9292293b-8496-4715-9db6-37028dcda4b3",
+        "author": "frack113",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_lolbin_unregmp2.yml",
+        "document": 1,
+        "title": "Lolbin Unregmp2.exe Use As Proxy",
+        "sigma_uuid": "727454c0-d851-48b0-8b89-385611ab0704",
+        "author": "frack113",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_mofcomp_execution.yml",
+        "document": 1,
+        "title": "Potentially Suspicious Mofcomp Execution",
+        "sigma_uuid": "1dd05363-104e-4b4a-b963-196a534b03a1",
+        "author": "Nasreddine Bencherchali (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_msdt_answer_file_exec.yml",
+        "document": 1,
+        "title": "MSDT Execution Via Answer File",
+        "sigma_uuid": "9c8c7000-3065-44a8-a555-79bcba5d9955",
+        "author": "Nasreddine Bencherchali (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_msdt_arbitrary_command_execution.yml",
+        "document": 1,
+        "title": "Potential Arbitrary Command Execution Using Msdt.EXE",
+        "sigma_uuid": "258fc8ce-8352-443a-9120-8a11e4857fa5",
+        "author": "Nasreddine Bencherchali (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_msdt_susp_cab_options.yml",
+        "document": 1,
+        "title": "Suspicious Cabinet File Execution Via Msdt.EXE",
+        "sigma_uuid": "dc4576d4-7467-424f-9eee-fd2b02855fe0",
+        "author": "Nasreddine Bencherchali (Nextron Systems), GossiTheDog, frack113",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_msiexec_dll.yml",
+        "document": 1,
+        "title": "DllUnregisterServer Function Call Via Msiexec.EXE",
+        "sigma_uuid": "84f52741-8834-4a8c-a413-2eb2269aa6c8",
+        "author": "frack113",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_msiexec_execute_dll.yml",
+        "document": 1,
+        "title": "Suspicious Msiexec Execute Arbitrary DLL",
+        "sigma_uuid": "6f4191bb-912b-48a8-9ce7-682769541e6d",
+        "author": "frack113",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_msiexec_install_quiet.yml",
+        "document": 1,
+        "title": "Msiexec Quiet Installation",
+        "sigma_uuid": "79a87aa6-e4bd-42fc-a5bb-5e6fbdcd62f5",
+        "author": "frack113",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_msiexec_install_remote.yml",
+        "document": 1,
+        "title": "Suspicious Msiexec Quiet Install From Remote Location",
+        "sigma_uuid": "8150732a-0c9d-4a99-82b9-9efb9b90c40c",
+        "author": "Nasreddine Bencherchali (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_mstsc_remote_connection.yml",
+        "document": 1,
+        "title": "New Remote Desktop Connection Initiated Via Mstsc.EXE",
+        "sigma_uuid": "954f0af7-62dd-418f-b3df-a84bc2c7a774",
+        "author": "frack113",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_odbcconf_response_file.yml",
+        "document": 1,
+        "title": "Response File Execution Via Odbcconf.EXE",
+        "sigma_uuid": "5f03babb-12db-4eec-8c82-7b4cb5580868",
+        "author": "Kirill Kiryanov, Beyu Denis, Daniil Yugoslavskiy, oscd.community, Nasreddine Bencherchali (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_odbcconf_response_file_susp.yml",
+        "document": 1,
+        "title": "Suspicious Response File Execution Via Odbcconf.EXE",
+        "sigma_uuid": "2d32dd6f-3196-4093-b9eb-1ad8ab088ca5",
+        "author": "Nasreddine Bencherchali (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_offlinescannershell_mpclient_sideloading.yml",
+        "document": 1,
+        "title": "Potential Mpclient.DLL Sideloading Via OfflineScannerShell.EXE Execution",
+        "sigma_uuid": "02b18447-ea83-4b1b-8805-714a8a34546a",
+        "author": "frack113",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_powershell_applocker_policy_discovery_via_get_applockerpolicy.yml",
+        "document": 1,
+        "title": "PowerShell AppLocker Policy Discovery Via Get-AppLockerPolicy",
+        "sigma_uuid": "f14b1e99-5e53-4598-98dc-6f20ad7b35e0",
+        "author": "Tom3306",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_powershell_base64_frombase64string.yml",
+        "document": 1,
+        "title": "PowerShell Base64 Encoded FromBase64String Cmdlet",
+        "sigma_uuid": "fdb62a13-9a81-4e5c-a38f-ea93a16f6d7c",
+        "author": "Florian Roth (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_powershell_base64_iex.yml",
+        "document": 1,
+        "title": "PowerShell Base64 Encoded IEX Cmdlet",
+        "sigma_uuid": "88f680b8-070e-402c-ae11-d2914f2257f1",
+        "author": "Florian Roth (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_powershell_base64_mppreference.yml",
+        "document": 1,
+        "title": "Powershell Base64 Encoded MpPreference Cmdlet",
+        "sigma_uuid": "c6fb44c6-71f5-49e6-9462-1425d328aee3",
+        "author": "Florian Roth (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_powershell_defender_disable_feature.yml",
+        "document": 1,
+        "title": "Powershell Defender Disable Scan Feature",
+        "sigma_uuid": "1ec65a5f-9473-4f12-97da-622044d6df21",
+        "author": "Florian Roth (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_print_dump_sensitive_files.yml",
+        "document": 1,
+        "title": "Sensitive File Dump Via Print.EXE",
+        "sigma_uuid": "2fcda7e2-8c57-4904-86ac-37fc3157e09d",
+        "author": "Ayush Anand (Securityinbits)",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_rdrleakdiag_process_dumping.yml",
+        "document": 1,
+        "title": "Process Memory Dump via RdrLeakDiag.EXE",
+        "sigma_uuid": "edadb1e5-5919-4e4c-8462-a9e643b02c4b",
+        "author": "Cedric MAURUGEON, Florian Roth (Nextron Systems), Swachchhanda Shrawan Poudel, Nasreddine Bencherchali (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_reagentc_disable_windows_recovery_environment.yml",
+        "document": 1,
+        "title": "Windows Recovery Environment Disabled Via Reagentc",
+        "sigma_uuid": "db1c21e4-cd66-4b4e-85ca-590f0780529c",
+        "author": "Daniel Koifman (KoifSec), Michael Vilshin",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_reg_service_imagepath_change.yml",
+        "document": 1,
+        "title": "Changing Existing Service ImagePath Value Via Reg.EXE",
+        "sigma_uuid": "9b0b7ac3-6223-47aa-a3fd-e8f211e637db",
+        "author": "frack113",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_regedit_export_critical_keys.yml",
+        "document": 1,
+        "title": "Exports Critical Registry Keys To a File",
+        "sigma_uuid": "82880171-b475-4201-b811-e9c826cd5eaa",
+        "author": "Oddvar Moe, Sander Wiebing, oscd.community",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_regedit_export_keys.yml",
+        "document": 1,
+        "title": "Exports Registry Key To a File",
+        "sigma_uuid": "f0e53e89-8d22-46ea-9db5-9d4796ee2f8a",
+        "author": "Oddvar Moe, Sander Wiebing, oscd.community",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_regedit_import_keys.yml",
+        "document": 1,
+        "title": "Imports Registry Key From a File",
+        "sigma_uuid": "73bba97f-a82d-42ce-b315-9182e76c57b1",
+        "author": "Oddvar Moe, Sander Wiebing, oscd.community",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_regedit_import_keys_ads.yml",
+        "document": 1,
+        "title": "Imports Registry Key From an ADS",
+        "sigma_uuid": "0b80ade5-6997-4b1d-99a1-71701778ea61",
+        "author": "Oddvar Moe, Sander Wiebing, oscd.community",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_regsvr32_flags_anomaly.yml",
+        "document": 1,
+        "title": "Potential Regsvr32 Commandline Flag Anomaly",
+        "sigma_uuid": "b236190c-1c61-41e9-84b3-3fe03f6d76b0",
+        "author": "Florian Roth (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_regsvr32_susp_exec_path_2.yml",
+        "document": 1,
+        "title": "Regsvr32 Execution From Highly Suspicious Location",
+        "sigma_uuid": "327ff235-94eb-4f06-b9de-aaee571324be",
+        "author": "Nasreddine Bencherchali (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_regsvr32_uncommon_extension.yml",
+        "document": 1,
+        "title": "Regsvr32 DLL Execution With Uncommon Extension",
+        "sigma_uuid": "50919691-7302-437f-8e10-1fe088afa145",
+        "author": "Florian Roth (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_renamed_schtasks_execution.yml",
+        "document": 1,
+        "title": "Renamed Schtasks Execution",
+        "sigma_uuid": "f91e51c9-f344-4b32-969b-0b6f6b8537d4",
+        "author": "Swachchhanda Shrawan Poudel (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_renamed_sysinternals_procdump.yml",
+        "document": 1,
+        "title": "Renamed ProcDump Execution",
+        "sigma_uuid": "4a0b2c7e-7cb2-495d-8b63-5f268e7bfd67",
+        "author": "Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_rpcping_credential_capture.yml",
+        "document": 1,
+        "title": "Capture Credentials with Rpcping.exe",
+        "sigma_uuid": "93671f99-04eb-4ab4-a161-70d446a84003",
+        "author": "Julia Fomina, oscd.community",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_rundll32_uncommon_dll_extension.yml",
+        "document": 1,
+        "title": "Rundll32 Execution With Uncommon DLL Extension",
+        "sigma_uuid": "c3a99af4-35a9-4668-879e-c09aeb4f2bdf",
+        "author": "Tim Shelton, Florian Roth (Nextron Systems), Yassine Oukessou",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_schtasks_curl_and_powershell_combo.yml",
+        "document": 1,
+        "title": "Scheduled Task Creation with Curl and PowerShell Execution Combo",
+        "sigma_uuid": "1d174d38-8fda-4081-a9b6-56d9763c0cd8",
+        "author": "Swachchhanda Shrawan Poudel (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_schtasks_delete.yml",
+        "document": 1,
+        "title": "Delete Important Scheduled Task",
+        "sigma_uuid": "dbc1f800-0fe0-4bc0-9c66-292c2abe3f78",
+        "author": "Nasreddine Bencherchali (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_schtasks_disable.yml",
+        "document": 1,
+        "title": "Disable Important Scheduled Task",
+        "sigma_uuid": "9ac94dc8-9042-493c-ba45-3b5e7c86b980",
+        "author": "frack113, Nasreddine Bencherchali (Nextron Systems), X__Junior",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_schtasks_env_folder.yml",
+        "document": 1,
+        "title": "Schedule Task Creation From Env Variable Or Potentially Suspicious Path Via Schtasks.EXE",
+        "sigma_uuid": "81325ce1-be01-4250-944f-b4789644556f",
+        "author": "Florian Roth (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_schtasks_system_process.yml",
+        "document": 1,
+        "title": "Scheduled Task Creation Masquerading as System Processes",
+        "sigma_uuid": "9f8573c9-22b4-40e3-89c1-72bc2b8d49ab",
+        "author": "Swachchhanda Shrawan Poudel (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_sdbinst_susp_extension.yml",
+        "document": 1,
+        "title": "Uncommon Extension Shim Database Installation Via Sdbinst.EXE",
+        "sigma_uuid": "18ee686c-38a3-4f65-9f44-48a077141f42",
+        "author": "Nasreddine Bencherchali (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_ssh_port_forward.yml",
+        "document": 1,
+        "title": "Port Forwarding Activity Via SSH.EXE",
+        "sigma_uuid": "327f48c1-a6db-4eb8-875a-f6981f1b0183",
+        "author": "Nasreddine Bencherchali (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_susp_cross_user_process_spawn.yml",
+        "document": 1,
+        "title": "Suspicious Cross-User Process Spawn",
+        "sigma_uuid": "d2b7a134-9c3e-4f8a-b56d-e0c1f8a29b47",
+        "author": "Swachchhanda Shrawan Poudel (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaFieldReference"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_susp_elevated_system_shell_uncommon_parent.yml",
+        "document": 1,
+        "title": "Elevated System Shell Spawned From Uncommon Parent Location",
+        "sigma_uuid": "178e615d-e666-498b-9630-9ed363038101",
+        "author": "frack113, Tim Shelton (update fp)",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_susp_image_missing.yml",
+        "document": 1,
+        "title": "Execution Of Non-Existing File",
+        "sigma_uuid": "71158e3f-df67-472b-930e-7d287acaa3e1",
+        "author": "Max Altgelt (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_susp_lolbin_exec_from_non_c_drive.yml",
+        "document": 1,
+        "title": "LOLBIN Execution From Abnormal Drive",
+        "sigma_uuid": "d4ca7c59-e9e4-42d8-bf57-91a776efcb87",
+        "author": "Christopher Peacock '@securepeacock', SCYTHE '@scythe_io', Angelo Violetti - SEC Consult '@angelo_violetti', Aaron Herman",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_susp_non_exe_image.yml",
+        "document": 1,
+        "title": "Execution of Suspicious File Type Extension",
+        "sigma_uuid": "c09dad97-1c78-4f71-b127-7edb2b8e491a",
+        "author": "Max Altgelt (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_susp_parents.yml",
+        "document": 1,
+        "title": "Suspicious Process Parents",
+        "sigma_uuid": "cbec226f-63d9-4eca-9f52-dfb6652f24df",
+        "author": "Florian Roth (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_susp_proc_wrong_parent.yml",
+        "document": 1,
+        "title": "Windows Processes Suspicious Parent Directory",
+        "sigma_uuid": "96036718-71cc-4027-a538-d1587e0006a7",
+        "author": "vburov",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_susp_userinit_child.yml",
+        "document": 1,
+        "title": "Suspicious Userinit Child Process",
+        "sigma_uuid": "b655a06a-31c0-477a-95c2-3726b83d649d",
+        "author": "Florian Roth (Nextron Systems), Samir Bousseaden (idea)",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_svchost_execution_with_no_cli_flags.yml",
+        "document": 1,
+        "title": "Suspect Svchost Activity",
+        "sigma_uuid": "16c37b52-b141-42a5-a3ea-bbe098444397",
+        "author": "David Burkett, @signalblur",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_svchost_termserv_proc_spawn.yml",
+        "document": 1,
+        "title": "Terminal Service Process Spawn",
+        "sigma_uuid": "1012f107-b8f1-4271-af30-5aed2de89b39",
+        "author": "Florian Roth (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_svchost_uncommon_command_line_flags.yml",
+        "document": 1,
+        "title": "Uncommon Svchost Command Line Parameter",
+        "sigma_uuid": "f17211f1-1f24-4d0c-829f-31e28dc93cdd",
+        "author": "Liran Ravich",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_svchost_uncommon_parent_process.yml",
+        "document": 1,
+        "title": "Uncommon Svchost Parent Process",
+        "sigma_uuid": "01d2e2a1-5f09-44f7-9fc1-24faa7479b6d",
+        "author": "Florian Roth (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_sysinternals_eula_accepted.yml",
+        "document": 1,
+        "title": "Potential Execution of Sysinternals Tools",
+        "sigma_uuid": "7cccd811-7ae9-4ebe-9afd-cb5c406b824b",
+        "author": "Markus Neis",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_sysinternals_livekd_kernel_memory_dump.yml",
+        "document": 1,
+        "title": "Kernel Memory Dump Via LiveKD",
+        "sigma_uuid": "c7746f1c-47d3-43d6-8c45-cd1e54b6b0a2",
+        "author": "Nasreddine Bencherchali (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_sysinternals_procdump_lsass.yml",
+        "document": 1,
+        "title": "Potential LSASS Process Dump Via Procdump",
+        "sigma_uuid": "5afee48e-67dd-4e03-a783-f74259dcf998",
+        "author": "Florian Roth (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_sysinternals_psexec_paexec_escalate_system.yml",
+        "document": 1,
+        "title": "PsExec/PAExec Escalation to LOCAL SYSTEM",
+        "sigma_uuid": "8834e2f7-6b4b-4f09-8906-d2276470ee23",
+        "author": "Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_sysinternals_psloglist.yml",
+        "document": 1,
+        "title": "Suspicious Use of PsLogList",
+        "sigma_uuid": "aae1243f-d8af-40d8-ab20-33fc6d0c55bc",
+        "author": "Nasreddine Bencherchali (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_sysinternals_susp_psexec_paexec_flags.yml",
+        "document": 1,
+        "title": "Potential Privilege Escalation To LOCAL SYSTEM",
+        "sigma_uuid": "207b0396-3689-42d9-8399-4222658efc99",
+        "author": "Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_sysinternals_sysmon_config_update.yml",
+        "document": 1,
+        "title": "Sysmon Configuration Update",
+        "sigma_uuid": "87911521-7098-470b-a459-9a57fc80bdfd",
+        "author": "Nasreddine Bencherchali (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_sysinternals_sysmon_uninstall.yml",
+        "document": 1,
+        "title": "Uninstall Sysinternals Sysmon",
+        "sigma_uuid": "6a5f68d1-c4b5-46b9-94ee-5324892ea939",
+        "author": "frack113",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_sysinternals_tools_masquerading.yml",
+        "document": 1,
+        "title": "Potential Binary Impersonating Sysinternals Tools",
+        "sigma_uuid": "7cce6fc8-a07f-4d84-a53e-96e1879843c9",
+        "author": "frack113, Swachchhanda Shrawan Poudel (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_tasklist_module_enumeration.yml",
+        "document": 1,
+        "title": "Loaded Module Enumeration Via Tasklist.EXE",
+        "sigma_uuid": "34275eb8-fa19-436b-b959-3d9ecd53fa1f",
+        "author": "Swachchhanda Shrawan Poudel",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_userinit_uncommon_child_processes.yml",
+        "document": 1,
+        "title": "Uncommon Userinit Child Process",
+        "sigma_uuid": "0a98a10c-685d-4ab0-bddc-b6bdd1d48458",
+        "author": "Tom Ueltschi (@c_APT_ure), Tim Shelton",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_vmware_vmtoolsd_susp_child_process.yml",
+        "document": 1,
+        "title": "VMToolsd Suspicious Child Process",
+        "sigma_uuid": "5687f942-867b-4578-ade7-1e341c46e99a",
+        "author": "bohops, Bhabesh Raj",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_vscode_tunnel_execution.yml",
+        "document": 1,
+        "title": "Visual Studio Code Tunnel Execution",
+        "sigma_uuid": "90d6bd71-dffb-4989-8d86-a827fedd6624",
+        "author": "Nasreddine Bencherchali (Nextron Systems), citron_ninja",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_vscode_tunnel_renamed_execution.yml",
+        "document": 1,
+        "title": "Renamed Visual Studio Code Tunnel Execution",
+        "sigma_uuid": "2cf29f11-e356-4f61-98c0-1bdb9393d6da",
+        "author": "Nasreddine Bencherchali (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_whoami_all_execution.yml",
+        "document": 1,
+        "title": "Enumerate All Information With Whoami.EXE",
+        "sigma_uuid": "c248c896-e412-4279-8c15-1c558067b6fa",
+        "author": "Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_whoami_parent_anomaly.yml",
+        "document": 1,
+        "title": "Whoami.EXE Execution Anomaly",
+        "sigma_uuid": "8de1cbe8-d6f5-496d-8237-5f44a721c7a0",
+        "author": "Florian Roth (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_winrs_local_command_execution.yml",
+        "document": 1,
+        "title": "Winrs Local Command Execution",
+        "sigma_uuid": "bcfece3d-56fe-4545-9931-3b8e92927db1",
+        "author": "Liran Ravich, Nasreddine Bencherchali",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_wlrmdr_uncommon_child_process.yml",
+        "document": 1,
+        "title": "Wlrmdr.EXE Uncommon Argument Or Child Process",
+        "sigma_uuid": "9cfc00b6-bfb7-49ce-9781-ef78503154bb",
+        "author": "frack113, manasmbellani",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_wmic_remote_execution.yml",
+        "document": 1,
+        "title": "WMIC Remote Command Execution",
+        "sigma_uuid": "7773b877-5abb-4a3e-b9c9-fd0369b59b00",
+        "author": "frack113, Nasreddine Bencherchali (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_wmic_squiblytwo_bypass.yml",
+        "document": 1,
+        "title": "Potential Remote SquiblyTwo Technique Execution",
+        "sigma_uuid": "8d63dadf-b91b-4187-87b6-34a1114577ea",
+        "author": "Markus Neis, Florian Roth, Swachchhanda Shrawan Poudel (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_wmic_uninstall_security_products.yml",
+        "document": 1,
+        "title": "Potential Tampering With Security Products Via WMIC",
+        "sigma_uuid": "847d5ff3-8a31-4737-a970-aeae8fe21765",
+        "author": "Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_wmic_xsl_script_processing.yml",
+        "document": 1,
+        "title": "XSL Script Execution Via WMIC.EXE",
+        "sigma_uuid": "05c36dd6-79d6-4a9a-97da-3db20298ab2d",
+        "author": "Timur Zinniatullin, oscd.community, Swachchhanda Shrawan Poudel",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "rules/windows/process_creation/proc_creation_win_wmiprvse_spawning_process.yml",
+        "document": 1,
+        "title": "WmiPrvSE Spawned A Process",
+        "sigma_uuid": "d21374ff-f574-44a7-9998-4a8c8bf33d7d",
+        "author": "Roberto Rodriguez @Cyb3rWard0g",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/raw_access_thread/raw_access_thread_susp_disk_access_using_uncommon_tools.yml",
+        "document": 1,
+        "title": "Potential Defense Evasion Via Raw Disk Access By Uncommon Tools",
+        "sigma_uuid": "db809f10-56ce-4420-8c86-d6a7d793c79c",
+        "author": "Teymur Kheirkhabarov, oscd.community",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/registry/registry_event/registry_event_ssp_added_lsa_config.yml",
+        "document": 1,
+        "title": "Security Support Provider (SSP) Added to LSA Configuration",
+        "sigma_uuid": "eeb30123-9fbd-4ee8-aaa0-2e545bbed6dc",
+        "author": "iwillkeepwatch",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/registry/registry_event/registry_event_susp_process_registry_modification.yml",
+        "document": 1,
+        "title": "Registry Tampering by Potentially Suspicious Processes",
+        "sigma_uuid": "7f4c43f9-b1a5-4c7d-b24a-b41bf3a3ebf2",
+        "author": "Swachchhanda Shrawan Poudel (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/registry/registry_set/registry_set_asep_reg_keys_modification_classes.yml",
+        "document": 1,
+        "title": "Classes Autorun Keys Modification",
+        "sigma_uuid": "9df5f547-c86a-433e-b533-f2794357e242",
+        "author": "Victor Sergeev, Daniil Yugoslavskiy, Gleb Sukhodolskiy, Timur Zinniatullin, oscd.community, Tim Shelton, frack113 (split)",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/registry/registry_set/registry_set_asep_reg_keys_modification_common.yml",
+        "document": 1,
+        "title": "Common Autorun Keys Modification",
+        "sigma_uuid": "f59c3faf-50f3-464b-9f4c-1b67ab512d99",
+        "author": "Victor Sergeev, Daniil Yugoslavskiy, Gleb Sukhodolskiy, Timur Zinniatullin, oscd.community, Tim Shelton, frack113 (split), wagga (name)",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/registry/registry_set/registry_set_asep_reg_keys_modification_currentversion.yml",
+        "document": 1,
+        "title": "CurrentVersion Autorun Keys Modification",
+        "sigma_uuid": "20f0ee37-5942-4e45-b7d5-c5b5db9df5cd",
+        "author": "Victor Sergeev, Daniil Yugoslavskiy, Gleb Sukhodolskiy, Timur Zinniatullin, oscd.community, Tim Shelton, frack113 (split)",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/registry/registry_set/registry_set_asep_reg_keys_modification_currentversion_nt.yml",
+        "document": 1,
+        "title": "CurrentVersion NT Autorun Keys Modification",
+        "sigma_uuid": "cbf93e5d-ca6c-4722-8bea-e9119007c248",
+        "author": "Victor Sergeev, Daniil Yugoslavskiy, Gleb Sukhodolskiy, Timur Zinniatullin, oscd.community, Tim Shelton, frack113 (split)",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/registry/registry_set/registry_set_asep_reg_keys_modification_office.yml",
+        "document": 1,
+        "title": "Office Autorun Keys Modification",
+        "sigma_uuid": "baecf8fb-edbf-429f-9ade-31fc3f22b970",
+        "author": "Victor Sergeev, Daniil Yugoslavskiy, Gleb Sukhodolskiy, Timur Zinniatullin, oscd.community, Tim Shelton, frack113 (split)",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/registry/registry_set/registry_set_asep_reg_keys_modification_wow6432node.yml",
+        "document": 1,
+        "title": "Wow6432Node CurrentVersion Autorun Keys Modification",
+        "sigma_uuid": "b29aed60-ebd1-442b-9cb5-16a1d0324adb",
+        "author": "Victor Sergeev, Daniil Yugoslavskiy, Gleb Sukhodolskiy, Timur Zinniatullin, oscd.community, Tim Shelton, frack113 (split)",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/registry/registry_set/registry_set_asep_reg_keys_modification_wow6432node_currentversion.yml",
+        "document": 1,
+        "title": "Wow6432Node Windows NT CurrentVersion Autorun Keys Modification",
+        "sigma_uuid": "480421f9-417f-4d3b-9552-fd2728443ec8",
+        "author": "Victor Sergeev, Daniil Yugoslavskiy, Gleb Sukhodolskiy, Timur Zinniatullin, oscd.community, Tim Shelton, frack113 (split)",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/registry/registry_set/registry_set_disable_windows_event_log_access.yml",
+        "document": 1,
+        "title": "Windows Event Log Access Tampering Via Registry",
+        "sigma_uuid": "ba226dcf-d390-4642-b9af-b534872f1156",
+        "author": "X__Junior",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/registry/registry_set/registry_set_disable_winevt_logging.yml",
+        "document": 1,
+        "title": "Disable Windows Event Logging Via Registry",
+        "sigma_uuid": "2f78da12-f7c7-430b-8b19-a28f269b77a3",
+        "author": "frack113, Nasreddine Bencherchali (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/registry/registry_set/registry_set_persistence_ie.yml",
+        "document": 1,
+        "title": "Modification of IE Registry Settings",
+        "sigma_uuid": "d88d0ab2-e696-4d40-a2ed-9790064e66b3",
+        "author": "frack113",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/registry/registry_set/registry_set_persistence_shim_database.yml",
+        "document": 1,
+        "title": "Potential Persistence Via Shim Database Modification",
+        "sigma_uuid": "dfb5b4e8-91d0-4291-b40a-e3b0d3942c45",
+        "author": "frack113",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/registry/registry_set/registry_set_renamed_sysinternals_eula_accepted.yml",
+        "document": 1,
+        "title": "Usage of Renamed Sysinternals Tools - RegistrySet",
+        "sigma_uuid": "8023f872-3f1d-4301-a384-801889917ab4",
+        "author": "Nasreddine Bencherchali (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/registry/registry_set/registry_set_susp_user_shell_folders.yml",
+        "document": 1,
+        "title": "Modify User Shell Folders Startup Value",
+        "sigma_uuid": "9c226817-8dc9-46c2-a58d-66655aafd7dc",
+        "author": "frack113, Swachchhanda Shrawan Poudel (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/registry/registry_set/registry_set_taskcache_entry.yml",
+        "document": 1,
+        "title": "Scheduled TaskCache Change by Uncommon Program",
+        "sigma_uuid": "4720b7df-40c3-48fd-bbdf-fd4b3c464f0d",
+        "author": "Syed Hasan (@syedhasan009)",
+        "reason": "ValueError: unsupported predicate value: SigmaNull"
+      },
+      {
+        "path": "rules/windows/wmi_event/sysmon_wmi_susp_encoded_scripts.yml",
+        "document": 1,
+        "title": "Suspicious Encoded Scripts in a WMI Consumer",
+        "sigma_uuid": "83844185-1c5b-45bc-bcf3-b5bf3084ca5b",
+        "author": "Florian Roth (Nextron Systems)",
+        "reason": "ValueError: unsupported predicate value: SigmaExpansion"
+      },
+      {
+        "path": "unsupported/cloud/aws_ec2_download_userdata.yml",
+        "document": 1,
+        "title": "AWS EC2 Download Userdata",
+        "sigma_uuid": "26ff4080-194e-47e7-9889-ef7602efed0c",
+        "author": "faloker",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      },
+      {
+        "path": "unsupported/cloud/aws_enum_backup.yml",
+        "document": 1,
+        "title": "Potential Backup Enumeration on AWS",
+        "sigma_uuid": "76255e09-755e-4675-8b6b-dbce9842cd2a",
+        "author": "Janantha Marasinghe",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      },
+      {
+        "path": "unsupported/cloud/aws_enum_listing.yml",
+        "document": 1,
+        "title": "Account Enumeration on AWS",
+        "sigma_uuid": "e9c14b23-47e2-4a8b-8a63-d36618e33d70",
+        "author": "toffeebr33k",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      },
+      {
+        "path": "unsupported/cloud/aws_enum_network.yml",
+        "document": 1,
+        "title": "Potential Network Enumeration on AWS",
+        "sigma_uuid": "c3d53999-4b14-4ddd-9d9b-e618c366b54d",
+        "author": "Janantha Marasinghe",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      },
+      {
+        "path": "unsupported/cloud/aws_enum_storage.yml",
+        "document": 1,
+        "title": "Potential Storage Enumeration on AWS",
+        "sigma_uuid": "4723218f-2048-41f6-bcb0-417f2d784f61",
+        "author": "Janantha Marasinghe",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      },
+      {
+        "path": "unsupported/cloud/aws_lambda_function_created_or_invoked.yml",
+        "document": 1,
+        "title": "AWS Lambda Function Created or Invoked",
+        "sigma_uuid": "d914951b-52c8-485f-875e-86abab710c0b",
+        "author": "Austin Songer @austinsonger",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      },
+      {
+        "path": "unsupported/cloud/aws_macic_evasion.yml",
+        "document": 1,
+        "title": "AWS Macie Evasion",
+        "sigma_uuid": "91f6a16c-ef71-437a-99ac-0b070e3ad221",
+        "author": "Sittikorn S",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      },
+      {
+        "path": "unsupported/cloud/azure_aad_secops_signin_failure_bad_password_threshold.yml",
+        "document": 1,
+        "title": "Sign-in Failure Bad Password Threshold",
+        "sigma_uuid": "dff74231-dbed-42ab-ba49-83289be2ac3a",
+        "author": "Corissa Koopmans, '@corissalea'",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      },
+      {
+        "path": "unsupported/linux/lnx_auditd_cve_2021_3156_sudo_buffer_overflow.yml",
+        "document": 1,
+        "title": "CVE-2021-3156 Exploitation Attempt",
+        "sigma_uuid": "5ee37487-4eb8-4ac2-9be1-d7d14cdc559f",
+        "author": "Bhabesh Raj",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      },
+      {
+        "path": "unsupported/linux/lnx_auditd_cve_2021_3156_sudo_buffer_overflow_brutforce.yml",
+        "document": 1,
+        "title": "CVE-2021-3156 Exploitation Attempt Bruteforcing",
+        "sigma_uuid": "b9748c98-9ea7-4fdb-80b6-29bed6ba71d2",
+        "author": "Bhabesh Raj",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      },
+      {
+        "path": "unsupported/linux/lnx_auditd_cve_2021_4034.yml",
+        "document": 1,
+        "title": "Potential CVE-2021-4034 Exploitation Attempt",
+        "sigma_uuid": "40a016ab-4f48-4eee-adde-bbf612695c53",
+        "author": "Pawel Mazur",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      },
+      {
+        "path": "unsupported/linux/lnx_auditd_debugfs_usage.yml",
+        "document": 1,
+        "title": "Use of Debugfs to Access a Raw Disk",
+        "sigma_uuid": "fb0647d7-371a-4553-8e20-33bbbe122956",
+        "author": "Janantha Marasinghe",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      },
+      {
+        "path": "unsupported/linux/lnx_auth_susp_failed_logons_single_source.yml",
+        "document": 1,
+        "title": "Failed Logins with Different Accounts from Single Source - Linux",
+        "sigma_uuid": "fc947f8e-ea81-4b14-9a7b-13f888f94e18",
+        "author": "Florian Roth (Nextron Systems)",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      },
+      {
+        "path": "unsupported/linux/lnx_shell_priv_esc_prep.yml",
+        "document": 1,
+        "title": "Privilege Escalation Preparation",
+        "sigma_uuid": "444ade84-c362-4260-b1f3-e45e20e1a905",
+        "author": "Patrick Bareiss",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      },
+      {
+        "path": "unsupported/network/net_dns_c2_detection.yml",
+        "document": 1,
+        "title": "Possible DNS Tunneling",
+        "sigma_uuid": "1ec4b281-aa65-46a2-bdae-5fd830ed914e",
+        "author": "Patrick Bareiss",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      },
+      {
+        "path": "unsupported/network/net_dns_high_bytes_out.yml",
+        "document": 1,
+        "title": "High DNS Bytes Out",
+        "sigma_uuid": "0f6c1bf5-70a5-4963-aef9-aab1eefb50bd",
+        "author": "Daniil Yugoslavskiy, oscd.community",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      },
+      {
+        "path": "unsupported/network/net_dns_high_null_records_requests_rate.yml",
+        "document": 1,
+        "title": "High NULL Records Requests Rate",
+        "sigma_uuid": "44ae5117-9c44-40cf-9c7c-7edad385ca70",
+        "author": "Daniil Yugoslavskiy, oscd.community",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      },
+      {
+        "path": "unsupported/network/net_dns_high_requests_rate.yml",
+        "document": 1,
+        "title": "High DNS Requests Rate",
+        "sigma_uuid": "b4163085-4001-46a3-a79a-55d8bbbc7a3a",
+        "author": "Daniil Yugoslavskiy, oscd.community",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      },
+      {
+        "path": "unsupported/network/net_dns_high_subdomain_rate.yml",
+        "document": 1,
+        "title": "High DNS subdomain requests rate per domain",
+        "sigma_uuid": "8198e9a8-e38f-4ba5-8f16-882b1c0f880e",
+        "author": "Daniil Yugoslavskiy, oscd.community",
+        "reason": "SigmaConditionError: Expected end of text, found '('  (at char 5), (line:1, col:6)"
+      },
+      {
+        "path": "unsupported/network/net_dns_high_txt_records_requests_rate.yml",
+        "document": 1,
+        "title": "High TXT Records Requests Rate",
+        "sigma_uuid": "f0a8cedc-1d22-4453-9c44-8d9f4ebd5d35",
+        "author": "Daniil Yugoslavskiy, oscd.community",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      },
+      {
+        "path": "unsupported/network/net_firewall_high_dns_bytes_out.yml",
+        "document": 1,
+        "title": "High DNS Bytes Out - Firewall",
+        "sigma_uuid": "3b6e327d-8649-4102-993f-d25786481589",
+        "author": "Daniil Yugoslavskiy, oscd.community",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      },
+      {
+        "path": "unsupported/network/net_firewall_high_dns_requests_rate.yml",
+        "document": 1,
+        "title": "High DNS Requests Rate - Firewall",
+        "sigma_uuid": "51186749-7415-46be-90e5-6914865c825a",
+        "author": "Daniil Yugoslavskiy, oscd.community",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      },
+      {
+        "path": "unsupported/network/net_firewall_susp_network_scan_by_ip.yml",
+        "document": 1,
+        "title": "Network Scans Count By Destination IP",
+        "sigma_uuid": "4601eaec-6b45-4052-ad32-2d96d26ce0d8",
+        "author": "Thomas Patzke",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      },
+      {
+        "path": "unsupported/network/net_firewall_susp_network_scan_by_port.yml",
+        "document": 1,
+        "title": "Network Scans Count By Destination Port",
+        "sigma_uuid": "fab0ddf0-b8a9-4d70-91ce-a20547209afb",
+        "author": "Thomas Patzke",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      },
+      {
+        "path": "unsupported/network/net_possible_dns_rebinding.yml",
+        "document": 1,
+        "title": "Possible DNS Rebinding",
+        "sigma_uuid": "ec5b8711-b550-4879-9660-568aaae2c3ea",
+        "author": "Ilyas Ochkov, oscd.community",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      },
+      {
+        "path": "unsupported/other/modsec_mulitple_blocks.yml",
+        "document": 1,
+        "title": "Multiple Modsecurity Blocks",
+        "sigma_uuid": "a06eea10-d932-4aa6-8ba9-186df72c8d23",
+        "author": "Florian Roth (Nextron Systems)",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      },
+      {
+        "path": "unsupported/web/web_multiple_susp_resp_codes_single_source.yml",
+        "document": 1,
+        "title": "Multiple Suspicious Resp Codes Caused by Single Client",
+        "sigma_uuid": "6fdfc796-06b3-46e8-af08-58f3505318af",
+        "author": "Thomas Patzke",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      },
+      {
+        "path": "unsupported/windows/dns_query_win_possible_dns_rebinding.yml",
+        "document": 1,
+        "title": "Possible DNS Rebinding",
+        "sigma_uuid": "eb07e747-2552-44cd-af36-b659ae0958e4",
+        "author": "Ilyas Ochkov, oscd.community",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      },
+      {
+        "path": "unsupported/windows/image_load_mimikatz_inmemory_detection.yml",
+        "document": 1,
+        "title": "Mimikatz In-Memory",
+        "sigma_uuid": "c0478ead-5336-46c2-bd5e-b4c84bc3a36e",
+        "author": "sigma",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      },
+      {
+        "path": "unsupported/windows/posh_ps_cl_invocation_lolscript_count.yml",
+        "document": 1,
+        "title": "Execution via CL_Invocation.ps1 (2 Lines)",
+        "sigma_uuid": "f588e69b-0750-46bb-8f87-0e9320d57536",
+        "author": "oscd.community, Natalia Shornikova",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      },
+      {
+        "path": "unsupported/windows/posh_ps_cl_mutexverifiers_lolscript_count.yml",
+        "document": 1,
+        "title": "Execution via CL_Mutexverifiers.ps1 (2 Lines)",
+        "sigma_uuid": "6609c444-9670-4eab-9636-fe4755a851ce",
+        "author": "oscd.community, Natalia Shornikova",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      },
+      {
+        "path": "unsupported/windows/proc_creation_win_correlation_apt_silence_downloader_v3.yml",
+        "document": 1,
+        "title": "Silence.Downloader V3",
+        "sigma_uuid": "170901d1-de11-4de7-bccb-8fa13678d857",
+        "author": "Alina Stepchenkova, Roman Rezvukhin, Group-IB, oscd.community",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      },
+      {
+        "path": "unsupported/windows/proc_creation_win_correlation_apt_turla_commands_medium.yml",
+        "document": 1,
+        "title": "Automated Turla Group Lateral Movement",
+        "sigma_uuid": "75925535-ca97-4e0a-a850-00b5c00779dc",
+        "author": "Markus Neis",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      },
+      {
+        "path": "unsupported/windows/proc_creation_win_correlation_dnscat2_powershell_implementation.yml",
+        "document": 1,
+        "title": "DNSCat2 Powershell Implementation Detection Via Process Creation",
+        "sigma_uuid": "b11d75d6-d7c1-11ea-87d0-0242ac130003",
+        "author": "Cian Heasley",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      },
+      {
+        "path": "unsupported/windows/proc_creation_win_correlation_multiple_susp_cli.yml",
+        "document": 1,
+        "title": "Quick Execution of a Series of Suspicious Commands",
+        "sigma_uuid": "61ab5496-748e-4818-a92f-de78e20fe7f1",
+        "author": "juju4",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      },
+      {
+        "path": "unsupported/windows/proc_creation_win_correlation_susp_builtin_commands_recon.yml",
+        "document": 1,
+        "title": "Reconnaissance Activity Using BuiltIn Commands",
+        "sigma_uuid": "2887e914-ce96-435f-8105-593937e90757",
+        "author": "Florian Roth (Nextron Systems), Markus Neis",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      },
+      {
+        "path": "unsupported/windows/sysmon_always_install_elevated_parent_child_correlated.yml",
+        "document": 1,
+        "title": "Always Install Elevated Parent Child Correlated",
+        "sigma_uuid": "078235c5-6ec5-48e7-94b2-f8b5474379ea",
+        "author": "Teymur Kheirkhabarov (idea), Mangatas Tondang (rule), oscd.community",
+        "reason": "SigmaConditionError: Expected end of text, found 'ProcessGuid'  (at char 6), (line:1, col:7)"
+      },
+      {
+        "path": "unsupported/windows/sysmon_process_reimaging.yml",
+        "document": 2,
+        "title": "",
+        "sigma_uuid": null,
+        "author": "",
+        "reason": "SigmaTitleError: Sigma rule must have a title"
+      },
+      {
+        "path": "unsupported/windows/sysmon_process_reimaging.yml",
+        "document": 3,
+        "title": "",
+        "sigma_uuid": null,
+        "author": "",
+        "reason": "SigmaTitleError: Sigma rule must have a title"
+      },
+      {
+        "path": "unsupported/windows/win_apt_apt29_tor.yml",
+        "document": 1,
+        "title": "APT29 Google Update Service Install",
+        "sigma_uuid": null,
+        "author": "Thomas Patzke",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      },
+      {
+        "path": "unsupported/windows/win_apt_apt29_tor.yml",
+        "document": 2,
+        "title": "",
+        "sigma_uuid": "c069f460-2b87-4010-8dcf-e45bab362624",
+        "author": "",
+        "reason": "SigmaTitleError: Sigma rule must have a title"
+      },
+      {
+        "path": "unsupported/windows/win_dumping_ntdsdit_via_dcsync.yml",
+        "document": 1,
+        "title": "Dumping ntds.dit remotely via DCSync",
+        "sigma_uuid": "51238c62-2b29-4539-ad75-e94575368a12",
+        "author": "Teymur Kheirkhabarov, oscd.community",
+        "reason": "SigmaConditionError: Expected end of text, found 'TargetLogonId'  (at char 6), (line:1, col:7)"
+      },
+      {
+        "path": "unsupported/windows/win_dumping_ntdsdit_via_netsync.yml",
+        "document": 1,
+        "title": "Dumping ntds.dit remotely via NetSync",
+        "sigma_uuid": "757b2a11-73e7-411a-bd46-141d906e0167",
+        "author": "Teymur Kheirkhabarov, oscd.community",
+        "reason": "SigmaConditionError: Expected end of text, found 'TargetLogonId'  (at char 6), (line:1, col:7)"
+      },
+      {
+        "path": "unsupported/windows/win_remote_service.yml",
+        "document": 2,
+        "title": "",
+        "sigma_uuid": null,
+        "author": "",
+        "reason": "SigmaTitleError: Sigma rule must have a title"
+      },
+      {
+        "path": "unsupported/windows/win_remote_service.yml",
+        "document": 3,
+        "title": "",
+        "sigma_uuid": null,
+        "author": "",
+        "reason": "SigmaTitleError: Sigma rule must have a title"
+      },
+      {
+        "path": "unsupported/windows/win_security_global_catalog_enumeration.yml",
+        "document": 1,
+        "title": "Enumeration via the Global Catalog",
+        "sigma_uuid": "619b020f-0fd7-4f23-87db-3f51ef837a34",
+        "author": "Chakib Gzenayi (@Chak092), Hosni Mribah",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      },
+      {
+        "path": "unsupported/windows/win_security_rare_schtasks_creations.yml",
+        "document": 1,
+        "title": "Rare Schtasks Creations",
+        "sigma_uuid": "b0d77106-7bb0-41fe-bd94-d1752164d066",
+        "author": "Florian Roth (Nextron Systems)",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      },
+      {
+        "path": "unsupported/windows/win_security_susp_failed_logons_explicit_credentials.yml",
+        "document": 1,
+        "title": "Password Spraying via Explicit Credentials",
+        "sigma_uuid": "196a29c2-e378-48d8-ba07-8a9e61f7fab9",
+        "author": "Mauricio Velazco, Zach Mathis",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      },
+      {
+        "path": "unsupported/windows/win_security_susp_failed_logons_single_process.yml",
+        "document": 1,
+        "title": "Multiple Users Failing to Authenticate from Single Process",
+        "sigma_uuid": "fe563ab6-ded4-4916-b49f-a3a8445fe280",
+        "author": "Mauricio Velazco",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      },
+      {
+        "path": "unsupported/windows/win_security_susp_failed_logons_single_source.yml",
+        "document": 1,
+        "title": "Failed Logins with Different Accounts from Single Source System",
+        "sigma_uuid": "e98374a6-e2d9-4076-9b5c-11bdb2569995",
+        "author": "Florian Roth (Nextron Systems)",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      },
+      {
+        "path": "unsupported/windows/win_security_susp_failed_logons_single_source2.yml",
+        "document": 1,
+        "title": "Failed NTLM Logins with Different Accounts from Single Source System",
+        "sigma_uuid": "6309ffc4-8fa2-47cf-96b8-a2f72e58e538",
+        "author": "Florian Roth (Nextron Systems)",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      },
+      {
+        "path": "unsupported/windows/win_security_susp_failed_logons_single_source_kerberos.yml",
+        "document": 1,
+        "title": "Valid Users Failing to Authenticate From Single Source Using Kerberos",
+        "sigma_uuid": "5d1d946e-32e6-4d9a-a0dc-0ac022c7eb98",
+        "author": "Mauricio Velazco, frack113",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      },
+      {
+        "path": "unsupported/windows/win_security_susp_failed_logons_single_source_kerberos2.yml",
+        "document": 1,
+        "title": "Disabled Users Failing To Authenticate From Source Using Kerberos",
+        "sigma_uuid": "4b6fe998-b69c-46d8-901b-13677c9fb663",
+        "author": "Mauricio Velazco, frack113",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      },
+      {
+        "path": "unsupported/windows/win_security_susp_failed_logons_single_source_kerberos3.yml",
+        "document": 1,
+        "title": "Invalid Users Failing To Authenticate From Source Using Kerberos",
+        "sigma_uuid": "bc93dfe6-8242-411e-a2dd-d16fa0cc8564",
+        "author": "Mauricio Velazco, frack113",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      },
+      {
+        "path": "unsupported/windows/win_security_susp_failed_logons_single_source_ntlm.yml",
+        "document": 1,
+        "title": "Valid Users Failing to Authenticate from Single Source Using NTLM",
+        "sigma_uuid": "f88bab7f-b1f4-41bb-bdb1-4b8af35b0470",
+        "author": "Mauricio Velazco",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      },
+      {
+        "path": "unsupported/windows/win_security_susp_failed_logons_single_source_ntlm2.yml",
+        "document": 1,
+        "title": "Invalid Users Failing To Authenticate From Single Source Using NTLM",
+        "sigma_uuid": "56d62ef8-3462-4890-9859-7b41e541f8d5",
+        "author": "Mauricio Velazco",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      },
+      {
+        "path": "unsupported/windows/win_security_susp_failed_remote_logons_single_source.yml",
+        "document": 1,
+        "title": "Multiple Users Remotely Failing To Authenticate From Single Source",
+        "sigma_uuid": "add2ef8d-dc91-4002-9e7e-f2702369f53a",
+        "author": "Mauricio Velazco",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      },
+      {
+        "path": "unsupported/windows/win_security_susp_multiple_files_renamed_or_deleted.yml",
+        "document": 1,
+        "title": "Suspicious Multiple File Rename Or Delete Occurred",
+        "sigma_uuid": "97919310-06a7-482c-9639-92b67ed63cf8",
+        "author": "Vasiliy Burov, oscd.community",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      },
+      {
+        "path": "unsupported/windows/win_security_susp_samr_pwset.yml",
+        "document": 1,
+        "title": "Possible Remote Password Change Through SAMR",
+        "sigma_uuid": "7818b381-5eb1-4641-bea5-ef9e4cfb5951",
+        "author": "Dimitrios Slamaris",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      },
+      {
+        "path": "unsupported/windows/win_susp_failed_hidden_share_mount.yml",
+        "document": 1,
+        "title": "Failed Mounting of Hidden Share",
+        "sigma_uuid": "1c3be8c5-6171-41d3-b792-cab6f717fcdb",
+        "author": "Fabian Franz",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      },
+      {
+        "path": "unsupported/windows/win_system_rare_service_installs.yml",
+        "document": 1,
+        "title": "Rare Service Installations",
+        "sigma_uuid": "66bfef30-22a5-4fcd-ad44-8d81e60922ae",
+        "author": "Florian Roth (Nextron Systems)",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      },
+      {
+        "path": "unsupported/windows/win_taskscheduler_rare_schtask_creation.yml",
+        "document": 1,
+        "title": "Rare Scheduled Task Creations",
+        "sigma_uuid": "b20f6158-9438-41be-83da-a5a16ac90c2b",
+        "author": "Florian Roth (Nextron Systems)",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      },
+      {
+        "path": "unsupported/zeek/zeek_dce_rpc_domain_user_enumeration.yml",
+        "document": 1,
+        "title": "Domain User Enumeration Network Recon 01",
+        "sigma_uuid": "66a0bdc6-ee04-441a-9125-99d2eb547942",
+        "author": "Nate Guagenti (@neu5ron), Open Threat Research (OTR)",
+        "reason": "SigmaConditionError: The pipe syntax in Sigma conditions has been deprecated and replaced by Sigma correlations. pySigma doesn't supports this syntax."
+      }
+    ]
+  },
+  "original_baseline_commit": "bea9b71d6399a17c3ae393c65c0a8c72c52eb96b",
+  "metrics": {
+    "file_bytes": "SHA-256 of complete original file bytes; comments, metadata and formatting retained.",
+    "sigma_uuid": "Exact case-normalized Sigma rule UUID; not the repository logical detection ID.",
+    "detection_and_logsource": "Parsed YAML detection plus logsource, dictionary keys sorted; selector names and list order retained.",
+    "detection": "Parsed YAML detection only; selector names and list order retained.",
+    "normalized_condition_and_logsource": "pySigma condition tree: selector names removed; AND/OR operands flattened, sorted and deduplicated; string case normalized; field names, value types, regex flags, logsource and normalization adapter retained. Not a complete Boolean equivalence proof."
+  },
+  "limitations": [
+    "A finite pinned SigmaHQ corpus does not search the whole Internet or every upstream revision.",
+    "No-match results cannot establish independent authorship, license rights or absence of modified copies.",
+    "Common documented behavior and short predicates naturally overlap; similarity alone is not rejection evidence.",
+    "Unsupported normalization and parse errors are listed explicitly; exact metrics remain narrower than semantic similarity.",
+    "Known references identify related source and attribution to review; a reference alone does not prove text was imported."
+  ],
+  "scopes": {
+    "original_baseline": {
+      "source": {
+        "yaml_files": 50,
+        "rule_documents": 50,
+        "dataset_sha256": "bbff547e5b8bbf49258850e897806a9f7dc7091b392116ec61caefb827bdd350",
+        "parse_errors": [],
+        "normalization_supported": 50,
+        "normalization_unsupported": []
+      },
+      "comparisons": {
+        "file_bytes": {
+          "local_documents_matched": 0,
+          "matches": []
+        },
+        "sigma_uuid": {
+          "local_documents_matched": 0,
+          "matches": []
+        },
+        "detection_and_logsource": {
+          "local_documents_matched": 0,
+          "matches": []
+        },
+        "detection": {
+          "local_documents_matched": 0,
+          "matches": []
+        },
+        "normalized_condition_and_logsource": {
+          "local_documents_matched": 0,
+          "matches": []
+        }
+      },
+      "known_sigmahq_references": [
+        {
+          "local_path": "content/portable/sigma/MSEC-DET-0012/rule.yml",
+          "reference": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_mshta_http.yml",
+          "upstream": {
+            "path": "rules/windows/process_creation/proc_creation_win_mshta_http.yml",
+            "document": 1,
+            "title": "Remotely Hosted HTA File Executed Via Mshta.EXE",
+            "sigma_uuid": "b98d0db6-511d-45de-ad02-e82a98729620",
+            "author": "Nasreddine Bencherchali (Nextron Systems)"
+          }
+        },
+        {
+          "local_path": "content/portable/sigma/MSEC-DET-0013/rule.yml",
+          "reference": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_regsvr32_network_pattern.yml",
+          "upstream": {
+            "path": "rules/windows/process_creation/proc_creation_win_regsvr32_network_pattern.yml",
+            "document": 1,
+            "title": "Potentially Suspicious Regsvr32 HTTP/FTP Pattern",
+            "sigma_uuid": "867356ee-9352-41c9-a8f2-1be690d78216",
+            "author": "Florian Roth (Nextron Systems)"
+          }
+        },
+        {
+          "local_path": "content/portable/sigma/MSEC-DET-0022/rule.yml",
+          "reference": "https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/azure/audit_logs/azure_mfa_disabled.yml",
+          "upstream": {
+            "path": "rules/cloud/azure/audit_logs/azure_mfa_disabled.yml",
+            "document": 1,
+            "title": "Disabled MFA to Bypass Authentication Mechanisms",
+            "sigma_uuid": "7ea78478-a4f9-42a6-9dcd-f861816122bf",
+            "author": "@ionsor"
+          }
+        },
+        {
+          "local_path": "content/portable/sigma/MSEC-DET-0024/rule.yml",
+          "reference": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_wmic_process_creation.yml",
+          "upstream": {
+            "path": "rules/windows/process_creation/proc_creation_win_wmic_process_creation.yml",
+            "document": 1,
+            "title": "Process Creation Attempt via Wmic.EXE",
+            "sigma_uuid": "526be59f-a573-4eea-b5f7-f0973207634d",
+            "author": "Michael Haag, Florian Roth (Nextron Systems), juju4, oscd.community"
+          }
+        },
+        {
+          "local_path": "content/portable/sigma/MSEC-DET-0025/rule.yml",
+          "reference": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_bitsadmin_download.yml",
+          "upstream": {
+            "path": "rules/windows/process_creation/proc_creation_win_bitsadmin_download.yml",
+            "document": 1,
+            "title": "File Download Via Bitsadmin",
+            "sigma_uuid": "d059842b-6b9d-4ed1-b5c3-5b89143c6ede",
+            "author": "Michael Haag, FPT.EagleEye"
+          }
+        },
+        {
+          "local_path": "content/portable/sigma/MSEC-DET-0030/rule.yml",
+          "reference": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_susp_ntds.yml",
+          "upstream": {
+            "path": "rules/windows/process_creation/proc_creation_win_susp_ntds.yml",
+            "document": 1,
+            "title": "Suspicious Process Patterns NTDS.DIT Exfil",
+            "sigma_uuid": "8bc64091-6875-4881-aaf9-7bd25b5dda08",
+            "author": "Florian Roth (Nextron Systems)"
+          }
+        },
+        {
+          "local_path": "content/portable/sigma/MSEC-DET-0031/rule.yml",
+          "reference": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_webshell_susp_process_spawned_from_webserver.yml",
+          "upstream": {
+            "path": "rules/windows/process_creation/proc_creation_win_webshell_susp_process_spawned_from_webserver.yml",
+            "document": 1,
+            "title": "Suspicious Process By Web Server Process",
+            "sigma_uuid": "8202070f-edeb-4d31-a010-a26c72ac5600",
+            "author": "Thomas Patzke, Florian Roth (Nextron Systems), Zach Stanford @svch0st, Tim Shelton, Nasreddine Bencherchali (Nextron Systems)"
+          }
+        },
+        {
+          "local_path": "content/portable/sigma/MSEC-DET-0035/rule.yml",
+          "reference": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_certutil_decode.yml",
+          "upstream": {
+            "path": "rules/windows/process_creation/proc_creation_win_certutil_decode.yml",
+            "document": 1,
+            "title": "File Decoded From Base64/Hex Via Certutil.EXE",
+            "sigma_uuid": "cc9cbe82-7bc0-4ef5-bc23-bbfb83947be7",
+            "author": "Florian Roth (Nextron Systems), Jonhnathan Ribeiro, oscd.community"
+          }
+        },
+        {
+          "local_path": "content/portable/sigma/MSEC-DET-0036/rule.yml",
+          "reference": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_sysinternals_procdump_lsass.yml",
+          "upstream": {
+            "path": "rules/windows/process_creation/proc_creation_win_sysinternals_procdump_lsass.yml",
+            "document": 1,
+            "title": "Potential LSASS Process Dump Via Procdump",
+            "sigma_uuid": "5afee48e-67dd-4e03-a783-f74259dcf998",
+            "author": "Florian Roth (Nextron Systems)"
+          }
+        },
+        {
+          "local_path": "content/portable/sigma/MSEC-DET-0037/rule.yml",
+          "reference": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_susp_fodhelper.yml",
+          "upstream": null
+        },
+        {
+          "local_path": "content/portable/sigma/MSEC-DET-0038/rule.yml",
+          "reference": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_winrm_susp_child_process.yml",
+          "upstream": {
+            "path": "rules/windows/process_creation/proc_creation_win_winrm_susp_child_process.yml",
+            "document": 1,
+            "title": "Suspicious Processes Spawned by WinRM",
+            "sigma_uuid": "5cc2cda8-f261-4d88-a2de-e9e193c86716",
+            "author": "Andreas Hunkeler (@Karneades), Markus Neis"
+          }
+        },
+        {
+          "local_path": "content/portable/sigma/MSEC-DET-0039/rule.yml",
+          "reference": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_powershell_download_cradle.yml",
+          "upstream": null
+        },
+        {
+          "local_path": "content/portable/sigma/MSEC-DET-0040/rule.yml",
+          "reference": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/registry/registry_set/registry_set_ifeo_accessibility_debugger.yml",
+          "upstream": null
+        },
+        {
+          "local_path": "content/portable/sigma/MSEC-DET-0041/rule.yml",
+          "reference": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_cmstp_execution_by_creation.yml",
+          "upstream": {
+            "path": "rules/windows/process_creation/proc_creation_win_cmstp_execution_by_creation.yml",
+            "document": 1,
+            "title": "CMSTP Execution Process Creation",
+            "sigma_uuid": "7d4cdc5a-0076-40ca-aac8-f7e714570e47",
+            "author": "Nik Seetharaman"
+          }
+        },
+        {
+          "local_path": "content/portable/sigma/MSEC-DET-0042/rule.yml",
+          "reference": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_odbcconf_register_dll_regsvr.yml",
+          "upstream": {
+            "path": "rules/windows/process_creation/proc_creation_win_odbcconf_register_dll_regsvr.yml",
+            "document": 1,
+            "title": "New DLL Registered Via Odbcconf.EXE",
+            "sigma_uuid": "9f0a8bf3-a65b-440a-8c1e-5cb1547c8e70",
+            "author": "Kirill Kiryanov, Beyu Denis, Daniil Yugoslavskiy, oscd.community, Nasreddine Bencherchali (Nextron Systems)"
+          }
+        },
+        {
+          "local_path": "content/portable/sigma/MSEC-DET-0043/rule.yml",
+          "reference": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_msiexec_web_install.yml",
+          "upstream": {
+            "path": "rules/windows/process_creation/proc_creation_win_msiexec_web_install.yml",
+            "document": 1,
+            "title": "MsiExec Web Install",
+            "sigma_uuid": "f7b5f842-a6af-4da5-9e95-e32478f3cd2f",
+            "author": "Florian Roth (Nextron Systems)"
+          }
+        },
+        {
+          "local_path": "content/portable/sigma/MSEC-DET-0044/rule.yml",
+          "reference": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_installutil_download.yml",
+          "upstream": {
+            "path": "rules/windows/process_creation/proc_creation_win_installutil_download.yml",
+            "document": 1,
+            "title": "File Download Via InstallUtil.EXE",
+            "sigma_uuid": "75edd216-1939-4c73-8d61-7f3a0d85b5cc",
+            "author": "Nasreddine Bencherchali (Nextron Systems)"
+          }
+        },
+        {
+          "local_path": "content/portable/sigma/MSEC-DET-0045/rule.yml",
+          "reference": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_msbuild_susp_parent_process.yml",
+          "upstream": {
+            "path": "rules/windows/process_creation/proc_creation_win_msbuild_susp_parent_process.yml",
+            "document": 1,
+            "title": "Suspicious Msbuild Execution By Uncommon Parent Process",
+            "sigma_uuid": "33be4333-2c6b-44f4-ae28-102cdbde0a31",
+            "author": "frack113"
+          }
+        },
+        {
+          "local_path": "content/portable/sigma/MSEC-DET-0047/rule.yml",
+          "reference": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/registry/registry_set/registry_set_persistence_winlogon_helper_dll.yml",
+          "upstream": null
+        }
+      ]
+    },
+    "reviewed_worktree": {
+      "source": {
+        "yaml_files": 67,
+        "rule_documents": 67,
+        "dataset_sha256": "a711beab2082f36dfc9c47730151109c3435b6b6e2f6f9cc096834ba16b58a3d",
+        "parse_errors": [],
+        "normalization_supported": 67,
+        "normalization_unsupported": []
+      },
+      "comparisons": {
+        "file_bytes": {
+          "local_documents_matched": 0,
+          "matches": []
+        },
+        "sigma_uuid": {
+          "local_documents_matched": 0,
+          "matches": []
+        },
+        "detection_and_logsource": {
+          "local_documents_matched": 0,
+          "matches": []
+        },
+        "detection": {
+          "local_documents_matched": 0,
+          "matches": []
+        },
+        "normalized_condition_and_logsource": {
+          "local_documents_matched": 0,
+          "matches": []
+        }
+      },
+      "known_sigmahq_references": [
+        {
+          "local_path": "content/portable/sigma/MSEC-DET-0012/rule.yml",
+          "reference": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_mshta_http.yml",
+          "upstream": {
+            "path": "rules/windows/process_creation/proc_creation_win_mshta_http.yml",
+            "document": 1,
+            "title": "Remotely Hosted HTA File Executed Via Mshta.EXE",
+            "sigma_uuid": "b98d0db6-511d-45de-ad02-e82a98729620",
+            "author": "Nasreddine Bencherchali (Nextron Systems)"
+          }
+        },
+        {
+          "local_path": "content/portable/sigma/MSEC-DET-0013/rule.yml",
+          "reference": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_regsvr32_network_pattern.yml",
+          "upstream": {
+            "path": "rules/windows/process_creation/proc_creation_win_regsvr32_network_pattern.yml",
+            "document": 1,
+            "title": "Potentially Suspicious Regsvr32 HTTP/FTP Pattern",
+            "sigma_uuid": "867356ee-9352-41c9-a8f2-1be690d78216",
+            "author": "Florian Roth (Nextron Systems)"
+          }
+        },
+        {
+          "local_path": "content/portable/sigma/MSEC-DET-0022/rule.yml",
+          "reference": "https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/azure/audit_logs/azure_mfa_disabled.yml",
+          "upstream": {
+            "path": "rules/cloud/azure/audit_logs/azure_mfa_disabled.yml",
+            "document": 1,
+            "title": "Disabled MFA to Bypass Authentication Mechanisms",
+            "sigma_uuid": "7ea78478-a4f9-42a6-9dcd-f861816122bf",
+            "author": "@ionsor"
+          }
+        },
+        {
+          "local_path": "content/portable/sigma/MSEC-DET-0024/rule.yml",
+          "reference": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_wmic_process_creation.yml",
+          "upstream": {
+            "path": "rules/windows/process_creation/proc_creation_win_wmic_process_creation.yml",
+            "document": 1,
+            "title": "Process Creation Attempt via Wmic.EXE",
+            "sigma_uuid": "526be59f-a573-4eea-b5f7-f0973207634d",
+            "author": "Michael Haag, Florian Roth (Nextron Systems), juju4, oscd.community"
+          }
+        },
+        {
+          "local_path": "content/portable/sigma/MSEC-DET-0025/rule.yml",
+          "reference": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_bitsadmin_download.yml",
+          "upstream": {
+            "path": "rules/windows/process_creation/proc_creation_win_bitsadmin_download.yml",
+            "document": 1,
+            "title": "File Download Via Bitsadmin",
+            "sigma_uuid": "d059842b-6b9d-4ed1-b5c3-5b89143c6ede",
+            "author": "Michael Haag, FPT.EagleEye"
+          }
+        },
+        {
+          "local_path": "content/portable/sigma/MSEC-DET-0030/rule.yml",
+          "reference": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_susp_ntds.yml",
+          "upstream": {
+            "path": "rules/windows/process_creation/proc_creation_win_susp_ntds.yml",
+            "document": 1,
+            "title": "Suspicious Process Patterns NTDS.DIT Exfil",
+            "sigma_uuid": "8bc64091-6875-4881-aaf9-7bd25b5dda08",
+            "author": "Florian Roth (Nextron Systems)"
+          }
+        },
+        {
+          "local_path": "content/portable/sigma/MSEC-DET-0031/rule.yml",
+          "reference": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_webshell_susp_process_spawned_from_webserver.yml",
+          "upstream": {
+            "path": "rules/windows/process_creation/proc_creation_win_webshell_susp_process_spawned_from_webserver.yml",
+            "document": 1,
+            "title": "Suspicious Process By Web Server Process",
+            "sigma_uuid": "8202070f-edeb-4d31-a010-a26c72ac5600",
+            "author": "Thomas Patzke, Florian Roth (Nextron Systems), Zach Stanford @svch0st, Tim Shelton, Nasreddine Bencherchali (Nextron Systems)"
+          }
+        },
+        {
+          "local_path": "content/portable/sigma/MSEC-DET-0035/rule.yml",
+          "reference": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_certutil_decode.yml",
+          "upstream": {
+            "path": "rules/windows/process_creation/proc_creation_win_certutil_decode.yml",
+            "document": 1,
+            "title": "File Decoded From Base64/Hex Via Certutil.EXE",
+            "sigma_uuid": "cc9cbe82-7bc0-4ef5-bc23-bbfb83947be7",
+            "author": "Florian Roth (Nextron Systems), Jonhnathan Ribeiro, oscd.community"
+          }
+        },
+        {
+          "local_path": "content/portable/sigma/MSEC-DET-0036/rule.yml",
+          "reference": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_sysinternals_procdump_lsass.yml",
+          "upstream": {
+            "path": "rules/windows/process_creation/proc_creation_win_sysinternals_procdump_lsass.yml",
+            "document": 1,
+            "title": "Potential LSASS Process Dump Via Procdump",
+            "sigma_uuid": "5afee48e-67dd-4e03-a783-f74259dcf998",
+            "author": "Florian Roth (Nextron Systems)"
+          }
+        },
+        {
+          "local_path": "content/portable/sigma/MSEC-DET-0037/rule.yml",
+          "reference": "https://github.com/SigmaHQ/sigma/blob/5c9b21756f4e3ba137c1773ac9ba5a8332188961/rules/windows/process_creation/proc_creation_win_uac_bypass_fodhelper.yml",
+          "upstream": {
+            "path": "rules/windows/process_creation/proc_creation_win_uac_bypass_fodhelper.yml",
+            "document": 1,
+            "title": "Bypass UAC via Fodhelper.exe",
+            "sigma_uuid": "7f741dcf-fc22-4759-87b4-9ae8376676a2",
+            "author": "E.M. Anhaus (originally from Atomic Blue Detections, Tony Lambert), oscd.community"
+          }
+        },
+        {
+          "local_path": "content/portable/sigma/MSEC-DET-0038/rule.yml",
+          "reference": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_winrm_susp_child_process.yml",
+          "upstream": {
+            "path": "rules/windows/process_creation/proc_creation_win_winrm_susp_child_process.yml",
+            "document": 1,
+            "title": "Suspicious Processes Spawned by WinRM",
+            "sigma_uuid": "5cc2cda8-f261-4d88-a2de-e9e193c86716",
+            "author": "Andreas Hunkeler (@Karneades), Markus Neis"
+          }
+        },
+        {
+          "local_path": "content/portable/sigma/MSEC-DET-0039/rule.yml",
+          "reference": "https://github.com/SigmaHQ/sigma/blob/5c9b21756f4e3ba137c1773ac9ba5a8332188961/rules/windows/process_creation/proc_creation_win_powershell_download_iex.yml",
+          "upstream": {
+            "path": "rules/windows/process_creation/proc_creation_win_powershell_download_iex.yml",
+            "document": 1,
+            "title": "PowerShell Download and Execution Cradles",
+            "sigma_uuid": "85b0b087-eddf-4a2b-b033-d771fa2b9775",
+            "author": "Florian Roth (Nextron Systems)"
+          }
+        },
+        {
+          "local_path": "content/portable/sigma/MSEC-DET-0040/rule.yml",
+          "reference": "https://github.com/SigmaHQ/sigma/blob/5c9b21756f4e3ba137c1773ac9ba5a8332188961/rules/windows/registry/registry_event/registry_event_stickykey_like_backdoor.yml",
+          "upstream": {
+            "path": "rules/windows/registry/registry_event/registry_event_stickykey_like_backdoor.yml",
+            "document": 1,
+            "title": "Sticky Key Like Backdoor Usage - Registry",
+            "sigma_uuid": "baca5663-583c-45f9-b5dc-ea96a22ce542",
+            "author": "Florian Roth (Nextron Systems), @twjackomo, Jonhnathan Ribeiro, oscd.community"
+          }
+        },
+        {
+          "local_path": "content/portable/sigma/MSEC-DET-0041/rule.yml",
+          "reference": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_cmstp_execution_by_creation.yml",
+          "upstream": {
+            "path": "rules/windows/process_creation/proc_creation_win_cmstp_execution_by_creation.yml",
+            "document": 1,
+            "title": "CMSTP Execution Process Creation",
+            "sigma_uuid": "7d4cdc5a-0076-40ca-aac8-f7e714570e47",
+            "author": "Nik Seetharaman"
+          }
+        },
+        {
+          "local_path": "content/portable/sigma/MSEC-DET-0042/rule.yml",
+          "reference": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_odbcconf_register_dll_regsvr.yml",
+          "upstream": {
+            "path": "rules/windows/process_creation/proc_creation_win_odbcconf_register_dll_regsvr.yml",
+            "document": 1,
+            "title": "New DLL Registered Via Odbcconf.EXE",
+            "sigma_uuid": "9f0a8bf3-a65b-440a-8c1e-5cb1547c8e70",
+            "author": "Kirill Kiryanov, Beyu Denis, Daniil Yugoslavskiy, oscd.community, Nasreddine Bencherchali (Nextron Systems)"
+          }
+        },
+        {
+          "local_path": "content/portable/sigma/MSEC-DET-0043/rule.yml",
+          "reference": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_msiexec_web_install.yml",
+          "upstream": {
+            "path": "rules/windows/process_creation/proc_creation_win_msiexec_web_install.yml",
+            "document": 1,
+            "title": "MsiExec Web Install",
+            "sigma_uuid": "f7b5f842-a6af-4da5-9e95-e32478f3cd2f",
+            "author": "Florian Roth (Nextron Systems)"
+          }
+        },
+        {
+          "local_path": "content/portable/sigma/MSEC-DET-0044/rule.yml",
+          "reference": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_installutil_download.yml",
+          "upstream": {
+            "path": "rules/windows/process_creation/proc_creation_win_installutil_download.yml",
+            "document": 1,
+            "title": "File Download Via InstallUtil.EXE",
+            "sigma_uuid": "75edd216-1939-4c73-8d61-7f3a0d85b5cc",
+            "author": "Nasreddine Bencherchali (Nextron Systems)"
+          }
+        },
+        {
+          "local_path": "content/portable/sigma/MSEC-DET-0045/rule.yml",
+          "reference": "https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_msbuild_susp_parent_process.yml",
+          "upstream": {
+            "path": "rules/windows/process_creation/proc_creation_win_msbuild_susp_parent_process.yml",
+            "document": 1,
+            "title": "Suspicious Msbuild Execution By Uncommon Parent Process",
+            "sigma_uuid": "33be4333-2c6b-44f4-ae28-102cdbde0a31",
+            "author": "frack113"
+          }
+        },
+        {
+          "local_path": "content/portable/sigma/MSEC-DET-0047/rule.yml",
+          "reference": "https://github.com/SigmaHQ/sigma/blob/5c9b21756f4e3ba137c1773ac9ba5a8332188961/rules/windows/registry/registry_set/registry_set_asep_reg_keys_modification_currentversion_nt.yml",
+          "upstream": {
+            "path": "rules/windows/registry/registry_set/registry_set_asep_reg_keys_modification_currentversion_nt.yml",
+            "document": 1,
+            "title": "CurrentVersion NT Autorun Keys Modification",
+            "sigma_uuid": "cbf93e5d-ca6c-4722-8bea-e9119007c248",
+            "author": "Victor Sergeev, Daniil Yugoslavskiy, Gleb Sukhodolskiy, Timur Zinniatullin, oscd.community, Tim Shelton, frack113 (split)"
+          }
+        },
+        {
+          "local_path": "content/portable/sigma/MSEC-DET-0055/rule.yml",
+          "reference": "https://raw.githubusercontent.com/SigmaHQ/sigma/master/rules/windows/registry/registry_set/registry_set_persistence_globalflags.yml",
+          "upstream": {
+            "path": "rules/windows/registry/registry_set/registry_set_persistence_globalflags.yml",
+            "document": 1,
+            "title": "Potential Persistence Via GlobalFlags",
+            "sigma_uuid": "36803969-5421-41ec-b92f-8500f79c23b0",
+            "author": "Karneades, Jonhnathan Ribeiro, Florian Roth"
+          }
+        },
+        {
+          "local_path": "content/portable/sigma/MSEC-DET-0055/rule.yml",
+          "related_sigma_uuid": "36803969-5421-41ec-b92f-8500f79c23b0",
+          "upstream": {
+            "path": "rules/windows/registry/registry_set/registry_set_persistence_globalflags.yml",
+            "document": 1,
+            "title": "Potential Persistence Via GlobalFlags",
+            "sigma_uuid": "36803969-5421-41ec-b92f-8500f79c23b0",
+            "author": "Karneades, Jonhnathan Ribeiro, Florian Roth"
+          }
+        },
+        {
+          "local_path": "content/portable/sigma/MSEC-DET-0076/rule.yml",
+          "reference": "https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/aws/cloudtrail/aws_cloudtrail_disable_logging.yml",
+          "upstream": {
+            "path": "rules/cloud/aws/cloudtrail/aws_cloudtrail_disable_logging.yml",
+            "document": 1,
+            "title": "AWS CloudTrail Important Change",
+            "sigma_uuid": "4db60cc0-36fb-42b7-9b58-a5b53019fb74",
+            "author": "vitaliy0x1"
+          }
+        },
+        {
+          "local_path": "content/portable/sigma/MSEC-DET-0076/rule.yml",
+          "related_sigma_uuid": "4db60cc0-36fb-42b7-9b58-a5b53019fb74",
+          "upstream": {
+            "path": "rules/cloud/aws/cloudtrail/aws_cloudtrail_disable_logging.yml",
+            "document": 1,
+            "title": "AWS CloudTrail Important Change",
+            "sigma_uuid": "4db60cc0-36fb-42b7-9b58-a5b53019fb74",
+            "author": "vitaliy0x1"
+          }
+        },
+        {
+          "local_path": "content/portable/sigma/MSEC-DET-0081/rule.yml",
+          "reference": "https://raw.githubusercontent.com/SigmaHQ/sigma/master/rules/cloud/aws/cloudtrail/aws_cloudtrail_guardduty_detector_deleted_or_updated.yml",
+          "upstream": {
+            "path": "rules/cloud/aws/cloudtrail/aws_cloudtrail_guardduty_detector_deleted_or_updated.yml",
+            "document": 1,
+            "title": "AWS GuardDuty Detector Deleted Or Updated",
+            "sigma_uuid": "d2656e78-c069-4571-8220-9e0ab5913f19",
+            "author": "suktech24"
+          }
+        },
+        {
+          "local_path": "content/portable/sigma/MSEC-DET-0081/rule.yml",
+          "related_sigma_uuid": "d2656e78-c069-4571-8220-9e0ab5913f19",
+          "upstream": {
+            "path": "rules/cloud/aws/cloudtrail/aws_cloudtrail_guardduty_detector_deleted_or_updated.yml",
+            "document": 1,
+            "title": "AWS GuardDuty Detector Deleted Or Updated",
+            "sigma_uuid": "d2656e78-c069-4571-8220-9e0ab5913f19",
+            "author": "suktech24"
+          }
+        },
+        {
+          "local_path": "content/portable/sigma/MSEC-DET-0083/rule.yml",
+          "reference": "https://raw.githubusercontent.com/SigmaHQ/sigma/master/rules/cloud/azure/activity_logs/azure_subscription_permissions_elevation_via_activitylogs.yml",
+          "upstream": {
+            "path": "rules/cloud/azure/activity_logs/azure_subscription_permissions_elevation_via_activitylogs.yml",
+            "document": 1,
+            "title": "Azure Subscription Permission Elevation Via ActivityLogs",
+            "sigma_uuid": "09438caa-07b1-4870-8405-1dbafe3dad95",
+            "author": "Austin Songer @austinsonger"
+          }
+        },
+        {
+          "local_path": "content/portable/sigma/MSEC-DET-0083/rule.yml",
+          "related_sigma_uuid": "09438caa-07b1-4870-8405-1dbafe3dad95",
+          "upstream": {
+            "path": "rules/cloud/azure/activity_logs/azure_subscription_permissions_elevation_via_activitylogs.yml",
+            "document": 1,
+            "title": "Azure Subscription Permission Elevation Via ActivityLogs",
+            "sigma_uuid": "09438caa-07b1-4870-8405-1dbafe3dad95",
+            "author": "Austin Songer @austinsonger"
+          }
+        },
+        {
+          "local_path": "content/portable/sigma/MSEC-DET-0089/rule.yml",
+          "reference": "https://raw.githubusercontent.com/SigmaHQ/sigma/master/rules/windows/registry/registry_set/registry_set_add_port_monitor.yml",
+          "upstream": {
+            "path": "rules/windows/registry/registry_set/registry_set_add_port_monitor.yml",
+            "document": 1,
+            "title": "Add Port Monitor Persistence in Registry",
+            "sigma_uuid": "944e8941-f6f6-4ee8-ac05-1c224e923c0e",
+            "author": "frack113"
+          }
+        },
+        {
+          "local_path": "content/portable/sigma/MSEC-DET-0089/rule.yml",
+          "related_sigma_uuid": "944e8941-f6f6-4ee8-ac05-1c224e923c0e",
+          "upstream": {
+            "path": "rules/windows/registry/registry_set/registry_set_add_port_monitor.yml",
+            "document": 1,
+            "title": "Add Port Monitor Persistence in Registry",
+            "sigma_uuid": "944e8941-f6f6-4ee8-ac05-1c224e923c0e",
+            "author": "frack113"
+          }
+        },
+        {
+          "local_path": "content/portable/sigma/MSEC-DET-0100/rule.yml",
+          "reference": "https://raw.githubusercontent.com/SigmaHQ/sigma/master/rules/windows/registry/registry_event/registry_event_new_dll_added_to_appcertdlls_registry_key.yml",
+          "upstream": {
+            "path": "rules/windows/registry/registry_event/registry_event_new_dll_added_to_appcertdlls_registry_key.yml",
+            "document": 1,
+            "title": "New DLL Added to AppCertDlls Registry Key",
+            "sigma_uuid": "6aa1d992-5925-4e9f-a49b-845e51d1de01",
+            "author": "Ilyas Ochkov, oscd.community"
+          }
+        },
+        {
+          "local_path": "content/portable/sigma/MSEC-DET-0100/rule.yml",
+          "related_sigma_uuid": "6aa1d992-5925-4e9f-a49b-845e51d1de01",
+          "upstream": {
+            "path": "rules/windows/registry/registry_event/registry_event_new_dll_added_to_appcertdlls_registry_key.yml",
+            "document": 1,
+            "title": "New DLL Added to AppCertDlls Registry Key",
+            "sigma_uuid": "6aa1d992-5925-4e9f-a49b-845e51d1de01",
+            "author": "Ilyas Ochkov, oscd.community"
+          }
+        }
+      ]
+    }
+  }
+}

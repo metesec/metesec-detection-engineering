@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "detection_id": "MSEC-DET-0080",
+  "implementation": "content/portable/sigma/MSEC-DET-0080/rule.yml",
+  "cases": [
+    {
+      "id": "bounded-positive",
+      "expectation": "match",
+      "fixture": "fixtures/bounded-positive.json",
+      "description": "Synthetic complete event matches the stated bounded predicate."
+    },
+    {
+      "id": "drive-root",
+      "expectation": "match",
+      "fixture": "fixtures/drive-root.json",
+      "description": "Synthetic positive variant: drive root."
+    },
+    {
+      "id": "remote-share",
+      "expectation": "match",
+      "fixture": "fixtures/remote-share.json",
+      "description": "Synthetic positive variant: remote share."
+    },
+    {
+      "id": "user-policy",
+      "expectation": "match",
+      "fixture": "fixtures/user-policy.json",
+      "description": "Synthetic positive variant: user policy."
+    },
+    {
+      "id": "wrong-action",
+      "expectation": "no_match",
+      "fixture": "fixtures/wrong-action.json",
+      "description": "Synthetic one-field boundary: wrong action."
+    },
+    {
+      "id": "wrong-value",
+      "expectation": "no_match",
+      "fixture": "fixtures/wrong-value.json",
+      "description": "Synthetic one-field boundary: wrong value."
+    },
+    {
+      "id": "managed-template-location",
+      "expectation": "no_match",
+      "fixture": "fixtures/managed-template-location.json",
+      "description": "Synthetic one-field boundary: managed template location."
+    },
+    {
+      "id": "directory-lookalike",
+      "expectation": "no_match",
+      "fixture": "fixtures/directory-lookalike.json",
+      "description": "Synthetic one-field boundary: directory lookalike."
+    },
+    {
+      "id": "wrong-office-version",
+      "expectation": "no_match",
+      "fixture": "fixtures/wrong-office-version.json",
+      "description": "Synthetic one-field boundary: wrong office version."
+    },
+    {
+      "id": "unrelated-location-child",
+      "expectation": "no_match",
+      "fixture": "fixtures/unrelated-location-child.json",
+      "description": "Synthetic one-field boundary: unrelated location child."
+    },
+    {
+      "id": "missing-actiontype",
+      "expectation": "no_match",
+      "fixture": "fixtures/missing-actiontype.json",
+      "description": "Synthetic event is missing required predicate field ActionType."
+    },
+    {
+      "id": "missing-registryvaluename",
+      "expectation": "no_match",
+      "fixture": "fixtures/missing-registryvaluename.json",
+      "description": "Synthetic event is missing required predicate field RegistryValueName."
+    },
+    {
+      "id": "missing-registrykey",
+      "expectation": "no_match",
+      "fixture": "fixtures/missing-registrykey.json",
+      "description": "Synthetic event is missing required predicate field RegistryKey."
+    },
+    {
+      "id": "missing-registryvaluedata",
+      "expectation": "no_match",
+      "fixture": "fixtures/missing-registryvaluedata.json",
+      "description": "Synthetic event is missing required predicate field RegistryValueData."
+    }
+  ]
+}

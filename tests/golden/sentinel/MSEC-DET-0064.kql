@@ -1,0 +1,3 @@
+DeviceRegistryEvents
+| where (RegistryKey matches regex "(?i)^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\(?:CurrentControlSet|ControlSet[0-9]{3})\\\\Control\\\\Lsa$" and RegistryValueName =~ "RunAsPPL") and ((ActionType =~ "RegistryValueSet" and RegistryValueData matches regex "(?i)^(?:0+|0x0+)$") or ActionType =~ "RegistryValueDeleted")
+| project TimeGenerated, Timestamp, DeviceId, DeviceName, ActionType, InitiatingProcessAccountDomain, InitiatingProcessAccountName, InitiatingProcessAccountSid, InitiatingProcessFileName, InitiatingProcessCommandLine, RegistryKey, RegistryValueName, RegistryValueData, ReportId

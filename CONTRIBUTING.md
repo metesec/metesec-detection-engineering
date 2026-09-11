@@ -13,7 +13,7 @@ Contributions should remain small, reviewable, and backed by evidence.
 
 ## Detection-quality expectations
 
-A stable detection will eventually require:
+A contributed detection requires:
 
 - a clear hypothesis;
 - a stable ID;
@@ -25,6 +25,14 @@ A stable detection will eventually require:
 - transparent platform limitations.
 
 Formatting success or successful compilation alone does not establish detection quality.
+
+Every admitted package also needs `quality` metadata: signal classification,
+limitations, dated review, license/provenance and an honest validation level.
+The cross-file quality gate enforces unique Sigma UUIDs, metadata parity, one
+active source, linked fixtures and complete review records. `stable` requires
+revision-bound target and accepted pilot evidence, not only synthetic tests.
+See [enterprise admission](docs/enterprise-baseline.md). Do not relabel familiar
+techniques as novel, strip upstream notices or claim internet-wide uniqueness.
 
 ## Change workflow
 

@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"FileName":"powershell.exe","ProcessCommandLine":"powershell.exe Invoke-CimMethod -ClassName Win32_Process -MethodName Terminate -ComputerName host.example.invalid -Arguments @{Reason='Create'}"}}

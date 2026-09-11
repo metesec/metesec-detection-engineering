@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "id": "MSEC-DET-0035",
-  "title": "Certutil decodes Base64 or hexadecimal content",
-  "description": "Detects certutil.exe using decode or decodehex to transform encoded file content.",
+  "title": "Certutil file decode command",
+  "description": "Detects Certutil commands requesting Base64 or hexadecimal file decoding; approved certificate and support workflows can produce the same behavior.",
   "hypothesis": {
     "summary": "An adversary may use the trusted Certutil utility to decode an encoded payload or supporting file before execution.",
     "rationale": "Microsoft documents Certutil's Base64 and hexadecimal decode operations, MITRE records adversary use of certutil for payload decoding and SigmaHQ maintains a comparable process analytic; legitimate PKI and support workflows remain possible.",
@@ -15,7 +15,7 @@
   "lifecycle": {
     "status": "experimental",
     "created": "2026-09-03",
-    "modified": "2026-09-03",
+    "modified": "2026-09-11",
     "review_interval_days": 90
   },
   "severity": "medium",
@@ -24,15 +24,30 @@
     {
       "name": "Microsoft Defender for Endpoint process events",
       "category": "Endpoint process creation",
-      "required_fields": ["TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountName", "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"]
+      "required_fields": [
+        "TimeGenerated",
+        "Timestamp",
+        "DeviceId",
+        "DeviceName",
+        "AccountName",
+        "InitiatingProcessFileName",
+        "FileName",
+        "FolderPath",
+        "ProcessCommandLine",
+        "ReportId"
+      ]
     }
   ],
   "attack": [
-    {"technique_id": "T1140", "tactic": "Stealth"}
+    {
+      "technique_id": "T1140",
+      "tactic": "Stealth"
+    }
   ],
   "triage": {
     "summary": "Inspect both input and output files and determine whether Certutil decoded trusted certificate material or staged executable content.",
     "steps": [
+      "Confirm the command's result in follow-on process, file, registry or service telemetry; a process-start event records intent and does not prove successful execution.",
       "Review the complete command, input and output paths, account, parent process and endpoint role.",
       "Inspect the decoded file's type, hash, signer, origin and subsequent execution, persistence or network behavior.",
       "Confirm an approved PKI, support or malware-analysis workflow; quarantine unexplained output and contain related execution."
@@ -50,8 +65,24 @@
     {
       "type": "sigma",
       "path": "content/portable/sigma/MSEC-DET-0035/rule.yml",
-      "targets": ["sentinel"],
+      "targets": [
+        "sentinel"
+      ],
       "status": "active"
     }
-  ]
+  ],
+  "quality": {
+    "reviewed_on": "2026-09-11",
+    "signal_type": "behavior",
+    "limitations": [
+      "This single-event signal does not establish malicious intent or successful execution. Renamed binaries, alternate tools, obfuscation and unlogged activity can evade the bounded predicates.",
+      "Current-revision evidence is synthetic only. Validate full generated KQL, source fields, ingestion delay, alert volume and scoped exclusions in the target before enabling."
+    ],
+    "validation_level": "synthetic-only",
+    "provenance": {
+      "origin": "reviewed-existing",
+      "license": "Apache-2.0",
+      "review": "docs/reviews/existing-0026-0050.md"
+    }
+  }
 }

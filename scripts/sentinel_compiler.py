@@ -13,8 +13,10 @@ from sigma.pipelines.azuremonitor import azure_monitor_pipeline
 
 try:
     from .sigma_validation import parse_sigma_collection
+    from .event_normalization import FIELDS, kql_prefix, normalization_name
 except ImportError:  # Support direct execution from the scripts directory.
     from sigma_validation import parse_sigma_collection
+    from event_normalization import FIELDS, kql_prefix, normalization_name
 
 
 EXPECTED_KUSTO_BACKEND_VERSION = "1.0.1"
@@ -336,9 +338,14 @@ def compile_target(target: SentinelTarget) -> CompiledSentinelQuery:
             f"{target.implementation.as_posix()}: expected exactly one Sigma rule"
         )
 
-    backend = KustoBackend(
-        processing_pipeline=azure_monitor_pipeline(query_table=target.query_table)
-    )
+    rule = collection.rules[0]
+    prefix = kql_prefix(rule, target.query_table)
+    pipeline = azure_monitor_pipeline(query_table=target.query_table)
+    if normalization_name(rule):
+        for item in pipeline.items:
+            if item.identifier == "azure_monitor_unsupported_fields_AuditLogs":
+                item.field_name_conditions[0].fields.extend(FIELDS)
+    backend = KustoBackend(processing_pipeline=pipeline)
     queries = backend.convert(collection)
     if len(queries) != 1 or not isinstance(queries[0], str) or not queries[0].strip():
         raise SentinelCompilationError(
@@ -346,6 +353,9 @@ def compile_target(target: SentinelTarget) -> CompiledSentinelQuery:
         )
 
     query = queries[0].replace("\r\n", "\n").rstrip()
+    if not query.startswith(target.query_table + "\n|"):
+        raise SentinelCompilationError("backend query has unexpected table prefix")
+    query = prefix + query[len(target.query_table):]
     for extension in target.output.extensions:
         query += f"\n| extend {extension.column} = {extension.expression}"
     query += f"\n| project {', '.join(target.output.columns)}\n"

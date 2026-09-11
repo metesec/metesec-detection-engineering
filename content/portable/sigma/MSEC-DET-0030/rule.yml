@@ -1,13 +1,15 @@
-title: NTDSutil Creates Active Directory Installation Media
+title: NTDSutil installation-media creation command
 id: 44580003-613f-4cb3-9d47-c9b1c6fa3b58
 status: experimental
-description: Detects ntdsutil.exe commands that activate the NTDS instance and create installation media through IFM.
+description: Detects an NTDSutil command requesting Active Directory installation media through IFM after explicit NTDS instance activation. The process event does not confirm a database copy was produced.
 references:
   - https://attack.mitre.org/techniques/T1003/003/
   - https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/cc732530(v=ws.11)
   - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_susp_ntds.yml
 author: MeteSec Detection Engineering
+license: Apache-2.0
 date: 2026-09-03
+modified: 2026-09-11
 tags:
   - attack.credential-access
   - attack.t1003.003
@@ -17,18 +19,15 @@ logsource:
 detection:
   selection_image:
     FileName: ntdsutil.exe
+  selection_original:
+    ProcessVersionInfoOriginalFileName: ntdsutil.exe
   selection_instance:
-    ProcessCommandLine|contains:
-      - 'ac i ntds'
-      - 'activate instance ntds'
+    ProcessCommandLine|re|i: '(?:^|[\s"])ac(?:tivate)?\s+i(?:nstance)?\s+ntds(?:[\s"]|$)'
   selection_ifm:
-    ProcessCommandLine|contains: 'ifm'
+    ProcessCommandLine|re|i: '(?:^|[\s"])ifm(?:[\s"]|$)'
   selection_create:
-    ProcessCommandLine|contains:
-      - 'create full'
-      - 'create rodc'
-      - 'create sysvol'
-  condition: selection_image and selection_instance and selection_ifm and selection_create
+    ProcessCommandLine|re|i: '(?:^|[\s"])create\s+(?:full|rodc|sysvol)(?:[\s"]|$)'
+  condition: (selection_image or selection_original) and selection_instance and selection_ifm and selection_create
 fields:
   - TimeGenerated
   - Timestamp
@@ -37,6 +36,7 @@ fields:
   - AccountName
   - InitiatingProcessFileName
   - FileName
+  - ProcessVersionInfoOriginalFileName
   - FolderPath
   - ProcessCommandLine
   - ReportId

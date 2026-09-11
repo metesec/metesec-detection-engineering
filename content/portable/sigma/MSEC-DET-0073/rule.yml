@@ -1,0 +1,49 @@
+# Modified 2026-09-11 by MeteSec Detection Engineering.
+# Adapted from MeteSec Hardened 23 (Apache-2.0): raw source fields,
+# bounded predicates and repository-local synthetic evidence replace normalization.
+title: "LSASS credential-theft ASR rule configured as disabled"
+id: "8b3a2c90-c75f-585d-a86e-20fc82886a94"
+status: "experimental"
+description: "Detects 9e6c4e1f-7d60-472f-ba1a-a39ef669e4b2 set to a decimal or hexadecimal zero at its machine registry configuration location."
+references:
+  - "https://learn.microsoft.com/en-us/defender-endpoint/attack-surface-reduction-rules-reference"
+  - "https://learn.microsoft.com/en-us/defender-endpoint/enable-attack-surface-reduction"
+  - "https://learn.microsoft.com/en-us/azure/azure-monitor/reference/tables/deviceregistryevents"
+  - "https://attack.mitre.org/techniques/T1562/001/"
+  - "https://attack.mitre.org/techniques/T1685/"
+author: "MeteSec (AI-assisted implementation; human review pending)"
+date: "2026-09-11"
+modified: 2026-09-11
+license: "Apache-2.0"
+tags:
+  - "attack.defense-impairment"
+  - "attack.t1685"
+logsource:
+  product: "windows"
+  category: "registry_event"
+detection:
+  key:
+    RegistryKey|re: "(?i)^HKEY_LOCAL_MACHINE\\\\SOFTWARE\\\\(?:Policies\\\\)?Microsoft\\\\Windows Defender\\\\Windows Defender Exploit Guard\\\\ASR\\\\Rules$"
+    RegistryValueName: "9e6c4e1f-7d60-472f-ba1a-a39ef669e4b2"
+  zero:
+    ActionType: "RegistryValueSet"
+    RegistryValueData|re: "(?i)^(?:0+|0x0+)$"
+  condition: "key and zero"
+fields:
+  - "TimeGenerated"
+  - "Timestamp"
+  - "DeviceId"
+  - "DeviceName"
+  - "ActionType"
+  - "InitiatingProcessAccountDomain"
+  - "InitiatingProcessAccountName"
+  - "InitiatingProcessAccountSid"
+  - "InitiatingProcessFileName"
+  - "InitiatingProcessCommandLine"
+  - "RegistryKey"
+  - "RegistryValueName"
+  - "RegistryValueData"
+  - "ReportId"
+falsepositives:
+  - "Approved security-policy rollback, compatibility troubleshooting or repeated application of an already-disabled configuration."
+level: "medium"

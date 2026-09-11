@@ -1,0 +1,47 @@
+# Modified 2026-09-11 by MeteSec Detection Engineering.
+# Adapted from MeteSec Hardened 23 (Apache-2.0): raw source fields,
+# bounded predicates and repository-local synthetic evidence replace normalization.
+title: "Azure diagnostic or Activity Log export deleted"
+id: "1d60602c-eff2-4a7c-a903-8ad572674520"
+status: "experimental"
+description: "Detects a successful administrative deletion of an Azure diagnostic setting or legacy Activity Log export profile."
+references:
+  - "https://learn.microsoft.com/en-us/azure/azure-monitor/reference/tables/azureactivity"
+  - "https://learn.microsoft.com/en-us/azure/azure-monitor/platform/diagnostic-settings"
+  - "https://learn.microsoft.com/en-us/azure/role-based-access-control/permissions/monitor"
+  - "https://attack.mitre.org/techniques/T1562/008/"
+  - "https://attack.mitre.org/techniques/T1685/002/"
+author: "MeteSec (AI-assisted implementation; human review pending)"
+date: "2026-09-11"
+modified: 2026-09-11
+license: "Apache-2.0"
+tags:
+  - "attack.defense-impairment"
+  - "attack.t1685.002"
+logsource:
+  product: "azure"
+  service: "activitylogs"
+detection:
+  selection:
+    CategoryValue: "Administrative"
+    OperationNameValue:
+      - "Microsoft.Insights/DiagnosticSettings/Delete"
+      - "Microsoft.Insights/LogProfiles/Delete"
+    ActivityStatusValue:
+      - "Succeeded"
+      - "Success"
+  condition: "selection"
+fields:
+  - "TimeGenerated"
+  - "OperationNameValue"
+  - "ActivityStatusValue"
+  - "CategoryValue"
+  - "Caller"
+  - "CallerIpAddress"
+  - "CorrelationId"
+  - "EventDataId"
+  - "ResourceId"
+  - "SubscriptionId"
+falsepositives:
+  - "Approved diagnostic-setting replacement, resource decommissioning or retirement of a legacy Activity Log profile."
+level: "medium"

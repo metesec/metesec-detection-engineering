@@ -44,13 +44,13 @@ To create the ignored local build output:
 .\.venv\Scripts\python.exe scripts\compile_sentinel.py
 ```
 
-Generated queries are written to `dist/sentinel/<DETECTION-ID>/query.kql`. They are build artifacts, never hand-edited source.
+Unwindowed hunting queries are written to `dist/sentinel-preview/<DETECTION-ID>/query.kql`. They are build artifacts, never hand-edited source. This separate directory prevents compilation from overwriting the scheduled query next to a rendered rule body.
 
 ## Render complete analytics-rule bodies
 
 The separate `targets/sentinel/analytics-rules.json` profile adds explicit
 Scheduled-rule frequency, period, threshold, suppression, event-grouping and
-incident settings to the same forty-nine bindings. Validate its JSON Schema and the
+incident settings to all sixty-six bindings. Validate its JSON Schema and the
 complete renderer with:
 
 ```powershell
@@ -65,8 +65,8 @@ To create ignored local artifacts:
 python scripts/render_sentinel_rules.py
 ```
 
-Each `dist/sentinel/<DETECTION-ID>/` directory then contains the exact Golden
-`query.kql`, a disabled `analytics-rule.json` REST request body and a
+Each `dist/sentinel/<DETECTION-ID>/` directory then contains the derived scheduled
+`query.kql` (Golden plus event-time and ingestion-time filters), a disabled `analytics-rule.json` REST request body and a
 `render-manifest.json` with stable rule identity, sources and artifact hashes.
 The renderer uses Microsoft SecurityInsights API version `2025-09-01` and emits
 no subscription, resource-group, workspace or tenant identifier.
@@ -103,6 +103,11 @@ reviewed source and deterministic renderer, not those operational controls.
 
 ## Validation boundary
 
+Current 1.1 revisions are locally tested, not live-target-validated. The full
+query includes projection, entity mapping, the explicit 0021 adapter and derived
+scheduling. Validate all of these before enabling. Historical probes below do
+not transfer to rewritten content. See [the adoption guide](../enterprise-baseline.md).
+
 Compiler and Golden-snapshot success prove deterministic source translation only. They do not prove that a query can run in a particular workspace, that the required table is populated, or that a production analytics rule should be deployed.
 
 Renderer success proves only that complete disabled Scheduled-rule request bodies
@@ -110,7 +115,7 @@ can be derived deterministically from the reviewed sources. The repository still
 contains no Azure client, authentication flow, target scope, deployment command
 or live-write capability.
 
-The completed read-only live probes for all forty-nine bound detections used only
+The historical v1.0 read-only live probes for forty-nine bound detections used only
 aggregate counts in an existing user-authorized Microsoft Sentinel workspace.
 They established that the bound `SigninLogs`, `AuditLogs`,
 `DeviceProcessEvents`, `DeviceRegistryEvents` and `AADUserRiskEvents` fields were queryable and that all

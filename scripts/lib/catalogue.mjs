@@ -83,6 +83,12 @@ export const buildDetectionCatalogue = (root) => {
       },
       severity: manifest.severity,
       confidence: manifest.confidence,
+      ...(manifest.quality ? { quality: {
+        signal_type: manifest.quality.signal_type,
+        validation_level: manifest.quality.validation_level,
+        reviewed_on: manifest.quality.reviewed_on,
+        limitations: manifest.quality.limitations
+      }} : {}),
       attack: manifest.attack,
       data_sources: manifest.data_sources,
       validation,
@@ -173,6 +179,10 @@ export const renderCatalogueMarkdown = (catalogue) => {
     );
     for (const implementation of detection.implementations) {
       lines.push(`  - ${link(implementation.path, implementation.path)} — \`${implementation.status}\`; targets ${codeList(implementation.targets)}`);
+    }
+    if (detection.quality) {
+      lines.push(`- Signal class: \`${detection.quality.signal_type}\`; evidence: \`${detection.quality.validation_level}\`; reviewed ${detection.quality.reviewed_on}`);
+      for (const limitation of detection.quality.limitations) lines.push(`- Limit: ${limitation}`);
     }
     if (detection.target_bindings.length === 0) {
       lines.push("- Sentinel preview: not bound");

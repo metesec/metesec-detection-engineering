@@ -1,13 +1,15 @@
-title: CMSTP Spawns a Child Process
+title: CMSTP spawns a child process
 id: faa2ec3e-c414-471f-a494-620b9d71df59
 status: experimental
-description: Detects a child process created by the Microsoft Connection Manager Profile Installer executable.
+description: Detects a child process created by CMSTP. Legitimate profile installers can invoke helper programs, so the child and INF content require review before escalation.
 references:
   - https://attack.mitre.org/techniques/T1218/003/
   - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_cmstp_execution_by_creation.yml
   - https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table
 author: MeteSec Detection Engineering
+license: Apache-2.0
 date: 2026-09-03
+modified: 2026-09-11
 tags:
   - attack.stealth
   - attack.t1218.003
@@ -17,6 +19,7 @@ logsource:
 detection:
   selection:
     InitiatingProcessFileName: cmstp.exe
+    FileName|re: '\S'
   condition: selection
 fields:
   - TimeGenerated
@@ -31,4 +34,4 @@ fields:
   - ReportId
 falsepositives:
   - Rare approved Connection Manager profile packages that intentionally invoke a helper process.
-level: high
+level: medium

@@ -1,13 +1,15 @@
-title: Suspicious Local Scheduled Task Creation
+title: Suspicious local scheduled task creation command
 id: 50d2d2e7-0172-4b11-ac36-aeb225560c31
 status: experimental
-description: Detects local Schtasks task creation whose action contains a selected user-writable payload or behavior-bearing script and proxy-execution command.
+description: Detects local Schtasks creation requests whose explicit /tr argument contains a selected user-writable payload or suspicious script/proxy-execution behavior. Standard quoted actions and unquoted executable paths are covered; task names are not payload evidence.
 references:
   - https://attack.mitre.org/techniques/T1053/005/
   - https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/schtasks-create
   - https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table
 author: MeteSec Detection Engineering
+license: Apache-2.0
 date: 2026-09-03
+modified: 2026-09-11
 tags:
   - attack.execution
   - attack.persistence
@@ -22,68 +24,18 @@ detection:
   selection_original:
     ProcessVersionInfoOriginalFileName: schtasks.exe
   selection_create:
-    ProcessCommandLine|contains: '/create'
-  selection_task_action:
-    ProcessCommandLine|contains: '/tr'
-  user_location:
-    ProcessCommandLine|contains:
-      - '\AppData\'
-      - '\Users\Public\'
-      - '\Windows\Temp\'
-      - '\Temp\'
-      - '%APPDATA%'
-      - '%LOCALAPPDATA%'
-      - '%TEMP%'
-  payload_marker:
-    ProcessCommandLine|contains:
-      - '.exe'
-      - '.com'
-      - '.scr'
-      - '.dll'
-      - '.ps1'
-      - '.vbs'
-      - '.vbe'
-      - '.js'
-      - '.jse'
-      - '.wsf'
-      - '.hta'
-      - '.bat'
-      - '.cmd'
-  powershell_image:
-    ProcessCommandLine|contains:
-      - powershell
-      - pwsh
-  powershell_behavior:
-    ProcessCommandLine|contains:
-      - ' -enc '
-      - ' -enc:'
-      - ' -encodedcommand '
-      - ' -encodedcommand:'
-      - downloadstring
-      - downloadfile
-      - invoke-webrequest
-      - invoke-restmethod
-      - invoke-expression
-      - 'iex('
-      - '|iex'
-      - '-windowstyle hidden'
-      - '-w hidden'
-  lolbin_image:
-    ProcessCommandLine|contains:
-      - mshta
-      - regsvr32
-      - rundll32
-  lolbin_behavior:
-    ProcessCommandLine|contains:
-      - 'http://'
-      - 'https://'
-      - 'javascript:'
-      - 'vbscript:'
-      - scrobj.dll
-      - mshtml
+    ProcessCommandLine|re|i: '(?:^|\s)/create(?:\s|$)'
+  selection_user_payload:
+    ProcessCommandLine|re|i:
+      - '(?:^|\s)/tr\s+"[^"\r\n]*(?:\\AppData\\|\\Users\\Public\\|\\Temp\\|%APPDATA%|%LOCALAPPDATA%|%TEMP%)[^"\r\n]*\.(?:exe|com|scr|dll|ps1|vbs|vbe|js|jse|wsf|hta|bat|cmd)(?:["\s]|$)'
+      - '(?:^|\s)/tr\s+[^\s"]*(?:\\AppData\\|\\Users\\Public\\|\\Temp\\|%APPDATA%|%LOCALAPPDATA%|%TEMP%)[^\s"]*\.(?:exe|com|scr|dll|ps1|vbs|vbe|js|jse|wsf|hta|bat|cmd)(?:\s|$)'
+  selection_powershell_action:
+    ProcessCommandLine|re|i: '(?:^|\s)/tr\s+"[^"\r\n]*\b(?:powershell|pwsh)(?:\.exe)?\b[^"\r\n]*(?:\s-(?:enc|encodedcommand)(?:\s|:)|downloadstring|downloadfile|invoke-webrequest|invoke-restmethod|invoke-expression|\biex\s*\(|-\w*windowstyle\s+hidden|\s-w\s+hidden)'
+  selection_lolbin_action:
+    ProcessCommandLine|re|i: '(?:^|\s)/tr\s+"[^"\r\n]*\b(?:mshta|regsvr32|rundll32)(?:\.exe)?\b[^"\r\n]*(?:https?://|javascript:|vbscript:|scrobj\.dll|mshtml)'
   filter_remote:
-    ProcessCommandLine|contains: ' /s '
-  condition: (selection_image or selection_original) and selection_create and selection_task_action and not filter_remote and ((user_location and payload_marker) or (powershell_image and powershell_behavior) or (lolbin_image and lolbin_behavior))
+    ProcessCommandLine|re|i: '^\s*(?:"[^"]*"|[^\s"]+)(?:\s+(?:"[^"]*"|[^\s"]+))*\s+/s\s+(?:"[^"]+"|[^\s"]+)'
+  condition: (selection_image or selection_original) and selection_create and not filter_remote and (selection_user_payload or selection_powershell_action or selection_lolbin_action)
 fields:
   - TimeGenerated
   - Timestamp

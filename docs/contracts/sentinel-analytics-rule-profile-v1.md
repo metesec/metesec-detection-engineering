@@ -31,13 +31,19 @@ Version 1 requires both the rule and suppression to remain disabled. The Python
 loader independently enforces the same restriction as the JSON Schema and fails
 on missing, additional, duplicated or reordered rule bindings.
 
+The loader also requires 5 minutes <= frequency <= period <= 14 days,
+suppression duration of 5 minutes–1 day and incident lookback of 5 minutes–7 days.
+Current pilot settings are 15-minute frequency, one-hour period, disabled rules
+and no automatic incident creation. A syntactically valid duration is not enough.
+
 ## Derived fields
 
 The renderer derives the remaining values instead of introducing a second
 source of truth:
 
 - display name, description and severity from the logical manifest;
-- KQL from the pinned compiler and reviewed Golden query;
+- KQL from the pinned compiler and reviewed Golden query, then a deterministic
+  event-time lookback and ingestion-time slice derived from schedule settings;
 - entity mappings from the source profile's governed output contract;
 - Sentinel tactic names from the manifest ATT&CK mapping;
 - stable rule UUID as UUIDv5 of
@@ -56,7 +62,7 @@ check does not depend on command order.
 `python scripts/render_sentinel_rules.py` writes three generated files per bound
 detection under `dist/sentinel/<DETECTION-ID>/`:
 
-- `query.kql` — the exact reviewed query;
+- `query.kql` — the derived scheduled query, not the unwindowed hunting Golden;
 - `analytics-rule.json` — the exact Scheduled alert-rule REST request body;
 - `render-manifest.json` — API version, stable rule ID, source paths, output
   columns, entity mappings, complete ATT&CK provenance and SHA-256 hashes for
@@ -71,6 +77,12 @@ PUT .../providers/Microsoft.SecurityInsights/alertRules/{ruleId}?api-version=202
 No subscription, resource group, workspace, tenant or credential is rendered.
 No HTTP client, Azure authentication or deployment command exists in this
 milestone.
+
+The time filters are inserted directly after the table, before adapters and
+projection. The manifest includes the source Golden hash and hashes the final
+scheduled artifact. Ingestion policy/nulls, scheduler gaps, replay, late data and
+multiple target rows require consumer validation; no exactly-once guarantee is
+made. See [the adoption guide](../enterprise-baseline.md).
 
 Generated files are temporary consumer-owned pipeline output. They are not a
 separate published Sentinel release artifact and remain ignored by the source

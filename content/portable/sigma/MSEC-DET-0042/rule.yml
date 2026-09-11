@@ -1,14 +1,16 @@
-title: Odbcconf Registers a DLL with REGSVR
+title: Odbcconf REGSVR registration command
 id: 1e7ff301-2162-47c6-a7a4-4c1a73546588
 status: experimental
-description: Detects Odbcconf use of the REGSVR action to register a DLL.
+description: Detects Odbcconf commands containing a braced REGSVR action and a payload argument, regardless of filename extension. Process start alone does not confirm successful registration.
 references:
   - https://attack.mitre.org/techniques/T1218/008/
   - https://learn.microsoft.com/en-us/sql/odbc/odbcconf-exe
   - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_odbcconf_register_dll_regsvr.yml
   - https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table
 author: MeteSec Detection Engineering
+license: Apache-2.0
 date: 2026-09-03
+modified: 2026-09-11
 tags:
   - attack.stealth
   - attack.t1218.008
@@ -21,10 +23,8 @@ detection:
   selection_original:
     ProcessVersionInfoOriginalFileName: odbcconf.exe
   selection_regsvr:
-    ProcessCommandLine|contains: 'REGSVR '
-  selection_dll:
-    ProcessCommandLine|contains: '.dll'
-  condition: (selection_image or selection_original) and selection_regsvr and selection_dll
+    ProcessCommandLine|re|i: '\{\s*REGSVR\s+(?:"[^"]+"|[^\s"}]+)(?:\s|\})'
+  condition: (selection_image or selection_original) and selection_regsvr
 fields:
   - TimeGenerated
   - Timestamp

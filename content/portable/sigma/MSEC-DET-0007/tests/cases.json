@@ -5,10 +5,16 @@
   "cases": [
     {"id":"windows-powershell-short-flag","expectation":"match","fixture":"fixtures/windows-powershell-short-flag.json","description":"Synthetic Windows PowerShell command uses the short encoded flag."},
     {"id":"powershell-core-long-flag","expectation":"match","fixture":"fixtures/powershell-core-long-flag.json","description":"Synthetic PowerShell Core command uses the long encoded flag."},
-    {"id":"uppercase-colon-flag-with-context","expectation":"match","fixture":"fixtures/uppercase-colon-flag-with-context.json","description":"Synthetic mixed-case colon flag verifies case-insensitive matching with context."},
+    {"id":"uppercase-flag-with-context","expectation":"match","fixture":"fixtures/uppercase-flag-with-context.json","description":"Synthetic uppercase encoded-command flag with a separate Base64-shaped argument."},
     {"id":"ordinary-powershell-command","expectation":"no_match","fixture":"fixtures/ordinary-powershell-command.json","description":"Synthetic ordinary PowerShell command has no encoded flag."},
     {"id":"python-with-encoded-flag","expectation":"no_match","fixture":"fixtures/python-with-encoded-flag.json","description":"Synthetic non-PowerShell executable uses similar text."},
     {"id":"missing-command-line","expectation":"no_match","fixture":"fixtures/missing-command-line.json","description":"Synthetic PowerShell event without a command line fails closed."},
-    {"id":"encoding-parameter-not-encoded-command","expectation":"no_match","fixture":"fixtures/encoding-parameter-not-encoded-command.json","description":"Synthetic output-encoding parameter must not match the encoded-command flag."}
+    {"id":"encoding-parameter-not-encoded-command","expectation":"no_match","fixture":"fixtures/encoding-parameter-not-encoded-command.json","description":"Synthetic output-encoding parameter must not match the encoded-command flag."},
+    {"id":"tab-separated-encoded-command","expectation":"match","fixture":"fixtures/tab-separated-encoded-command.json","description":"Synthetic regression: tabs and a supported encoded-command abbreviation."},
+    {"id":"short-e-flag","expectation":"match","fixture":"fixtures/short-e-flag.json","description":"Synthetic regression: short encoded-command alias."},
+    {"id":"quoted-ec-value","expectation":"match","fixture":"fixtures/quoted-ec-value.json","description":"Synthetic regression: ec alias with a quoted value."},
+    {"id":"encoded-arguments-is-not-command","expectation":"no_match","fixture":"fixtures/encoded-arguments-is-not-command.json","description":"Synthetic regression: EncodedArguments is a different parameter."},
+    {"id":"encoded-command-no-value","expectation":"no_match","fixture":"fixtures/encoded-command-no-value.json","description":"Synthetic regression: a flag without an argument does not establish an encoded command."},
+    {"id":"unsupported-colon-value","expectation":"no_match","fixture":"fixtures/unsupported-colon-value.json","description":"Synthetic regression: host CLI expects the Base64 value as a separate argument."}
   ]
 }

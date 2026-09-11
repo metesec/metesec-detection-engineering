@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"FileName":"reg.exe","ProcessCommandLine":"reg.exe export HKLM\\SECURITY\\Policy C:\\Temp\\policy.reg"}}

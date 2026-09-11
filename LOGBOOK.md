@@ -2406,3 +2406,90 @@ The complete fifty-rule Sigma-first Detection Pack is publicly available as
 protected-main, tag, draft-download and anonymous-download boundaries. The next
 work is bounded post-release maintenance based on concrete consumer defects or
 usability feedback, not an automatic expansion of targets or deployment scope.
+
+## 2026-09-11 — Complete enterprise-baseline review and local 1.1 candidate
+
+### Scope and decisions
+
+The owner authorized review and revision of all existing rules, both supplied
+archives, repository structure and quality gates. Work started from clean
+`bea9b71d6399a17c3ae393c65c0a8c72c52eb96b` on
+`codex/enterprise-baseline-review`. Archive instructions were treated as data;
+their custom installers/engines were not executed as authority.
+
+All 50 existing and 50 additional unique candidate IDs were reviewed. The
+hardened archive overlaps IDs rather than adding 23 more independent rules.
+Seventeen Apache-declared hardened concepts were reworked into the existing
+Sigma contract; 33 candidates remain deferred with per-ID reasons. The unlicensed
+50-rule bundle was inspected but not imported as source. No existing logical ID
+was removed or renumbered. Two misleading fixture filenames were replaced with
+accurate names; previous contents remain recoverable from Git.
+
+### Changes
+
+- 67 experimental packages, 66 explicit Sentinel bindings and 10 source contracts;
+  Windows System-event 0001 remains unbound.
+- Corrected command argument boundaries, independent BITSAdmin operations,
+  Defender/firewall parameter-value pairing, ProcDump default dump syntax,
+  registry deletion/empty-value false positives and task/MSI/Run-key coincidences.
+- Downgraded ordinary administrative signals and removed unsupported claims of
+  successful execution, remoteness, compromise or effective security state.
+- Added 121 regressions to existing packages and 234 cases for additions: 705 total,
+  comprising 264 positive and 441 negative cases.
+- Added per-rule signal classification, limitations, review/provenance and honest
+  synthetic-only validation levels. Preserved Apache license/NOTICE and known
+  related-source attributions; repaired four stale SigmaHQ URLs.
+- Strengthened YAML, boolean/regex, ownership, metadata, unique-ID, fixture and
+  promotion gates. Target evidence now binds rule bytes, authored metadata,
+  Python tooling, dependency lock and Sentinel profiles, not just a rule filename.
+- Added versioned same-target raw Entra grant normalization for 0021. Matching
+  target identity drives analyst output; multiple matching targets remain rows.
+- Kept hunting Goldens separate from disabled, ingestion-aware scheduled output;
+  15-minute/one-hour pilot defaults and no automatic incident creation. Separate
+  output directories prevent one command overwriting the other's query artifact.
+- Made the source ZIP self-contained for dependency installation, validation and
+  deterministic rebuilding. Added adoption guidance and ADR-0017; published
+  historical releases remain unchanged.
+
+### Failures found and corrected
+
+Early integrated runs exposed obsolete 50/49 counts, old review dates and 5-minute
+schedule assumptions in tests. These were replaced with independent source-based
+expectations and exact boundary tests; generated-output checks were retained.
+An initially misnamed auditor test module was corrected before the final chain.
+The first regex exclusion guard misread escaped Windows separators as backrefs;
+a lexical guard and positive/negative unit cases corrected that false rejection.
+Additional Python-only regex constructs are now explicitly rejected.
+The normalization review found that 0021 could match a later target but project
+the first target; matched-target output and multi-target regressions correct it.
+An escaping mistake in a query-preservation test compared empty slices; the test
+now compares real lines and checks the exact inserted time-window predicates.
+Golden drift was reviewed and regenerated from final sources, not bypassed.
+
+### Verification
+
+- Exact CI toolchain locally: Node 24.19.0, Python 3.12.13, pnpm 11.19.0 and pinned
+  Sigma/JavaScript dependencies.
+- Complete `pnpm run check` passed: 115 Python + 19 JavaScript unit tests, all 705
+  fixtures, 67 manifests/packages, 66 Goldens and disabled bodies, 10 source contracts,
+  generated catalogue/coverage, lifecycle/runtime contracts and release checks.
+- Freshly extracted 1.1 archive installed frozen JavaScript dependencies and ran
+  the complete aggregate check successfully without a Git directory or imports
+  from the source checkout. Release tests prove byte-identical independent and
+  extracted-archive rebuilds and verify every packaged file digest.
+- SigmaHQ commit `5c9b21756f4e3ba137c1773ac9ba5a8332188961`: 4,045 documents;
+  original 50 and current 67 have zero exact byte/UUID/detection or supported
+  normalized-condition matches. Normalization covers 3,766 upstream documents;
+  279 explicit gaps remain. 31 known references resolve with author attribution.
+  The deterministic report's freshness is checked offline in the aggregate gate.
+- `git diff --check` passed. Review artifacts contain no workstation paths,
+  customer telemetry or credentials.
+
+### Boundary
+
+This is a verified local 1.1 candidate, not a new canonical Forgejo CI run,
+published release, live-target acceptance or production certification. No rule
+was deployed/enabled, no remote repository changed, no credentials inspected,
+and no internet-wide originality or rights guarantee is claimed. Canonical
+review/CI, full target-query validation and a controlled pilot remain separate
+authorized steps before production use.
