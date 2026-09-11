@@ -1,4 +1,4 @@
-title: Suspicious Process Spawned by a Web Server
+title: Suspicious process spawned by a web server
 id: 4ceeb2ab-5110-4ee8-acf9-454e16393864
 status: experimental
 description: Detects command interpreters and administrative utilities spawned directly by common web-server processes.
@@ -8,7 +8,9 @@ references:
   - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_webshell_susp_process_spawned_from_webserver.yml
   - https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table
 author: MeteSec Detection Engineering
+license: Apache-2.0
 date: 2026-09-03
+modified: 2026-09-11
 tags:
   - attack.persistence
   - attack.t1505.003

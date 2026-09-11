@@ -3,12 +3,15 @@
   "detection_id": "MSEC-DET-0017",
   "implementation": "content/portable/sigma/MSEC-DET-0017/rule.yml",
   "cases": [
-    {"id": "wevtutil-clear-system", "expectation": "match", "fixture": "fixtures/wevtutil-clear-system.json", "description": "Synthetic wevtutil command attempts to clear the System log."},
-    {"id": "wevtutil-clear-log", "expectation": "match", "fixture": "fixtures/wevtutil-clear-log.json", "description": "Synthetic long-form wevtutil clear-log command."},
-    {"id": "powershell-clear-with-context", "expectation": "match", "fixture": "fixtures/powershell-clear-with-context.json", "description": "Synthetic PowerShell Clear-EventLog command includes bounded endpoint context."},
-    {"id": "wevtutil-query", "expectation": "no_match", "fixture": "fixtures/wevtutil-query.json", "description": "Synthetic event-log query is outside the rule."},
-    {"id": "wevtutil-export", "expectation": "no_match", "fixture": "fixtures/wevtutil-export.json", "description": "Synthetic event-log export is outside the rule."},
-    {"id": "powershell-get-event", "expectation": "no_match", "fixture": "fixtures/powershell-get-event.json", "description": "Synthetic PowerShell event retrieval is outside the rule."},
-    {"id": "other-process-clear-eventlog", "expectation": "no_match", "fixture": "fixtures/other-process-clear-eventlog.json", "description": "Synthetic unrelated process containing the cmdlet name fails closed."}
+    {"id":"wevtutil-clear-system","expectation":"match","fixture":"fixtures/wevtutil-clear-system.json","description":"Synthetic wevtutil command attempts to clear the System log."},
+    {"id":"wevtutil-clear-log","expectation":"match","fixture":"fixtures/wevtutil-clear-log.json","description":"Synthetic long-form wevtutil clear-log command."},
+    {"id":"powershell-clear-with-context","expectation":"match","fixture":"fixtures/powershell-clear-with-context.json","description":"Synthetic PowerShell Clear-EventLog command includes bounded endpoint context."},
+    {"id":"wevtutil-query","expectation":"no_match","fixture":"fixtures/wevtutil-query.json","description":"Synthetic event-log query is outside the rule."},
+    {"id":"wevtutil-export","expectation":"no_match","fixture":"fixtures/wevtutil-export.json","description":"Synthetic event-log export is outside the rule."},
+    {"id":"powershell-get-event","expectation":"no_match","fixture":"fixtures/powershell-get-event.json","description":"Synthetic PowerShell event retrieval is outside the rule."},
+    {"id":"other-process-clear-eventlog","expectation":"no_match","fixture":"fixtures/other-process-clear-eventlog.json","description":"Synthetic unrelated process containing the cmdlet name fails closed."},
+    {"id":"tab-separated-clear-log","expectation":"match","fixture":"fixtures/tab-separated-clear-log.json","description":"Synthetic regression: tab-delimited log-clearing command."},
+    {"id":"similar-cmdlet-name","expectation":"no_match","fixture":"fixtures/similar-cmdlet-name.json","description":"Synthetic regression: a longer cmdlet name is not Clear-EventLog."},
+    {"id":"quoted-log-name","expectation":"match","fixture":"fixtures/quoted-log-name.json","description":"Synthetic regression: single-quoted log name remains supported."}
   ]
 }

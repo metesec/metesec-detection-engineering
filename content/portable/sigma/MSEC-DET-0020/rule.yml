@@ -1,14 +1,16 @@
-title: Certutil Requests Remote Content Through URL Cache
+title: Certutil Forces Retrieval of Remote URL Cache Content
 id: 8f09d5eb-7a91-474b-b005-6c3ad54b09fd
 status: experimental
-description: Detects certutil combining a remote URL with URL-cache or split options that can retrieve content.
+description: Detects certutil combining a remote URL, the URL-cache command and a force-fetch switch. Cache inspection, cache deletion and a split option alone do not establish a download attempt.
 references:
   - https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/certutil
   - https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table
   - https://attack.mitre.org/software/S0160/
   - https://attack.mitre.org/techniques/T1105/
 author: MeteSec Detection Engineering
+license: Apache-2.0
 date: 2026-09-03
+modified: 2026-09-11
 tags:
   - attack.command-and-control
   - attack.t1105
@@ -24,12 +26,12 @@ detection:
       - https://
       - ftp://
   command_transfer:
-    ProcessCommandLine|contains:
-      - '-urlcache'
-      - '/urlcache'
-      - '-split'
-      - '/split'
-  condition: image and command_remote and command_transfer
+    ProcessCommandLine|re: '(?i)\s[-/]urlcache(?:\s|$)'
+  command_fetch:
+    ProcessCommandLine|re: '(?i)\s[-/]f(?:\s|$)'
+  filter_delete:
+    ProcessCommandLine|re: '(?i)\sdelete\s*$'
+  condition: image and command_remote and command_transfer and command_fetch and not filter_delete
 fields:
   - TimeGenerated
   - Timestamp

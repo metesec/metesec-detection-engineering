@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "id": "MSEC-DET-0032",
-  "title": "Windows audit policy cleared through Auditpol",
-  "description": "Detects auditpol.exe commands that clear the system audit policy or remove all per-user audit policies.",
+  "title": "Windows audit-policy clear command",
+  "description": "Detects Auditpol commands requesting a system audit-policy clear or removal of all per-user audit policies. Verify the effective audit policy before concluding logging was impaired.",
   "hypothesis": {
     "summary": "An adversary with administrative access may clear Windows audit policy to prevent security-relevant activity from being recorded.",
     "rationale": "Microsoft documents that auditpol /clear disables system auditing for all subcategories, and MITRE explicitly identifies auditpol /clear and /remove /allusers as Windows logging impairment behavior.",
@@ -15,7 +15,7 @@
   "lifecycle": {
     "status": "experimental",
     "created": "2026-09-03",
-    "modified": "2026-09-03",
+    "modified": "2026-09-11",
     "review_interval_days": 90
   },
   "severity": "high",
@@ -24,15 +24,30 @@
     {
       "name": "Microsoft Defender for Endpoint process events",
       "category": "Endpoint process creation",
-      "required_fields": ["TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountName", "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"]
+      "required_fields": [
+        "TimeGenerated",
+        "Timestamp",
+        "DeviceId",
+        "DeviceName",
+        "AccountName",
+        "InitiatingProcessFileName",
+        "FileName",
+        "FolderPath",
+        "ProcessCommandLine",
+        "ReportId"
+      ]
     }
   ],
   "attack": [
-    {"technique_id": "T1685.001", "tactic": "Defense Impairment"}
+    {
+      "technique_id": "T1685.001",
+      "tactic": "Defense Impairment"
+    }
   ],
   "triage": {
     "summary": "Treat a complete audit-policy reset as high impact and confirm an explicit operating-system or security-baseline change before accepting it.",
     "steps": [
+      "Confirm the command's result in follow-on process, file, registry or service telemetry; a process-start event records intent and does not prove successful execution.",
       "Review the complete Auditpol command, account, elevation, parent process, device role and any remote-session context.",
       "Check approved maintenance, image-build, recovery and security-baseline changes and compare the effective audit policy with the expected configuration.",
       "Investigate subsequent logging gaps and related defense-impairment commands; restore policy and contain the endpoint when the reset is unauthorized."
@@ -50,8 +65,24 @@
     {
       "type": "sigma",
       "path": "content/portable/sigma/MSEC-DET-0032/rule.yml",
-      "targets": ["sentinel"],
+      "targets": [
+        "sentinel"
+      ],
       "status": "active"
     }
-  ]
+  ],
+  "quality": {
+    "reviewed_on": "2026-09-11",
+    "signal_type": "behavior",
+    "limitations": [
+      "This single-event signal does not establish malicious intent or successful execution. Renamed binaries, alternate tools, obfuscation and unlogged activity can evade the bounded predicates.",
+      "Current-revision evidence is synthetic only. Validate full generated KQL, source fields, ingestion delay, alert volume and scoped exclusions in the target before enabling."
+    ],
+    "validation_level": "synthetic-only",
+    "provenance": {
+      "origin": "reviewed-existing",
+      "license": "Apache-2.0",
+      "review": "docs/reviews/existing-0026-0050.md"
+    }
+  }
 }

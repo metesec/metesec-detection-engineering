@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "detection_id": "MSEC-DET-0081",
+  "implementation": "content/portable/sigma/MSEC-DET-0081/rule.yml",
+  "cases": [
+    {
+      "id": "bounded-positive",
+      "expectation": "match",
+      "fixture": "fixtures/bounded-positive.json",
+      "description": "Synthetic complete event matches the stated bounded predicate."
+    },
+    {
+      "id": "case-insensitive-service",
+      "expectation": "match",
+      "fixture": "fixtures/case-insensitive-service.json",
+      "description": "Synthetic positive variant: case insensitive service."
+    },
+    {
+      "id": "failed-code",
+      "expectation": "no_match",
+      "fixture": "fixtures/failed-code.json",
+      "description": "Synthetic one-field boundary: failed code."
+    },
+    {
+      "id": "error-message-only",
+      "expectation": "no_match",
+      "fixture": "fixtures/error-message-only.json",
+      "description": "Synthetic one-field boundary: error message only."
+    },
+    {
+      "id": "read-only",
+      "expectation": "no_match",
+      "fixture": "fixtures/read-only.json",
+      "description": "Synthetic one-field boundary: read only."
+    },
+    {
+      "id": "nonmanagement-event",
+      "expectation": "no_match",
+      "fixture": "fixtures/nonmanagement-event.json",
+      "description": "Synthetic one-field boundary: nonmanagement event."
+    },
+    {
+      "id": "wrong-service",
+      "expectation": "no_match",
+      "fixture": "fixtures/wrong-service.json",
+      "description": "Synthetic one-field boundary: wrong service."
+    },
+    {
+      "id": "wrong-operation",
+      "expectation": "no_match",
+      "fixture": "fixtures/wrong-operation.json",
+      "description": "Synthetic one-field boundary: wrong operation."
+    },
+    {
+      "id": "string-boolean",
+      "expectation": "no_match",
+      "fixture": "fixtures/string-boolean.json",
+      "description": "Synthetic one-field boundary: string boolean."
+    },
+    {
+      "id": "missing-eventsource",
+      "expectation": "no_match",
+      "fixture": "fixtures/missing-eventsource.json",
+      "description": "Synthetic event is missing required predicate field EventSource."
+    },
+    {
+      "id": "missing-eventname",
+      "expectation": "no_match",
+      "fixture": "fixtures/missing-eventname.json",
+      "description": "Synthetic event is missing required predicate field EventName."
+    },
+    {
+      "id": "missing-eventtypename",
+      "expectation": "no_match",
+      "fixture": "fixtures/missing-eventtypename.json",
+      "description": "Synthetic event is missing required predicate field EventTypeName."
+    },
+    {
+      "id": "missing-managementevent",
+      "expectation": "no_match",
+      "fixture": "fixtures/missing-managementevent.json",
+      "description": "Synthetic event is missing required predicate field ManagementEvent."
+    },
+    {
+      "id": "missing-readonly",
+      "expectation": "no_match",
+      "fixture": "fixtures/missing-readonly.json",
+      "description": "Synthetic event is missing required predicate field ReadOnly."
+    },
+    {
+      "id": "missing-errorcode",
+      "expectation": "no_match",
+      "fixture": "fixtures/missing-errorcode.json",
+      "description": "Synthetic event is missing required predicate field ErrorCode."
+    },
+    {
+      "id": "missing-errormessage",
+      "expectation": "no_match",
+      "fixture": "fixtures/missing-errormessage.json",
+      "description": "Synthetic event is missing required predicate field ErrorMessage."
+    }
+  ]
+}

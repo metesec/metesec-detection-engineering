@@ -1,5 +1,19 @@
 AuditLogs
-| where (OperationName =~ "Add delegated permission grant" and Result =~ "success") and TargetResources contains "RoleManagement.ReadWrite.Directory" and TargetResources contains "AllPrincipals"
+| mv-apply MsecTarget = TargetResources on (
+    where tostring(MsecTarget.type) == "ServicePrincipal"
+    | mv-apply MsecProperty = MsecTarget.modifiedProperties on (
+        summarize MsecScopes = make_list_if(MsecProperty.newValue, tostring(MsecProperty.displayName) == "DelegatedPermissionGrant.Scope"),
+                  MsecConsentTypes = make_list_if(MsecProperty.newValue, tostring(MsecProperty.displayName) == "DelegatedPermissionGrant.ConsentType"),
+                  MsecScopeCount = countif(tostring(MsecProperty.displayName) == "DelegatedPermissionGrant.Scope"),
+                  MsecConsentCount = countif(tostring(MsecProperty.displayName) == "DelegatedPermissionGrant.ConsentType")
+    )
+    | where MsecScopeCount == 1 and MsecConsentCount == 1
+    | where gettype(MsecScopes[0]) == "string" and gettype(MsecConsentTypes[0]) == "string"
+    | extend MsecScopeParsed = parse_json(tostring(MsecScopes[0])), MsecConsentParsed = parse_json(tostring(MsecConsentTypes[0]))
+    | where gettype(MsecScopeParsed) == "string" and gettype(MsecConsentParsed) == "string"
+    | extend MsecDelegatedPermissionScope = tostring(MsecScopeParsed), MsecConsentType = tostring(MsecConsentParsed)
+)
+| where (OperationName =~ "Add delegated permission grant" and Result =~ "success") and MsecDelegatedPermissionScope matches regex "(?i)(^|\\s)RoleManagement\\.ReadWrite\\.Directory(\\s|$)" and MsecConsentType =~ "AllPrincipals"
 | extend InitiatingUserPrincipalName = tostring(InitiatedBy.user.userPrincipalName)
 | extend InitiatingAccountName = tostring(split(InitiatingUserPrincipalName, "@")[0])
 | extend InitiatingAccountUPNSuffix = tostring(split(InitiatingUserPrincipalName, "@")[1])
@@ -7,6 +21,6 @@ AuditLogs
 | extend InitiatingIPAddress = tostring(InitiatedBy.user.ipAddress)
 | extend InitiatingApplicationId = tostring(InitiatedBy.app.appId)
 | extend InitiatingApplicationName = tostring(InitiatedBy.app.displayName)
-| extend TargetServicePrincipalId = tostring(TargetResources[0].id)
-| extend TargetServicePrincipalName = tostring(TargetResources[0].displayName)
+| extend TargetServicePrincipalId = tostring(MsecTarget.id)
+| extend TargetServicePrincipalName = tostring(MsecTarget.displayName)
 | project TimeGenerated, OperationName, InitiatingUserPrincipalName, InitiatingAccountName, InitiatingAccountUPNSuffix, InitiatingUserId, InitiatingIPAddress, InitiatingApplicationId, InitiatingApplicationName, TargetServicePrincipalId, TargetServicePrincipalName, CorrelationId, LoggedByService

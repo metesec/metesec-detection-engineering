@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "detection_id": "MSEC-DET-0063",
+  "implementation": "content/portable/sigma/MSEC-DET-0063/rule.yml",
+  "cases": [
+    {
+      "id": "bounded-positive",
+      "expectation": "match",
+      "fixture": "fixtures/bounded-positive.json",
+      "description": "Synthetic complete event matches the stated bounded predicate."
+    },
+    {
+      "id": "uppercase-path",
+      "expectation": "match",
+      "fixture": "fixtures/uppercase-path.json",
+      "description": "Synthetic positive variant: uppercase path."
+    },
+    {
+      "id": "remote-directory",
+      "expectation": "match",
+      "fixture": "fixtures/remote-directory.json",
+      "description": "Synthetic positive variant: remote directory."
+    },
+    {
+      "id": "trailing-separator",
+      "expectation": "match",
+      "fixture": "fixtures/trailing-separator.json",
+      "description": "Synthetic positive variant: trailing separator."
+    },
+    {
+      "id": "wrong-action",
+      "expectation": "no_match",
+      "fixture": "fixtures/wrong-action.json",
+      "description": "Synthetic one-field boundary: wrong action."
+    },
+    {
+      "id": "wrong-process",
+      "expectation": "no_match",
+      "fixture": "fixtures/wrong-process.json",
+      "description": "Synthetic one-field boundary: wrong process."
+    },
+    {
+      "id": "system-directory",
+      "expectation": "no_match",
+      "fixture": "fixtures/system-directory.json",
+      "description": "Synthetic one-field boundary: system directory."
+    },
+    {
+      "id": "programdata-not-in-scope",
+      "expectation": "no_match",
+      "fixture": "fixtures/programdata-not-in-scope.json",
+      "description": "Synthetic one-field boundary: programdata not in scope."
+    },
+    {
+      "id": "suffix-lookalike",
+      "expectation": "no_match",
+      "fixture": "fixtures/suffix-lookalike.json",
+      "description": "Synthetic one-field boundary: suffix lookalike."
+    },
+    {
+      "id": "nested-users-directory",
+      "expectation": "no_match",
+      "fixture": "fixtures/nested-users-directory.json",
+      "description": "Synthetic one-field boundary: nested users directory."
+    },
+    {
+      "id": "path-prefix-lookalike",
+      "expectation": "no_match",
+      "fixture": "fixtures/path-prefix-lookalike.json",
+      "description": "Synthetic one-field boundary: path prefix lookalike."
+    },
+    {
+      "id": "missing-actiontype",
+      "expectation": "no_match",
+      "fixture": "fixtures/missing-actiontype.json",
+      "description": "Synthetic event is missing required predicate field ActionType."
+    },
+    {
+      "id": "missing-initiatingprocessfilename",
+      "expectation": "no_match",
+      "fixture": "fixtures/missing-initiatingprocessfilename.json",
+      "description": "Synthetic event is missing required predicate field InitiatingProcessFileName."
+    },
+    {
+      "id": "missing-filename",
+      "expectation": "no_match",
+      "fixture": "fixtures/missing-filename.json",
+      "description": "Synthetic event is missing required predicate field FileName."
+    },
+    {
+      "id": "missing-folderpath",
+      "expectation": "no_match",
+      "fixture": "fixtures/missing-folderpath.json",
+      "description": "Synthetic event is missing required predicate field FolderPath."
+    }
+  ]
+}

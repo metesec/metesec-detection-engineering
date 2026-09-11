@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "event": {
+    "FileName": "auditpol.exe",
+    "ProcessCommandLine": "auditpol.exe\t/clear\t/y"
+  }
+}

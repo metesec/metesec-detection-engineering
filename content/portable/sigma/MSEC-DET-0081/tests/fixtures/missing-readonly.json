@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"EventSource":"guardduty.amazonaws.com","EventName":"DeleteDetector","EventTypeName":"AwsApiCall","ManagementEvent":true,"ErrorCode":"","ErrorMessage":""}}

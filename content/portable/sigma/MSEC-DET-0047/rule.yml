@@ -1,13 +1,15 @@
-title: Winlogon Shell or Userinit Value Hijack
+title: Winlogon Shell or Userinit value hijack
 id: 760e89c6-0024-404e-9463-62e63968b6da
 status: experimental
-description: Detects a Winlogon Shell or Userinit registry value set to a non-default executable command.
+description: Detects a non-empty non-default Winlogon Shell or Userinit registry value set. Quoted and whitespace-normalized standard Explorer and Userinit values are excluded; missing payload data is not evidence of hijack.
 references:
   - https://attack.mitre.org/techniques/T1547/004/
-  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/registry/registry_set/registry_set_persistence_winlogon_helper_dll.yml
+  - https://github.com/SigmaHQ/sigma/blob/5c9b21756f4e3ba137c1773ac9ba5a8332188961/rules/windows/registry/registry_set/registry_set_asep_reg_keys_modification_currentversion_nt.yml
   - https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceregistryevents-table
 author: MeteSec Detection Engineering
+license: Apache-2.0
 date: 2026-09-03
+modified: 2026-09-11
 tags:
   - attack.persistence
   - attack.privilege-escalation
@@ -22,26 +24,19 @@ detection:
     RegistryKey|endswith:
       - '\Software\Microsoft\Windows NT\CurrentVersion\Winlogon'
       - '\Software\Wow6432Node\Microsoft\Windows NT\CurrentVersion\Winlogon'
+  selection_content:
+    RegistryValueData|re: '\S'
   selection_shell:
     RegistryValueName: Shell
   selection_userinit:
     RegistryValueName: Userinit
   filter_default_shell:
     RegistryValueName: Shell
-    RegistryValueData:
-      - explorer.exe
-      - 'C:\Windows\explorer.exe'
-      - '%SystemRoot%\explorer.exe'
+    RegistryValueData|re|i: '^\s*"?(?:(?:[a-z]:\\Windows|%SystemRoot%|%windir%)\\)?explorer\.exe"?\s*$'
   filter_default_userinit:
     RegistryValueName: Userinit
-    RegistryValueData:
-      - userinit.exe
-      - 'userinit.exe,'
-      - 'C:\Windows\system32\userinit.exe'
-      - 'C:\Windows\system32\userinit.exe,'
-      - '%SystemRoot%\system32\userinit.exe'
-      - '%SystemRoot%\system32\userinit.exe,'
-  condition: selection_action and selection_key and ((selection_shell and not filter_default_shell) or (selection_userinit and not filter_default_userinit))
+    RegistryValueData|re|i: '^\s*"?(?:(?:[a-z]:\\Windows|%SystemRoot%|%windir%)\\system32\\)?userinit\.exe"?\s*,?\s*$'
+  condition: selection_action and selection_key and selection_content and ((selection_shell and not filter_default_shell) or (selection_userinit and not filter_default_userinit))
 fields:
   - TimeGenerated
   - Timestamp

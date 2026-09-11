@@ -2,11 +2,11 @@
   "schema_version": 1,
   "id": "MSEC-DET-0018",
   "title": "PowerShell attempts to weaken Microsoft Defender Antivirus",
-  "description": "Detects PowerShell Defender cmdlets attempting to disable selected protection features or add antivirus exclusions. Process telemetry shows the command attempt and not the resulting Defender state.",
+  "description": "Detects literal PowerShell Defender cmdlets requesting selected disable switches with a true value or adding explicit non-empty exclusion values. Command-line evidence does not prove the configuration changed.",
   "hypothesis": {
     "summary": "An adversary may use Defender PowerShell cmdlets to create a protection gap before executing later actions.",
     "rationale": "Microsoft warns that exclusions reduce protection and MITRE documents security-control tampering; legitimate management and troubleshooting scripts can use the same cmdlets.",
-    "detection_goal": "Identify selected Set-MpPreference disable switches and Set-MpPreference or Add-MpPreference exclusion changes while leaving status queries and unrelated PowerShell commands unmatched."
+    "detection_goal": "Bind a selected disable parameter to its own true value or match an explicit non-empty exclusion literal. Variables, splatting, aliases and dynamically constructed commands are outside this bounded rule."
   },
   "ownership": {
     "owner": "MeteSec Detection Engineering",
@@ -15,7 +15,7 @@
   "lifecycle": {
     "status": "experimental",
     "created": "2026-09-03",
-    "modified": "2026-09-03",
+    "modified": "2026-09-11",
     "review_interval_days": 90
   },
   "severity": "high",
@@ -24,7 +24,18 @@
     {
       "name": "Microsoft Defender for Endpoint process events",
       "category": "Endpoint process creation",
-      "required_fields": ["TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountName", "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"]
+      "required_fields": [
+        "TimeGenerated",
+        "Timestamp",
+        "DeviceId",
+        "DeviceName",
+        "AccountName",
+        "InitiatingProcessFileName",
+        "FileName",
+        "FolderPath",
+        "ProcessCommandLine",
+        "ReportId"
+      ]
     }
   ],
   "attack": [
@@ -38,14 +49,15 @@
     "steps": [
       "Review the full command, parent process, account, device, exclusion value and requested protection switch.",
       "Compare the command with approved endpoint-management, software-deployment and troubleshooting activity.",
-      "Check Defender configuration and tamper-protection telemetry, then inspect subsequent payload execution or persistence if the change is unexplained."
+      "Check Defender configuration and tamper-protection telemetry, then inspect subsequent payload execution or persistence if the change is unexplained.",
+      "This bounded command-line rule does not decode scripts or resolve variables, aliases, splatting, script contents or dynamic expressions."
     ],
     "false_positives": [
       "Approved endpoint-management scripts, software compatibility exclusions and temporary support diagnostics"
     ]
   },
   "validation": {
-    "expected_outcome": "Match selected PowerShell Defender disable and exclusion commands; do not claim that the change succeeded and do not match status queries or unrelated commands.",
+    "expected_outcome": "Match selected Defender disable switches followed by $true or 1 and explicit non-empty exclusion literals. Reject false-valued disable switches, unrelated true values, null or empty exclusion resets.",
     "positive_tests": true,
     "negative_tests": true
   },
@@ -53,8 +65,24 @@
     {
       "type": "sigma",
       "path": "content/portable/sigma/MSEC-DET-0018/rule.yml",
-      "targets": ["sentinel"],
+      "targets": [
+        "sentinel"
+      ],
       "status": "active"
     }
-  ]
+  ],
+  "quality": {
+    "reviewed_on": "2026-09-11",
+    "signal_type": "behavior",
+    "limitations": [
+      "Only explicit command-line disable literals are covered. Variables, aliases, splatting, alternative APIs and actual resulting protection state are not evaluated.",
+      "Current-revision evidence is synthetic only. Validate full generated KQL, source fields, ingestion delay, alert volume and scoped exclusions in the target before enabling."
+    ],
+    "validation_level": "synthetic-only",
+    "provenance": {
+      "origin": "reviewed-existing",
+      "license": "Apache-2.0",
+      "review": "docs/reviews/existing-0001-0025.md"
+    }
+  }
 }

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import copy
 from contextlib import redirect_stdout
+from datetime import datetime, timedelta, timezone
 from io import StringIO
 import json
 from pathlib import Path
@@ -26,6 +27,7 @@ class SentinelRuntimeHealthTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.policy, cls.expectations = load_expectations(REPO_ROOT, POLICY)
+        cls.profile = json.loads((REPO_ROOT / 'targets/sentinel/analytics-rules.json').read_text())
 
     def _observation(self) -> dict[str, object]:
         return {
@@ -34,10 +36,10 @@ class SentinelRuntimeHealthTests(unittest.TestCase):
             "observed_at": "2026-09-03T12:00:00Z",
             "rules": [
                 {
-                    "id": "MSEC-DET-0002",
+                    "id": entry["id"],
                     "rule_exists": True,
                     "enabled": True,
-                    "last_execution_at": "2026-09-03T11:30:00Z",
+                    "last_execution_at": "2026-09-03T11:59:59Z",
                     "last_execution_status": "succeeded",
                     "alert_outcome": {
                         "window_start": "2026-09-03T11:00:00Z",
@@ -45,72 +47,8 @@ class SentinelRuntimeHealthTests(unittest.TestCase):
                         "alerts_created": 0,
                         "incidents_created": 0,
                     },
-                },
-                *[
-                    {
-                        "id": detection_id,
-                        "rule_exists": True,
-                        "enabled": True,
-                        "last_execution_at": "2026-09-03T11:59:00Z",
-                        "last_execution_status": "succeeded",
-                        "alert_outcome": {
-                            "window_start": "2026-09-03T11:00:00Z",
-                            "window_end": "2026-09-03T12:00:00Z",
-                            "alerts_created": 0,
-                            "incidents_created": 0,
-                        },
-                    }
-                    for detection_id in (
-                        "MSEC-DET-0003",
-                        "MSEC-DET-0004",
-                        "MSEC-DET-0005",
-                        "MSEC-DET-0006",
-                        "MSEC-DET-0007",
-                        "MSEC-DET-0008",
-                        "MSEC-DET-0009",
-                        "MSEC-DET-0010",
-                        "MSEC-DET-0011",
-                        "MSEC-DET-0012",
-                        "MSEC-DET-0013",
-                        "MSEC-DET-0014",
-                        "MSEC-DET-0015",
-                        "MSEC-DET-0016",
-                        "MSEC-DET-0017",
-                        "MSEC-DET-0018",
-                        "MSEC-DET-0019",
-                        "MSEC-DET-0020",
-                        "MSEC-DET-0021",
-                        "MSEC-DET-0022",
-                        "MSEC-DET-0023",
-                        "MSEC-DET-0024",
-                        "MSEC-DET-0025",
-                        "MSEC-DET-0026",
-                        "MSEC-DET-0027",
-                        "MSEC-DET-0028",
-                        "MSEC-DET-0029",
-                        "MSEC-DET-0030",
-                        "MSEC-DET-0031",
-                        "MSEC-DET-0032",
-                        "MSEC-DET-0033",
-                        "MSEC-DET-0034",
-                        "MSEC-DET-0035",
-                        "MSEC-DET-0036",
-                        "MSEC-DET-0037",
-                        "MSEC-DET-0038",
-                        "MSEC-DET-0039",
-                        "MSEC-DET-0040",
-                        "MSEC-DET-0041",
-                        "MSEC-DET-0042",
-                        "MSEC-DET-0043",
-                        "MSEC-DET-0044",
-                        "MSEC-DET-0045",
-                        "MSEC-DET-0046",
-                        "MSEC-DET-0047",
-                        "MSEC-DET-0048",
-                        "MSEC-DET-0049",
-                        "MSEC-DET-0050",
-                    )
-                ],
+                }
+                for entry in self.profile["rules"]
             ],
         }
 
@@ -125,66 +63,14 @@ class SentinelRuntimeHealthTests(unittest.TestCase):
 
     def test_expectations_come_from_exact_sentinel_schedule(self) -> None:
         self.assertEqual(
-            [
-                (item.detection_id, item.query_frequency)
-                for item in self.expectations
-            ],
-            [
-                ("MSEC-DET-0002", "PT1H"),
-                ("MSEC-DET-0003", "PT5M"),
-                ("MSEC-DET-0004", "PT5M"),
-                ("MSEC-DET-0005", "PT5M"),
-                ("MSEC-DET-0006", "PT5M"),
-                ("MSEC-DET-0007", "PT5M"),
-                ("MSEC-DET-0008", "PT5M"),
-                ("MSEC-DET-0009", "PT5M"),
-                ("MSEC-DET-0010", "PT5M"),
-                ("MSEC-DET-0011", "PT5M"),
-                ("MSEC-DET-0012", "PT5M"),
-                ("MSEC-DET-0013", "PT5M"),
-                ("MSEC-DET-0014", "PT5M"),
-                ("MSEC-DET-0015", "PT5M"),
-                ("MSEC-DET-0016", "PT5M"),
-                ("MSEC-DET-0017", "PT5M"),
-                ("MSEC-DET-0018", "PT5M"),
-                ("MSEC-DET-0019", "PT5M"),
-                ("MSEC-DET-0020", "PT5M"),
-                ("MSEC-DET-0021", "PT5M"),
-                ("MSEC-DET-0022", "PT5M"),
-                ("MSEC-DET-0023", "PT5M"),
-                ("MSEC-DET-0024", "PT5M"),
-                ("MSEC-DET-0025", "PT5M"),
-                ("MSEC-DET-0026", "PT5M"),
-                ("MSEC-DET-0027", "PT5M"),
-                ("MSEC-DET-0028", "PT5M"),
-                ("MSEC-DET-0029", "PT5M"),
-                ("MSEC-DET-0030", "PT5M"),
-                ("MSEC-DET-0031", "PT5M"),
-                ("MSEC-DET-0032", "PT5M"),
-                ("MSEC-DET-0033", "PT5M"),
-                ("MSEC-DET-0034", "PT5M"),
-                ("MSEC-DET-0035", "PT5M"),
-                ("MSEC-DET-0036", "PT5M"),
-                ("MSEC-DET-0037", "PT5M"),
-                ("MSEC-DET-0038", "PT5M"),
-                ("MSEC-DET-0039", "PT5M"),
-                ("MSEC-DET-0040", "PT5M"),
-                ("MSEC-DET-0041", "PT5M"),
-                ("MSEC-DET-0042", "PT5M"),
-                ("MSEC-DET-0043", "PT5M"),
-                ("MSEC-DET-0044", "PT5M"),
-                ("MSEC-DET-0045", "PT5M"),
-                ("MSEC-DET-0046", "PT5M"),
-                ("MSEC-DET-0047", "PT5M"),
-                ("MSEC-DET-0048", "PT5M"),
-                ("MSEC-DET-0049", "PT5M"),
-                ("MSEC-DET-0050", "PT5M"),
-            ],
+            [(item.detection_id, item.query_frequency) for item in self.expectations],
+            [(entry["id"], entry["query_frequency"]) for entry in self.profile["rules"]],
         )
+        self.assertEqual(len({item.detection_id for item in self.expectations}), len(self.profile["rules"]))
 
     def test_fresh_successful_rules_are_healthy_even_with_zero_alerts(self) -> None:
         assessments = self._assess(self._observation())
-        self.assertEqual([item.status for item in assessments], ["healthy"] * 49)
+        self.assertEqual([item.status for item in assessments], ["healthy"] * len(self.profile["rules"]))
         self.assertTrue(
             all(item.reasons == ("execution_healthy",) for item in assessments)
         )
@@ -256,18 +142,23 @@ class SentinelRuntimeHealthTests(unittest.TestCase):
             ("execution_status_unknown",),
         )
 
-    def test_five_minute_rule_crosses_late_then_stale_boundaries(self) -> None:
-        late = self._observation()
-        late["rules"][1]["last_execution_at"] = "2026-09-03T11:49:59Z"
-        late_assessment = self._assess(late)[1]
-        self.assertEqual(late_assessment.status, "degraded")
-        self.assertEqual(late_assessment.reasons, ("execution_late",))
-
-        stale = self._observation()
-        stale["rules"][1]["last_execution_at"] = "2026-09-03T11:34:59Z"
-        stale_assessment = self._assess(stale)[1]
-        self.assertEqual(stale_assessment.status, "failed")
-        self.assertEqual(stale_assessment.reasons, ("execution_stale",))
+    def test_schedule_relative_late_and_stale_boundaries_are_exact(self) -> None:
+        expected = self.expectations[1]
+        observed_at = datetime(2026, 9, 3, 12, 0, tzinfo=timezone.utc)
+        scenarios = (
+            (self.policy.degraded_after_missed_runs, 0, "healthy", "execution_healthy"),
+            (self.policy.degraded_after_missed_runs, 1, "degraded", "execution_late"),
+            (self.policy.failed_after_missed_runs, 0, "degraded", "execution_late"),
+            (self.policy.failed_after_missed_runs, 1, "failed", "execution_stale"),
+        )
+        for runs, extra_seconds, status, reason in scenarios:
+            with self.subTest(runs=runs, extra_seconds=extra_seconds):
+                observation = self._observation()
+                last_execution = observed_at - expected.frequency * runs - timedelta(seconds=extra_seconds)
+                observation["rules"][1]["last_execution_at"] = last_execution.isoformat().replace("+00:00", "Z")
+                assessment = self._assess(observation)[1]
+                self.assertEqual(assessment.status, status)
+                self.assertEqual(assessment.reasons, (reason,))
 
     def test_invalid_times_and_unknown_rules_fail_closed(self) -> None:
         future = self._observation()
@@ -289,14 +180,14 @@ class SentinelRuntimeHealthTests(unittest.TestCase):
 
     def test_cli_distinguishes_healthy_from_nonhealthy(self) -> None:
         observations = [
-            (self._observation(), 0, {"healthy": 49, "unknown": 0}),
+            (self._observation(), 0, {"healthy": len(self.profile["rules"]), "unknown": 0}),
             (
                 {
                     **self._observation(),
                     "rules": copy.deepcopy(self._observation()["rules"][:-1]),
                 },
                 2,
-                {"healthy": 48, "unknown": 1},
+                {"healthy": len(self.profile["rules"]) - 1, "unknown": 1},
             ),
         ]
         with TemporaryDirectory() as directory:

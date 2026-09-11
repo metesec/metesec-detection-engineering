@@ -1,6 +1,6 @@
 # MeteSec Detection Engineering — Project Handoff
 
-Last updated: 2026-09-04 (Europe/Berlin)
+Last updated: 2026-09-11 (Europe/Berlin)
 
 Read this file completely before changing the repository, its pipeline, public mirror, schemas, or detection content. Keep `LOGBOOK.md` and `ROADMAP.md` accurate after every completed and verified milestone.
 
@@ -33,6 +33,39 @@ package that source, but generated KQL is not a second authored detection and no
 multi-implementation resolver belongs in the active version 1 design.
 
 ## Current state
+
+The current development baseline is **1.1.0, local release candidate** on
+`codex/enterprise-baseline-review`, branched from `bea9b71`. This section
+supersedes historical 1.0 counts and the former fifty-rule scope below.
+
+- All 50 existing and 50 supplied additional candidate IDs reviewed; 17 new
+  packages admitted, 33 deferred with reasons. The hardened archive overlaps IDs.
+- 67 experimental authored Sigma packages; 66 disabled Sentinel bindings; 10
+  explicit source contracts. 0001 remains intentionally unbound.
+- 705 synthetic fixture expectations; no current-revision live-target or
+  production certification. Earlier query probes are historical evidence only.
+- Per-rule quality classification, limitations, review/provenance and evidence
+  levels. Duplicate YAML keys, metadata/ATT&CK mismatches, UUID duplication,
+  orphan sources/fixtures and unsupported evaluator constructs fail admission.
+- Bounded regex/strict bool evaluator and explicit raw-event adapter for 0021
+  (`entra-delegated-grant-v1`); other Sigma consumers must honor the adapter.
+- Hunting Goldens remain separate from derived scheduled queries. All schedules
+  use disabled 15-minute/one-hour pilot settings, ingestion slicing, no automatic
+  incident creation and no claim of exactly-once delivery.
+- Source pack includes validation/rebuild tooling and tests. Published versions
+  remain immutable; no remote publication, new CI result or deployment is claimed.
+- Architecture: ADR-0017. Adoption: `docs/enterprise-baseline.md`. Per-ID review:
+  `docs/reviews/`. Record verified final checks in the latest LOGBOOK entry.
+- Verified on Node 24.19.0, Python 3.12.13 and pnpm 11.19.0: full aggregate check
+  passes with 115 Python + 19 JavaScript unit tests and all 705 fixture cases.
+  The full aggregate check also passes from a freshly extracted 1.1 source pack
+  with independently installed JavaScript dependencies and no Git directory.
+  Release tests verify deterministic rebuilds and packaged evaluator imports.
+- The pinned SigmaHQ audit covers 4,045 rule documents; no exact matches for
+  original 50/current 67 under the recorded metrics. Normalized comparison has
+  279 explicit upstream gaps. No internet-wide uniqueness or rights guarantee.
+
+## Historical v1.0 release baseline (not current-revision evidence)
 
 - Public Forgejo repository: `metesec/metesec-detection-engineering`
 - Canonical source of truth: MeteSec Forgejo
@@ -188,10 +221,10 @@ After every completed milestone:
 
 ## Immediate next milestone
 
-Keep the published `v1.0.0` tag and assets immutable. The next bounded milestone
-is post-release maintenance: verify consumer-facing documentation against the
-public ZIP, collect concrete defects or usability feedback, and define a future
-`v1.1.0` scope only from evidenced needs. Do not add native KQL, deploy or enable
-Sentinel rules, publish a separate target archive or store raw live query output.
+Keep published tags/assets immutable. The 1.1 local baseline needs canonical
+Forgejo review/CI and a separate authorized full-query target validation/pilot
+before publication or production claims. Use the explicit adoption/evidence
+gates, not historical predicate probes. Do not deploy or enable rules, publish a
+separate target archive or store raw live query output as an inferred next step.
 Keep public pull-request execution disabled until the runner gains hard per-job
 isolation.

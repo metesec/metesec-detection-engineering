@@ -3,12 +3,65 @@
   "detection_id": "MSEC-DET-0028",
   "implementation": "content/portable/sigma/MSEC-DET-0028/rule.yml",
   "cases": [
-    {"id": "remote-create", "expectation": "match", "fixture": "fixtures/remote-create.json", "description": "Synthetic schtasks command creates a task on a remote system."},
-    {"id": "remote-create-uppercase", "expectation": "match", "fixture": "fixtures/remote-create-uppercase.json", "description": "Synthetic uppercase schtasks switches match case-insensitively."},
-    {"id": "remote-create-with-context", "expectation": "match", "fixture": "fixtures/remote-create-with-context.json", "description": "Synthetic remote task creation includes bounded endpoint context."},
-    {"id": "local-create", "expectation": "no_match", "fixture": "fixtures/local-create.json", "description": "Synthetic local scheduled-task creation lacks a remote target."},
-    {"id": "remote-query", "expectation": "no_match", "fixture": "fixtures/remote-query.json", "description": "Synthetic remote task query does not create a task."},
-    {"id": "remote-delete", "expectation": "no_match", "fixture": "fixtures/remote-delete.json", "description": "Synthetic remote deletion does not create a task."},
-    {"id": "other-process", "expectation": "no_match", "fixture": "fixtures/other-process.json", "description": "Synthetic other binary with matching arguments is outside the rule."}
+    {
+      "id": "remote-create",
+      "expectation": "match",
+      "fixture": "fixtures/remote-create.json",
+      "description": "Synthetic schtasks command creates a task on a remote system."
+    },
+    {
+      "id": "remote-create-uppercase",
+      "expectation": "match",
+      "fixture": "fixtures/remote-create-uppercase.json",
+      "description": "Synthetic uppercase schtasks switches match case-insensitively."
+    },
+    {
+      "id": "remote-create-with-context",
+      "expectation": "match",
+      "fixture": "fixtures/remote-create-with-context.json",
+      "description": "Synthetic remote task creation includes bounded endpoint context."
+    },
+    {
+      "id": "local-create",
+      "expectation": "no_match",
+      "fixture": "fixtures/local-create.json",
+      "description": "Synthetic local scheduled-task creation lacks a remote target."
+    },
+    {
+      "id": "remote-query",
+      "expectation": "no_match",
+      "fixture": "fixtures/remote-query.json",
+      "description": "Synthetic remote task query does not create a task."
+    },
+    {
+      "id": "remote-delete",
+      "expectation": "no_match",
+      "fixture": "fixtures/remote-delete.json",
+      "description": "Synthetic remote deletion does not create a task."
+    },
+    {
+      "id": "other-process",
+      "expectation": "no_match",
+      "fixture": "fixtures/other-process.json",
+      "description": "Synthetic other binary with matching arguments is outside the rule."
+    },
+    {
+      "id": "remote-create-tabs",
+      "expectation": "match",
+      "fixture": "fixtures/remote-create-tabs.json",
+      "description": "Synthetic regression: tabs around remote-target switches remain supported."
+    },
+    {
+      "id": "schedule-option-not-remote",
+      "expectation": "no_match",
+      "fixture": "fixtures/schedule-option-not-remote.json",
+      "description": "Synthetic regression: /sc is a schedule selector, not remote /s."
+    },
+    {
+      "id": "local-action-s-switch",
+      "expectation": "no_match",
+      "fixture": "fixtures/local-action-s-switch.json",
+      "description": "Synthetic regression: A silent /s switch inside the quoted task action is not a remote scheduler target."
+    }
   ]
 }

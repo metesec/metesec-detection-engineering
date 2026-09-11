@@ -1,0 +1,15 @@
+MeteSec Detection Engineering
+Copyright 2026 MeteSec contributors
+
+This distribution includes modified derivatives of selected packages from:
+MeteSec Hardened 23, AI-assisted experimental implementation, 2026.
+Original supplied license: Apache License, Version 2.0.
+The selected rules have been rewritten for this repository's Sigma, fixture,
+and Microsoft Sentinel contracts. Changed files retain source notices.
+
+No claim of first discovery or exclusive authorship of detection techniques
+is made. Referenced works are not relicensed by this package; their authors
+and licenses remain their own. Rule references and the provenance review
+identify known related work, including SigmaHQ and Microsoft sources.
+
+See docs/reviews/provenance.md and docs/reviews/candidates-0051-0100.md.

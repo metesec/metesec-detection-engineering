@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0081",
+  "title": "AWS GuardDuty detector deleted",
+  "description": "Detects successful AWS GuardDuty DeleteDetector management API writes with both error fields empty.",
+  "hypothesis": {
+    "summary": "An adversary may delete a GuardDuty detector to reduce threat-detection visibility in the affected AWS account and region.",
+    "rationale": "This covers successful detector deletion, not suspension, update or every region. Determine the effective account and regional coverage separately. The AWSCloudTrail source contract requires boolean management/read-only flags and string error fields; malformed or absent fixture values do not indicate success.",
+    "detection_goal": "Detects an AWS management API write for the selected security-control removal operation with both error fields empty."
+  },
+  "ownership": {
+    "owner": "MeteSec Detection Engineering",
+    "reviewers": []
+  },
+  "lifecycle": {
+    "status": "experimental",
+    "created": "2026-09-11",
+    "modified": "2026-09-11",
+    "review_interval_days": 90
+  },
+  "severity": "high",
+  "confidence": "medium",
+  "data_sources": [
+    {
+      "name": "AWS CloudTrail management events",
+      "category": "AWS control-plane administration",
+      "required_fields": [
+        "TimeGenerated",
+        "EventSource",
+        "EventName",
+        "EventTypeName",
+        "ManagementEvent",
+        "ReadOnly",
+        "ErrorCode",
+        "ErrorMessage",
+        "AWSRegion",
+        "SourceIpAddress",
+        "UserIdentityType",
+        "UserIdentityArn",
+        "RecipientAccountId",
+        "AwsEventId"
+      ]
+    }
+  ],
+  "attack": [
+    {
+      "technique_id": "T1685",
+      "tactic": "Defense Impairment"
+    }
+  ],
+  "triage": {
+    "summary": "This covers successful detector deletion, not suspension, update or every region. Determine the effective account and regional coverage separately. The AWSCloudTrail source contract requires boolean management/read-only flags and string error fields; malformed or absent fixture values do not indicate success.",
+    "steps": [
+      "Review the AWS account, region, actor ARN, source address and CloudTrail event identifier.",
+      "Inspect the affected security service's current configuration and independent regional or organizational coverage.",
+      "Validate the approved owner and change record, then investigate related identity and control-plane activity and restore coverage if unauthorized."
+    ],
+    "false_positives": [
+      "Approved account decommissioning or a documented GuardDuty detector replacement."
+    ]
+  },
+  "validation": {
+    "expected_outcome": "Match the bounded event, key/action/path or successful operation combination; reject one-field mutations, lookalikes and absent required fields. Synthetic tests do not establish live telemetry or production performance.",
+    "positive_tests": true,
+    "negative_tests": true
+  },
+  "implementations": [
+    {
+      "type": "sigma",
+      "path": "content/portable/sigma/MSEC-DET-0081/rule.yml",
+      "targets": [
+        "sentinel"
+      ],
+      "status": "active"
+    }
+  ],
+  "quality": {
+    "reviewed_on": "2026-09-11",
+    "signal_type": "configuration-change",
+    "limitations": [
+      "This covers successful detector deletion, not suspension, update or every region. Determine the effective account and regional coverage separately. The AWSCloudTrail source contract requires boolean management/read-only flags and string error fields; malformed or absent fixture values do not indicate success.",
+      "Current-revision evidence is synthetic only. Validate full generated KQL, source fields, ingestion delay, alert volume and scoped exclusions in the target before enabling."
+    ],
+    "validation_level": "synthetic-only",
+    "provenance": {
+      "origin": "reworked-supplied",
+      "license": "Apache-2.0",
+      "review": "docs/reviews/candidates-0051-0100.md"
+    }
+  }
+}

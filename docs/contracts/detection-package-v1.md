@@ -49,15 +49,15 @@ The schema deliberately does not define a field vocabulary. Field names belong t
 
 ## Current package set
 
-The version 1 pack contains fifty experimental packages. Every package has one
-Sigma implementation plus three positive and four negative synthetic cases,
-for one hundred fifty positive and two hundred negative expectations in total.
-Forty-nine packages have an explicit Microsoft Sentinel preview binding;
+The current 1.1 candidate contains 67 experimental packages and 705 synthetic
+expectations (264 positive, 441 negative). Every package has one Sigma source
+and both positive and negative cases; fixture counts are not an admission quota.
+Sixty-six packages have an explicit Microsoft Sentinel preview binding;
 `MSEC-DET-0001` remains visibly unbound because the verified target has no
 suitable Windows event telemetry.
 
 The generated [CATALOGUE.md](../../CATALOGUE.md) is the current per-detection
-index. This contract deliberately avoids duplicating fifty descriptions that
+index. This contract deliberately avoids duplicating descriptions that
 would become stale independently of the manifests and generated catalogue.
 
 ## Validation

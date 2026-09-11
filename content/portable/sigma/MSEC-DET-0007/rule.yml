@@ -1,12 +1,16 @@
 title: PowerShell Process Uses an Encoded-Command Flag
 id: 998f33ee-0841-4046-be52-d8bf3fbd485a
 status: experimental
-description: Detects Windows PowerShell or PowerShell Core command lines that use selected encoded-command flags.
+description: Detects Windows PowerShell or PowerShell Core command lines containing a delimited encoded-command flag and a Base64-shaped argument. Encoding is common in administration and does not itself establish malicious execution.
 references:
   - https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table
   - https://attack.mitre.org/techniques/T1059/001/
+  - https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_powershell_exe
+  - https://github.com/PowerShell/PowerShell/blob/master/src/Microsoft.PowerShell.ConsoleHost/host/msh/CommandLineParameterParser.cs
 author: MeteSec Detection Engineering
+license: Apache-2.0
 date: 2026-09-03
+modified: 2026-09-11
 tags:
   - attack.execution
   - attack.t1059.001
@@ -19,11 +23,7 @@ detection:
       - powershell.exe
       - pwsh.exe
   selection_flag:
-    ProcessCommandLine|contains:
-      - ' -enc '
-      - ' -enc:'
-      - ' -encodedcommand '
-      - ' -encodedcommand:'
+    ProcessCommandLine|re: '(?i)(^|\s)[-/](?:e|ec|en|enc|enco|encod|encode|encoded|encodedc|encodedco|encodedcom|encodedcomm|encodedcomma|encodedcomman|encodedcommand)\s+"?[a-z0-9+/]+={0,2}(?:"|\s|$)'
   condition: selection_image and selection_flag
 fields:
   - TimeGenerated
@@ -38,4 +38,4 @@ fields:
   - ReportId
 falsepositives:
   - Approved software deployment, endpoint management, security tooling, and administrative automation.
-level: high
+level: low

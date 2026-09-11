@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "detection_id": "MSEC-DET-0100",
+  "implementation": "content/portable/sigma/MSEC-DET-0100/rule.yml",
+  "cases": [
+    {
+      "id": "bounded-positive",
+      "expectation": "match",
+      "fixture": "fixtures/bounded-positive.json",
+      "description": "Synthetic complete event matches the stated bounded predicate."
+    },
+    {
+      "id": "quoted-dll-path",
+      "expectation": "match",
+      "fixture": "fixtures/quoted-dll-path.json",
+      "description": "Synthetic positive variant: quoted dll path."
+    },
+    {
+      "id": "remote-dll-path",
+      "expectation": "match",
+      "fixture": "fixtures/remote-dll-path.json",
+      "description": "Synthetic positive variant: remote dll path."
+    },
+    {
+      "id": "environment-dll-path",
+      "expectation": "match",
+      "fixture": "fixtures/environment-dll-path.json",
+      "description": "Synthetic positive variant: environment dll path."
+    },
+    {
+      "id": "wrong-action",
+      "expectation": "no_match",
+      "fixture": "fixtures/wrong-action.json",
+      "description": "Synthetic one-field boundary: wrong action."
+    },
+    {
+      "id": "user-hive",
+      "expectation": "no_match",
+      "fixture": "fixtures/user-hive.json",
+      "description": "Synthetic one-field boundary: user hive."
+    },
+    {
+      "id": "trusted-system-directory",
+      "expectation": "no_match",
+      "fixture": "fixtures/trusted-system-directory.json",
+      "description": "Synthetic one-field boundary: trusted system directory."
+    },
+    {
+      "id": "nested-users-directory",
+      "expectation": "no_match",
+      "fixture": "fixtures/nested-users-directory.json",
+      "description": "Synthetic one-field boundary: nested users directory."
+    },
+    {
+      "id": "suffix-lookalike",
+      "expectation": "no_match",
+      "fixture": "fixtures/suffix-lookalike.json",
+      "description": "Synthetic one-field boundary: suffix lookalike."
+    },
+    {
+      "id": "unbalanced-quotes",
+      "expectation": "no_match",
+      "fixture": "fixtures/unbalanced-quotes.json",
+      "description": "Synthetic one-field boundary: unbalanced quotes."
+    },
+    {
+      "id": "extra-subkey",
+      "expectation": "no_match",
+      "fixture": "fixtures/extra-subkey.json",
+      "description": "Synthetic one-field boundary: extra subkey."
+    },
+    {
+      "id": "missing-actiontype",
+      "expectation": "no_match",
+      "fixture": "fixtures/missing-actiontype.json",
+      "description": "Synthetic event is missing required predicate field ActionType."
+    },
+    {
+      "id": "missing-registrykey",
+      "expectation": "no_match",
+      "fixture": "fixtures/missing-registrykey.json",
+      "description": "Synthetic event is missing required predicate field RegistryKey."
+    },
+    {
+      "id": "missing-registryvaluedata",
+      "expectation": "no_match",
+      "fixture": "fixtures/missing-registryvaluedata.json",
+      "description": "Synthetic event is missing required predicate field RegistryValueData."
+    },
+    {
+      "id": "numeric-controlset",
+      "expectation": "match",
+      "fixture": "fixtures/numeric-controlset.json",
+      "description": "Synthetic numeric control set remains within the documented registry family."
+    }
+  ]
+}

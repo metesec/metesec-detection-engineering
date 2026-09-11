@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"ActionType":"RegistryValueDeleted","RegistryKey":"HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Lsa","RegistryValueName":"RunAsPPL","RegistryValueData":"0"}}

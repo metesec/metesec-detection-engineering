@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"FileName":"regsvr32.exe","ProcessCommandLine":"regsvr32.exe /invalid https://example.invalid/file.dll"}}

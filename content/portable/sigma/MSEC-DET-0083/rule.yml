@@ -1,0 +1,48 @@
+# Modified 2026-09-11 by MeteSec Detection Engineering.
+# Adapted from MeteSec Hardened 23 (Apache-2.0): raw source fields,
+# bounded predicates and repository-local synthetic evidence replace normalization.
+title: "Azure tenant-root access elevation succeeded"
+id: "1c43ced5-f729-56c7-a0e3-b87ecb02a503"
+status: "experimental"
+description: "Detects successful use of the Azure administrative elevateAccess operation at tenant root."
+references:
+  - "https://learn.microsoft.com/en-us/azure/role-based-access-control/elevate-access-global-admin"
+  - "https://learn.microsoft.com/en-us/azure/azure-monitor/reference/tables/azureactivity"
+  - "https://attack.mitre.org/techniques/T1098/003/"
+  - "https://raw.githubusercontent.com/SigmaHQ/sigma/master/rules/cloud/azure/activity_logs/azure_subscription_permissions_elevation_via_activitylogs.yml"
+author: "MeteSec (AI-assisted implementation; human review pending)"
+date: "2026-09-11"
+modified: 2026-09-11
+license: "Apache-2.0"
+tags:
+  - "attack.privilege-escalation"
+  - "attack.t1098.003"
+logsource:
+  product: "azure"
+  service: "activitylogs"
+detection:
+  selection:
+    CategoryValue: "Administrative"
+    OperationNameValue: "Microsoft.Authorization/elevateAccess/action"
+    ActivityStatusValue:
+      - "Succeeded"
+      - "Success"
+  condition: "selection"
+fields:
+  - "TimeGenerated"
+  - "OperationNameValue"
+  - "ActivityStatusValue"
+  - "CategoryValue"
+  - "Caller"
+  - "CallerIpAddress"
+  - "CorrelationId"
+  - "EventDataId"
+  - "ResourceId"
+  - "SubscriptionId"
+falsepositives:
+  - "Approved Global Administrator recovery, tenant access review or emergency access management."
+level: "high"
+related:
+  -
+    id: "09438caa-07b1-4870-8405-1dbafe3dad95"
+    type: "similar"

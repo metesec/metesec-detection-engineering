@@ -1,30 +1,90 @@
 {
   "schema_version": 1,
   "id": "MSEC-DET-0050",
-  "title": "Netsh creates a Windows PortProxy rule",
-  "description": "Detects Netsh or a renamed Netsh binary adding a Windows interface PortProxy forwarding rule.",
+  "title": "Netsh PortProxy addition command",
+  "description": "Detects a Netsh command requesting an interface PortProxy forwarding-rule addition, including explicit -c context syntax. Verify the resulting configuration and traffic before concluding that a proxy was established.",
   "hypothesis": {
     "summary": "An adversary may add a Windows PortProxy rule to relay TCP connections through a compromised endpoint.",
-    "rationale": "Microsoft documents netsh interface portproxy add as the command family for adding TCP forwarding listeners, while MITRE and Atomic Red Team document this mechanism as internal proxy behavior. Requiring Netsh identity and all three full command words is more precise than monitoring generic Netsh or firewall changes.",
-    "detection_goal": "Identify Netsh commands that add an interface PortProxy rule while leaving display, deletion, unrelated firewall management and matching text from another executable unmatched."
+    "rationale": "Netsh interface PortProxy add configures TCP forwarding. The ordered context, operation and translation family distinguish addition requests from unrelated strings; approved WSL and administration workflows may use identical syntax.",
+    "detection_goal": "Identify the ordered PortProxy context, add operation and supported translation family, including -c context syntax; exclude show, deletion and unrelated firewall-rule text."
   },
-  "ownership": {"owner": "MeteSec Detection Engineering", "reviewers": []},
-  "lifecycle": {"status": "experimental", "created": "2026-09-03", "modified": "2026-09-03", "review_interval_days": 90},
+  "ownership": {
+    "owner": "MeteSec Detection Engineering",
+    "reviewers": []
+  },
+  "lifecycle": {
+    "status": "experimental",
+    "created": "2026-09-03",
+    "modified": "2026-09-11",
+    "review_interval_days": 90
+  },
   "severity": "medium",
   "confidence": "medium",
   "data_sources": [
-    {"name": "Microsoft Defender for Endpoint process events", "category": "Endpoint process creation", "required_fields": ["TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountName", "InitiatingProcessFileName", "FileName", "ProcessVersionInfoOriginalFileName", "FolderPath", "ProcessCommandLine", "ReportId"]}
+    {
+      "name": "Microsoft Defender for Endpoint process events",
+      "category": "Endpoint process creation",
+      "required_fields": [
+        "TimeGenerated",
+        "Timestamp",
+        "DeviceId",
+        "DeviceName",
+        "AccountName",
+        "InitiatingProcessFileName",
+        "FileName",
+        "ProcessVersionInfoOriginalFileName",
+        "FolderPath",
+        "ProcessCommandLine",
+        "ReportId"
+      ]
+    }
   ],
-  "attack": [{"technique_id": "T1090.001", "tactic": "Command and Control"}],
+  "attack": [
+    {
+      "technique_id": "T1090.001",
+      "tactic": "Command and Control"
+    }
+  ],
   "triage": {
     "summary": "Validate the listener, destination and owner before escalation; WSL, connected-cache, development and administrative workflows can intentionally create PortProxy rules.",
     "steps": [
+      "Baseline this signal with the responsible application or endpoint owner; legitimate use is expected, and this event alone is not a compromise verdict.",
+      "Confirm the command's result in follow-on process, file, registry or service telemetry; a process-start event records intent and does not prove successful execution.",
       "Review the complete Netsh command, listen and connect addresses and ports, original filename, parent process, account and endpoint role.",
       "Inspect the active PortProxy configuration and correlate listening sockets, firewall changes, inbound connections and the destination service.",
       "Confirm an approved WSL, cache, development or administration requirement; otherwise remove the forwarding rule safely, contain the endpoint and investigate related network activity."
     ],
-    "false_positives": ["Approved WSL publishing, Microsoft Connected Cache, development testing or administrative TCP forwarding configured through Windows PortProxy"]
+    "false_positives": [
+      "Approved WSL publishing, Microsoft Connected Cache, development testing or administrative TCP forwarding configured through Windows PortProxy"
+    ]
   },
-  "validation": {"expected_outcome": "Match Netsh commands containing the full interface portproxy add sequence; do not match show, deletion, unrelated firewall rules or another executable.", "positive_tests": true, "negative_tests": true},
-  "implementations": [{"type": "sigma", "path": "content/portable/sigma/MSEC-DET-0050/rule.yml", "targets": ["sentinel"], "status": "active"}]
+  "validation": {
+    "expected_outcome": "Match ordered PortProxy add syntax with standard translation families, tabs and -c contexts; reject unrelated marker text, queries and deletion.",
+    "positive_tests": true,
+    "negative_tests": true
+  },
+  "implementations": [
+    {
+      "type": "sigma",
+      "path": "content/portable/sigma/MSEC-DET-0050/rule.yml",
+      "targets": [
+        "sentinel"
+      ],
+      "status": "active"
+    }
+  ],
+  "quality": {
+    "reviewed_on": "2026-09-11",
+    "signal_type": "administrative-activity",
+    "limitations": [
+      "Authorized administration can produce this event. The rule does not independently establish compromise or completion of a command; assess identity, target and change approval.",
+      "Current-revision evidence is synthetic only. Validate full generated KQL, source fields, ingestion delay, alert volume and scoped exclusions in the target before enabling."
+    ],
+    "validation_level": "synthetic-only",
+    "provenance": {
+      "origin": "reviewed-existing",
+      "license": "Apache-2.0",
+      "review": "docs/reviews/existing-0026-0050.md"
+    }
+  }
 }

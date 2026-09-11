@@ -15,7 +15,7 @@
   "lifecycle": {
     "status": "experimental",
     "created": "2026-09-03",
-    "modified": "2026-09-03",
+    "modified": "2026-09-11",
     "review_interval_days": 90
   },
   "severity": "medium",
@@ -24,7 +24,15 @@
     {
       "name": "Microsoft Entra audit logs",
       "category": "Identity directory audit",
-      "required_fields": ["TimeGenerated", "CorrelationId", "InitiatedBy", "LoggedByService", "OperationName", "Result", "TargetResources"]
+      "required_fields": [
+        "TimeGenerated",
+        "CorrelationId",
+        "InitiatedBy",
+        "LoggedByService",
+        "OperationName",
+        "Result",
+        "TargetResources"
+      ]
     }
   ],
   "attack": [
@@ -38,7 +46,8 @@
     "steps": [
       "Review the initiating user or application, added owner, target application or service principal, source IP and correlation identifier.",
       "Confirm the ownership change against an approved application-onboarding, support, migration or responsibility-transfer record.",
-      "Inspect subsequent credential, permission, redirect URI and consent changes; remove the owner and contain involved identities if unauthorized."
+      "Inspect subsequent credential, permission, redirect URI and consent changes; remove the owner and contain involved identities if unauthorized.",
+      "Treat this as change or policy monitoring; correlate with actor risk and an approved change record before opening an incident."
     ],
     "false_positives": [
       "Approved application onboarding, ownership transfer, support delegation and migration performed by authorized administrators"
@@ -53,8 +62,24 @@
     {
       "type": "sigma",
       "path": "content/portable/sigma/MSEC-DET-0015/rule.yml",
-      "targets": ["sentinel"],
+      "targets": [
+        "sentinel"
+      ],
       "status": "active"
     }
-  ]
+  ],
+  "quality": {
+    "reviewed_on": "2026-09-11",
+    "signal_type": "administrative-activity",
+    "limitations": [
+      "Authorized administration can produce this event. The rule does not independently establish compromise or completion of a command; assess identity, target and change approval.",
+      "Current-revision evidence is synthetic only. Validate full generated KQL, source fields, ingestion delay, alert volume and scoped exclusions in the target before enabling."
+    ],
+    "validation_level": "synthetic-only",
+    "provenance": {
+      "origin": "reviewed-existing",
+      "license": "Apache-2.0",
+      "review": "docs/reviews/existing-0001-0025.md"
+    }
+  }
 }

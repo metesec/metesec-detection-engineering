@@ -2,7 +2,7 @@
   "schema_version": 1,
   "id": "MSEC-DET-0026",
   "title": "Successful Microsoft Entra ROPC sign-in",
-  "description": "Detects a successful Microsoft Entra sign-in that used the resource owner password credentials authentication protocol.",
+  "description": "Detects a successful Microsoft Entra ROPC sign-in as a legacy-authentication hygiene signal; protocol use alone does not establish credential compromise.",
   "hypothesis": {
     "summary": "An adversary may use a captured password through the ROPC flow to obtain access without an interactive browser session.",
     "rationale": "Microsoft recommends avoiding ROPC because the application handles the user password and explicitly recommends monitoring successful ROPC sign-ins; authorized test automation or a documented legacy workload can still use the protocol.",
@@ -15,16 +15,23 @@
   "lifecycle": {
     "status": "experimental",
     "created": "2026-09-03",
-    "modified": "2026-09-03",
+    "modified": "2026-09-11",
     "review_interval_days": 90
   },
-  "severity": "medium",
-  "confidence": "high",
+  "severity": "low",
+  "confidence": "low",
   "data_sources": [
     {
       "name": "Microsoft Entra sign-in logs",
       "category": "Identity authentication",
-      "required_fields": ["TimeGenerated", "ResultType", "AuthenticationProtocol", "UserPrincipalName", "IPAddress", "AppDisplayName"]
+      "required_fields": [
+        "TimeGenerated",
+        "ResultType",
+        "AuthenticationProtocol",
+        "UserPrincipalName",
+        "IPAddress",
+        "AppDisplayName"
+      ]
     }
   ],
   "attack": [
@@ -36,6 +43,7 @@
   "triage": {
     "summary": "Confirm that the application and user are explicitly approved for ROPC, then investigate the source and adjacent authentication activity.",
     "steps": [
+      "Baseline this signal with the responsible application or endpoint owner; legitimate use is expected, and this event alone is not a compromise verdict.",
       "Review the account, application, source IP, authentication requirement, Conditional Access result and correlation identifier.",
       "Confirm a documented ROPC dependency and owner; treat unexpected use by privileged accounts or unfamiliar applications as higher priority.",
       "Inspect nearby failures, risk events, token use and account changes; revoke sessions and reset credentials when compromise is suspected."
@@ -53,8 +61,24 @@
     {
       "type": "sigma",
       "path": "content/portable/sigma/MSEC-DET-0026/rule.yml",
-      "targets": ["sentinel"],
+      "targets": [
+        "sentinel"
+      ],
       "status": "active"
     }
-  ]
+  ],
+  "quality": {
+    "reviewed_on": "2026-09-11",
+    "signal_type": "administrative-activity",
+    "limitations": [
+      "Authorized administration can produce this event. The rule does not independently establish compromise or completion of a command; assess identity, target and change approval.",
+      "Current-revision evidence is synthetic only. Validate full generated KQL, source fields, ingestion delay, alert volume and scoped exclusions in the target before enabling."
+    ],
+    "validation_level": "synthetic-only",
+    "provenance": {
+      "origin": "reviewed-existing",
+      "license": "Apache-2.0",
+      "review": "docs/reviews/existing-0026-0050.md"
+    }
+  }
 }

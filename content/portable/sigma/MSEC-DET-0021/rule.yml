@@ -1,14 +1,17 @@
 title: Highly Privileged Delegated Permission Granted for All Users
 id: 41911f14-7dce-4ce6-a12e-ebabc02a40ac
 status: experimental
-description: Detects a successful Microsoft Entra delegated grant for all users containing RoleManagement.ReadWrite.Directory.
+metesec_normalization: entra-delegated-grant-v1
+description: Detects a successful Microsoft Entra delegated grant for all users containing the exact RoleManagement.ReadWrite.Directory scope. Requires structurally normalized newValue fields from the same ServicePrincipal target resource.
 references:
   - https://learn.microsoft.com/en-us/entra/architecture/security-operations-applications
   - https://learn.microsoft.com/en-us/entra/identity/monitoring-health/reference-audit-activities
   - https://github.com/Azure/Azure-Sentinel/blob/master/Solutions/Microsoft%20Entra%20ID/Analytic%20Rules/AzureADRoleManagementPermissionGrant.yaml
   - https://attack.mitre.org/techniques/T1098/003/
 author: MeteSec Detection Engineering
+license: Apache-2.0
 date: 2026-09-03
+modified: 2026-09-11
 tags:
   - attack.persistence
   - attack.privilege-escalation
@@ -21,9 +24,9 @@ detection:
     OperationName: Add delegated permission grant
     Result: success
   privileged_scope:
-    TargetResources|contains: RoleManagement.ReadWrite.Directory
+    MsecDelegatedPermissionScope|re: '(?i)(^|\s)RoleManagement\.ReadWrite\.Directory(\s|$)'
   tenant_wide:
-    TargetResources|contains: AllPrincipals
+    MsecConsentType: AllPrincipals
   condition: operation and privileged_scope and tenant_wide
 fields:
   - TimeGenerated

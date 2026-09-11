@@ -1,0 +1,3 @@
+AWSCloudTrail
+| where EventSource =~ "cloudtrail.amazonaws.com" and (EventName in~ ("StopLogging", "DeleteTrail")) and EventTypeName =~ "AwsApiCall" and ManagementEvent =~ true and ReadOnly =~ false and ErrorCode =~ "" and ErrorMessage =~ ""
+| project TimeGenerated, EventSource, EventName, EventTypeName, ManagementEvent, ReadOnly, ErrorCode, ErrorMessage, AWSRegion, SourceIpAddress, UserIdentityType, UserIdentityArn, RecipientAccountId, AwsEventId

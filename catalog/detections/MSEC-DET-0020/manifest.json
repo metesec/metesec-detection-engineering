@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
   "id": "MSEC-DET-0020",
-  "title": "Certutil requests remote content through URL cache",
-  "description": "Detects certutil command lines that combine a remote URL with URL-cache or split options commonly used to retrieve content. Legitimate certificate administration can use the same utility.",
+  "title": "Certutil forces retrieval of remote URL cache content",
+  "description": "Detects certutil command lines combining a remote URL, a URL-cache command and the force-fetch switch. Cache display or deletion and a split option alone are outside the download-attempt claim.",
   "hypothesis": {
     "summary": "An adversary may abuse certutil to transfer a payload or supporting content to a Windows endpoint.",
     "rationale": "Microsoft documents certutil URL-cache functionality and MITRE records adversary use of certutil for ingress tool transfer; PKI and support workflows may also fetch remote certificate material.",
-    "detection_goal": "Identify certutil commands that combine HTTP, HTTPS or FTP URLs with URL-cache or split switches while leaving local certificate inspection and URL commands without the selected transfer switches unmatched."
+    "detection_goal": "Identify explicit forced URL-cache fetch attempts while excluding ordinary cache inspection, deletion, local operations and split-only commands."
   },
   "ownership": {
     "owner": "MeteSec Detection Engineering",
@@ -15,7 +15,7 @@
   "lifecycle": {
     "status": "experimental",
     "created": "2026-09-03",
-    "modified": "2026-09-03",
+    "modified": "2026-09-11",
     "review_interval_days": 90
   },
   "severity": "medium",
@@ -24,7 +24,18 @@
     {
       "name": "Microsoft Defender for Endpoint process events",
       "category": "Endpoint process creation",
-      "required_fields": ["TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountName", "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"]
+      "required_fields": [
+        "TimeGenerated",
+        "Timestamp",
+        "DeviceId",
+        "DeviceName",
+        "AccountName",
+        "InitiatingProcessFileName",
+        "FileName",
+        "FolderPath",
+        "ProcessCommandLine",
+        "ReportId"
+      ]
     }
   ],
   "attack": [
@@ -45,7 +56,7 @@
     ]
   },
   "validation": {
-    "expected_outcome": "Match certutil with a selected transfer switch and remote URL; do not match local certificate inspection, unrelated processes or remote URLs without those switches.",
+    "expected_outcome": "Match certutil URL-cache operations with a remote URL and force-fetch switch; reject cache deletion, cache inspection without force and split-only commands.",
     "positive_tests": true,
     "negative_tests": true
   },
@@ -53,8 +64,24 @@
     {
       "type": "sigma",
       "path": "content/portable/sigma/MSEC-DET-0020/rule.yml",
-      "targets": ["sentinel"],
+      "targets": [
+        "sentinel"
+      ],
       "status": "active"
     }
-  ]
+  ],
+  "quality": {
+    "reviewed_on": "2026-09-11",
+    "signal_type": "behavior",
+    "limitations": [
+      "This single-event signal does not establish malicious intent or successful execution. Renamed binaries, alternate tools, obfuscation and unlogged activity can evade the bounded predicates.",
+      "Current-revision evidence is synthetic only. Validate full generated KQL, source fields, ingestion delay, alert volume and scoped exclusions in the target before enabling."
+    ],
+    "validation_level": "synthetic-only",
+    "provenance": {
+      "origin": "reviewed-existing",
+      "license": "Apache-2.0",
+      "review": "docs/reviews/existing-0001-0025.md"
+    }
+  }
 }

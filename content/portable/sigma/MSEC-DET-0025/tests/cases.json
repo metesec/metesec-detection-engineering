@@ -3,12 +3,14 @@
   "detection_id": "MSEC-DET-0025",
   "implementation": "content/portable/sigma/MSEC-DET-0025/rule.yml",
   "cases": [
-    {"id": "direct-http-transfer", "expectation": "match", "fixture": "fixtures/direct-http-transfer.json", "description": "Synthetic BITSAdmin direct transfer uses an HTTP resource."},
-    {"id": "direct-https-upload", "expectation": "match", "fixture": "fixtures/direct-https-upload.json", "description": "Synthetic BITSAdmin upload uses an HTTPS resource."},
-    {"id": "create-addfile-with-context", "expectation": "match", "fixture": "fixtures/create-addfile-with-context.json", "description": "Synthetic staged BITS job includes create, addfile and bounded endpoint context."},
-    {"id": "list-jobs", "expectation": "no_match", "fixture": "fixtures/list-jobs.json", "description": "Synthetic BITS job enumeration is outside the rule."},
-    {"id": "create-without-addfile", "expectation": "no_match", "fixture": "fixtures/create-without-addfile.json", "description": "Synthetic incomplete staged job lacks addfile."},
-    {"id": "transfer-without-remote-resource", "expectation": "no_match", "fixture": "fixtures/transfer-without-remote-resource.json", "description": "Synthetic transfer without HTTP or HTTPS is outside the rule."},
-    {"id": "other-process", "expectation": "no_match", "fixture": "fixtures/other-process.json", "description": "Synthetic unrelated process with matching command words does not match."}
+    {"id":"direct-http-transfer","expectation":"match","fixture":"fixtures/direct-http-transfer.json","description":"Synthetic BITSAdmin direct transfer uses an HTTP resource."},
+    {"id":"direct-https-upload","expectation":"match","fixture":"fixtures/direct-https-upload.json","description":"Synthetic BITSAdmin upload uses an HTTPS resource."},
+    {"id":"addfile-with-context","expectation":"match","fixture":"fixtures/addfile-with-context.json","description":"Synthetic standalone addfile command configures an existing BITS job."},
+    {"id":"list-jobs","expectation":"no_match","fixture":"fixtures/list-jobs.json","description":"Synthetic BITS job enumeration is outside the rule."},
+    {"id":"create-without-addfile","expectation":"no_match","fixture":"fixtures/create-without-addfile.json","description":"Synthetic incomplete staged job lacks addfile."},
+    {"id":"transfer-without-remote-resource","expectation":"no_match","fixture":"fixtures/transfer-without-remote-resource.json","description":"Synthetic transfer without HTTP or HTTPS is outside the rule."},
+    {"id":"other-process","expectation":"no_match","fixture":"fixtures/other-process.json","description":"Synthetic unrelated process with matching command words does not match."},
+    {"id":"standalone-addfile","expectation":"match","fixture":"fixtures/standalone-addfile.json","description":"Synthetic regression: addfile is its own process invocation, not part of create."},
+    {"id":"similar-transfer-switch","expectation":"no_match","fixture":"fixtures/similar-transfer-switch.json","description":"Synthetic regression: an action-name prefix is not transfer."}
   ]
 }

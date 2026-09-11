@@ -16,12 +16,14 @@ from sigma.conditions import (
     SigmaCondition,
 )
 from sigma.rule import SigmaRule
-from sigma.types import SigmaNumber, SigmaString
+from sigma.types import SigmaBool, SigmaNumber, SigmaRegularExpression, SigmaString
 
 try:
     from .sigma_validation import parse_sigma_collection
+    from .event_normalization import normalize_event
 except ImportError:  # Support direct execution from the scripts directory.
     from sigma_validation import parse_sigma_collection
+    from event_normalization import normalize_event
 
 
 class LocalEvaluationError(ValueError):
@@ -30,6 +32,57 @@ class LocalEvaluationError(ValueError):
 
 class UnsupportedSigmaFeature(LocalEvaluationError):
     """Raised instead of guessing at Sigma behavior outside the supported subset."""
+
+
+def _validate_portable_regex(pattern: str) -> None:
+    """Reject Python-only constructs without interpreting escaped path literals.
+
+    This is a lexical guard for the supported subset, not a Kusto regex parser.
+    Consume escape pairs and character classes before looking for operators so
+    Windows separators, escaped braces and literal punctuation stay literals.
+    """
+    index = 0
+    in_class = False
+    class_has_item = False
+    class_may_negate = False
+    while index < len(pattern):
+        char = pattern[index]
+        if char == "\\":
+            if index + 1 < len(pattern):
+                escaped = pattern[index + 1]
+                if not in_class and (
+                    escaped in "123456789Z"
+                    or (escaped == "k" and pattern[index + 2:index + 3] in ("<", "'"))
+                ):
+                    raise UnsupportedSigmaFeature("regex escape/backreference is outside the portable subset")
+                class_has_item = class_has_item or in_class
+                class_may_negate = False
+            index += 2
+            continue
+        if in_class:
+            if char == "^" and class_may_negate:
+                class_may_negate = False
+            elif char == "]" and class_has_item:
+                in_class = False
+            else:
+                class_has_item = True
+                class_may_negate = False
+            index += 1
+            continue
+        if char == "[":
+            in_class, class_has_item = True, False
+            class_may_negate = True
+        elif pattern.startswith("(?", index):
+            suffix = pattern[index + 2:]
+            if suffix.startswith(("=", "!", "<=", "<!", "P", "(", ">")):
+                raise UnsupportedSigmaFeature("regex group/lookaround is outside the portable subset")
+        elif char in "*+?" and pattern[index + 1:index + 2] == "+":
+            raise UnsupportedSigmaFeature("possessive regex repetition is outside the portable subset")
+        elif char == "{":
+            repetition = re.match(r"\{[0-9]+(?:,[0-9]*)?\}", pattern[index:])
+            if repetition and pattern[index + len(repetition[0]):index + len(repetition[0]) + 1] == "+":
+                raise UnsupportedSigmaFeature("possessive regex repetition is outside the portable subset")
+        index += 1
 
 
 @dataclass(frozen=True)
@@ -61,10 +114,12 @@ def _validate_condition_node(node: Any) -> None:
     if isinstance(node, ConditionFieldEqualsValueExpression):
         if not node.field:
             raise UnsupportedSigmaFeature("fieldless expressions are not supported")
-        if not isinstance(node.value, (SigmaString, SigmaNumber)):
+        if not isinstance(node.value, (SigmaString, SigmaNumber, SigmaBool, SigmaRegularExpression)):
             raise UnsupportedSigmaFeature(
                 f"field {node.field} uses unsupported value type {type(node.value).__name__}"
             )
+        if isinstance(node.value, SigmaRegularExpression):
+            _validate_portable_regex(str(node.value.regexp))
         return
 
     raise UnsupportedSigmaFeature(
@@ -86,7 +141,18 @@ def _condition_tree(rule: SigmaRule) -> Any:
     return condition
 
 
-def _match_sigma_value(expected: SigmaString | SigmaNumber, actual: Any) -> bool:
+def _match_sigma_value(expected: Any, actual: Any) -> bool:
+    if isinstance(expected, SigmaBool):
+        return isinstance(actual, bool) and actual is expected.boolean
+
+    if isinstance(expected, SigmaRegularExpression):
+        if not isinstance(actual, str):
+            return False
+        flags = re.NOFLAG
+        for flag in expected.flags:
+            flags |= expected.sigma_to_python_flags[flag]
+        return re.search(str(expected.regexp), actual, flags=flags) is not None
+
     if isinstance(expected, SigmaString):
         if not isinstance(actual, str):
             return False
@@ -142,7 +208,8 @@ def load_single_rule(rule_path: Path) -> SigmaRule:
 def evaluate_rule(rule: SigmaRule, event: dict[str, Any]) -> bool:
     """Evaluate one flat synthetic event against the supported Sigma subset."""
 
-    return _evaluate_condition(_condition_tree(rule), event)
+    condition = _condition_tree(rule)
+    return any(_evaluate_condition(condition, row) for row in normalize_event(rule, event))
 
 
 def _read_json(path: Path) -> Any:

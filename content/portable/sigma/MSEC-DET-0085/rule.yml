@@ -1,0 +1,45 @@
+# Modified 2026-09-11 by MeteSec Detection Engineering.
+# Adapted from MeteSec Hardened 23 (Apache-2.0): raw source fields,
+# bounded predicates and repository-local synthetic evidence replace normalization.
+title: "Netsh helper DLL registered from a staging or remote path"
+id: "0de4779f-cbfb-5ce4-9787-6e3e579cfd48"
+status: "experimental"
+description: "Detects a machine registry DLL registration whose complete value names a DLL in selected profile, temporary, environment-variable or UNC locations."
+references:
+  - "https://attack.mitre.org/techniques/T1546/007/"
+  - "https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceregistryevents-table"
+  - "https://learn.microsoft.com/en-us/windows-server/networking/technologies/netsh/netsh"
+author: "MeteSec (AI-assisted implementation; human review pending)"
+date: "2026-09-11"
+modified: 2026-09-11
+license: "Apache-2.0"
+tags:
+  - "attack.persistence"
+  - "attack.t1546.007"
+logsource:
+  product: "windows"
+  category: "registry_event"
+detection:
+  selection:
+    ActionType: "RegistryValueSet"
+    RegistryKey|re: "(?i)^HKEY_LOCAL_MACHINE\\\\SOFTWARE\\\\(?:WOW6432Node\\\\)?Microsoft\\\\NetSh$"
+    RegistryValueData|re: "(?i)^(?:\"(?:[a-z]:\\\\(?:users\\\\|windows\\\\temp\\\\|temp\\\\|perflogs\\\\|\\$recycle\\.bin\\\\)|%(?:temp|tmp|appdata|localappdata|userprofile)%\\\\|\\\\\\\\[a-z0-9_-][^\\\\/:*?\"<>|\\r\\n]*\\\\[^\\\\/:*?\"<>|\\r\\n]+\\\\)[^\"\\r\\n]*\\.dll\"|(?:[a-z]:\\\\(?:users\\\\|windows\\\\temp\\\\|temp\\\\|perflogs\\\\|\\$recycle\\.bin\\\\)|%(?:temp|tmp|appdata|localappdata|userprofile)%\\\\|\\\\\\\\[a-z0-9_-][^\\\\/:*?\"<>|\\r\\n]*\\\\[^\\\\/:*?\"<>|\\r\\n]+\\\\)[^\"\\r\\n]*\\.dll)$"
+  condition: "selection"
+fields:
+  - "TimeGenerated"
+  - "Timestamp"
+  - "DeviceId"
+  - "DeviceName"
+  - "ActionType"
+  - "InitiatingProcessAccountDomain"
+  - "InitiatingProcessAccountName"
+  - "InitiatingProcessAccountSid"
+  - "InitiatingProcessFileName"
+  - "InitiatingProcessCommandLine"
+  - "RegistryKey"
+  - "RegistryValueName"
+  - "RegistryValueData"
+  - "ReportId"
+falsepositives:
+  - "Authorized vendor networking, diagnostic or compatibility software registering a helper from a nonstandard path."
+level: "high"

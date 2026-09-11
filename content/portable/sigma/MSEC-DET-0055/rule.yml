@@ -1,0 +1,55 @@
+# Modified 2026-09-11 by MeteSec Detection Engineering.
+# Adapted from MeteSec Hardened 23 (Apache-2.0): raw source fields,
+# bounded predicates and repository-local synthetic evidence replace normalization.
+title: "SilentProcessExit monitor configured with an interpreter or staging path"
+id: "884f0d06-9369-4459-a143-beca2637b0d6"
+status: "experimental"
+description: "Detects a machine-wide SilentProcessExit MonitorProcess value whose command starts with a selected interpreter or a rooted staging path."
+references:
+  - "https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/registry-entries-for-silent-process-exit"
+  - "https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/monitoring-silent-process-exit"
+  - "https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceregistryevents-table"
+  - "https://attack.mitre.org/techniques/T1546/012/"
+  - "https://raw.githubusercontent.com/SigmaHQ/sigma/master/rules/windows/registry/registry_set/registry_set_persistence_globalflags.yml"
+author: "MeteSec (AI-assisted implementation; human review pending)"
+date: "2026-09-11"
+modified: 2026-09-11
+license: "Apache-2.0"
+tags:
+  - "attack.persistence"
+  - "attack.t1546.012"
+logsource:
+  product: "windows"
+  category: "registry_event"
+detection:
+  selection:
+    ActionType: "RegistryValueSet"
+    RegistryKey|re: "(?i)^HKEY_LOCAL_MACHINE\\\\SOFTWARE\\\\(?:WOW6432Node\\\\)?Microsoft\\\\Windows NT\\\\CurrentVersion\\\\SilentProcessExit\\\\[^\\\\]+$"
+    RegistryValueName: "MonitorProcess"
+  interpreter:
+    RegistryValueData|re: "(?i)^\\s*(?:\"(?:[^\"\\r\\n]*\\\\)?(?:cmd|powershell|pwsh|mshta|rundll32|regsvr32|wscript|cscript)\\.exe\"|(?:[^\\s\"\\r\\n]*\\\\)?(?:cmd|powershell|pwsh|mshta|rundll32|regsvr32|wscript|cscript)\\.exe)(?:\\s|$)"
+  staging:
+    RegistryValueData|re: "(?i)^\\s*\"?(?:[a-z]:\\\\(?:users\\\\|windows\\\\temp\\\\|temp\\\\|perflogs\\\\|\\$recycle\\.bin\\\\)|%(?:temp|tmp|appdata|localappdata|userprofile)%\\\\|\\\\\\\\[a-z0-9_-][^\\\\/:*?\"<>|\\r\\n]*\\\\[^\\\\/:*?\"<>|\\r\\n]+\\\\)"
+  condition: "selection and (interpreter or staging)"
+fields:
+  - "TimeGenerated"
+  - "Timestamp"
+  - "DeviceId"
+  - "DeviceName"
+  - "ActionType"
+  - "InitiatingProcessAccountDomain"
+  - "InitiatingProcessAccountName"
+  - "InitiatingProcessAccountSid"
+  - "InitiatingProcessFileName"
+  - "InitiatingProcessCommandLine"
+  - "RegistryKey"
+  - "RegistryValueName"
+  - "RegistryValueData"
+  - "ReportId"
+falsepositives:
+  - "Authorized crash diagnostics, debugging or compatibility tooling using a selected interpreter or staging path."
+level: "high"
+related:
+  -
+    id: "36803969-5421-41ec-b92f-8500f79c23b0"
+    type: "similar"

@@ -8,21 +8,77 @@
     "rationale": "A permanent role assignment bypasses just-in-time activation controls, but emergency access, migration, and approved administration can produce the same audit operation.",
     "detection_goal": "Identify successful permanent role assignments outside PIM while leaving failures, eligible assignments, removals, and incomplete events unmatched."
   },
-  "ownership": {"owner": "MeteSec Detection Engineering", "reviewers": []},
-  "lifecycle": {"status": "experimental", "created": "2026-09-03", "modified": "2026-09-03", "review_interval_days": 90},
-  "severity": "high",
-  "confidence": "medium",
-  "data_sources": [{"name":"Microsoft Entra audit logs","category":"Identity directory audit","required_fields":["TimeGenerated","OperationName","Result","InitiatedBy","TargetResources","CorrelationId"]}],
-  "attack": [{"technique_id":"T1098.003","tactic":"Privilege Escalation"}],
+  "ownership": {
+    "owner": "MeteSec Detection Engineering",
+    "reviewers": []
+  },
+  "lifecycle": {
+    "status": "experimental",
+    "created": "2026-09-03",
+    "modified": "2026-09-11",
+    "review_interval_days": 90
+  },
+  "severity": "medium",
+  "confidence": "low",
+  "data_sources": [
+    {
+      "name": "Microsoft Entra audit logs",
+      "category": "Identity directory audit",
+      "required_fields": [
+        "TimeGenerated",
+        "OperationName",
+        "Result",
+        "InitiatedBy",
+        "TargetResources",
+        "CorrelationId"
+      ]
+    }
+  ],
+  "attack": [
+    {
+      "technique_id": "T1098.003",
+      "tactic": "Privilege Escalation"
+    }
+  ],
   "triage": {
     "summary": "Validate the initiator, assigned principal, role, assignment scope, and change authorization before treating the permanent assignment as malicious.",
     "steps": [
       "Identify the initiating identity, target principal, assigned role, directory scope, and assignment timestamp from the audit record.",
       "Confirm whether an approved emergency-access, migration, or administrative change required a permanent assignment outside PIM.",
-      "Review adjacent role and credential changes, then remove unauthorized access and investigate the initiating identity."
+      "Review adjacent role and credential changes, then remove unauthorized access and investigate the initiating identity.",
+      "Treat this as change or policy monitoring; correlate with actor risk and an approved change record before opening an incident."
     ],
-    "false_positives": ["Approved emergency-access accounts, migrations, break-glass procedures, and administrative changes"]
+    "false_positives": [
+      "Approved emergency-access accounts, migrations, break-glass procedures, and administrative changes"
+    ]
   },
-  "validation": {"expected_outcome":"Match only successful permanent role assignments outside PIM; do not match failures, eligible assignments, removals, or missing results.","positive_tests":true,"negative_tests":true},
-  "implementations": [{"type":"sigma","path":"content/portable/sigma/MSEC-DET-0008/rule.yml","targets":["sentinel"],"status":"active"}]
+  "validation": {
+    "expected_outcome": "Match only successful permanent role assignments outside PIM; do not match failures, eligible assignments, removals, or missing results.",
+    "positive_tests": true,
+    "negative_tests": true
+  },
+  "implementations": [
+    {
+      "type": "sigma",
+      "path": "content/portable/sigma/MSEC-DET-0008/rule.yml",
+      "targets": [
+        "sentinel"
+      ],
+      "status": "active"
+    }
+  ],
+  "quality": {
+    "reviewed_on": "2026-09-11",
+    "signal_type": "administrative-activity",
+    "limitations": [
+      "Authorized administration can produce this event. The rule does not independently establish compromise or completion of a command; assess identity, target and change approval.",
+      "Current-revision evidence is synthetic only. Validate full generated KQL, source fields, ingestion delay, alert volume and scoped exclusions in the target before enabling."
+    ],
+    "validation_level": "synthetic-only",
+    "provenance": {
+      "origin": "reviewed-existing",
+      "license": "Apache-2.0",
+      "review": "docs/reviews/existing-0001-0025.md"
+    }
+  }
 }

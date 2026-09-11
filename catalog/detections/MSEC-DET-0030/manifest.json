@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "id": "MSEC-DET-0030",
-  "title": "NTDSutil creates Active Directory installation media",
-  "description": "Detects ntdsutil.exe commands that activate the NTDS instance and create installation media through IFM.",
+  "title": "NTDSutil installation-media creation command",
+  "description": "Detects an NTDSutil command requesting Active Directory installation media through IFM after explicit NTDS instance activation. The process event does not confirm a database copy was produced.",
   "hypothesis": {
     "summary": "An adversary may use NTDSutil IFM to create a copy of the Active Directory database for offline credential extraction.",
     "rationale": "MITRE records ntdsutil.exe as a method for copying NTDS.dit, Microsoft documents IFM as an elevated installation-media function and SigmaHQ detects the same command family; legitimate domain-controller provisioning remains possible.",
@@ -15,7 +15,7 @@
   "lifecycle": {
     "status": "experimental",
     "created": "2026-09-03",
-    "modified": "2026-09-03",
+    "modified": "2026-09-11",
     "review_interval_days": 90
   },
   "severity": "high",
@@ -24,15 +24,30 @@
     {
       "name": "Microsoft Defender for Endpoint process events",
       "category": "Endpoint process creation",
-      "required_fields": ["TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountName", "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"]
+      "required_fields": [
+        "TimeGenerated",
+        "Timestamp",
+        "DeviceId",
+        "DeviceName",
+        "AccountName",
+        "InitiatingProcessFileName",
+        "FileName",
+        "FolderPath",
+        "ProcessCommandLine",
+        "ReportId"
+      ]
     }
   ],
   "attack": [
-    {"technique_id": "T1003.003", "tactic": "Credential Access"}
+    {
+      "technique_id": "T1003.003",
+      "tactic": "Credential Access"
+    }
   ],
   "triage": {
     "summary": "Treat the event as domain-controller-sensitive, identify the output path and verify that an approved IFM operation explains it.",
     "steps": [
+      "Confirm the command's result in follow-on process, file, registry or service telemetry; a process-start event records intent and does not prove successful execution.",
       "Review the command line, device role, account, initiating process and installation-media destination.",
       "Confirm a documented domain-controller deployment or recovery change with the responsible directory-services owner.",
       "Inspect access to the output, subsequent archive or transfer activity and related credential access; contain the host and rotate exposed credentials when unauthorized."
@@ -50,8 +65,24 @@
     {
       "type": "sigma",
       "path": "content/portable/sigma/MSEC-DET-0030/rule.yml",
-      "targets": ["sentinel"],
+      "targets": [
+        "sentinel"
+      ],
       "status": "active"
     }
-  ]
+  ],
+  "quality": {
+    "reviewed_on": "2026-09-11",
+    "signal_type": "behavior",
+    "limitations": [
+      "This single-event signal does not establish malicious intent or successful execution. Renamed binaries, alternate tools, obfuscation and unlogged activity can evade the bounded predicates.",
+      "Current-revision evidence is synthetic only. Validate full generated KQL, source fields, ingestion delay, alert volume and scoped exclusions in the target before enabling."
+    ],
+    "validation_level": "synthetic-only",
+    "provenance": {
+      "origin": "reviewed-existing",
+      "license": "Apache-2.0",
+      "review": "docs/reviews/existing-0026-0050.md"
+    }
+  }
 }

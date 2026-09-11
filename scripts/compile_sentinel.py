@@ -61,7 +61,9 @@ def main() -> int:
         )
         return 0
 
-    output_root = REPO_ROOT / "dist" / "sentinel"
+    # Do not overwrite a rendered scheduled query beside its hash-bound
+    # rule body: hunting and scheduled artifacts have different time semantics.
+    output_root = REPO_ROOT / "dist" / "sentinel-preview"
     for item in compiled:
         output_path = output_root / item.detection_id / "query.kql"
         output_path.parent.mkdir(parents=True, exist_ok=True)

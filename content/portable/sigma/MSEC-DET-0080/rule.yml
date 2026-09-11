@@ -1,0 +1,47 @@
+# Modified 2026-09-11 by MeteSec Detection Engineering.
+# Adapted from MeteSec Hardened 23 (Apache-2.0): raw source fields,
+# bounded predicates and repository-local synthetic evidence replace normalization.
+title: "Office 16 Trusted Location configured in a high-risk directory"
+id: "16487ce5-4dc6-5bea-9c81-3d2d072dc19a"
+status: "experimental"
+description: "Detects Office 16 per-user or user-policy Trusted Location paths directed to a drive root, selected download/temporary directories, profile variables or a UNC share."
+references:
+  - "https://learn.microsoft.com/en-us/microsoft-365-apps/security/trusted-locations"
+  - "https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceregistryevents-table"
+  - "https://attack.mitre.org/techniques/T1112/"
+  - "https://attack.mitre.org/techniques/T1553/"
+author: "MeteSec (AI-assisted implementation; human review pending)"
+date: "2026-09-11"
+modified: 2026-09-11
+license: "Apache-2.0"
+tags:
+  - "attack.defense-evasion"
+  - "attack.t1553"
+logsource:
+  product: "windows"
+  category: "registry_event"
+detection:
+  selection:
+    ActionType: "RegistryValueSet"
+    RegistryValueName: "Path"
+    RegistryKey|re: "(?i)^(?:HKEY_CURRENT_USER|HKEY_USERS\\\\S-1-5-[0-9-]+)\\\\SOFTWARE\\\\(?:Policies\\\\)?Microsoft\\\\Office\\\\16\\.0\\\\(?:Word|Excel|PowerPoint|Access|Visio|Project|Common)\\\\Security\\\\Trusted Locations\\\\Location[0-9]+$"
+    RegistryValueData|re: "(?i)^(?:[a-z]:\\\\$|[a-z]:\\\\(?:users\\\\public(?:\\\\|$)|users\\\\[^\\\\]+\\\\(?:downloads|desktop|appdata\\\\local\\\\temp)(?:\\\\|$)|windows\\\\temp(?:\\\\|$)|temp(?:\\\\|$)|\\$recycle\\.bin(?:\\\\|$))|\\\\\\\\[a-z0-9_-][^\\\\/:*?\"<>|\\r\\n]*\\\\[^\\\\/:*?\"<>|\\r\\n]+(?:\\\\|$)|%(?:temp|tmp|appdata|localappdata|userprofile)%(?:\\\\|$))"
+  condition: "selection"
+fields:
+  - "TimeGenerated"
+  - "Timestamp"
+  - "DeviceId"
+  - "DeviceName"
+  - "ActionType"
+  - "InitiatingProcessAccountDomain"
+  - "InitiatingProcessAccountName"
+  - "InitiatingProcessAccountSid"
+  - "InitiatingProcessFileName"
+  - "InitiatingProcessCommandLine"
+  - "RegistryKey"
+  - "RegistryValueName"
+  - "RegistryValueData"
+  - "ReportId"
+falsepositives:
+  - "Approved managed templates, training environments or user workflows intentionally trusting a selected directory."
+level: "medium"

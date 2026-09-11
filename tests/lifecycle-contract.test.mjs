@@ -9,12 +9,20 @@ import Ajv2020 from "ajv/dist/2020.js";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
 test("machine lifecycle assessment satisfies its versioned schema", () => {
+  const manifests = fs.readdirSync(path.join(root, "catalog/detections")).sort()
+    .map((id) => JSON.parse(fs.readFileSync(path.join(root, "catalog/detections", id, "manifest.json"), "utf8")));
+  const asOf = manifests.map((m) => m.lifecycle.modified).sort().at(-1);
+  const nextDue = manifests.map((m) => {
+    const due = new Date(`${m.lifecycle.modified}T00:00:00Z`);
+    due.setUTCDate(due.getUTCDate() + m.lifecycle.review_interval_days);
+    return due.toISOString().slice(0, 10);
+  }).sort()[0];
   const result = spawnSync(
     "python",
     [
       "scripts/check_detection_lifecycle.py",
       "--as-of",
-      "2026-09-03",
+      asOf,
       "--baseline",
       "catalog/index.json",
       "--json",
@@ -33,5 +41,5 @@ test("machine lifecycle assessment satisfies its versioned schema", () => {
   const validate = new Ajv2020({ allErrors: true, strict: true }).compile(schema);
   assert.equal(validate(assessment), true, JSON.stringify(validate.errors));
   assert.equal(assessment.baseline_checked, true);
-  assert.equal(assessment.summary.next_review_due, "2026-12-02");
+  assert.equal(assessment.summary.next_review_due, nextDue);
 });

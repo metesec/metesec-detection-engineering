@@ -1,14 +1,16 @@
-title: Certutil Decodes Base64 or Hexadecimal Content
+title: Certutil file decode command
 id: 64fa5e5e-575e-4da9-a0b1-9a32917c3462
 status: experimental
-description: Detects certutil.exe using decode or decodehex to transform encoded file content.
+description: Detects Certutil commands requesting Base64 or hexadecimal file decoding; approved certificate and support workflows can produce the same behavior.
 references:
   - https://attack.mitre.org/techniques/T1140/
   - https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/certutil
   - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_certutil_decode.yml
   - https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table
 author: MeteSec Detection Engineering
+license: Apache-2.0
 date: 2026-09-03
+modified: 2026-09-11
 tags:
   - attack.stealth
   - attack.t1140
@@ -18,13 +20,11 @@ logsource:
 detection:
   selection_image:
     FileName: certutil.exe
+  selection_original:
+    ProcessVersionInfoOriginalFileName: certutil.exe
   selection_decode:
-    ProcessCommandLine|contains:
-      - '-decode '
-      - '/decode '
-      - '-decodehex '
-      - '/decodehex '
-  condition: selection_image and selection_decode
+    ProcessCommandLine|re|i: '(?:^|\s)[/-]decode(?:hex)?\s+\S+'
+  condition: (selection_image or selection_original) and selection_decode
 fields:
   - TimeGenerated
   - Timestamp
@@ -33,6 +33,7 @@ fields:
   - AccountName
   - InitiatingProcessFileName
   - FileName
+  - ProcessVersionInfoOriginalFileName
   - FolderPath
   - ProcessCommandLine
   - ReportId

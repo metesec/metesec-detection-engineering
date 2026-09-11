@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"ActionType":"RegistryValueSet","RegistryKey":"HKEY_CURRENT_USER\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\AppCertDlls","RegistryValueName":"ExampleHelper","RegistryValueData":"C:\\Users\\Public\\example.dll"}}

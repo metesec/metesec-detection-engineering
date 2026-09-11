@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "detection_id": "MSEC-DET-0055",
+  "implementation": "content/portable/sigma/MSEC-DET-0055/rule.yml",
+  "cases": [
+    {
+      "id": "bounded-positive",
+      "expectation": "match",
+      "fixture": "fixtures/bounded-positive.json",
+      "description": "Synthetic complete event matches the stated bounded predicate."
+    },
+    {
+      "id": "staging-executable",
+      "expectation": "match",
+      "fixture": "fixtures/staging-executable.json",
+      "description": "Synthetic positive variant: staging executable."
+    },
+    {
+      "id": "wow64-key",
+      "expectation": "match",
+      "fixture": "fixtures/wow64-key.json",
+      "description": "Synthetic positive variant: wow64 key."
+    },
+    {
+      "id": "wrong-action",
+      "expectation": "no_match",
+      "fixture": "fixtures/wrong-action.json",
+      "description": "Synthetic one-field boundary: wrong action."
+    },
+    {
+      "id": "user-hive",
+      "expectation": "no_match",
+      "fixture": "fixtures/user-hive.json",
+      "description": "Synthetic one-field boundary: user hive."
+    },
+    {
+      "id": "wrong-value",
+      "expectation": "no_match",
+      "fixture": "fixtures/wrong-value.json",
+      "description": "Synthetic one-field boundary: wrong value."
+    },
+    {
+      "id": "argument-only-tool-name",
+      "expectation": "no_match",
+      "fixture": "fixtures/argument-only-tool-name.json",
+      "description": "Synthetic one-field boundary: argument only tool name."
+    },
+    {
+      "id": "tool-suffix-lookalike",
+      "expectation": "no_match",
+      "fixture": "fixtures/tool-suffix-lookalike.json",
+      "description": "Synthetic one-field boundary: tool suffix lookalike."
+    },
+    {
+      "id": "extra-subkey",
+      "expectation": "no_match",
+      "fixture": "fixtures/extra-subkey.json",
+      "description": "Synthetic one-field boundary: extra subkey."
+    },
+    {
+      "id": "missing-actiontype",
+      "expectation": "no_match",
+      "fixture": "fixtures/missing-actiontype.json",
+      "description": "Synthetic event is missing required predicate field ActionType."
+    },
+    {
+      "id": "missing-registrykey",
+      "expectation": "no_match",
+      "fixture": "fixtures/missing-registrykey.json",
+      "description": "Synthetic event is missing required predicate field RegistryKey."
+    },
+    {
+      "id": "missing-registryvaluename",
+      "expectation": "no_match",
+      "fixture": "fixtures/missing-registryvaluename.json",
+      "description": "Synthetic event is missing required predicate field RegistryValueName."
+    },
+    {
+      "id": "missing-registryvaluedata",
+      "expectation": "no_match",
+      "fixture": "fixtures/missing-registryvaluedata.json",
+      "description": "Synthetic event is missing required predicate field RegistryValueData."
+    }
+  ]
+}

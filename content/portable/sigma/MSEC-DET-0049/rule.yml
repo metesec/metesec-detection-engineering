@@ -1,12 +1,14 @@
-title: Mavinject Process Injection Command
+title: Mavinject process injection command
 id: dd719ce8-90d6-4dd3-ab2c-b3a8ae04841a
 status: experimental
-description: Detects Mavinject or a renamed Mavinject binary using the INJECTRUNNING or HMODULE injection switches.
+description: Detects Mavinject commands carrying a bounded INJECTRUNNING or HMODULE switch, including renamed executables identified by original-filename metadata. Successful injection and trustworthy binary identity require separate validation.
 references:
   - https://attack.mitre.org/techniques/T1218/013/
   - https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table
 author: MeteSec Detection Engineering
+license: Apache-2.0
 date: 2026-09-03
+modified: 2026-09-11
 tags:
   - attack.stealth
   - attack.t1218.013
@@ -23,9 +25,7 @@ detection:
       - mavinject.exe
       - mavinject64.exe
   selection_switch:
-    ProcessCommandLine|contains:
-      - '/INJECTRUNNING'
-      - '/HMODULE'
+    ProcessCommandLine|re|i: '(?:^|\s)/(?:INJECTRUNNING(?:\s|$)|HMODULE(?:=|\s))'
   condition: (selection_image or selection_original) and selection_switch
 fields:
   - TimeGenerated

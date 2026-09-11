@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0060",
+  "title": "NTDS database filename created in a staging or remote location",
+  "description": "Detects creation or rename of a file named ntds.dit in rooted profile, temporary, recycle-bin or UNC locations.",
+  "hypothesis": {
+    "summary": "An adversary may stage an Active Directory database copy under its conventional filename in a temporary directory or network share for later credential extraction.",
+    "rationale": "The filename is not proof of NTDS contents or credential extraction. Renamed/other-location copies, legitimate backups and incomplete file telemetry limit coverage.",
+    "detection_goal": "Detects creation or rename of a file named ntds.dit in rooted profile, temporary, recycle-bin or UNC locations."
+  },
+  "ownership": {
+    "owner": "MeteSec Detection Engineering",
+    "reviewers": []
+  },
+  "lifecycle": {
+    "status": "experimental",
+    "created": "2026-09-11",
+    "modified": "2026-09-11",
+    "review_interval_days": 90
+  },
+  "severity": "high",
+  "confidence": "medium",
+  "data_sources": [
+    {
+      "name": "Microsoft Defender for Endpoint file events",
+      "category": "Endpoint file activity",
+      "required_fields": [
+        "TimeGenerated",
+        "DeviceId",
+        "DeviceName",
+        "ActionType",
+        "FileName",
+        "FolderPath",
+        "SHA1",
+        "InitiatingProcessAccountName",
+        "InitiatingProcessFileName",
+        "InitiatingProcessFolderPath",
+        "InitiatingProcessCommandLine",
+        "ReportId"
+      ]
+    }
+  ],
+  "attack": [
+    {
+      "technique_id": "T1003.003",
+      "tactic": "Credential Access"
+    }
+  ],
+  "triage": {
+    "summary": "The filename is not proof of NTDS contents or credential extraction. Renamed/other-location copies, legitimate backups and incomplete file telemetry limit coverage.",
+    "steps": [
+      "Review the writing process, account, device role and full path, and establish whether the file is actually an NTDS database.",
+      "Correlate shadow-copy or backup activity, SYSTEM hive access, archive creation and outbound transfer without collecting secrets into the repository.",
+      "Confirm the approved backup or incident-response owner; otherwise investigate possible directory-credential theft."
+    ],
+    "false_positives": [
+      "Approved domain-controller backup, restore, migration or forensic collection staging an NTDS copy in one of the selected paths."
+    ]
+  },
+  "validation": {
+    "expected_outcome": "Match the bounded event, key/action/path or successful operation combination; reject one-field mutations, lookalikes and absent required fields. Synthetic tests do not establish live telemetry or production performance.",
+    "positive_tests": true,
+    "negative_tests": true
+  },
+  "implementations": [
+    {
+      "type": "sigma",
+      "path": "content/portable/sigma/MSEC-DET-0060/rule.yml",
+      "targets": [
+        "sentinel"
+      ],
+      "status": "active"
+    }
+  ],
+  "quality": {
+    "reviewed_on": "2026-09-11",
+    "signal_type": "behavior",
+    "limitations": [
+      "The filename is not proof of NTDS contents or credential extraction. Renamed/other-location copies, legitimate backups and incomplete file telemetry limit coverage.",
+      "Current-revision evidence is synthetic only. Validate full generated KQL, source fields, ingestion delay, alert volume and scoped exclusions in the target before enabling."
+    ],
+    "validation_level": "synthetic-only",
+    "provenance": {
+      "origin": "reworked-supplied",
+      "license": "Apache-2.0",
+      "review": "docs/reviews/candidates-0051-0100.md"
+    }
+  }
+}

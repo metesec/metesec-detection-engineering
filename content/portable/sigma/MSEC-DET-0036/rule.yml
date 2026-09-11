@@ -1,14 +1,16 @@
-title: ProcDump Targets a Sensitive Authentication Process
+title: ProcDump command targets LSASS by name
 id: 11430711-798b-4db8-be95-9b449c73be43
 status: experimental
-description: Detects ProcDump or a renamed ProcDump binary requesting a dump of LSASS, KeyIso, or SamSs.
+description: Detects ProcDump or a renamed ProcDump executable referencing LSASS as a command-line process-name token, including the default mini dump without a size switch. PID-only targeting requires separate process correlation.
 references:
   - https://attack.mitre.org/techniques/T1003/001/
   - https://learn.microsoft.com/en-us/sysinternals/downloads/procdump
   - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_sysinternals_procdump_lsass.yml
   - https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table
 author: MeteSec Detection Engineering
+license: Apache-2.0
 date: 2026-09-03
+modified: 2026-09-11
 tags:
   - attack.credential-access
   - attack.t1003.001
@@ -22,18 +24,13 @@ detection:
       - procdump64.exe
       - procdump64a.exe
   original_name:
-    ProcessVersionInfoOriginalFileName: procdump.exe
-  dump_mode:
-    ProcessCommandLine|contains:
-      - ' -ma '
-      - ' -mm '
-      - ' -mp '
+    ProcessVersionInfoOriginalFileName:
+      - procdump.exe
+      - procdump64.exe
+      - procdump64a.exe
   sensitive_target:
-    ProcessCommandLine|contains:
-      - lsass
-      - keyiso
-      - samss
-  condition: (image_name or original_name) and dump_mode and sensitive_target
+    ProcessCommandLine|re|i: '(?:^|\s)"?lsass(?:\.exe)?"?(?:\s|$)'
+  condition: (image_name or original_name) and sensitive_target
 fields:
   - TimeGenerated
   - Timestamp

@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "detection_id": "MSEC-DET-0057",
+  "implementation": "content/portable/sigma/MSEC-DET-0057/rule.yml",
+  "cases": [
+    {
+      "id": "bounded-positive",
+      "expectation": "match",
+      "fixture": "fixtures/bounded-positive.json",
+      "description": "Synthetic complete event matches the stated bounded predicate."
+    },
+    {
+      "id": "directory-only-process-path",
+      "expectation": "match",
+      "fixture": "fixtures/directory-only-process-path.json",
+      "description": "Synthetic positive variant: directory only process path."
+    },
+    {
+      "id": "alternate-system-name",
+      "expectation": "match",
+      "fixture": "fixtures/alternate-system-name.json",
+      "description": "Synthetic positive variant: alternate system name."
+    },
+    {
+      "id": "remote-process-path",
+      "expectation": "match",
+      "fixture": "fixtures/remote-process-path.json",
+      "description": "Synthetic positive variant: remote process path."
+    },
+    {
+      "id": "failed-connection",
+      "expectation": "no_match",
+      "fixture": "fixtures/failed-connection.json",
+      "description": "Synthetic one-field boundary: failed connection."
+    },
+    {
+      "id": "private-destination",
+      "expectation": "no_match",
+      "fixture": "fixtures/private-destination.json",
+      "description": "Synthetic one-field boundary: private destination."
+    },
+    {
+      "id": "ordinary-program-name",
+      "expectation": "no_match",
+      "fixture": "fixtures/ordinary-program-name.json",
+      "description": "Synthetic one-field boundary: ordinary program name."
+    },
+    {
+      "id": "system-binary-directory",
+      "expectation": "no_match",
+      "fixture": "fixtures/system-binary-directory.json",
+      "description": "Synthetic one-field boundary: system binary directory."
+    },
+    {
+      "id": "path-prefix-lookalike",
+      "expectation": "no_match",
+      "fixture": "fixtures/path-prefix-lookalike.json",
+      "description": "Synthetic one-field boundary: path prefix lookalike."
+    },
+    {
+      "id": "missing-actiontype",
+      "expectation": "no_match",
+      "fixture": "fixtures/missing-actiontype.json",
+      "description": "Synthetic event is missing required predicate field ActionType."
+    },
+    {
+      "id": "missing-remoteiptype",
+      "expectation": "no_match",
+      "fixture": "fixtures/missing-remoteiptype.json",
+      "description": "Synthetic event is missing required predicate field RemoteIPType."
+    },
+    {
+      "id": "missing-initiatingprocessfilename",
+      "expectation": "no_match",
+      "fixture": "fixtures/missing-initiatingprocessfilename.json",
+      "description": "Synthetic event is missing required predicate field InitiatingProcessFileName."
+    },
+    {
+      "id": "missing-initiatingprocessfolderpath",
+      "expectation": "no_match",
+      "fixture": "fixtures/missing-initiatingprocessfolderpath.json",
+      "description": "Synthetic event is missing required predicate field InitiatingProcessFolderPath."
+    }
+  ]
+}

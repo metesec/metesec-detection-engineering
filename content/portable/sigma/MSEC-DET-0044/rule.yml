@@ -1,14 +1,16 @@
-title: InstallUtil References a Remote Payload
+title: InstallUtil remote assembly argument
 id: 24987f96-7eaa-49b5-a8ce-c3b6a47e0dfb
 status: experimental
-description: Detects InstallUtil execution that references content over HTTP, HTTPS, or FTP.
+description: Detects an HTTP, HTTPS or FTP positional argument to InstallUtil. Remote strings confined to named installer options are excluded; successful retrieval or execution requires corroborating telemetry.
 references:
   - https://attack.mitre.org/techniques/T1218/004/
   - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_installutil_download.yml
   - https://learn.microsoft.com/en-us/windows/security/application-security/application-control/app-control-for-business/design/applications-that-can-bypass-appcontrol
   - https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table
 author: MeteSec Detection Engineering
+license: Apache-2.0
 date: 2026-09-03
+modified: 2026-09-11
 tags:
   - attack.stealth
   - attack.command-and-control
@@ -22,12 +24,9 @@ detection:
     FileName: InstallUtil.exe
   selection_original:
     ProcessVersionInfoOriginalFileName: InstallUtil.exe
-  selection_protocol:
-    ProcessCommandLine|contains:
-      - 'http://'
-      - 'https://'
-      - 'ftp://'
-  condition: (selection_image or selection_original) and selection_protocol
+  selection_remote_argument:
+    ProcessCommandLine|re|i: '(?:^|\s)"?(?:https?|ftp)://[^\s"]+'
+  condition: (selection_image or selection_original) and selection_remote_argument
 fields:
   - TimeGenerated
   - Timestamp

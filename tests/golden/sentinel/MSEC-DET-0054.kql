@@ -1,0 +1,3 @@
+AzureActivity
+| where CategoryValue =~ "Administrative" and (OperationNameValue in~ ("Microsoft.Insights/DiagnosticSettings/Delete", "Microsoft.Insights/LogProfiles/Delete")) and (ActivityStatusValue in~ ("Succeeded", "Success"))
+| project TimeGenerated, OperationNameValue, ActivityStatusValue, CategoryValue, Caller, CallerIpAddress, CorrelationId, EventDataId, ResourceId, SubscriptionId

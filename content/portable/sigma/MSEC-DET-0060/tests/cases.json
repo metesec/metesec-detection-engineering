@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "detection_id": "MSEC-DET-0060",
+  "implementation": "content/portable/sigma/MSEC-DET-0060/rule.yml",
+  "cases": [
+    {
+      "id": "bounded-positive",
+      "expectation": "match",
+      "fixture": "fixtures/bounded-positive.json",
+      "description": "Synthetic complete event matches the stated bounded predicate."
+    },
+    {
+      "id": "renamed-file",
+      "expectation": "match",
+      "fixture": "fixtures/renamed-file.json",
+      "description": "Synthetic positive variant: renamed file."
+    },
+    {
+      "id": "remote-directory",
+      "expectation": "match",
+      "fixture": "fixtures/remote-directory.json",
+      "description": "Synthetic positive variant: remote directory."
+    },
+    {
+      "id": "temporary-directory",
+      "expectation": "match",
+      "fixture": "fixtures/temporary-directory.json",
+      "description": "Synthetic positive variant: temporary directory."
+    },
+    {
+      "id": "wrong-action",
+      "expectation": "no_match",
+      "fixture": "fixtures/wrong-action.json",
+      "description": "Synthetic one-field boundary: wrong action."
+    },
+    {
+      "id": "suffix-lookalike",
+      "expectation": "no_match",
+      "fixture": "fixtures/suffix-lookalike.json",
+      "description": "Synthetic one-field boundary: suffix lookalike."
+    },
+    {
+      "id": "canonical-ad-directory",
+      "expectation": "no_match",
+      "fixture": "fixtures/canonical-ad-directory.json",
+      "description": "Synthetic one-field boundary: canonical ad directory."
+    },
+    {
+      "id": "unrelated-directory",
+      "expectation": "no_match",
+      "fixture": "fixtures/unrelated-directory.json",
+      "description": "Synthetic one-field boundary: unrelated directory."
+    },
+    {
+      "id": "prefix-lookalike",
+      "expectation": "no_match",
+      "fixture": "fixtures/prefix-lookalike.json",
+      "description": "Synthetic one-field boundary: prefix lookalike."
+    },
+    {
+      "id": "missing-actiontype",
+      "expectation": "no_match",
+      "fixture": "fixtures/missing-actiontype.json",
+      "description": "Synthetic event is missing required predicate field ActionType."
+    },
+    {
+      "id": "missing-filename",
+      "expectation": "no_match",
+      "fixture": "fixtures/missing-filename.json",
+      "description": "Synthetic event is missing required predicate field FileName."
+    },
+    {
+      "id": "missing-folderpath",
+      "expectation": "no_match",
+      "fixture": "fixtures/missing-folderpath.json",
+      "description": "Synthetic event is missing required predicate field FolderPath."
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "event": {
+    "FileName": "InstallUtil.exe",
+    "ProcessCommandLine": "InstallUtil.exe /Endpoint=https://example.invalid/service C:\\Approved\\installer.dll"
+  }
+}

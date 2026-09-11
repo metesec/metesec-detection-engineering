@@ -1,13 +1,15 @@
-title: PowerShell Download-and-Execute Cradle
+title: PowerShell download-and-execute cradle
 id: afcf6b04-8b72-4635-ac81-15361578f7e6
 status: experimental
-description: Detects PowerShell commands that combine a selected network download primitive with immediate expression execution.
+description: Detects visible PowerShell command lines containing both a selected download primitive and an expression-execution token. This is a co-occurrence heuristic; it does not prove that the downloaded content was executed.
 references:
   - https://attack.mitre.org/techniques/T1059/001/
-  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_powershell_download_cradle.yml
+  - https://github.com/SigmaHQ/sigma/blob/5c9b21756f4e3ba137c1773ac9ba5a8332188961/rules/windows/process_creation/proc_creation_win_powershell_download_iex.yml
   - https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table
 author: MeteSec Detection Engineering
+license: Apache-2.0
 date: 2026-09-03
+modified: 2026-09-11
 tags:
   - attack.execution
   - attack.t1059.001
@@ -20,21 +22,11 @@ detection:
       - powershell.exe
       - pwsh.exe
   selection_download:
-    ProcessCommandLine|contains:
-      - '.DownloadString('
-      - '.DownloadFile('
-      - 'Invoke-WebRequest '
-      - 'iwr '
-      - 'Invoke-RestMethod '
-      - 'irm '
+    ProcessCommandLine|re|i:
+      - '\.Download(?:String|File)\s*\('
+      - '(?:^|[\s;|("])(?:Invoke-WebRequest|Invoke-RestMethod|iwr|irm)(?:\s|\()'
   selection_execute:
-    ProcessCommandLine|contains:
-      - ';iex $'
-      - '| IEX'
-      - '|IEX '
-      - 'iex '
-      - 'IEX('
-      - 'Invoke-Expression'
+    ProcessCommandLine|re|i: '(?:^|[\s;|("])(?:iex|Invoke-Expression)(?:\s|\(|$|")'
   condition: selection_image and selection_download and selection_execute
 fields:
   - TimeGenerated
@@ -50,4 +42,4 @@ fields:
 falsepositives:
   - Approved deployment, bootstrap, support, or administration scripts that intentionally download and execute PowerShell content.
   - The authorized thirty-day aggregate baseline was non-zero across several devices and requires environment-specific owner review before enablement.
-level: high
+level: medium

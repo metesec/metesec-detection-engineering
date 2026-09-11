@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "event": {
+    "FileName": "odbcconf.exe",
+    "ProcessCommandLine": "odbcconf.exe /F \"C:\\Temp\\REGSVR synthetic.dll\""
+  }
+}

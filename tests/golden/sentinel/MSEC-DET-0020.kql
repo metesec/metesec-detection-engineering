@@ -1,3 +1,3 @@
 DeviceProcessEvents
-| where FileName =~ "certutil.exe" and (ProcessCommandLine contains "http://" or ProcessCommandLine contains "https://" or ProcessCommandLine contains "ftp://") and (ProcessCommandLine contains "-urlcache" or ProcessCommandLine contains "/urlcache" or ProcessCommandLine contains "-split" or ProcessCommandLine contains "/split")
-| project TimeGenerated, Timestamp, DeviceId, DeviceName, AccountDomain, AccountName, AccountSid, InitiatingProcessFileName, FileName, FolderPath, ProcessCommandLine, ReportId
+| where FileName =~ "certutil.exe" and (ProcessCommandLine contains "http://" or ProcessCommandLine contains "https://" or ProcessCommandLine contains "ftp://") and ProcessCommandLine matches regex "(?i)\\s[-/]urlcache(?:\\s|$)" and ProcessCommandLine matches regex "(?i)\\s[-/]f(?:\\s|$)" and (not(ProcessCommandLine matches regex "(?i)\\sdelete\\s*$"))
+| project TimeGenerated, Timestamp, DeviceId, DeviceName, AccountDomain, AccountName, AccountSid, InitiatingProcessFileName, FileName, ProcessVersionInfoOriginalFileName, FolderPath, ProcessCommandLine, ReportId

@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "event": {
+    "FileName": "helper.exe",
+    "ProcessCommandLine": "helper.exe javascript:\"\\..\\mshtml,RunHTMLApplication\";document.write(\"synthetic\")",
+    "ProcessVersionInfoOriginalFileName": "rundll32.exe"
+  }
+}

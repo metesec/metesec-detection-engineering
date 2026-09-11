@@ -13,6 +13,7 @@ test("machine Sentinel runtime assessment satisfies its versioned schema", (cont
   const temporary = fs.mkdtempSync(path.join(os.tmpdir(), "metesec-runtime-health-"));
   context.after(() => fs.rmSync(temporary, { recursive: true, force: true }));
   const observationPath = path.join(temporary, "observation.json");
+  const settings = JSON.parse(fs.readFileSync(path.join(root, "targets/sentinel/analytics-rules.json"), "utf8")).rules;
   const observedAt = "2026-09-03T12:00:00Z";
   const rule = (id, lastExecutionAt) => ({
     id,
@@ -31,57 +32,7 @@ test("machine Sentinel runtime assessment satisfies its versioned schema", (cont
     schema_version: 1,
     target: "microsoft-sentinel",
     observed_at: observedAt,
-    rules: [
-      rule("MSEC-DET-0002", "2026-09-03T11:30:00Z"),
-      rule("MSEC-DET-0003", "2026-09-03T11:59:00Z"),
-      rule("MSEC-DET-0004", "2026-09-03T11:59:00Z"),
-      rule("MSEC-DET-0005", "2026-09-03T11:59:00Z"),
-      rule("MSEC-DET-0006", "2026-09-03T11:59:00Z"),
-      rule("MSEC-DET-0007", "2026-09-03T11:59:00Z"),
-      rule("MSEC-DET-0008", "2026-09-03T11:59:00Z"),
-      rule("MSEC-DET-0009", "2026-09-03T11:59:00Z"),
-      rule("MSEC-DET-0010", "2026-09-03T11:59:00Z"),
-      rule("MSEC-DET-0011", "2026-09-03T11:59:00Z"),
-      rule("MSEC-DET-0012", "2026-09-03T11:59:00Z"),
-      rule("MSEC-DET-0013", "2026-09-03T11:59:00Z"),
-      rule("MSEC-DET-0014", "2026-09-03T11:59:00Z"),
-      rule("MSEC-DET-0015", "2026-09-03T11:59:00Z"),
-      rule("MSEC-DET-0016", "2026-09-03T11:59:00Z"),
-      rule("MSEC-DET-0017", "2026-09-03T11:59:00Z"),
-      rule("MSEC-DET-0018", "2026-09-03T11:59:00Z"),
-      rule("MSEC-DET-0019", "2026-09-03T11:59:00Z"),
-      rule("MSEC-DET-0020", "2026-09-03T11:59:00Z"),
-      rule("MSEC-DET-0021", "2026-09-03T11:59:00Z"),
-      rule("MSEC-DET-0022", "2026-09-03T11:59:00Z"),
-      rule("MSEC-DET-0023", "2026-09-03T11:59:00Z"),
-      rule("MSEC-DET-0024", "2026-09-03T11:59:00Z"),
-      rule("MSEC-DET-0025", "2026-09-03T11:59:00Z"),
-      rule("MSEC-DET-0026", "2026-09-03T11:59:00Z"),
-      rule("MSEC-DET-0027", "2026-09-03T11:59:00Z"),
-      rule("MSEC-DET-0028", "2026-09-03T11:59:00Z"),
-      rule("MSEC-DET-0029", "2026-09-03T11:59:00Z"),
-      rule("MSEC-DET-0030", "2026-09-03T11:59:00Z"),
-      rule("MSEC-DET-0031", "2026-09-03T11:59:00Z"),
-      rule("MSEC-DET-0032", "2026-09-03T11:59:00Z"),
-      rule("MSEC-DET-0033", "2026-09-03T11:59:00Z"),
-      rule("MSEC-DET-0034", "2026-09-03T11:59:00Z"),
-      rule("MSEC-DET-0035", "2026-09-03T11:59:00Z"),
-      rule("MSEC-DET-0036", "2026-09-03T11:59:00Z"),
-      rule("MSEC-DET-0037", "2026-09-03T11:59:00Z"),
-      rule("MSEC-DET-0038", "2026-09-03T11:59:00Z"),
-      rule("MSEC-DET-0039", "2026-09-03T11:59:00Z"),
-      rule("MSEC-DET-0040", "2026-09-03T11:59:00Z"),
-      rule("MSEC-DET-0041", "2026-09-03T11:59:00Z"),
-      rule("MSEC-DET-0042", "2026-09-03T11:59:00Z"),
-      rule("MSEC-DET-0043", "2026-09-03T11:59:00Z"),
-      rule("MSEC-DET-0044", "2026-09-03T11:59:00Z"),
-      rule("MSEC-DET-0045", "2026-09-03T11:59:00Z"),
-      rule("MSEC-DET-0046", "2026-09-03T11:59:00Z"),
-      rule("MSEC-DET-0047", "2026-09-03T11:59:00Z"),
-      rule("MSEC-DET-0048", "2026-09-03T11:59:00Z"),
-      rule("MSEC-DET-0049", "2026-09-03T11:59:00Z"),
-      rule("MSEC-DET-0050", "2026-09-03T11:59:00Z"),
-    ],
+    rules: settings.map((setting) => rule(setting.id, "2026-09-03T11:59:00Z")),
   };
   const observationSchema = JSON.parse(
     fs.readFileSync(
@@ -120,8 +71,8 @@ test("machine Sentinel runtime assessment satisfies its versioned schema", (cont
   const validate = new Ajv2020({ allErrors: true, strict: true }).compile(schema);
   assert.equal(validate(assessment), true, JSON.stringify(validate.errors));
   assert.deepEqual(assessment.summary, {
-    rules: 49,
-    healthy: 49,
+    rules: settings.length,
+    healthy: settings.length,
     degraded: 0,
     failed: 0,
     unknown: 0,

@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "event": {
+    "FileName": "powershell.exe",
+    "ProcessCommandLine": "powershell.exe Add-LocalGroupMember -Group Users -Member Administrators"
+  }
+}

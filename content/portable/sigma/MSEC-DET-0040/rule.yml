@@ -1,13 +1,15 @@
-title: Accessibility Feature IFEO Debugger Hijack
+title: Accessibility feature IFEO debugger hijack
 id: e2d2e6f8-83ca-49dd-85cf-f8a2fb877074
 status: experimental
-description: Detects a Debugger value set under an Image File Execution Options key for a Windows accessibility or logon helper executable.
+description: Detects a non-empty Debugger value written to the machine-wide IFEO path of a selected Windows accessibility or logon helper executable. Deletion and incomplete payload events are excluded.
 references:
   - https://attack.mitre.org/techniques/T1546/008/
-  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/registry/registry_set/registry_set_ifeo_accessibility_debugger.yml
+  - https://github.com/SigmaHQ/sigma/blob/5c9b21756f4e3ba137c1773ac9ba5a8332188961/rules/windows/registry/registry_event/registry_event_stickykey_like_backdoor.yml
   - https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceregistryevents-table
 author: MeteSec Detection Engineering
+license: Apache-2.0
 date: 2026-09-03
+modified: 2026-09-11
 tags:
   - attack.persistence
   - attack.privilege-escalation
@@ -16,19 +18,14 @@ logsource:
   product: windows
   category: registry_set
 detection:
+  selection_action:
+    ActionType: RegistryValueSet
   selection_value:
     RegistryValueName: Debugger
+    RegistryValueData|re: '\S'
   selection_key:
-    RegistryKey|endswith:
-      - '\Image File Execution Options\sethc.exe'
-      - '\Image File Execution Options\utilman.exe'
-      - '\Image File Execution Options\osk.exe'
-      - '\Image File Execution Options\Magnify.exe'
-      - '\Image File Execution Options\Narrator.exe'
-      - '\Image File Execution Options\DisplaySwitch.exe'
-      - '\Image File Execution Options\atbroker.exe'
-      - '\Image File Execution Options\HelpPane.exe'
-  condition: selection_value and selection_key
+    RegistryKey|re|i: '^(?:HKEY_LOCAL_MACHINE|HKLM)\\SOFTWARE\\(?:Wow6432Node\\)?Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\(?:sethc|utilman|osk|Magnify|Narrator|DisplaySwitch|atbroker|HelpPane)\.exe$'
+  condition: selection_action and selection_value and selection_key
 fields:
   - TimeGenerated
   - Timestamp

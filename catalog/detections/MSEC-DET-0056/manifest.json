@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0056",
+  "title": "LSASS loads a DLL from a staging or remote location",
+  "description": "Detects an ImageLoaded event for a DLL initiated by lsass.exe from a rooted profile, temporary, recycle-bin or UNC location.",
+  "hypothesis": {
+    "summary": "An adversary may cause LSASS to load an authentication-related or credential-access DLL from a writable staging directory or remote share.",
+    "rationale": "A selected filename and DLL load do not prove binary identity, malicious content, signature status or injection. Process reputation and effective filesystem permissions need separate verification.",
+    "detection_goal": "Detects an ImageLoaded event for a DLL initiated by lsass.exe from a rooted profile, temporary, recycle-bin or UNC location."
+  },
+  "ownership": {
+    "owner": "MeteSec Detection Engineering",
+    "reviewers": []
+  },
+  "lifecycle": {
+    "status": "experimental",
+    "created": "2026-09-11",
+    "modified": "2026-09-11",
+    "review_interval_days": 90
+  },
+  "severity": "high",
+  "confidence": "medium",
+  "data_sources": [
+    {
+      "name": "Microsoft Defender for Endpoint image-load events",
+      "category": "Endpoint DLL loading",
+      "required_fields": [
+        "TimeGenerated",
+        "DeviceId",
+        "DeviceName",
+        "ActionType",
+        "FileName",
+        "FolderPath",
+        "SHA1",
+        "InitiatingProcessAccountName",
+        "InitiatingProcessFileName",
+        "InitiatingProcessFolderPath",
+        "InitiatingProcessCommandLine",
+        "ReportId"
+      ]
+    }
+  ],
+  "attack": [
+    {
+      "technique_id": "T1547.005",
+      "tactic": "Persistence"
+    }
+  ],
+  "triage": {
+    "summary": "A selected filename and DLL load do not prove binary identity, malicious content, signature status or injection. Process reputation and effective filesystem permissions need separate verification.",
+    "steps": [
+      "Verify the initiating executable's full path, signature and process lineage; a filename alone is not trusted identity.",
+      "Review the loaded DLL hash, signature, provenance and directory permissions, and correlate its creation with the load.",
+      "Validate any approved authentication or security product dependency before containment or rollback."
+    ],
+    "false_positives": [
+      "Approved authentication or security-provider software loading a DLL from an unusual profile or staging directory."
+    ]
+  },
+  "validation": {
+    "expected_outcome": "Match the bounded event, key/action/path or successful operation combination; reject one-field mutations, lookalikes and absent required fields. Synthetic tests do not establish live telemetry or production performance.",
+    "positive_tests": true,
+    "negative_tests": true
+  },
+  "implementations": [
+    {
+      "type": "sigma",
+      "path": "content/portable/sigma/MSEC-DET-0056/rule.yml",
+      "targets": [
+        "sentinel"
+      ],
+      "status": "active"
+    }
+  ],
+  "quality": {
+    "reviewed_on": "2026-09-11",
+    "signal_type": "behavior",
+    "limitations": [
+      "A selected filename and DLL load do not prove binary identity, malicious content, signature status or injection. Process reputation and effective filesystem permissions need separate verification.",
+      "Current-revision evidence is synthetic only. Validate full generated KQL, source fields, ingestion delay, alert volume and scoped exclusions in the target before enabling."
+    ],
+    "validation_level": "synthetic-only",
+    "provenance": {
+      "origin": "reworked-supplied",
+      "license": "Apache-2.0",
+      "review": "docs/reviews/candidates-0051-0100.md"
+    }
+  }
+}

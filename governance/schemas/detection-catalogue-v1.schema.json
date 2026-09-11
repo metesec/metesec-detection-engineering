@@ -40,6 +40,16 @@
         "lifecycle": { "$ref": "#/$defs/lifecycle" },
         "severity": { "enum": ["informational", "low", "medium", "high", "critical"] },
         "confidence": { "enum": ["low", "medium", "high"] },
+        "quality": {
+          "type": "object", "additionalProperties": false,
+          "required": ["signal_type", "validation_level", "reviewed_on", "limitations"],
+          "properties": {
+            "signal_type": {"enum": ["behavior", "configuration-change", "administrative-activity"]},
+            "validation_level": {"enum": ["synthetic-only", "target-validated", "production-validated"]},
+            "reviewed_on": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"},
+            "limitations": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+          }
+        },
         "attack": { "type": "array", "items": { "$ref": "#/$defs/attack" } },
         "data_sources": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/data_source" } },
         "validation": { "$ref": "#/$defs/validation" },

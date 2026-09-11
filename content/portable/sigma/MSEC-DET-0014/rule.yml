@@ -8,7 +8,9 @@ references:
   - https://learn.microsoft.com/en-us/azure/azure-monitor/reference/tables/auditlogs
   - https://attack.mitre.org/techniques/T1556/009/
 author: MeteSec Detection Engineering
+license: Apache-2.0
 date: 2026-09-03
+modified: 2026-09-11
 tags:
   - attack.defense-evasion
   - attack.t1556.009

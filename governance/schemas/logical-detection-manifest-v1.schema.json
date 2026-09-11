@@ -20,7 +20,27 @@
     "attack": { "type": "array", "items": { "$ref": "#/$defs/attack_mapping" } },
     "triage": { "$ref": "#/$defs/triage" },
     "validation": { "$ref": "#/$defs/validation" },
-    "implementations": { "type": "array", "items": { "$ref": "#/$defs/implementation" } }
+    "implementations": { "type": "array", "items": { "$ref": "#/$defs/implementation" } },
+    "quality": {
+      "type": "object", "additionalProperties": false,
+      "required": ["reviewed_on", "signal_type", "limitations", "validation_level", "provenance"],
+      "properties": {
+        "reviewed_on": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"},
+        "signal_type": {"enum": ["behavior", "configuration-change", "administrative-activity"]},
+        "limitations": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 15, "maxLength": 600}},
+        "validation_level": {"enum": ["synthetic-only", "target-validated", "production-validated"]},
+        "evidence": {"type": "string", "pattern": "^governance/evidence/[A-Za-z0-9_-]+\\.json$"},
+        "provenance": {
+          "type": "object", "additionalProperties": false,
+          "required": ["origin", "license", "review"],
+          "properties": {
+            "origin": {"enum": ["reviewed-existing", "reworked-supplied"]},
+            "license": {"const": "Apache-2.0"},
+            "review": {"type": "string", "pattern": "^docs/reviews/[A-Za-z0-9_-]+\\.md$"}
+          }
+        }
+      }
+    }
   },
   "allOf": [
     {

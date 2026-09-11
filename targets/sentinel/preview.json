@@ -11,11 +11,26 @@
       "golden": "tests/golden/sentinel/MSEC-DET-0002.kql",
       "output": {
         "extend": [
-          {"column": "AccountName", "expression": "tostring(split(UserPrincipalName, \"@\")[0])"},
-          {"column": "AccountUPNSuffix", "expression": "tostring(split(UserPrincipalName, \"@\")[1])"},
-          {"column": "SourceIPAddress", "expression": "tostring(IPAddress)"},
-          {"column": "ApplicationId", "expression": "tostring(AppId)"},
-          {"column": "ApplicationName", "expression": "tostring(AppDisplayName)"}
+          {
+            "column": "AccountName",
+            "expression": "tostring(split(UserPrincipalName, \"@\")[0])"
+          },
+          {
+            "column": "AccountUPNSuffix",
+            "expression": "tostring(split(UserPrincipalName, \"@\")[1])"
+          },
+          {
+            "column": "SourceIPAddress",
+            "expression": "tostring(IPAddress)"
+          },
+          {
+            "column": "ApplicationId",
+            "expression": "tostring(AppId)"
+          },
+          {
+            "column": "ApplicationName",
+            "expression": "tostring(AppDisplayName)"
+          }
         ],
         "columns": [
           "TimeGenerated",
@@ -35,22 +50,40 @@
           {
             "entity_type": "Account",
             "field_mappings": [
-              {"identifier": "Name", "column": "AccountName"},
-              {"identifier": "UPNSuffix", "column": "AccountUPNSuffix"},
-              {"identifier": "AadUserId", "column": "UserId"}
+              {
+                "identifier": "Name",
+                "column": "AccountName"
+              },
+              {
+                "identifier": "UPNSuffix",
+                "column": "AccountUPNSuffix"
+              },
+              {
+                "identifier": "AadUserId",
+                "column": "UserId"
+              }
             ]
           },
           {
             "entity_type": "IP",
             "field_mappings": [
-              {"identifier": "Address", "column": "SourceIPAddress"}
+              {
+                "identifier": "Address",
+                "column": "SourceIPAddress"
+              }
             ]
           },
           {
             "entity_type": "CloudApplication",
             "field_mappings": [
-              {"identifier": "AppId", "column": "ApplicationId"},
-              {"identifier": "Name", "column": "ApplicationName"}
+              {
+                "identifier": "AppId",
+                "column": "ApplicationId"
+              },
+              {
+                "identifier": "Name",
+                "column": "ApplicationName"
+              }
             ]
           }
         ]
@@ -63,11 +96,26 @@
       "golden": "tests/golden/sentinel/MSEC-DET-0003.kql",
       "output": {
         "extend": [
-          {"column": "AccountName", "expression": "tostring(split(UserPrincipalName, \"@\")[0])"},
-          {"column": "AccountUPNSuffix", "expression": "tostring(split(UserPrincipalName, \"@\")[1])"},
-          {"column": "SourceIPAddress", "expression": "tostring(IPAddress)"},
-          {"column": "ApplicationId", "expression": "tostring(AppId)"},
-          {"column": "ApplicationName", "expression": "tostring(AppDisplayName)"}
+          {
+            "column": "AccountName",
+            "expression": "tostring(split(UserPrincipalName, \"@\")[0])"
+          },
+          {
+            "column": "AccountUPNSuffix",
+            "expression": "tostring(split(UserPrincipalName, \"@\")[1])"
+          },
+          {
+            "column": "SourceIPAddress",
+            "expression": "tostring(IPAddress)"
+          },
+          {
+            "column": "ApplicationId",
+            "expression": "tostring(AppId)"
+          },
+          {
+            "column": "ApplicationName",
+            "expression": "tostring(AppDisplayName)"
+          }
         ],
         "columns": [
           "TimeGenerated",
@@ -90,22 +138,40 @@
           {
             "entity_type": "Account",
             "field_mappings": [
-              {"identifier": "Name", "column": "AccountName"},
-              {"identifier": "UPNSuffix", "column": "AccountUPNSuffix"},
-              {"identifier": "AadUserId", "column": "UserId"}
+              {
+                "identifier": "Name",
+                "column": "AccountName"
+              },
+              {
+                "identifier": "UPNSuffix",
+                "column": "AccountUPNSuffix"
+              },
+              {
+                "identifier": "AadUserId",
+                "column": "UserId"
+              }
             ]
           },
           {
             "entity_type": "IP",
             "field_mappings": [
-              {"identifier": "Address", "column": "SourceIPAddress"}
+              {
+                "identifier": "Address",
+                "column": "SourceIPAddress"
+              }
             ]
           },
           {
             "entity_type": "CloudApplication",
             "field_mappings": [
-              {"identifier": "AppId", "column": "ApplicationId"},
-              {"identifier": "Name", "column": "ApplicationName"}
+              {
+                "identifier": "AppId",
+                "column": "ApplicationId"
+              },
+              {
+                "identifier": "Name",
+                "column": "ApplicationName"
+              }
             ]
           }
         ]
@@ -118,15 +184,42 @@
       "golden": "tests/golden/sentinel/MSEC-DET-0004.kql",
       "output": {
         "extend": [
-          {"column": "InitiatingUserPrincipalName", "expression": "tostring(InitiatedBy.user.userPrincipalName)"},
-          {"column": "InitiatingAccountName", "expression": "tostring(split(InitiatingUserPrincipalName, \"@\")[0])"},
-          {"column": "InitiatingAccountUPNSuffix", "expression": "tostring(split(InitiatingUserPrincipalName, \"@\")[1])"},
-          {"column": "InitiatingUserId", "expression": "tostring(InitiatedBy.user.id)"},
-          {"column": "InitiatingIPAddress", "expression": "tostring(InitiatedBy.user.ipAddress)"},
-          {"column": "InitiatingApplicationId", "expression": "tostring(InitiatedBy.app.appId)"},
-          {"column": "InitiatingApplicationName", "expression": "tostring(InitiatedBy.app.displayName)"},
-          {"column": "TargetServicePrincipalId", "expression": "tostring(TargetResources[0].id)"},
-          {"column": "TargetServicePrincipalName", "expression": "tostring(TargetResources[0].displayName)"}
+          {
+            "column": "InitiatingUserPrincipalName",
+            "expression": "tostring(InitiatedBy.user.userPrincipalName)"
+          },
+          {
+            "column": "InitiatingAccountName",
+            "expression": "tostring(split(InitiatingUserPrincipalName, \"@\")[0])"
+          },
+          {
+            "column": "InitiatingAccountUPNSuffix",
+            "expression": "tostring(split(InitiatingUserPrincipalName, \"@\")[1])"
+          },
+          {
+            "column": "InitiatingUserId",
+            "expression": "tostring(InitiatedBy.user.id)"
+          },
+          {
+            "column": "InitiatingIPAddress",
+            "expression": "tostring(InitiatedBy.user.ipAddress)"
+          },
+          {
+            "column": "InitiatingApplicationId",
+            "expression": "tostring(InitiatedBy.app.appId)"
+          },
+          {
+            "column": "InitiatingApplicationName",
+            "expression": "tostring(InitiatedBy.app.displayName)"
+          },
+          {
+            "column": "TargetServicePrincipalId",
+            "expression": "tostring(TargetResources[0].id)"
+          },
+          {
+            "column": "TargetServicePrincipalName",
+            "expression": "tostring(TargetResources[0].displayName)"
+          }
         ],
         "columns": [
           "TimeGenerated",
@@ -147,28 +240,49 @@
           {
             "entity_type": "Account",
             "field_mappings": [
-              {"identifier": "Name", "column": "InitiatingAccountName"},
-              {"identifier": "UPNSuffix", "column": "InitiatingAccountUPNSuffix"},
-              {"identifier": "AadUserId", "column": "InitiatingUserId"}
+              {
+                "identifier": "Name",
+                "column": "InitiatingAccountName"
+              },
+              {
+                "identifier": "UPNSuffix",
+                "column": "InitiatingAccountUPNSuffix"
+              },
+              {
+                "identifier": "AadUserId",
+                "column": "InitiatingUserId"
+              }
             ]
           },
           {
             "entity_type": "IP",
             "field_mappings": [
-              {"identifier": "Address", "column": "InitiatingIPAddress"}
+              {
+                "identifier": "Address",
+                "column": "InitiatingIPAddress"
+              }
             ]
           },
           {
             "entity_type": "CloudApplication",
             "field_mappings": [
-              {"identifier": "AppId", "column": "InitiatingApplicationId"},
-              {"identifier": "Name", "column": "InitiatingApplicationName"}
+              {
+                "identifier": "AppId",
+                "column": "InitiatingApplicationId"
+              },
+              {
+                "identifier": "Name",
+                "column": "InitiatingApplicationName"
+              }
             ]
           },
           {
             "entity_type": "CloudApplication",
             "field_mappings": [
-              {"identifier": "Name", "column": "TargetServicePrincipalName"}
+              {
+                "identifier": "Name",
+                "column": "TargetServicePrincipalName"
+              }
             ]
           }
         ]
@@ -181,15 +295,42 @@
       "golden": "tests/golden/sentinel/MSEC-DET-0005.kql",
       "output": {
         "extend": [
-          {"column": "InitiatingUserPrincipalName", "expression": "tostring(InitiatedBy.user.userPrincipalName)"},
-          {"column": "InitiatingAccountName", "expression": "tostring(split(InitiatingUserPrincipalName, \"@\")[0])"},
-          {"column": "InitiatingAccountUPNSuffix", "expression": "tostring(split(InitiatingUserPrincipalName, \"@\")[1])"},
-          {"column": "InitiatingUserId", "expression": "tostring(InitiatedBy.user.id)"},
-          {"column": "InitiatingIPAddress", "expression": "tostring(InitiatedBy.user.ipAddress)"},
-          {"column": "InitiatingApplicationId", "expression": "tostring(InitiatedBy.app.appId)"},
-          {"column": "InitiatingApplicationName", "expression": "tostring(InitiatedBy.app.displayName)"},
-          {"column": "TargetServicePrincipalId", "expression": "tostring(TargetResources[0].id)"},
-          {"column": "TargetServicePrincipalName", "expression": "tostring(TargetResources[0].displayName)"}
+          {
+            "column": "InitiatingUserPrincipalName",
+            "expression": "tostring(InitiatedBy.user.userPrincipalName)"
+          },
+          {
+            "column": "InitiatingAccountName",
+            "expression": "tostring(split(InitiatingUserPrincipalName, \"@\")[0])"
+          },
+          {
+            "column": "InitiatingAccountUPNSuffix",
+            "expression": "tostring(split(InitiatingUserPrincipalName, \"@\")[1])"
+          },
+          {
+            "column": "InitiatingUserId",
+            "expression": "tostring(InitiatedBy.user.id)"
+          },
+          {
+            "column": "InitiatingIPAddress",
+            "expression": "tostring(InitiatedBy.user.ipAddress)"
+          },
+          {
+            "column": "InitiatingApplicationId",
+            "expression": "tostring(InitiatedBy.app.appId)"
+          },
+          {
+            "column": "InitiatingApplicationName",
+            "expression": "tostring(InitiatedBy.app.displayName)"
+          },
+          {
+            "column": "TargetServicePrincipalId",
+            "expression": "tostring(TargetResources[0].id)"
+          },
+          {
+            "column": "TargetServicePrincipalName",
+            "expression": "tostring(TargetResources[0].displayName)"
+          }
         ],
         "columns": [
           "TimeGenerated",
@@ -210,28 +351,49 @@
           {
             "entity_type": "Account",
             "field_mappings": [
-              {"identifier": "Name", "column": "InitiatingAccountName"},
-              {"identifier": "UPNSuffix", "column": "InitiatingAccountUPNSuffix"},
-              {"identifier": "AadUserId", "column": "InitiatingUserId"}
+              {
+                "identifier": "Name",
+                "column": "InitiatingAccountName"
+              },
+              {
+                "identifier": "UPNSuffix",
+                "column": "InitiatingAccountUPNSuffix"
+              },
+              {
+                "identifier": "AadUserId",
+                "column": "InitiatingUserId"
+              }
             ]
           },
           {
             "entity_type": "IP",
             "field_mappings": [
-              {"identifier": "Address", "column": "InitiatingIPAddress"}
+              {
+                "identifier": "Address",
+                "column": "InitiatingIPAddress"
+              }
             ]
           },
           {
             "entity_type": "CloudApplication",
             "field_mappings": [
-              {"identifier": "AppId", "column": "InitiatingApplicationId"},
-              {"identifier": "Name", "column": "InitiatingApplicationName"}
+              {
+                "identifier": "AppId",
+                "column": "InitiatingApplicationId"
+              },
+              {
+                "identifier": "Name",
+                "column": "InitiatingApplicationName"
+              }
             ]
           },
           {
             "entity_type": "CloudApplication",
             "field_mappings": [
-              {"identifier": "Name", "column": "TargetServicePrincipalName"}
+              {
+                "identifier": "Name",
+                "column": "TargetServicePrincipalName"
+              }
             ]
           }
         ]
@@ -254,6 +416,7 @@
           "AccountSid",
           "InitiatingProcessFileName",
           "FileName",
+          "ProcessVersionInfoOriginalFileName",
           "FolderPath",
           "ProcessCommandLine",
           "ReportId"
@@ -262,7 +425,10 @@
           {
             "entity_type": "Account",
             "field_mappings": [
-              {"identifier": "Name", "column": "AccountName"}
+              {
+                "identifier": "Name",
+                "column": "AccountName"
+              }
             ]
           }
         ]
@@ -285,6 +451,7 @@
           "AccountSid",
           "InitiatingProcessFileName",
           "FileName",
+          "ProcessVersionInfoOriginalFileName",
           "FolderPath",
           "ProcessCommandLine",
           "ReportId"
@@ -293,7 +460,10 @@
           {
             "entity_type": "Account",
             "field_mappings": [
-              {"identifier": "Name", "column": "AccountName"}
+              {
+                "identifier": "Name",
+                "column": "AccountName"
+              }
             ]
           }
         ]
@@ -306,15 +476,42 @@
       "golden": "tests/golden/sentinel/MSEC-DET-0008.kql",
       "output": {
         "extend": [
-          {"column": "InitiatingUserPrincipalName", "expression": "tostring(InitiatedBy.user.userPrincipalName)"},
-          {"column": "InitiatingAccountName", "expression": "tostring(split(InitiatingUserPrincipalName, \"@\")[0])"},
-          {"column": "InitiatingAccountUPNSuffix", "expression": "tostring(split(InitiatingUserPrincipalName, \"@\")[1])"},
-          {"column": "InitiatingUserId", "expression": "tostring(InitiatedBy.user.id)"},
-          {"column": "InitiatingIPAddress", "expression": "tostring(InitiatedBy.user.ipAddress)"},
-          {"column": "InitiatingApplicationId", "expression": "tostring(InitiatedBy.app.appId)"},
-          {"column": "InitiatingApplicationName", "expression": "tostring(InitiatedBy.app.displayName)"},
-          {"column": "TargetObjectId", "expression": "tostring(TargetResources[0].id)"},
-          {"column": "TargetObjectName", "expression": "tostring(TargetResources[0].displayName)"}
+          {
+            "column": "InitiatingUserPrincipalName",
+            "expression": "tostring(InitiatedBy.user.userPrincipalName)"
+          },
+          {
+            "column": "InitiatingAccountName",
+            "expression": "tostring(split(InitiatingUserPrincipalName, \"@\")[0])"
+          },
+          {
+            "column": "InitiatingAccountUPNSuffix",
+            "expression": "tostring(split(InitiatingUserPrincipalName, \"@\")[1])"
+          },
+          {
+            "column": "InitiatingUserId",
+            "expression": "tostring(InitiatedBy.user.id)"
+          },
+          {
+            "column": "InitiatingIPAddress",
+            "expression": "tostring(InitiatedBy.user.ipAddress)"
+          },
+          {
+            "column": "InitiatingApplicationId",
+            "expression": "tostring(InitiatedBy.app.appId)"
+          },
+          {
+            "column": "InitiatingApplicationName",
+            "expression": "tostring(InitiatedBy.app.displayName)"
+          },
+          {
+            "column": "TargetObjectId",
+            "expression": "tostring(TargetResources[0].id)"
+          },
+          {
+            "column": "TargetObjectName",
+            "expression": "tostring(TargetResources[0].displayName)"
+          }
         ],
         "columns": [
           "TimeGenerated",
@@ -335,28 +532,49 @@
           {
             "entity_type": "Account",
             "field_mappings": [
-              {"identifier": "Name", "column": "InitiatingAccountName"},
-              {"identifier": "UPNSuffix", "column": "InitiatingAccountUPNSuffix"},
-              {"identifier": "AadUserId", "column": "InitiatingUserId"}
+              {
+                "identifier": "Name",
+                "column": "InitiatingAccountName"
+              },
+              {
+                "identifier": "UPNSuffix",
+                "column": "InitiatingAccountUPNSuffix"
+              },
+              {
+                "identifier": "AadUserId",
+                "column": "InitiatingUserId"
+              }
             ]
           },
           {
             "entity_type": "IP",
             "field_mappings": [
-              {"identifier": "Address", "column": "InitiatingIPAddress"}
+              {
+                "identifier": "Address",
+                "column": "InitiatingIPAddress"
+              }
             ]
           },
           {
             "entity_type": "CloudApplication",
             "field_mappings": [
-              {"identifier": "AppId", "column": "InitiatingApplicationId"},
-              {"identifier": "Name", "column": "InitiatingApplicationName"}
+              {
+                "identifier": "AppId",
+                "column": "InitiatingApplicationId"
+              },
+              {
+                "identifier": "Name",
+                "column": "InitiatingApplicationName"
+              }
             ]
           },
           {
             "entity_type": "Account",
             "field_mappings": [
-              {"identifier": "AadUserId", "column": "TargetObjectId"}
+              {
+                "identifier": "AadUserId",
+                "column": "TargetObjectId"
+              }
             ]
           }
         ]
@@ -369,15 +587,42 @@
       "golden": "tests/golden/sentinel/MSEC-DET-0009.kql",
       "output": {
         "extend": [
-          {"column": "InitiatingUserPrincipalName", "expression": "tostring(InitiatedBy.user.userPrincipalName)"},
-          {"column": "InitiatingAccountName", "expression": "tostring(split(InitiatingUserPrincipalName, \"@\")[0])"},
-          {"column": "InitiatingAccountUPNSuffix", "expression": "tostring(split(InitiatingUserPrincipalName, \"@\")[1])"},
-          {"column": "InitiatingUserId", "expression": "tostring(InitiatedBy.user.id)"},
-          {"column": "InitiatingIPAddress", "expression": "tostring(InitiatedBy.user.ipAddress)"},
-          {"column": "InitiatingApplicationId", "expression": "tostring(InitiatedBy.app.appId)"},
-          {"column": "InitiatingApplicationName", "expression": "tostring(InitiatedBy.app.displayName)"},
-          {"column": "TargetObjectId", "expression": "tostring(TargetResources[0].id)"},
-          {"column": "TargetObjectName", "expression": "tostring(TargetResources[0].displayName)"}
+          {
+            "column": "InitiatingUserPrincipalName",
+            "expression": "tostring(InitiatedBy.user.userPrincipalName)"
+          },
+          {
+            "column": "InitiatingAccountName",
+            "expression": "tostring(split(InitiatingUserPrincipalName, \"@\")[0])"
+          },
+          {
+            "column": "InitiatingAccountUPNSuffix",
+            "expression": "tostring(split(InitiatingUserPrincipalName, \"@\")[1])"
+          },
+          {
+            "column": "InitiatingUserId",
+            "expression": "tostring(InitiatedBy.user.id)"
+          },
+          {
+            "column": "InitiatingIPAddress",
+            "expression": "tostring(InitiatedBy.user.ipAddress)"
+          },
+          {
+            "column": "InitiatingApplicationId",
+            "expression": "tostring(InitiatedBy.app.appId)"
+          },
+          {
+            "column": "InitiatingApplicationName",
+            "expression": "tostring(InitiatedBy.app.displayName)"
+          },
+          {
+            "column": "TargetObjectId",
+            "expression": "tostring(TargetResources[0].id)"
+          },
+          {
+            "column": "TargetObjectName",
+            "expression": "tostring(TargetResources[0].displayName)"
+          }
         ],
         "columns": [
           "TimeGenerated",
@@ -398,28 +643,49 @@
           {
             "entity_type": "Account",
             "field_mappings": [
-              {"identifier": "Name", "column": "InitiatingAccountName"},
-              {"identifier": "UPNSuffix", "column": "InitiatingAccountUPNSuffix"},
-              {"identifier": "AadUserId", "column": "InitiatingUserId"}
+              {
+                "identifier": "Name",
+                "column": "InitiatingAccountName"
+              },
+              {
+                "identifier": "UPNSuffix",
+                "column": "InitiatingAccountUPNSuffix"
+              },
+              {
+                "identifier": "AadUserId",
+                "column": "InitiatingUserId"
+              }
             ]
           },
           {
             "entity_type": "IP",
             "field_mappings": [
-              {"identifier": "Address", "column": "InitiatingIPAddress"}
+              {
+                "identifier": "Address",
+                "column": "InitiatingIPAddress"
+              }
             ]
           },
           {
             "entity_type": "CloudApplication",
             "field_mappings": [
-              {"identifier": "AppId", "column": "InitiatingApplicationId"},
-              {"identifier": "Name", "column": "InitiatingApplicationName"}
+              {
+                "identifier": "AppId",
+                "column": "InitiatingApplicationId"
+              },
+              {
+                "identifier": "Name",
+                "column": "InitiatingApplicationName"
+              }
             ]
           },
           {
             "entity_type": "Account",
             "field_mappings": [
-              {"identifier": "AadUserId", "column": "TargetObjectId"}
+              {
+                "identifier": "AadUserId",
+                "column": "TargetObjectId"
+              }
             ]
           }
         ]
@@ -432,8 +698,14 @@
       "golden": "tests/golden/sentinel/MSEC-DET-0010.kql",
       "output": {
         "extend": [
-          {"column": "AccountName", "expression": "tostring(split(UserPrincipalName, \"@\")[0])"},
-          {"column": "AccountUPNSuffix", "expression": "tostring(split(UserPrincipalName, \"@\")[1])"}
+          {
+            "column": "AccountName",
+            "expression": "tostring(split(UserPrincipalName, \"@\")[0])"
+          },
+          {
+            "column": "AccountUPNSuffix",
+            "expression": "tostring(split(UserPrincipalName, \"@\")[1])"
+          }
         ],
         "columns": [
           "TimeGenerated",
@@ -453,9 +725,18 @@
           {
             "entity_type": "Account",
             "field_mappings": [
-              {"identifier": "Name", "column": "AccountName"},
-              {"identifier": "UPNSuffix", "column": "AccountUPNSuffix"},
-              {"identifier": "AadUserId", "column": "UserId"}
+              {
+                "identifier": "Name",
+                "column": "AccountName"
+              },
+              {
+                "identifier": "UPNSuffix",
+                "column": "AccountUPNSuffix"
+              },
+              {
+                "identifier": "AadUserId",
+                "column": "UserId"
+              }
             ]
           }
         ]
@@ -478,6 +759,7 @@
           "AccountSid",
           "InitiatingProcessFileName",
           "FileName",
+          "ProcessVersionInfoOriginalFileName",
           "FolderPath",
           "ProcessCommandLine",
           "ReportId"
@@ -486,7 +768,10 @@
           {
             "entity_type": "Account",
             "field_mappings": [
-              {"identifier": "Name", "column": "AccountName"}
+              {
+                "identifier": "Name",
+                "column": "AccountName"
+              }
             ]
           }
         ]
@@ -509,6 +794,7 @@
           "AccountSid",
           "InitiatingProcessFileName",
           "FileName",
+          "ProcessVersionInfoOriginalFileName",
           "FolderPath",
           "ProcessCommandLine",
           "ReportId"
@@ -517,7 +803,10 @@
           {
             "entity_type": "Account",
             "field_mappings": [
-              {"identifier": "Name", "column": "AccountName"}
+              {
+                "identifier": "Name",
+                "column": "AccountName"
+              }
             ]
           }
         ]
@@ -540,6 +829,7 @@
           "AccountSid",
           "InitiatingProcessFileName",
           "FileName",
+          "ProcessVersionInfoOriginalFileName",
           "FolderPath",
           "ProcessCommandLine",
           "ReportId"
@@ -548,7 +838,10 @@
           {
             "entity_type": "Account",
             "field_mappings": [
-              {"identifier": "Name", "column": "AccountName"}
+              {
+                "identifier": "Name",
+                "column": "AccountName"
+              }
             ]
           }
         ]
@@ -561,15 +854,42 @@
       "golden": "tests/golden/sentinel/MSEC-DET-0014.kql",
       "output": {
         "extend": [
-          {"column": "InitiatingUserPrincipalName", "expression": "tostring(InitiatedBy.user.userPrincipalName)"},
-          {"column": "InitiatingAccountName", "expression": "tostring(split(InitiatingUserPrincipalName, \"@\")[0])"},
-          {"column": "InitiatingAccountUPNSuffix", "expression": "tostring(split(InitiatingUserPrincipalName, \"@\")[1])"},
-          {"column": "InitiatingUserId", "expression": "tostring(InitiatedBy.user.id)"},
-          {"column": "InitiatingIPAddress", "expression": "tostring(InitiatedBy.user.ipAddress)"},
-          {"column": "InitiatingApplicationId", "expression": "tostring(InitiatedBy.app.appId)"},
-          {"column": "InitiatingApplicationName", "expression": "tostring(InitiatedBy.app.displayName)"},
-          {"column": "TargetPolicyId", "expression": "tostring(TargetResources[0].id)"},
-          {"column": "TargetPolicyName", "expression": "tostring(TargetResources[0].displayName)"}
+          {
+            "column": "InitiatingUserPrincipalName",
+            "expression": "tostring(InitiatedBy.user.userPrincipalName)"
+          },
+          {
+            "column": "InitiatingAccountName",
+            "expression": "tostring(split(InitiatingUserPrincipalName, \"@\")[0])"
+          },
+          {
+            "column": "InitiatingAccountUPNSuffix",
+            "expression": "tostring(split(InitiatingUserPrincipalName, \"@\")[1])"
+          },
+          {
+            "column": "InitiatingUserId",
+            "expression": "tostring(InitiatedBy.user.id)"
+          },
+          {
+            "column": "InitiatingIPAddress",
+            "expression": "tostring(InitiatedBy.user.ipAddress)"
+          },
+          {
+            "column": "InitiatingApplicationId",
+            "expression": "tostring(InitiatedBy.app.appId)"
+          },
+          {
+            "column": "InitiatingApplicationName",
+            "expression": "tostring(InitiatedBy.app.displayName)"
+          },
+          {
+            "column": "TargetPolicyId",
+            "expression": "tostring(TargetResources[0].id)"
+          },
+          {
+            "column": "TargetPolicyName",
+            "expression": "tostring(TargetResources[0].displayName)"
+          }
         ],
         "columns": [
           "TimeGenerated",
@@ -590,22 +910,40 @@
           {
             "entity_type": "Account",
             "field_mappings": [
-              {"identifier": "Name", "column": "InitiatingAccountName"},
-              {"identifier": "UPNSuffix", "column": "InitiatingAccountUPNSuffix"},
-              {"identifier": "AadUserId", "column": "InitiatingUserId"}
+              {
+                "identifier": "Name",
+                "column": "InitiatingAccountName"
+              },
+              {
+                "identifier": "UPNSuffix",
+                "column": "InitiatingAccountUPNSuffix"
+              },
+              {
+                "identifier": "AadUserId",
+                "column": "InitiatingUserId"
+              }
             ]
           },
           {
             "entity_type": "IP",
             "field_mappings": [
-              {"identifier": "Address", "column": "InitiatingIPAddress"}
+              {
+                "identifier": "Address",
+                "column": "InitiatingIPAddress"
+              }
             ]
           },
           {
             "entity_type": "CloudApplication",
             "field_mappings": [
-              {"identifier": "AppId", "column": "InitiatingApplicationId"},
-              {"identifier": "Name", "column": "InitiatingApplicationName"}
+              {
+                "identifier": "AppId",
+                "column": "InitiatingApplicationId"
+              },
+              {
+                "identifier": "Name",
+                "column": "InitiatingApplicationName"
+              }
             ]
           }
         ]
@@ -618,16 +956,46 @@
       "golden": "tests/golden/sentinel/MSEC-DET-0015.kql",
       "output": {
         "extend": [
-          {"column": "InitiatingUserPrincipalName", "expression": "tostring(InitiatedBy.user.userPrincipalName)"},
-          {"column": "InitiatingAccountName", "expression": "tostring(split(InitiatingUserPrincipalName, \"@\")[0])"},
-          {"column": "InitiatingAccountUPNSuffix", "expression": "tostring(split(InitiatingUserPrincipalName, \"@\")[1])"},
-          {"column": "InitiatingUserId", "expression": "tostring(InitiatedBy.user.id)"},
-          {"column": "InitiatingIPAddress", "expression": "tostring(InitiatedBy.user.ipAddress)"},
-          {"column": "InitiatingApplicationId", "expression": "tostring(InitiatedBy.app.appId)"},
-          {"column": "InitiatingApplicationName", "expression": "tostring(InitiatedBy.app.displayName)"},
-          {"column": "TargetResourceType", "expression": "tostring(TargetResources[0].type)"},
-          {"column": "TargetResourceId", "expression": "tostring(TargetResources[0].id)"},
-          {"column": "TargetResourceName", "expression": "tostring(TargetResources[0].displayName)"}
+          {
+            "column": "InitiatingUserPrincipalName",
+            "expression": "tostring(InitiatedBy.user.userPrincipalName)"
+          },
+          {
+            "column": "InitiatingAccountName",
+            "expression": "tostring(split(InitiatingUserPrincipalName, \"@\")[0])"
+          },
+          {
+            "column": "InitiatingAccountUPNSuffix",
+            "expression": "tostring(split(InitiatingUserPrincipalName, \"@\")[1])"
+          },
+          {
+            "column": "InitiatingUserId",
+            "expression": "tostring(InitiatedBy.user.id)"
+          },
+          {
+            "column": "InitiatingIPAddress",
+            "expression": "tostring(InitiatedBy.user.ipAddress)"
+          },
+          {
+            "column": "InitiatingApplicationId",
+            "expression": "tostring(InitiatedBy.app.appId)"
+          },
+          {
+            "column": "InitiatingApplicationName",
+            "expression": "tostring(InitiatedBy.app.displayName)"
+          },
+          {
+            "column": "TargetResourceType",
+            "expression": "tostring(TargetResources[0].type)"
+          },
+          {
+            "column": "TargetResourceId",
+            "expression": "tostring(TargetResources[0].id)"
+          },
+          {
+            "column": "TargetResourceName",
+            "expression": "tostring(TargetResources[0].displayName)"
+          }
         ],
         "columns": [
           "TimeGenerated",
@@ -649,22 +1017,40 @@
           {
             "entity_type": "Account",
             "field_mappings": [
-              {"identifier": "Name", "column": "InitiatingAccountName"},
-              {"identifier": "UPNSuffix", "column": "InitiatingAccountUPNSuffix"},
-              {"identifier": "AadUserId", "column": "InitiatingUserId"}
+              {
+                "identifier": "Name",
+                "column": "InitiatingAccountName"
+              },
+              {
+                "identifier": "UPNSuffix",
+                "column": "InitiatingAccountUPNSuffix"
+              },
+              {
+                "identifier": "AadUserId",
+                "column": "InitiatingUserId"
+              }
             ]
           },
           {
             "entity_type": "IP",
             "field_mappings": [
-              {"identifier": "Address", "column": "InitiatingIPAddress"}
+              {
+                "identifier": "Address",
+                "column": "InitiatingIPAddress"
+              }
             ]
           },
           {
             "entity_type": "CloudApplication",
             "field_mappings": [
-              {"identifier": "AppId", "column": "InitiatingApplicationId"},
-              {"identifier": "Name", "column": "InitiatingApplicationName"}
+              {
+                "identifier": "AppId",
+                "column": "InitiatingApplicationId"
+              },
+              {
+                "identifier": "Name",
+                "column": "InitiatingApplicationName"
+              }
             ]
           }
         ]
@@ -678,11 +1064,30 @@
       "output": {
         "extend": [],
         "columns": [
-          "TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountDomain", "AccountName", "AccountSid",
-          "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"
+          "TimeGenerated",
+          "Timestamp",
+          "DeviceId",
+          "DeviceName",
+          "AccountDomain",
+          "AccountName",
+          "AccountSid",
+          "InitiatingProcessFileName",
+          "FileName",
+          "ProcessVersionInfoOriginalFileName",
+          "FolderPath",
+          "ProcessCommandLine",
+          "ReportId"
         ],
         "entity_mappings": [
-          {"entity_type": "Account", "field_mappings": [{"identifier": "Name", "column": "AccountName"}]}
+          {
+            "entity_type": "Account",
+            "field_mappings": [
+              {
+                "identifier": "Name",
+                "column": "AccountName"
+              }
+            ]
+          }
         ]
       }
     },
@@ -694,11 +1099,30 @@
       "output": {
         "extend": [],
         "columns": [
-          "TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountDomain", "AccountName", "AccountSid",
-          "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"
+          "TimeGenerated",
+          "Timestamp",
+          "DeviceId",
+          "DeviceName",
+          "AccountDomain",
+          "AccountName",
+          "AccountSid",
+          "InitiatingProcessFileName",
+          "FileName",
+          "ProcessVersionInfoOriginalFileName",
+          "FolderPath",
+          "ProcessCommandLine",
+          "ReportId"
         ],
         "entity_mappings": [
-          {"entity_type": "Account", "field_mappings": [{"identifier": "Name", "column": "AccountName"}]}
+          {
+            "entity_type": "Account",
+            "field_mappings": [
+              {
+                "identifier": "Name",
+                "column": "AccountName"
+              }
+            ]
+          }
         ]
       }
     },
@@ -710,11 +1134,30 @@
       "output": {
         "extend": [],
         "columns": [
-          "TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountDomain", "AccountName", "AccountSid",
-          "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"
+          "TimeGenerated",
+          "Timestamp",
+          "DeviceId",
+          "DeviceName",
+          "AccountDomain",
+          "AccountName",
+          "AccountSid",
+          "InitiatingProcessFileName",
+          "FileName",
+          "ProcessVersionInfoOriginalFileName",
+          "FolderPath",
+          "ProcessCommandLine",
+          "ReportId"
         ],
         "entity_mappings": [
-          {"entity_type": "Account", "field_mappings": [{"identifier": "Name", "column": "AccountName"}]}
+          {
+            "entity_type": "Account",
+            "field_mappings": [
+              {
+                "identifier": "Name",
+                "column": "AccountName"
+              }
+            ]
+          }
         ]
       }
     },
@@ -725,33 +1168,103 @@
       "golden": "tests/golden/sentinel/MSEC-DET-0019.kql",
       "output": {
         "extend": [
-          {"column": "InitiatingUserPrincipalName", "expression": "tostring(InitiatedBy.user.userPrincipalName)"},
-          {"column": "InitiatingAccountName", "expression": "tostring(split(InitiatingUserPrincipalName, \"@\")[0])"},
-          {"column": "InitiatingAccountUPNSuffix", "expression": "tostring(split(InitiatingUserPrincipalName, \"@\")[1])"},
-          {"column": "InitiatingUserId", "expression": "tostring(InitiatedBy.user.id)"},
-          {"column": "InitiatingIPAddress", "expression": "tostring(InitiatedBy.user.ipAddress)"},
-          {"column": "InitiatingApplicationId", "expression": "tostring(InitiatedBy.app.appId)"},
-          {"column": "InitiatingApplicationName", "expression": "tostring(InitiatedBy.app.displayName)"},
-          {"column": "TargetResourceType", "expression": "tostring(TargetResources[0].type)"},
-          {"column": "TargetResourceId", "expression": "tostring(TargetResources[0].id)"},
-          {"column": "TargetResourceName", "expression": "tostring(TargetResources[0].displayName)"}
+          {
+            "column": "InitiatingUserPrincipalName",
+            "expression": "tostring(InitiatedBy.user.userPrincipalName)"
+          },
+          {
+            "column": "InitiatingAccountName",
+            "expression": "tostring(split(InitiatingUserPrincipalName, \"@\")[0])"
+          },
+          {
+            "column": "InitiatingAccountUPNSuffix",
+            "expression": "tostring(split(InitiatingUserPrincipalName, \"@\")[1])"
+          },
+          {
+            "column": "InitiatingUserId",
+            "expression": "tostring(InitiatedBy.user.id)"
+          },
+          {
+            "column": "InitiatingIPAddress",
+            "expression": "tostring(InitiatedBy.user.ipAddress)"
+          },
+          {
+            "column": "InitiatingApplicationId",
+            "expression": "tostring(InitiatedBy.app.appId)"
+          },
+          {
+            "column": "InitiatingApplicationName",
+            "expression": "tostring(InitiatedBy.app.displayName)"
+          },
+          {
+            "column": "TargetResourceType",
+            "expression": "tostring(TargetResources[0].type)"
+          },
+          {
+            "column": "TargetResourceId",
+            "expression": "tostring(TargetResources[0].id)"
+          },
+          {
+            "column": "TargetResourceName",
+            "expression": "tostring(TargetResources[0].displayName)"
+          }
         ],
         "columns": [
-          "TimeGenerated", "OperationName", "InitiatingUserPrincipalName", "InitiatingAccountName", "InitiatingAccountUPNSuffix",
-          "InitiatingUserId", "InitiatingIPAddress", "InitiatingApplicationId", "InitiatingApplicationName",
-          "TargetResourceType", "TargetResourceId", "TargetResourceName", "CorrelationId", "LoggedByService"
+          "TimeGenerated",
+          "OperationName",
+          "InitiatingUserPrincipalName",
+          "InitiatingAccountName",
+          "InitiatingAccountUPNSuffix",
+          "InitiatingUserId",
+          "InitiatingIPAddress",
+          "InitiatingApplicationId",
+          "InitiatingApplicationName",
+          "TargetResourceType",
+          "TargetResourceId",
+          "TargetResourceName",
+          "CorrelationId",
+          "LoggedByService"
         ],
         "entity_mappings": [
-          {"entity_type": "Account", "field_mappings": [
-            {"identifier": "Name", "column": "InitiatingAccountName"},
-            {"identifier": "UPNSuffix", "column": "InitiatingAccountUPNSuffix"},
-            {"identifier": "AadUserId", "column": "InitiatingUserId"}
-          ]},
-          {"entity_type": "IP", "field_mappings": [{"identifier": "Address", "column": "InitiatingIPAddress"}]},
-          {"entity_type": "CloudApplication", "field_mappings": [
-            {"identifier": "AppId", "column": "InitiatingApplicationId"},
-            {"identifier": "Name", "column": "InitiatingApplicationName"}
-          ]}
+          {
+            "entity_type": "Account",
+            "field_mappings": [
+              {
+                "identifier": "Name",
+                "column": "InitiatingAccountName"
+              },
+              {
+                "identifier": "UPNSuffix",
+                "column": "InitiatingAccountUPNSuffix"
+              },
+              {
+                "identifier": "AadUserId",
+                "column": "InitiatingUserId"
+              }
+            ]
+          },
+          {
+            "entity_type": "IP",
+            "field_mappings": [
+              {
+                "identifier": "Address",
+                "column": "InitiatingIPAddress"
+              }
+            ]
+          },
+          {
+            "entity_type": "CloudApplication",
+            "field_mappings": [
+              {
+                "identifier": "AppId",
+                "column": "InitiatingApplicationId"
+              },
+              {
+                "identifier": "Name",
+                "column": "InitiatingApplicationName"
+              }
+            ]
+          }
         ]
       }
     },
@@ -763,11 +1276,30 @@
       "output": {
         "extend": [],
         "columns": [
-          "TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountDomain", "AccountName", "AccountSid",
-          "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"
+          "TimeGenerated",
+          "Timestamp",
+          "DeviceId",
+          "DeviceName",
+          "AccountDomain",
+          "AccountName",
+          "AccountSid",
+          "InitiatingProcessFileName",
+          "FileName",
+          "ProcessVersionInfoOriginalFileName",
+          "FolderPath",
+          "ProcessCommandLine",
+          "ReportId"
         ],
         "entity_mappings": [
-          {"entity_type": "Account", "field_mappings": [{"identifier": "Name", "column": "AccountName"}]}
+          {
+            "entity_type": "Account",
+            "field_mappings": [
+              {
+                "identifier": "Name",
+                "column": "AccountName"
+              }
+            ]
+          }
         ]
       }
     },
@@ -778,33 +1310,107 @@
       "golden": "tests/golden/sentinel/MSEC-DET-0021.kql",
       "output": {
         "extend": [
-          {"column": "InitiatingUserPrincipalName", "expression": "tostring(InitiatedBy.user.userPrincipalName)"},
-          {"column": "InitiatingAccountName", "expression": "tostring(split(InitiatingUserPrincipalName, \"@\")[0])"},
-          {"column": "InitiatingAccountUPNSuffix", "expression": "tostring(split(InitiatingUserPrincipalName, \"@\")[1])"},
-          {"column": "InitiatingUserId", "expression": "tostring(InitiatedBy.user.id)"},
-          {"column": "InitiatingIPAddress", "expression": "tostring(InitiatedBy.user.ipAddress)"},
-          {"column": "InitiatingApplicationId", "expression": "tostring(InitiatedBy.app.appId)"},
-          {"column": "InitiatingApplicationName", "expression": "tostring(InitiatedBy.app.displayName)"},
-          {"column": "TargetServicePrincipalId", "expression": "tostring(TargetResources[0].id)"},
-          {"column": "TargetServicePrincipalName", "expression": "tostring(TargetResources[0].displayName)"}
+          {
+            "column": "InitiatingUserPrincipalName",
+            "expression": "tostring(InitiatedBy.user.userPrincipalName)"
+          },
+          {
+            "column": "InitiatingAccountName",
+            "expression": "tostring(split(InitiatingUserPrincipalName, \"@\")[0])"
+          },
+          {
+            "column": "InitiatingAccountUPNSuffix",
+            "expression": "tostring(split(InitiatingUserPrincipalName, \"@\")[1])"
+          },
+          {
+            "column": "InitiatingUserId",
+            "expression": "tostring(InitiatedBy.user.id)"
+          },
+          {
+            "column": "InitiatingIPAddress",
+            "expression": "tostring(InitiatedBy.user.ipAddress)"
+          },
+          {
+            "column": "InitiatingApplicationId",
+            "expression": "tostring(InitiatedBy.app.appId)"
+          },
+          {
+            "column": "InitiatingApplicationName",
+            "expression": "tostring(InitiatedBy.app.displayName)"
+          },
+          {
+            "column": "TargetServicePrincipalId",
+            "expression": "tostring(MsecTarget.id)"
+          },
+          {
+            "column": "TargetServicePrincipalName",
+            "expression": "tostring(MsecTarget.displayName)"
+          }
         ],
         "columns": [
-          "TimeGenerated", "OperationName", "InitiatingUserPrincipalName", "InitiatingAccountName", "InitiatingAccountUPNSuffix",
-          "InitiatingUserId", "InitiatingIPAddress", "InitiatingApplicationId", "InitiatingApplicationName",
-          "TargetServicePrincipalId", "TargetServicePrincipalName", "CorrelationId", "LoggedByService"
+          "TimeGenerated",
+          "OperationName",
+          "InitiatingUserPrincipalName",
+          "InitiatingAccountName",
+          "InitiatingAccountUPNSuffix",
+          "InitiatingUserId",
+          "InitiatingIPAddress",
+          "InitiatingApplicationId",
+          "InitiatingApplicationName",
+          "TargetServicePrincipalId",
+          "TargetServicePrincipalName",
+          "CorrelationId",
+          "LoggedByService"
         ],
         "entity_mappings": [
-          {"entity_type": "Account", "field_mappings": [
-            {"identifier": "Name", "column": "InitiatingAccountName"},
-            {"identifier": "UPNSuffix", "column": "InitiatingAccountUPNSuffix"},
-            {"identifier": "AadUserId", "column": "InitiatingUserId"}
-          ]},
-          {"entity_type": "IP", "field_mappings": [{"identifier": "Address", "column": "InitiatingIPAddress"}]},
-          {"entity_type": "CloudApplication", "field_mappings": [
-            {"identifier": "AppId", "column": "InitiatingApplicationId"},
-            {"identifier": "Name", "column": "InitiatingApplicationName"}
-          ]},
-          {"entity_type": "CloudApplication", "field_mappings": [{"identifier": "Name", "column": "TargetServicePrincipalName"}]}
+          {
+            "entity_type": "Account",
+            "field_mappings": [
+              {
+                "identifier": "Name",
+                "column": "InitiatingAccountName"
+              },
+              {
+                "identifier": "UPNSuffix",
+                "column": "InitiatingAccountUPNSuffix"
+              },
+              {
+                "identifier": "AadUserId",
+                "column": "InitiatingUserId"
+              }
+            ]
+          },
+          {
+            "entity_type": "IP",
+            "field_mappings": [
+              {
+                "identifier": "Address",
+                "column": "InitiatingIPAddress"
+              }
+            ]
+          },
+          {
+            "entity_type": "CloudApplication",
+            "field_mappings": [
+              {
+                "identifier": "AppId",
+                "column": "InitiatingApplicationId"
+              },
+              {
+                "identifier": "Name",
+                "column": "InitiatingApplicationName"
+              }
+            ]
+          },
+          {
+            "entity_type": "CloudApplication",
+            "field_mappings": [
+              {
+                "identifier": "Name",
+                "column": "TargetServicePrincipalName"
+              }
+            ]
+          }
         ]
       }
     },
@@ -815,33 +1421,107 @@
       "golden": "tests/golden/sentinel/MSEC-DET-0022.kql",
       "output": {
         "extend": [
-          {"column": "InitiatingUserPrincipalName", "expression": "tostring(InitiatedBy.user.userPrincipalName)"},
-          {"column": "InitiatingAccountName", "expression": "tostring(split(InitiatingUserPrincipalName, \"@\")[0])"},
-          {"column": "InitiatingAccountUPNSuffix", "expression": "tostring(split(InitiatingUserPrincipalName, \"@\")[1])"},
-          {"column": "InitiatingUserId", "expression": "tostring(InitiatedBy.user.id)"},
-          {"column": "InitiatingIPAddress", "expression": "tostring(InitiatedBy.user.ipAddress)"},
-          {"column": "InitiatingApplicationId", "expression": "tostring(InitiatedBy.app.appId)"},
-          {"column": "InitiatingApplicationName", "expression": "tostring(InitiatedBy.app.displayName)"},
-          {"column": "TargetObjectId", "expression": "tostring(TargetResources[0].id)"},
-          {"column": "TargetObjectName", "expression": "tostring(TargetResources[0].displayName)"}
+          {
+            "column": "InitiatingUserPrincipalName",
+            "expression": "tostring(InitiatedBy.user.userPrincipalName)"
+          },
+          {
+            "column": "InitiatingAccountName",
+            "expression": "tostring(split(InitiatingUserPrincipalName, \"@\")[0])"
+          },
+          {
+            "column": "InitiatingAccountUPNSuffix",
+            "expression": "tostring(split(InitiatingUserPrincipalName, \"@\")[1])"
+          },
+          {
+            "column": "InitiatingUserId",
+            "expression": "tostring(InitiatedBy.user.id)"
+          },
+          {
+            "column": "InitiatingIPAddress",
+            "expression": "tostring(InitiatedBy.user.ipAddress)"
+          },
+          {
+            "column": "InitiatingApplicationId",
+            "expression": "tostring(InitiatedBy.app.appId)"
+          },
+          {
+            "column": "InitiatingApplicationName",
+            "expression": "tostring(InitiatedBy.app.displayName)"
+          },
+          {
+            "column": "TargetObjectId",
+            "expression": "tostring(TargetResources[0].id)"
+          },
+          {
+            "column": "TargetObjectName",
+            "expression": "tostring(TargetResources[0].displayName)"
+          }
         ],
         "columns": [
-          "TimeGenerated", "OperationName", "InitiatingUserPrincipalName", "InitiatingAccountName", "InitiatingAccountUPNSuffix",
-          "InitiatingUserId", "InitiatingIPAddress", "InitiatingApplicationId", "InitiatingApplicationName",
-          "TargetObjectId", "TargetObjectName", "CorrelationId", "LoggedByService"
+          "TimeGenerated",
+          "OperationName",
+          "InitiatingUserPrincipalName",
+          "InitiatingAccountName",
+          "InitiatingAccountUPNSuffix",
+          "InitiatingUserId",
+          "InitiatingIPAddress",
+          "InitiatingApplicationId",
+          "InitiatingApplicationName",
+          "TargetObjectId",
+          "TargetObjectName",
+          "CorrelationId",
+          "LoggedByService"
         ],
         "entity_mappings": [
-          {"entity_type": "Account", "field_mappings": [
-            {"identifier": "Name", "column": "InitiatingAccountName"},
-            {"identifier": "UPNSuffix", "column": "InitiatingAccountUPNSuffix"},
-            {"identifier": "AadUserId", "column": "InitiatingUserId"}
-          ]},
-          {"entity_type": "IP", "field_mappings": [{"identifier": "Address", "column": "InitiatingIPAddress"}]},
-          {"entity_type": "CloudApplication", "field_mappings": [
-            {"identifier": "AppId", "column": "InitiatingApplicationId"},
-            {"identifier": "Name", "column": "InitiatingApplicationName"}
-          ]},
-          {"entity_type": "Account", "field_mappings": [{"identifier": "AadUserId", "column": "TargetObjectId"}]}
+          {
+            "entity_type": "Account",
+            "field_mappings": [
+              {
+                "identifier": "Name",
+                "column": "InitiatingAccountName"
+              },
+              {
+                "identifier": "UPNSuffix",
+                "column": "InitiatingAccountUPNSuffix"
+              },
+              {
+                "identifier": "AadUserId",
+                "column": "InitiatingUserId"
+              }
+            ]
+          },
+          {
+            "entity_type": "IP",
+            "field_mappings": [
+              {
+                "identifier": "Address",
+                "column": "InitiatingIPAddress"
+              }
+            ]
+          },
+          {
+            "entity_type": "CloudApplication",
+            "field_mappings": [
+              {
+                "identifier": "AppId",
+                "column": "InitiatingApplicationId"
+              },
+              {
+                "identifier": "Name",
+                "column": "InitiatingApplicationName"
+              }
+            ]
+          },
+          {
+            "entity_type": "Account",
+            "field_mappings": [
+              {
+                "identifier": "AadUserId",
+                "column": "TargetObjectId"
+              }
+            ]
+          }
         ]
       }
     },
@@ -853,11 +1533,30 @@
       "output": {
         "extend": [],
         "columns": [
-          "TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountDomain", "AccountName", "AccountSid",
-          "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"
+          "TimeGenerated",
+          "Timestamp",
+          "DeviceId",
+          "DeviceName",
+          "AccountDomain",
+          "AccountName",
+          "AccountSid",
+          "InitiatingProcessFileName",
+          "FileName",
+          "ProcessVersionInfoOriginalFileName",
+          "FolderPath",
+          "ProcessCommandLine",
+          "ReportId"
         ],
         "entity_mappings": [
-          {"entity_type": "Account", "field_mappings": [{"identifier": "Name", "column": "AccountName"}]}
+          {
+            "entity_type": "Account",
+            "field_mappings": [
+              {
+                "identifier": "Name",
+                "column": "AccountName"
+              }
+            ]
+          }
         ]
       }
     },
@@ -869,11 +1568,30 @@
       "output": {
         "extend": [],
         "columns": [
-          "TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountDomain", "AccountName", "AccountSid",
-          "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"
+          "TimeGenerated",
+          "Timestamp",
+          "DeviceId",
+          "DeviceName",
+          "AccountDomain",
+          "AccountName",
+          "AccountSid",
+          "InitiatingProcessFileName",
+          "FileName",
+          "ProcessVersionInfoOriginalFileName",
+          "FolderPath",
+          "ProcessCommandLine",
+          "ReportId"
         ],
         "entity_mappings": [
-          {"entity_type": "Account", "field_mappings": [{"identifier": "Name", "column": "AccountName"}]}
+          {
+            "entity_type": "Account",
+            "field_mappings": [
+              {
+                "identifier": "Name",
+                "column": "AccountName"
+              }
+            ]
+          }
         ]
       }
     },
@@ -885,11 +1603,30 @@
       "output": {
         "extend": [],
         "columns": [
-          "TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountDomain", "AccountName", "AccountSid",
-          "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"
+          "TimeGenerated",
+          "Timestamp",
+          "DeviceId",
+          "DeviceName",
+          "AccountDomain",
+          "AccountName",
+          "AccountSid",
+          "InitiatingProcessFileName",
+          "FileName",
+          "ProcessVersionInfoOriginalFileName",
+          "FolderPath",
+          "ProcessCommandLine",
+          "ReportId"
         ],
         "entity_mappings": [
-          {"entity_type": "Account", "field_mappings": [{"identifier": "Name", "column": "AccountName"}]}
+          {
+            "entity_type": "Account",
+            "field_mappings": [
+              {
+                "identifier": "Name",
+                "column": "AccountName"
+              }
+            ]
+          }
         ]
       }
     },
@@ -900,28 +1637,81 @@
       "golden": "tests/golden/sentinel/MSEC-DET-0026.kql",
       "output": {
         "extend": [
-          {"column": "AccountName", "expression": "tostring(split(UserPrincipalName, \"@\")[0])"},
-          {"column": "AccountUPNSuffix", "expression": "tostring(split(UserPrincipalName, \"@\")[1])"},
-          {"column": "SourceIPAddress", "expression": "tostring(IPAddress)"},
-          {"column": "ApplicationId", "expression": "tostring(AppId)"},
-          {"column": "ApplicationName", "expression": "tostring(AppDisplayName)"}
+          {
+            "column": "AccountName",
+            "expression": "tostring(split(UserPrincipalName, \"@\")[0])"
+          },
+          {
+            "column": "AccountUPNSuffix",
+            "expression": "tostring(split(UserPrincipalName, \"@\")[1])"
+          },
+          {
+            "column": "SourceIPAddress",
+            "expression": "tostring(IPAddress)"
+          },
+          {
+            "column": "ApplicationId",
+            "expression": "tostring(AppId)"
+          },
+          {
+            "column": "ApplicationName",
+            "expression": "tostring(AppDisplayName)"
+          }
         ],
         "columns": [
-          "TimeGenerated", "UserPrincipalName", "AccountName", "AccountUPNSuffix", "UserId", "SourceIPAddress",
-          "ApplicationId", "ApplicationName", "AuthenticationProtocol", "AuthenticationRequirement",
-          "ConditionalAccessStatus", "CorrelationId"
+          "TimeGenerated",
+          "UserPrincipalName",
+          "AccountName",
+          "AccountUPNSuffix",
+          "UserId",
+          "SourceIPAddress",
+          "ApplicationId",
+          "ApplicationName",
+          "AuthenticationProtocol",
+          "AuthenticationRequirement",
+          "ConditionalAccessStatus",
+          "CorrelationId"
         ],
         "entity_mappings": [
-          {"entity_type": "Account", "field_mappings": [
-            {"identifier": "Name", "column": "AccountName"},
-            {"identifier": "UPNSuffix", "column": "AccountUPNSuffix"},
-            {"identifier": "AadUserId", "column": "UserId"}
-          ]},
-          {"entity_type": "IP", "field_mappings": [{"identifier": "Address", "column": "SourceIPAddress"}]},
-          {"entity_type": "CloudApplication", "field_mappings": [
-            {"identifier": "AppId", "column": "ApplicationId"},
-            {"identifier": "Name", "column": "ApplicationName"}
-          ]}
+          {
+            "entity_type": "Account",
+            "field_mappings": [
+              {
+                "identifier": "Name",
+                "column": "AccountName"
+              },
+              {
+                "identifier": "UPNSuffix",
+                "column": "AccountUPNSuffix"
+              },
+              {
+                "identifier": "AadUserId",
+                "column": "UserId"
+              }
+            ]
+          },
+          {
+            "entity_type": "IP",
+            "field_mappings": [
+              {
+                "identifier": "Address",
+                "column": "SourceIPAddress"
+              }
+            ]
+          },
+          {
+            "entity_type": "CloudApplication",
+            "field_mappings": [
+              {
+                "identifier": "AppId",
+                "column": "ApplicationId"
+              },
+              {
+                "identifier": "Name",
+                "column": "ApplicationName"
+              }
+            ]
+          }
         ]
       }
     },
@@ -933,11 +1723,30 @@
       "output": {
         "extend": [],
         "columns": [
-          "TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountDomain", "AccountName", "AccountSid",
-          "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"
+          "TimeGenerated",
+          "Timestamp",
+          "DeviceId",
+          "DeviceName",
+          "AccountDomain",
+          "AccountName",
+          "AccountSid",
+          "InitiatingProcessFileName",
+          "FileName",
+          "ProcessVersionInfoOriginalFileName",
+          "FolderPath",
+          "ProcessCommandLine",
+          "ReportId"
         ],
         "entity_mappings": [
-          {"entity_type": "Account", "field_mappings": [{"identifier": "Name", "column": "AccountName"}]}
+          {
+            "entity_type": "Account",
+            "field_mappings": [
+              {
+                "identifier": "Name",
+                "column": "AccountName"
+              }
+            ]
+          }
         ]
       }
     },
@@ -949,11 +1758,30 @@
       "output": {
         "extend": [],
         "columns": [
-          "TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountDomain", "AccountName", "AccountSid",
-          "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"
+          "TimeGenerated",
+          "Timestamp",
+          "DeviceId",
+          "DeviceName",
+          "AccountDomain",
+          "AccountName",
+          "AccountSid",
+          "InitiatingProcessFileName",
+          "FileName",
+          "ProcessVersionInfoOriginalFileName",
+          "FolderPath",
+          "ProcessCommandLine",
+          "ReportId"
         ],
         "entity_mappings": [
-          {"entity_type": "Account", "field_mappings": [{"identifier": "Name", "column": "AccountName"}]}
+          {
+            "entity_type": "Account",
+            "field_mappings": [
+              {
+                "identifier": "Name",
+                "column": "AccountName"
+              }
+            ]
+          }
         ]
       }
     },
@@ -965,11 +1793,30 @@
       "output": {
         "extend": [],
         "columns": [
-          "TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountDomain", "AccountName", "AccountSid",
-          "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"
+          "TimeGenerated",
+          "Timestamp",
+          "DeviceId",
+          "DeviceName",
+          "AccountDomain",
+          "AccountName",
+          "AccountSid",
+          "InitiatingProcessFileName",
+          "FileName",
+          "ProcessVersionInfoOriginalFileName",
+          "FolderPath",
+          "ProcessCommandLine",
+          "ReportId"
         ],
         "entity_mappings": [
-          {"entity_type": "Account", "field_mappings": [{"identifier": "Name", "column": "AccountName"}]}
+          {
+            "entity_type": "Account",
+            "field_mappings": [
+              {
+                "identifier": "Name",
+                "column": "AccountName"
+              }
+            ]
+          }
         ]
       }
     },
@@ -981,11 +1828,30 @@
       "output": {
         "extend": [],
         "columns": [
-          "TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountDomain", "AccountName", "AccountSid",
-          "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"
+          "TimeGenerated",
+          "Timestamp",
+          "DeviceId",
+          "DeviceName",
+          "AccountDomain",
+          "AccountName",
+          "AccountSid",
+          "InitiatingProcessFileName",
+          "FileName",
+          "ProcessVersionInfoOriginalFileName",
+          "FolderPath",
+          "ProcessCommandLine",
+          "ReportId"
         ],
         "entity_mappings": [
-          {"entity_type": "Account", "field_mappings": [{"identifier": "Name", "column": "AccountName"}]}
+          {
+            "entity_type": "Account",
+            "field_mappings": [
+              {
+                "identifier": "Name",
+                "column": "AccountName"
+              }
+            ]
+          }
         ]
       }
     },
@@ -997,11 +1863,30 @@
       "output": {
         "extend": [],
         "columns": [
-          "TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountDomain", "AccountName", "AccountSid",
-          "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"
+          "TimeGenerated",
+          "Timestamp",
+          "DeviceId",
+          "DeviceName",
+          "AccountDomain",
+          "AccountName",
+          "AccountSid",
+          "InitiatingProcessFileName",
+          "FileName",
+          "ProcessVersionInfoOriginalFileName",
+          "FolderPath",
+          "ProcessCommandLine",
+          "ReportId"
         ],
         "entity_mappings": [
-          {"entity_type": "Account", "field_mappings": [{"identifier": "Name", "column": "AccountName"}]}
+          {
+            "entity_type": "Account",
+            "field_mappings": [
+              {
+                "identifier": "Name",
+                "column": "AccountName"
+              }
+            ]
+          }
         ]
       }
     },
@@ -1013,11 +1898,30 @@
       "output": {
         "extend": [],
         "columns": [
-          "TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountDomain", "AccountName", "AccountSid",
-          "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"
+          "TimeGenerated",
+          "Timestamp",
+          "DeviceId",
+          "DeviceName",
+          "AccountDomain",
+          "AccountName",
+          "AccountSid",
+          "InitiatingProcessFileName",
+          "FileName",
+          "ProcessVersionInfoOriginalFileName",
+          "FolderPath",
+          "ProcessCommandLine",
+          "ReportId"
         ],
         "entity_mappings": [
-          {"entity_type": "Account", "field_mappings": [{"identifier": "Name", "column": "AccountName"}]}
+          {
+            "entity_type": "Account",
+            "field_mappings": [
+              {
+                "identifier": "Name",
+                "column": "AccountName"
+              }
+            ]
+          }
         ]
       }
     },
@@ -1029,11 +1933,30 @@
       "output": {
         "extend": [],
         "columns": [
-          "TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountDomain", "AccountName", "AccountSid",
-          "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"
+          "TimeGenerated",
+          "Timestamp",
+          "DeviceId",
+          "DeviceName",
+          "AccountDomain",
+          "AccountName",
+          "AccountSid",
+          "InitiatingProcessFileName",
+          "FileName",
+          "ProcessVersionInfoOriginalFileName",
+          "FolderPath",
+          "ProcessCommandLine",
+          "ReportId"
         ],
         "entity_mappings": [
-          {"entity_type": "Account", "field_mappings": [{"identifier": "Name", "column": "AccountName"}]}
+          {
+            "entity_type": "Account",
+            "field_mappings": [
+              {
+                "identifier": "Name",
+                "column": "AccountName"
+              }
+            ]
+          }
         ]
       }
     },
@@ -1045,11 +1968,30 @@
       "output": {
         "extend": [],
         "columns": [
-          "TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountDomain", "AccountName", "AccountSid",
-          "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"
+          "TimeGenerated",
+          "Timestamp",
+          "DeviceId",
+          "DeviceName",
+          "AccountDomain",
+          "AccountName",
+          "AccountSid",
+          "InitiatingProcessFileName",
+          "FileName",
+          "ProcessVersionInfoOriginalFileName",
+          "FolderPath",
+          "ProcessCommandLine",
+          "ReportId"
         ],
         "entity_mappings": [
-          {"entity_type": "Account", "field_mappings": [{"identifier": "Name", "column": "AccountName"}]}
+          {
+            "entity_type": "Account",
+            "field_mappings": [
+              {
+                "identifier": "Name",
+                "column": "AccountName"
+              }
+            ]
+          }
         ]
       }
     },
@@ -1061,11 +2003,30 @@
       "output": {
         "extend": [],
         "columns": [
-          "TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountDomain", "AccountName", "AccountSid",
-          "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"
+          "TimeGenerated",
+          "Timestamp",
+          "DeviceId",
+          "DeviceName",
+          "AccountDomain",
+          "AccountName",
+          "AccountSid",
+          "InitiatingProcessFileName",
+          "FileName",
+          "ProcessVersionInfoOriginalFileName",
+          "FolderPath",
+          "ProcessCommandLine",
+          "ReportId"
         ],
         "entity_mappings": [
-          {"entity_type": "Account", "field_mappings": [{"identifier": "Name", "column": "AccountName"}]}
+          {
+            "entity_type": "Account",
+            "field_mappings": [
+              {
+                "identifier": "Name",
+                "column": "AccountName"
+              }
+            ]
+          }
         ]
       }
     },
@@ -1077,11 +2038,30 @@
       "output": {
         "extend": [],
         "columns": [
-          "TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountDomain", "AccountName", "AccountSid",
-          "InitiatingProcessFileName", "FileName", "ProcessVersionInfoOriginalFileName", "FolderPath", "ProcessCommandLine", "ReportId"
+          "TimeGenerated",
+          "Timestamp",
+          "DeviceId",
+          "DeviceName",
+          "AccountDomain",
+          "AccountName",
+          "AccountSid",
+          "InitiatingProcessFileName",
+          "FileName",
+          "ProcessVersionInfoOriginalFileName",
+          "FolderPath",
+          "ProcessCommandLine",
+          "ReportId"
         ],
         "entity_mappings": [
-          {"entity_type": "Account", "field_mappings": [{"identifier": "Name", "column": "AccountName"}]}
+          {
+            "entity_type": "Account",
+            "field_mappings": [
+              {
+                "identifier": "Name",
+                "column": "AccountName"
+              }
+            ]
+          }
         ]
       }
     },
@@ -1093,11 +2073,30 @@
       "output": {
         "extend": [],
         "columns": [
-          "TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountDomain", "AccountName", "AccountSid",
-          "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"
+          "TimeGenerated",
+          "Timestamp",
+          "DeviceId",
+          "DeviceName",
+          "AccountDomain",
+          "AccountName",
+          "AccountSid",
+          "InitiatingProcessFileName",
+          "FileName",
+          "ProcessVersionInfoOriginalFileName",
+          "FolderPath",
+          "ProcessCommandLine",
+          "ReportId"
         ],
         "entity_mappings": [
-          {"entity_type": "Account", "field_mappings": [{"identifier": "Name", "column": "AccountName"}]}
+          {
+            "entity_type": "Account",
+            "field_mappings": [
+              {
+                "identifier": "Name",
+                "column": "AccountName"
+              }
+            ]
+          }
         ]
       }
     },
@@ -1109,11 +2108,30 @@
       "output": {
         "extend": [],
         "columns": [
-          "TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountDomain", "AccountName", "AccountSid",
-          "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"
+          "TimeGenerated",
+          "Timestamp",
+          "DeviceId",
+          "DeviceName",
+          "AccountDomain",
+          "AccountName",
+          "AccountSid",
+          "InitiatingProcessFileName",
+          "FileName",
+          "ProcessVersionInfoOriginalFileName",
+          "FolderPath",
+          "ProcessCommandLine",
+          "ReportId"
         ],
         "entity_mappings": [
-          {"entity_type": "Account", "field_mappings": [{"identifier": "Name", "column": "AccountName"}]}
+          {
+            "entity_type": "Account",
+            "field_mappings": [
+              {
+                "identifier": "Name",
+                "column": "AccountName"
+              }
+            ]
+          }
         ]
       }
     },
@@ -1125,11 +2143,30 @@
       "output": {
         "extend": [],
         "columns": [
-          "TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountDomain", "AccountName", "AccountSid",
-          "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"
+          "TimeGenerated",
+          "Timestamp",
+          "DeviceId",
+          "DeviceName",
+          "AccountDomain",
+          "AccountName",
+          "AccountSid",
+          "InitiatingProcessFileName",
+          "FileName",
+          "ProcessVersionInfoOriginalFileName",
+          "FolderPath",
+          "ProcessCommandLine",
+          "ReportId"
         ],
         "entity_mappings": [
-          {"entity_type": "Account", "field_mappings": [{"identifier": "Name", "column": "AccountName"}]}
+          {
+            "entity_type": "Account",
+            "field_mappings": [
+              {
+                "identifier": "Name",
+                "column": "AccountName"
+              }
+            ]
+          }
         ]
       }
     },
@@ -1141,13 +2178,31 @@
       "output": {
         "extend": [],
         "columns": [
-          "TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "ActionType",
-          "InitiatingProcessAccountDomain", "InitiatingProcessAccountName", "InitiatingProcessAccountSid",
-          "InitiatingProcessFileName", "InitiatingProcessCommandLine",
-          "RegistryKey", "RegistryValueName", "RegistryValueData", "ReportId"
+          "TimeGenerated",
+          "Timestamp",
+          "DeviceId",
+          "DeviceName",
+          "ActionType",
+          "InitiatingProcessAccountDomain",
+          "InitiatingProcessAccountName",
+          "InitiatingProcessAccountSid",
+          "InitiatingProcessFileName",
+          "InitiatingProcessCommandLine",
+          "RegistryKey",
+          "RegistryValueName",
+          "RegistryValueData",
+          "ReportId"
         ],
         "entity_mappings": [
-          {"entity_type": "Account", "field_mappings": [{"identifier": "Name", "column": "InitiatingProcessAccountName"}]}
+          {
+            "entity_type": "Account",
+            "field_mappings": [
+              {
+                "identifier": "Name",
+                "column": "InitiatingProcessAccountName"
+              }
+            ]
+          }
         ]
       }
     },
@@ -1159,11 +2214,30 @@
       "output": {
         "extend": [],
         "columns": [
-          "TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountDomain", "AccountName", "AccountSid",
-          "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"
+          "TimeGenerated",
+          "Timestamp",
+          "DeviceId",
+          "DeviceName",
+          "AccountDomain",
+          "AccountName",
+          "AccountSid",
+          "InitiatingProcessFileName",
+          "FileName",
+          "ProcessVersionInfoOriginalFileName",
+          "FolderPath",
+          "ProcessCommandLine",
+          "ReportId"
         ],
         "entity_mappings": [
-          {"entity_type": "Account", "field_mappings": [{"identifier": "Name", "column": "AccountName"}]}
+          {
+            "entity_type": "Account",
+            "field_mappings": [
+              {
+                "identifier": "Name",
+                "column": "AccountName"
+              }
+            ]
+          }
         ]
       }
     },
@@ -1175,11 +2249,30 @@
       "output": {
         "extend": [],
         "columns": [
-          "TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountDomain", "AccountName", "AccountSid",
-          "InitiatingProcessFileName", "FileName", "ProcessVersionInfoOriginalFileName", "FolderPath", "ProcessCommandLine", "ReportId"
+          "TimeGenerated",
+          "Timestamp",
+          "DeviceId",
+          "DeviceName",
+          "AccountDomain",
+          "AccountName",
+          "AccountSid",
+          "InitiatingProcessFileName",
+          "FileName",
+          "ProcessVersionInfoOriginalFileName",
+          "FolderPath",
+          "ProcessCommandLine",
+          "ReportId"
         ],
         "entity_mappings": [
-          {"entity_type": "Account", "field_mappings": [{"identifier": "Name", "column": "AccountName"}]}
+          {
+            "entity_type": "Account",
+            "field_mappings": [
+              {
+                "identifier": "Name",
+                "column": "AccountName"
+              }
+            ]
+          }
         ]
       }
     },
@@ -1191,11 +2284,30 @@
       "output": {
         "extend": [],
         "columns": [
-          "TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountDomain", "AccountName", "AccountSid",
-          "InitiatingProcessFileName", "FileName", "ProcessVersionInfoOriginalFileName", "FolderPath", "ProcessCommandLine", "ReportId"
+          "TimeGenerated",
+          "Timestamp",
+          "DeviceId",
+          "DeviceName",
+          "AccountDomain",
+          "AccountName",
+          "AccountSid",
+          "InitiatingProcessFileName",
+          "FileName",
+          "ProcessVersionInfoOriginalFileName",
+          "FolderPath",
+          "ProcessCommandLine",
+          "ReportId"
         ],
         "entity_mappings": [
-          {"entity_type": "Account", "field_mappings": [{"identifier": "Name", "column": "AccountName"}]}
+          {
+            "entity_type": "Account",
+            "field_mappings": [
+              {
+                "identifier": "Name",
+                "column": "AccountName"
+              }
+            ]
+          }
         ]
       }
     },
@@ -1207,11 +2319,30 @@
       "output": {
         "extend": [],
         "columns": [
-          "TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountDomain", "AccountName", "AccountSid",
-          "InitiatingProcessFileName", "FileName", "ProcessVersionInfoOriginalFileName", "FolderPath", "ProcessCommandLine", "ReportId"
+          "TimeGenerated",
+          "Timestamp",
+          "DeviceId",
+          "DeviceName",
+          "AccountDomain",
+          "AccountName",
+          "AccountSid",
+          "InitiatingProcessFileName",
+          "FileName",
+          "ProcessVersionInfoOriginalFileName",
+          "FolderPath",
+          "ProcessCommandLine",
+          "ReportId"
         ],
         "entity_mappings": [
-          {"entity_type": "Account", "field_mappings": [{"identifier": "Name", "column": "AccountName"}]}
+          {
+            "entity_type": "Account",
+            "field_mappings": [
+              {
+                "identifier": "Name",
+                "column": "AccountName"
+              }
+            ]
+          }
         ]
       }
     },
@@ -1223,11 +2354,30 @@
       "output": {
         "extend": [],
         "columns": [
-          "TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountDomain", "AccountName", "AccountSid",
-          "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"
+          "TimeGenerated",
+          "Timestamp",
+          "DeviceId",
+          "DeviceName",
+          "AccountDomain",
+          "AccountName",
+          "AccountSid",
+          "InitiatingProcessFileName",
+          "FileName",
+          "ProcessVersionInfoOriginalFileName",
+          "FolderPath",
+          "ProcessCommandLine",
+          "ReportId"
         ],
         "entity_mappings": [
-          {"entity_type": "Account", "field_mappings": [{"identifier": "Name", "column": "AccountName"}]}
+          {
+            "entity_type": "Account",
+            "field_mappings": [
+              {
+                "identifier": "Name",
+                "column": "AccountName"
+              }
+            ]
+          }
         ]
       }
     },
@@ -1239,13 +2389,31 @@
       "output": {
         "extend": [],
         "columns": [
-          "TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "ActionType",
-          "InitiatingProcessAccountDomain", "InitiatingProcessAccountName", "InitiatingProcessAccountSid",
-          "InitiatingProcessFileName", "InitiatingProcessCommandLine",
-          "RegistryKey", "RegistryValueName", "RegistryValueData", "ReportId"
+          "TimeGenerated",
+          "Timestamp",
+          "DeviceId",
+          "DeviceName",
+          "ActionType",
+          "InitiatingProcessAccountDomain",
+          "InitiatingProcessAccountName",
+          "InitiatingProcessAccountSid",
+          "InitiatingProcessFileName",
+          "InitiatingProcessCommandLine",
+          "RegistryKey",
+          "RegistryValueName",
+          "RegistryValueData",
+          "ReportId"
         ],
         "entity_mappings": [
-          {"entity_type": "Account", "field_mappings": [{"identifier": "Name", "column": "InitiatingProcessAccountName"}]}
+          {
+            "entity_type": "Account",
+            "field_mappings": [
+              {
+                "identifier": "Name",
+                "column": "InitiatingProcessAccountName"
+              }
+            ]
+          }
         ]
       }
     },
@@ -1257,13 +2425,31 @@
       "output": {
         "extend": [],
         "columns": [
-          "TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "ActionType",
-          "InitiatingProcessAccountDomain", "InitiatingProcessAccountName", "InitiatingProcessAccountSid",
-          "InitiatingProcessFileName", "InitiatingProcessCommandLine",
-          "RegistryKey", "RegistryValueName", "RegistryValueData", "ReportId"
+          "TimeGenerated",
+          "Timestamp",
+          "DeviceId",
+          "DeviceName",
+          "ActionType",
+          "InitiatingProcessAccountDomain",
+          "InitiatingProcessAccountName",
+          "InitiatingProcessAccountSid",
+          "InitiatingProcessFileName",
+          "InitiatingProcessCommandLine",
+          "RegistryKey",
+          "RegistryValueName",
+          "RegistryValueData",
+          "ReportId"
         ],
         "entity_mappings": [
-          {"entity_type": "Account", "field_mappings": [{"identifier": "Name", "column": "InitiatingProcessAccountName"}]}
+          {
+            "entity_type": "Account",
+            "field_mappings": [
+              {
+                "identifier": "Name",
+                "column": "InitiatingProcessAccountName"
+              }
+            ]
+          }
         ]
       }
     },
@@ -1275,11 +2461,30 @@
       "output": {
         "extend": [],
         "columns": [
-          "TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountDomain", "AccountName", "AccountSid",
-          "InitiatingProcessFileName", "FileName", "ProcessVersionInfoOriginalFileName", "FolderPath", "ProcessCommandLine", "ReportId"
+          "TimeGenerated",
+          "Timestamp",
+          "DeviceId",
+          "DeviceName",
+          "AccountDomain",
+          "AccountName",
+          "AccountSid",
+          "InitiatingProcessFileName",
+          "FileName",
+          "ProcessVersionInfoOriginalFileName",
+          "FolderPath",
+          "ProcessCommandLine",
+          "ReportId"
         ],
         "entity_mappings": [
-          {"entity_type": "Account", "field_mappings": [{"identifier": "Name", "column": "AccountName"}]}
+          {
+            "entity_type": "Account",
+            "field_mappings": [
+              {
+                "identifier": "Name",
+                "column": "AccountName"
+              }
+            ]
+          }
         ]
       }
     },
@@ -1291,11 +2496,30 @@
       "output": {
         "extend": [],
         "columns": [
-          "TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountDomain", "AccountName", "AccountSid",
-          "InitiatingProcessFileName", "FileName", "ProcessVersionInfoOriginalFileName", "FolderPath", "ProcessCommandLine", "ReportId"
+          "TimeGenerated",
+          "Timestamp",
+          "DeviceId",
+          "DeviceName",
+          "AccountDomain",
+          "AccountName",
+          "AccountSid",
+          "InitiatingProcessFileName",
+          "FileName",
+          "ProcessVersionInfoOriginalFileName",
+          "FolderPath",
+          "ProcessCommandLine",
+          "ReportId"
         ],
         "entity_mappings": [
-          {"entity_type": "Account", "field_mappings": [{"identifier": "Name", "column": "AccountName"}]}
+          {
+            "entity_type": "Account",
+            "field_mappings": [
+              {
+                "identifier": "Name",
+                "column": "AccountName"
+              }
+            ]
+          }
         ]
       }
     },
@@ -1307,11 +2531,611 @@
       "output": {
         "extend": [],
         "columns": [
-          "TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountDomain", "AccountName", "AccountSid",
-          "InitiatingProcessFileName", "FileName", "ProcessVersionInfoOriginalFileName", "FolderPath", "ProcessCommandLine", "ReportId"
+          "TimeGenerated",
+          "Timestamp",
+          "DeviceId",
+          "DeviceName",
+          "AccountDomain",
+          "AccountName",
+          "AccountSid",
+          "InitiatingProcessFileName",
+          "FileName",
+          "ProcessVersionInfoOriginalFileName",
+          "FolderPath",
+          "ProcessCommandLine",
+          "ReportId"
         ],
         "entity_mappings": [
-          {"entity_type": "Account", "field_mappings": [{"identifier": "Name", "column": "AccountName"}]}
+          {
+            "entity_type": "Account",
+            "field_mappings": [
+              {
+                "identifier": "Name",
+                "column": "AccountName"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "MSEC-DET-0054",
+      "implementation": "content/portable/sigma/MSEC-DET-0054/rule.yml",
+      "query_table": "AzureActivity",
+      "golden": "tests/golden/sentinel/MSEC-DET-0054.kql",
+      "output": {
+        "extend": [],
+        "columns": [
+          "TimeGenerated",
+          "OperationNameValue",
+          "ActivityStatusValue",
+          "CategoryValue",
+          "Caller",
+          "CallerIpAddress",
+          "CorrelationId",
+          "EventDataId",
+          "ResourceId",
+          "SubscriptionId"
+        ],
+        "entity_mappings": [
+          {
+            "entity_type": "IP",
+            "field_mappings": [
+              {
+                "identifier": "Address",
+                "column": "CallerIpAddress"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "MSEC-DET-0055",
+      "implementation": "content/portable/sigma/MSEC-DET-0055/rule.yml",
+      "query_table": "DeviceRegistryEvents",
+      "golden": "tests/golden/sentinel/MSEC-DET-0055.kql",
+      "output": {
+        "extend": [],
+        "columns": [
+          "TimeGenerated",
+          "Timestamp",
+          "DeviceId",
+          "DeviceName",
+          "ActionType",
+          "InitiatingProcessAccountDomain",
+          "InitiatingProcessAccountName",
+          "InitiatingProcessAccountSid",
+          "InitiatingProcessFileName",
+          "InitiatingProcessCommandLine",
+          "RegistryKey",
+          "RegistryValueName",
+          "RegistryValueData",
+          "ReportId"
+        ],
+        "entity_mappings": [
+          {
+            "entity_type": "Account",
+            "field_mappings": [
+              {
+                "identifier": "Name",
+                "column": "InitiatingProcessAccountName"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "MSEC-DET-0056",
+      "implementation": "content/portable/sigma/MSEC-DET-0056/rule.yml",
+      "query_table": "DeviceImageLoadEvents",
+      "golden": "tests/golden/sentinel/MSEC-DET-0056.kql",
+      "output": {
+        "extend": [],
+        "columns": [
+          "TimeGenerated",
+          "DeviceId",
+          "DeviceName",
+          "ActionType",
+          "FileName",
+          "FolderPath",
+          "SHA1",
+          "InitiatingProcessAccountName",
+          "InitiatingProcessFileName",
+          "InitiatingProcessFolderPath",
+          "InitiatingProcessCommandLine",
+          "ReportId"
+        ],
+        "entity_mappings": [
+          {
+            "entity_type": "Account",
+            "field_mappings": [
+              {
+                "identifier": "Name",
+                "column": "InitiatingProcessAccountName"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "MSEC-DET-0057",
+      "implementation": "content/portable/sigma/MSEC-DET-0057/rule.yml",
+      "query_table": "DeviceNetworkEvents",
+      "golden": "tests/golden/sentinel/MSEC-DET-0057.kql",
+      "output": {
+        "extend": [],
+        "columns": [
+          "TimeGenerated",
+          "DeviceId",
+          "DeviceName",
+          "ActionType",
+          "RemoteIP",
+          "RemoteIPType",
+          "RemotePort",
+          "InitiatingProcessAccountName",
+          "InitiatingProcessFileName",
+          "InitiatingProcessFolderPath",
+          "InitiatingProcessCommandLine",
+          "ReportId"
+        ],
+        "entity_mappings": [
+          {
+            "entity_type": "Account",
+            "field_mappings": [
+              {
+                "identifier": "Name",
+                "column": "InitiatingProcessAccountName"
+              }
+            ]
+          },
+          {
+            "entity_type": "IP",
+            "field_mappings": [
+              {
+                "identifier": "Address",
+                "column": "RemoteIP"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "MSEC-DET-0060",
+      "implementation": "content/portable/sigma/MSEC-DET-0060/rule.yml",
+      "query_table": "DeviceFileEvents",
+      "golden": "tests/golden/sentinel/MSEC-DET-0060.kql",
+      "output": {
+        "extend": [],
+        "columns": [
+          "TimeGenerated",
+          "DeviceId",
+          "DeviceName",
+          "ActionType",
+          "FileName",
+          "FolderPath",
+          "SHA1",
+          "InitiatingProcessAccountName",
+          "InitiatingProcessFileName",
+          "InitiatingProcessFolderPath",
+          "InitiatingProcessCommandLine",
+          "ReportId"
+        ],
+        "entity_mappings": [
+          {
+            "entity_type": "Account",
+            "field_mappings": [
+              {
+                "identifier": "Name",
+                "column": "InitiatingProcessAccountName"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "MSEC-DET-0063",
+      "implementation": "content/portable/sigma/MSEC-DET-0063/rule.yml",
+      "query_table": "DeviceImageLoadEvents",
+      "golden": "tests/golden/sentinel/MSEC-DET-0063.kql",
+      "output": {
+        "extend": [],
+        "columns": [
+          "TimeGenerated",
+          "DeviceId",
+          "DeviceName",
+          "ActionType",
+          "FileName",
+          "FolderPath",
+          "SHA1",
+          "InitiatingProcessAccountName",
+          "InitiatingProcessFileName",
+          "InitiatingProcessFolderPath",
+          "InitiatingProcessCommandLine",
+          "ReportId"
+        ],
+        "entity_mappings": [
+          {
+            "entity_type": "Account",
+            "field_mappings": [
+              {
+                "identifier": "Name",
+                "column": "InitiatingProcessAccountName"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "MSEC-DET-0064",
+      "implementation": "content/portable/sigma/MSEC-DET-0064/rule.yml",
+      "query_table": "DeviceRegistryEvents",
+      "golden": "tests/golden/sentinel/MSEC-DET-0064.kql",
+      "output": {
+        "extend": [],
+        "columns": [
+          "TimeGenerated",
+          "Timestamp",
+          "DeviceId",
+          "DeviceName",
+          "ActionType",
+          "InitiatingProcessAccountDomain",
+          "InitiatingProcessAccountName",
+          "InitiatingProcessAccountSid",
+          "InitiatingProcessFileName",
+          "InitiatingProcessCommandLine",
+          "RegistryKey",
+          "RegistryValueName",
+          "RegistryValueData",
+          "ReportId"
+        ],
+        "entity_mappings": [
+          {
+            "entity_type": "Account",
+            "field_mappings": [
+              {
+                "identifier": "Name",
+                "column": "InitiatingProcessAccountName"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "MSEC-DET-0066",
+      "implementation": "content/portable/sigma/MSEC-DET-0066/rule.yml",
+      "query_table": "AzureActivity",
+      "golden": "tests/golden/sentinel/MSEC-DET-0066.kql",
+      "output": {
+        "extend": [],
+        "columns": [
+          "TimeGenerated",
+          "OperationNameValue",
+          "ActivityStatusValue",
+          "CategoryValue",
+          "Caller",
+          "CallerIpAddress",
+          "CorrelationId",
+          "EventDataId",
+          "ResourceId",
+          "SubscriptionId"
+        ],
+        "entity_mappings": [
+          {
+            "entity_type": "IP",
+            "field_mappings": [
+              {
+                "identifier": "Address",
+                "column": "CallerIpAddress"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "MSEC-DET-0068",
+      "implementation": "content/portable/sigma/MSEC-DET-0068/rule.yml",
+      "query_table": "DeviceRegistryEvents",
+      "golden": "tests/golden/sentinel/MSEC-DET-0068.kql",
+      "output": {
+        "extend": [],
+        "columns": [
+          "TimeGenerated",
+          "Timestamp",
+          "DeviceId",
+          "DeviceName",
+          "ActionType",
+          "InitiatingProcessAccountDomain",
+          "InitiatingProcessAccountName",
+          "InitiatingProcessAccountSid",
+          "InitiatingProcessFileName",
+          "InitiatingProcessCommandLine",
+          "RegistryKey",
+          "RegistryValueName",
+          "RegistryValueData",
+          "ReportId"
+        ],
+        "entity_mappings": [
+          {
+            "entity_type": "Account",
+            "field_mappings": [
+              {
+                "identifier": "Name",
+                "column": "InitiatingProcessAccountName"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "MSEC-DET-0073",
+      "implementation": "content/portable/sigma/MSEC-DET-0073/rule.yml",
+      "query_table": "DeviceRegistryEvents",
+      "golden": "tests/golden/sentinel/MSEC-DET-0073.kql",
+      "output": {
+        "extend": [],
+        "columns": [
+          "TimeGenerated",
+          "Timestamp",
+          "DeviceId",
+          "DeviceName",
+          "ActionType",
+          "InitiatingProcessAccountDomain",
+          "InitiatingProcessAccountName",
+          "InitiatingProcessAccountSid",
+          "InitiatingProcessFileName",
+          "InitiatingProcessCommandLine",
+          "RegistryKey",
+          "RegistryValueName",
+          "RegistryValueData",
+          "ReportId"
+        ],
+        "entity_mappings": [
+          {
+            "entity_type": "Account",
+            "field_mappings": [
+              {
+                "identifier": "Name",
+                "column": "InitiatingProcessAccountName"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "MSEC-DET-0076",
+      "implementation": "content/portable/sigma/MSEC-DET-0076/rule.yml",
+      "query_table": "AWSCloudTrail",
+      "golden": "tests/golden/sentinel/MSEC-DET-0076.kql",
+      "output": {
+        "extend": [],
+        "columns": [
+          "TimeGenerated",
+          "EventSource",
+          "EventName",
+          "EventTypeName",
+          "ManagementEvent",
+          "ReadOnly",
+          "ErrorCode",
+          "ErrorMessage",
+          "AWSRegion",
+          "SourceIpAddress",
+          "UserIdentityType",
+          "UserIdentityArn",
+          "RecipientAccountId",
+          "AwsEventId"
+        ],
+        "entity_mappings": []
+      }
+    },
+    {
+      "id": "MSEC-DET-0080",
+      "implementation": "content/portable/sigma/MSEC-DET-0080/rule.yml",
+      "query_table": "DeviceRegistryEvents",
+      "golden": "tests/golden/sentinel/MSEC-DET-0080.kql",
+      "output": {
+        "extend": [],
+        "columns": [
+          "TimeGenerated",
+          "Timestamp",
+          "DeviceId",
+          "DeviceName",
+          "ActionType",
+          "InitiatingProcessAccountDomain",
+          "InitiatingProcessAccountName",
+          "InitiatingProcessAccountSid",
+          "InitiatingProcessFileName",
+          "InitiatingProcessCommandLine",
+          "RegistryKey",
+          "RegistryValueName",
+          "RegistryValueData",
+          "ReportId"
+        ],
+        "entity_mappings": [
+          {
+            "entity_type": "Account",
+            "field_mappings": [
+              {
+                "identifier": "Name",
+                "column": "InitiatingProcessAccountName"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "MSEC-DET-0081",
+      "implementation": "content/portable/sigma/MSEC-DET-0081/rule.yml",
+      "query_table": "AWSCloudTrail",
+      "golden": "tests/golden/sentinel/MSEC-DET-0081.kql",
+      "output": {
+        "extend": [],
+        "columns": [
+          "TimeGenerated",
+          "EventSource",
+          "EventName",
+          "EventTypeName",
+          "ManagementEvent",
+          "ReadOnly",
+          "ErrorCode",
+          "ErrorMessage",
+          "AWSRegion",
+          "SourceIpAddress",
+          "UserIdentityType",
+          "UserIdentityArn",
+          "RecipientAccountId",
+          "AwsEventId"
+        ],
+        "entity_mappings": []
+      }
+    },
+    {
+      "id": "MSEC-DET-0083",
+      "implementation": "content/portable/sigma/MSEC-DET-0083/rule.yml",
+      "query_table": "AzureActivity",
+      "golden": "tests/golden/sentinel/MSEC-DET-0083.kql",
+      "output": {
+        "extend": [],
+        "columns": [
+          "TimeGenerated",
+          "OperationNameValue",
+          "ActivityStatusValue",
+          "CategoryValue",
+          "Caller",
+          "CallerIpAddress",
+          "CorrelationId",
+          "EventDataId",
+          "ResourceId",
+          "SubscriptionId"
+        ],
+        "entity_mappings": [
+          {
+            "entity_type": "IP",
+            "field_mappings": [
+              {
+                "identifier": "Address",
+                "column": "CallerIpAddress"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "MSEC-DET-0085",
+      "implementation": "content/portable/sigma/MSEC-DET-0085/rule.yml",
+      "query_table": "DeviceRegistryEvents",
+      "golden": "tests/golden/sentinel/MSEC-DET-0085.kql",
+      "output": {
+        "extend": [],
+        "columns": [
+          "TimeGenerated",
+          "Timestamp",
+          "DeviceId",
+          "DeviceName",
+          "ActionType",
+          "InitiatingProcessAccountDomain",
+          "InitiatingProcessAccountName",
+          "InitiatingProcessAccountSid",
+          "InitiatingProcessFileName",
+          "InitiatingProcessCommandLine",
+          "RegistryKey",
+          "RegistryValueName",
+          "RegistryValueData",
+          "ReportId"
+        ],
+        "entity_mappings": [
+          {
+            "entity_type": "Account",
+            "field_mappings": [
+              {
+                "identifier": "Name",
+                "column": "InitiatingProcessAccountName"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "MSEC-DET-0089",
+      "implementation": "content/portable/sigma/MSEC-DET-0089/rule.yml",
+      "query_table": "DeviceRegistryEvents",
+      "golden": "tests/golden/sentinel/MSEC-DET-0089.kql",
+      "output": {
+        "extend": [],
+        "columns": [
+          "TimeGenerated",
+          "Timestamp",
+          "DeviceId",
+          "DeviceName",
+          "ActionType",
+          "InitiatingProcessAccountDomain",
+          "InitiatingProcessAccountName",
+          "InitiatingProcessAccountSid",
+          "InitiatingProcessFileName",
+          "InitiatingProcessCommandLine",
+          "RegistryKey",
+          "RegistryValueName",
+          "RegistryValueData",
+          "ReportId"
+        ],
+        "entity_mappings": [
+          {
+            "entity_type": "Account",
+            "field_mappings": [
+              {
+                "identifier": "Name",
+                "column": "InitiatingProcessAccountName"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "MSEC-DET-0100",
+      "implementation": "content/portable/sigma/MSEC-DET-0100/rule.yml",
+      "query_table": "DeviceRegistryEvents",
+      "golden": "tests/golden/sentinel/MSEC-DET-0100.kql",
+      "output": {
+        "extend": [],
+        "columns": [
+          "TimeGenerated",
+          "Timestamp",
+          "DeviceId",
+          "DeviceName",
+          "ActionType",
+          "InitiatingProcessAccountDomain",
+          "InitiatingProcessAccountName",
+          "InitiatingProcessAccountSid",
+          "InitiatingProcessFileName",
+          "InitiatingProcessCommandLine",
+          "RegistryKey",
+          "RegistryValueName",
+          "RegistryValueData",
+          "ReportId"
+        ],
+        "entity_mappings": [
+          {
+            "entity_type": "Account",
+            "field_mappings": [
+              {
+                "identifier": "Name",
+                "column": "InitiatingProcessAccountName"
+              }
+            ]
+          }
         ]
       }
     }

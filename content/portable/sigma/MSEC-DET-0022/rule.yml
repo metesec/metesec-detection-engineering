@@ -7,7 +7,9 @@ references:
   - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/azure/audit_logs/azure_mfa_disabled.yml
   - https://attack.mitre.org/techniques/T1556/006/
 author: MeteSec Detection Engineering
+license: Apache-2.0
 date: 2026-09-03
+modified: 2026-09-11
 tags:
   - attack.defense-impairment
   - attack.persistence

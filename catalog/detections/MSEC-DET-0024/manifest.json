@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
   "id": "MSEC-DET-0024",
-  "title": "Remote process creation through Windows WMI or CIM",
-  "description": "Detects command lines that explicitly request remote Win32_Process creation through WMIC or PowerShell WMI and CIM interfaces.",
+  "title": "WMI or CIM process creation with an explicit target selector",
+  "description": "Detects Win32_Process creation with a WMIC node, PowerShell computer-name or CIM-session selector. These selectors may still resolve to the local computer; remote execution and successful creation require destination evidence.",
   "hypothesis": {
     "summary": "An adversary may use Windows WMI or CIM to execute a process on a remote endpoint.",
     "rationale": "Microsoft documents Win32_Process.Create as a remote execution mechanism and MITRE recommends covering WMIC, PowerShell and other WMI interfaces; legitimate remote administration can use the same functionality.",
-    "detection_goal": "Identify explicit remote process creation through WMIC or PowerShell WMI and CIM commands while leaving local WMI queries, remote discovery and unrelated PowerShell activity unmatched."
+    "detection_goal": "Identify explicit process-creation methods with a target selector while excluding queries, other classes and other methods. The selector alone does not establish that a destination is remote."
   },
   "ownership": {
     "owner": "MeteSec Detection Engineering",
@@ -15,7 +15,7 @@
   "lifecycle": {
     "status": "experimental",
     "created": "2026-09-03",
-    "modified": "2026-09-03",
+    "modified": "2026-09-11",
     "review_interval_days": 90
   },
   "severity": "medium",
@@ -24,7 +24,18 @@
     {
       "name": "Microsoft Defender for Endpoint process events",
       "category": "Endpoint process creation",
-      "required_fields": ["TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountName", "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"]
+      "required_fields": [
+        "TimeGenerated",
+        "Timestamp",
+        "DeviceId",
+        "DeviceName",
+        "AccountName",
+        "InitiatingProcessFileName",
+        "FileName",
+        "FolderPath",
+        "ProcessCommandLine",
+        "ReportId"
+      ]
     }
   ],
   "attack": [
@@ -45,7 +56,7 @@
     ]
   },
   "validation": {
-    "expected_outcome": "Match explicit remote Win32_Process creation through WMIC or PowerShell WMI and CIM; do not match local execution, remote queries, unrelated methods or missing remote selectors.",
+    "expected_outcome": "Match WMIC process call create or PowerShell Win32_Process Create with an explicit target selector; reject remote queries, wrong classes or methods and absent selectors.",
     "positive_tests": true,
     "negative_tests": true
   },
@@ -53,8 +64,24 @@
     {
       "type": "sigma",
       "path": "content/portable/sigma/MSEC-DET-0024/rule.yml",
-      "targets": ["sentinel"],
+      "targets": [
+        "sentinel"
+      ],
       "status": "active"
     }
-  ]
+  ],
+  "quality": {
+    "reviewed_on": "2026-09-11",
+    "signal_type": "administrative-activity",
+    "limitations": [
+      "Authorized administration can produce this event. The rule does not independently establish compromise or completion of a command; assess identity, target and change approval.",
+      "Current-revision evidence is synthetic only. Validate full generated KQL, source fields, ingestion delay, alert volume and scoped exclusions in the target before enabling."
+    ],
+    "validation_level": "synthetic-only",
+    "provenance": {
+      "origin": "reviewed-existing",
+      "license": "Apache-2.0",
+      "review": "docs/reviews/existing-0001-0025.md"
+    }
+  }
 }

@@ -6,7 +6,7 @@
   "hypothesis": {
     "summary": "An adversary may install a Windows service to establish execution or persistence.",
     "rationale": "Service creation is legitimate administration but can also provide durable privileged execution when its binary path or creator is unusual.",
-    "detection_goal": "Identify service-install events that execute from selected public-user or temporary paths while leaving normal service paths unmatched."
+    "detection_goal": "Identify service-install events whose leading executable path is in a selected public-user or temporary directory; a temporary path appearing only in an argument is outside this rule."
   },
   "ownership": {
     "owner": "MeteSec Detection Engineering",
@@ -15,7 +15,7 @@
   "lifecycle": {
     "status": "experimental",
     "created": "2026-08-27",
-    "modified": "2026-09-03",
+    "modified": "2026-09-11",
     "review_interval_days": 90
   },
   "severity": "medium",
@@ -24,7 +24,13 @@
     {
       "name": "Windows service installation events",
       "category": "Windows service control manager",
-      "required_fields": ["Provider_Name", "EventID", "ServiceName", "ImagePath", "Computer"]
+      "required_fields": [
+        "Provider_Name",
+        "EventID",
+        "ServiceName",
+        "ImagePath",
+        "Computer"
+      ]
     }
   ],
   "attack": [
@@ -45,7 +51,7 @@
     ]
   },
   "validation": {
-    "expected_outcome": "Match Service Control Manager event 7045 when ImagePath contains a selected public-user or temporary path; do not match other event identifiers, providers, or normal service paths.",
+    "expected_outcome": "Match SCM 7045 with a leading executable path in a selected public or temporary directory; reject benign executable paths whose arguments merely mention those directories.",
     "positive_tests": true,
     "negative_tests": true
   },
@@ -53,8 +59,24 @@
     {
       "type": "sigma",
       "path": "content/portable/sigma/MSEC-DET-0001/rule.yml",
-      "targets": ["sentinel"],
+      "targets": [
+        "sentinel"
+      ],
       "status": "active"
     }
-  ]
+  ],
+  "quality": {
+    "reviewed_on": "2026-09-11",
+    "signal_type": "behavior",
+    "limitations": [
+      "Windows System Event 7045 telemetry is not bound to Sentinel in this repository. A staged service binary can be legitimate installation activity.",
+      "Current-revision evidence is synthetic only. Validate full generated KQL, source fields, ingestion delay, alert volume and scoped exclusions in the target before enabling."
+    ],
+    "validation_level": "synthetic-only",
+    "provenance": {
+      "origin": "reviewed-existing",
+      "license": "Apache-2.0",
+      "review": "docs/reviews/existing-0001-0025.md"
+    }
+  }
 }

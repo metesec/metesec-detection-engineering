@@ -1,0 +1,44 @@
+# Modified 2026-09-11 by MeteSec Detection Engineering.
+# Adapted from MeteSec Hardened 23 (Apache-2.0): raw source fields,
+# bounded predicates and repository-local synthetic evidence replace normalization.
+title: "Azure soft-deleted Key Vault purged"
+id: "a5bb8a2a-4a55-51d9-916a-4f3f02e03984"
+status: "experimental"
+description: "Detects a successful administrative purge of a previously soft-deleted Azure Key Vault."
+references:
+  - "https://learn.microsoft.com/en-us/azure/key-vault/general/key-vault-recovery"
+  - "https://learn.microsoft.com/en-us/azure/key-vault/general/soft-delete-overview"
+  - "https://learn.microsoft.com/en-us/azure/azure-monitor/reference/tables/azureactivity"
+  - "https://attack.mitre.org/techniques/T1485/"
+author: "MeteSec (AI-assisted implementation; human review pending)"
+date: "2026-09-11"
+modified: 2026-09-11
+license: "Apache-2.0"
+tags:
+  - "attack.impact"
+  - "attack.t1485"
+logsource:
+  product: "azure"
+  service: "activitylogs"
+detection:
+  selection:
+    CategoryValue: "Administrative"
+    OperationNameValue: "Microsoft.KeyVault/locations/deletedVaults/purge/action"
+    ActivityStatusValue:
+      - "Succeeded"
+      - "Success"
+  condition: "selection"
+fields:
+  - "TimeGenerated"
+  - "OperationNameValue"
+  - "ActivityStatusValue"
+  - "CategoryValue"
+  - "Caller"
+  - "CallerIpAddress"
+  - "CorrelationId"
+  - "EventDataId"
+  - "ResourceId"
+  - "SubscriptionId"
+falsepositives:
+  - "Approved Key Vault decommissioning or a documented recovery lifecycle operation on a disposable vault."
+level: "high"

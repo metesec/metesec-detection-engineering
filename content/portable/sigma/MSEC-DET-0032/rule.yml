@@ -1,13 +1,15 @@
-title: Windows Audit Policy Cleared Through Auditpol
+title: Windows audit-policy clear command
 id: 7a5d7ed6-b060-4e48-85b0-685baede505a
 status: experimental
-description: Detects auditpol.exe commands that clear the system audit policy or remove all per-user audit policies.
+description: Detects Auditpol commands requesting a system audit-policy clear or removal of all per-user audit policies. Verify the effective audit policy before concluding logging was impaired.
 references:
   - https://attack.mitre.org/techniques/T1685/001/
   - https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/auditpol-clear
   - https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table
 author: MeteSec Detection Engineering
+license: Apache-2.0
 date: 2026-09-03
+modified: 2026-09-11
 tags:
   - attack.defense-impairment
   - attack.t1685.001
@@ -17,13 +19,15 @@ logsource:
 detection:
   selection_image:
     FileName: auditpol.exe
+  selection_original:
+    ProcessVersionInfoOriginalFileName: auditpol.exe
   selection_clear:
-    ProcessCommandLine|contains: ' /clear'
-  selection_remove_all:
-    ProcessCommandLine|contains|all:
-      - '/remove'
-      - '/allusers'
-  condition: selection_image and (selection_clear or selection_remove_all)
+    ProcessCommandLine|re|i: '(?:^|\s)/clear(?:\s|$)'
+  selection_remove:
+    ProcessCommandLine|re|i: '(?:^|\s)/remove(?:\s|$)'
+  selection_all_users:
+    ProcessCommandLine|re|i: '(?:^|\s)/allusers(?:\s|$)'
+  condition: (selection_image or selection_original) and (selection_clear or (selection_remove and selection_all_users))
 fields:
   - TimeGenerated
   - Timestamp
@@ -32,6 +36,7 @@ fields:
   - AccountName
   - InitiatingProcessFileName
   - FileName
+  - ProcessVersionInfoOriginalFileName
   - FolderPath
   - ProcessCommandLine
   - ReportId

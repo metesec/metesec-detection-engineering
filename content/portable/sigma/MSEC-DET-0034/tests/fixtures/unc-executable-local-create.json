@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "event": {
+    "FileName": "sc.exe",
+    "ProcessCommandLine": "\"\\\\synthetic-share\\tools\\sc.exe\" create Synthetic binpath= C:\\ProgramData\\Synthetic.exe"
+  }
+}

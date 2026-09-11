@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"ActionType":"RegistryValueDeleted","RegistryKey":"HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Office\\16.0\\Excel\\Security\\Trusted Locations\\Location7","RegistryValueName":"Path","RegistryValueData":"C:\\Users\\Analyst\\Downloads"}}

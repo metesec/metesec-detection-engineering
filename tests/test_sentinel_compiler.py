@@ -20,60 +20,22 @@ class SentinelCompilerTests(unittest.TestCase):
     def test_preview_profile_compiles_to_golden_query(self) -> None:
         compiled = compile_profile(REPO_ROOT, PROFILE)
 
-        self.assertEqual(
-            [item.detection_id for item in compiled],
-            [
-                "MSEC-DET-0002",
-                "MSEC-DET-0003",
-                "MSEC-DET-0004",
-                "MSEC-DET-0005",
-                "MSEC-DET-0006",
-                "MSEC-DET-0007",
-                "MSEC-DET-0008",
-                "MSEC-DET-0009",
-                "MSEC-DET-0010",
-                "MSEC-DET-0011",
-                "MSEC-DET-0012",
-                "MSEC-DET-0013",
-                "MSEC-DET-0014",
-                "MSEC-DET-0015",
-                "MSEC-DET-0016",
-                "MSEC-DET-0017",
-                "MSEC-DET-0018",
-                "MSEC-DET-0019",
-                "MSEC-DET-0020",
-                "MSEC-DET-0021",
-                "MSEC-DET-0022",
-                "MSEC-DET-0023",
-                "MSEC-DET-0024",
-                "MSEC-DET-0025",
-                "MSEC-DET-0026",
-                "MSEC-DET-0027",
-                "MSEC-DET-0028",
-                "MSEC-DET-0029",
-                "MSEC-DET-0030",
-                "MSEC-DET-0031",
-                "MSEC-DET-0032",
-                "MSEC-DET-0033",
-                "MSEC-DET-0034",
-                "MSEC-DET-0035",
-                "MSEC-DET-0036",
-                "MSEC-DET-0037",
-                "MSEC-DET-0038",
-                "MSEC-DET-0039",
-                "MSEC-DET-0040",
-                "MSEC-DET-0041",
-                "MSEC-DET-0042",
-                "MSEC-DET-0043",
-                "MSEC-DET-0044",
-                "MSEC-DET-0045",
-                "MSEC-DET-0046",
-                "MSEC-DET-0047",
-                "MSEC-DET-0048",
-                "MSEC-DET-0049",
-                "MSEC-DET-0050",
-            ],
-        )
+        manifests = [
+            json.loads(path.read_text(encoding="utf-8"))
+            for path in sorted((REPO_ROOT / "catalog" / "detections").glob("*/manifest.json"))
+        ]
+        expected_ids = [
+            manifest["id"]
+            for manifest in manifests
+            if manifest["id"] != "MSEC-DET-0001"
+            and any(
+                implementation["status"] == "active"
+                and "sentinel" in implementation["targets"]
+                for implementation in manifest["implementations"]
+            )
+        ]
+        self.assertTrue(expected_ids)
+        self.assertEqual([item.detection_id for item in compiled], expected_ids)
         for item in compiled:
             expected = item.golden.read_text(encoding="utf-8").replace(
                 "\r\n", "\n"

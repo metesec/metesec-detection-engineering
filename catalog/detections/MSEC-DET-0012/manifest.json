@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "id": "MSEC-DET-0012",
-  "title": "Mshta executes content from a remote location",
-  "description": "Detects mshta command lines that reference HTTP, HTTPS or FTP content in Microsoft Defender for Endpoint process telemetry.",
+  "title": "Mshta command references a remote resource",
+  "description": "Detects mshta command lines referencing HTTP, HTTPS or FTP resources, including inline script download expressions. Process creation alone does not prove retrieval or execution.",
   "hypothesis": {
     "summary": "An adversary may use mshta to retrieve and execute remotely hosted script or HTA content.",
     "rationale": "Remote content passed to the Windows-signed mshta binary is a recognized proxy-execution pattern that can bypass normal application expectations, although some legacy applications and administrative workflows may use remote HTA resources.",
@@ -15,7 +15,7 @@
   "lifecycle": {
     "status": "experimental",
     "created": "2026-09-03",
-    "modified": "2026-09-03",
+    "modified": "2026-09-11",
     "review_interval_days": 90
   },
   "severity": "high",
@@ -24,7 +24,18 @@
     {
       "name": "Microsoft Defender for Endpoint process events",
       "category": "Endpoint process creation",
-      "required_fields": ["TimeGenerated", "Timestamp", "DeviceId", "DeviceName", "AccountName", "InitiatingProcessFileName", "FileName", "FolderPath", "ProcessCommandLine", "ReportId"]
+      "required_fields": [
+        "TimeGenerated",
+        "Timestamp",
+        "DeviceId",
+        "DeviceName",
+        "AccountName",
+        "InitiatingProcessFileName",
+        "FileName",
+        "FolderPath",
+        "ProcessCommandLine",
+        "ReportId"
+      ]
     }
   ],
   "attack": [
@@ -53,8 +64,24 @@
     {
       "type": "sigma",
       "path": "content/portable/sigma/MSEC-DET-0012/rule.yml",
-      "targets": ["sentinel"],
+      "targets": [
+        "sentinel"
+      ],
       "status": "active"
     }
-  ]
+  ],
+  "quality": {
+    "reviewed_on": "2026-09-11",
+    "signal_type": "behavior",
+    "limitations": [
+      "This single-event signal does not establish malicious intent or successful execution. Renamed binaries, alternate tools, obfuscation and unlogged activity can evade the bounded predicates.",
+      "Current-revision evidence is synthetic only. Validate full generated KQL, source fields, ingestion delay, alert volume and scoped exclusions in the target before enabling."
+    ],
+    "validation_level": "synthetic-only",
+    "provenance": {
+      "origin": "reviewed-existing",
+      "license": "Apache-2.0",
+      "review": "docs/reviews/existing-0001-0025.md"
+    }
+  }
 }

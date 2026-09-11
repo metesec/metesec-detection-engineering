@@ -1,13 +1,15 @@
-title: Scheduled Task Created on a Remote Windows System
+title: Remote scheduled task creation command
 id: 0b7dc650-bd67-451e-b006-c27a85bffe8d
 status: experimental
-description: Detects schtasks.exe creating a scheduled task while targeting a remote computer through the /s option.
+description: Detects a Schtasks command requesting task creation with an explicit /s target. Process telemetry does not establish that the task was created successfully.
 references:
   - https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/schtasks-create
   - https://attack.mitre.org/techniques/T1053/005/
   - https://github.com/SigmaHQ/sigma/tree/master/rules/windows/process_creation
 author: MeteSec Detection Engineering
+license: Apache-2.0
 date: 2026-09-03
+modified: 2026-09-11
 tags:
   - attack.execution
   - attack.persistence
@@ -19,11 +21,13 @@ logsource:
 detection:
   selection_image:
     FileName: schtasks.exe
+  selection_original:
+    ProcessVersionInfoOriginalFileName: schtasks.exe
   selection_create:
-    ProcessCommandLine|contains: '/create'
+    ProcessCommandLine|re|i: '(?:^|\s)/create(?:\s|$)'
   selection_remote:
-    ProcessCommandLine|contains: ' /s '
-  condition: selection_image and selection_create and selection_remote
+    ProcessCommandLine|re|i: '^\s*(?:"[^"]*"|[^\s"]+)(?:\s+(?:"[^"]*"|[^\s"]+))*\s+/s\s+(?:"[^"]+"|[^\s"]+)'
+  condition: (selection_image or selection_original) and selection_create and selection_remote
 fields:
   - TimeGenerated
   - Timestamp
@@ -32,6 +36,7 @@ fields:
   - AccountName
   - InitiatingProcessFileName
   - FileName
+  - ProcessVersionInfoOriginalFileName
   - FolderPath
   - ProcessCommandLine
   - ReportId

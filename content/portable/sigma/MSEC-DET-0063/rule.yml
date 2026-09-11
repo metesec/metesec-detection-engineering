@@ -1,0 +1,44 @@
+# Modified 2026-09-11 by MeteSec Detection Engineering.
+# Adapted from MeteSec Hardened 23 (Apache-2.0): raw source fields,
+# bounded predicates and repository-local synthetic evidence replace normalization.
+title: "Defender Antivirus engine loads a DLL from a staging or remote location"
+id: "5976b9e0-1c33-5da2-a7ed-b9602602b5cd"
+status: "experimental"
+description: "Detects an ImageLoaded event for a DLL initiated by MsMpEng.exe from a rooted profile, temporary, recycle-bin or UNC location."
+references:
+  - "https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceimageloadevents-table"
+  - "https://learn.microsoft.com/en-us/azure/azure-monitor/reference/tables/deviceimageloadevents"
+  - "https://attack.mitre.org/techniques/T1574/002/"
+author: "MeteSec (AI-assisted implementation; human review pending)"
+date: "2026-09-11"
+modified: 2026-09-11
+license: "Apache-2.0"
+tags:
+  - "attack.persistence"
+  - "attack.t1574.001"
+logsource:
+  product: "windows"
+  category: "image_load"
+detection:
+  selection:
+    ActionType: "ImageLoaded"
+    InitiatingProcessFileName: "MsMpEng.exe"
+    FileName|endswith: ".dll"
+    FolderPath|re: "(?i)^(?:[a-z]:\\\\(?:users|windows\\\\temp|temp|perflogs|\\$recycle\\.bin)(?:\\\\|$)|\\\\\\\\[a-z0-9_-][^\\\\/:*?\"<>|\\r\\n]*\\\\[^\\\\/:*?\"<>|\\r\\n]+(?:\\\\|$))"
+  condition: "selection"
+fields:
+  - "TimeGenerated"
+  - "DeviceId"
+  - "DeviceName"
+  - "ActionType"
+  - "FileName"
+  - "FolderPath"
+  - "SHA1"
+  - "InitiatingProcessAccountName"
+  - "InitiatingProcessFileName"
+  - "InitiatingProcessFolderPath"
+  - "InitiatingProcessCommandLine"
+  - "ReportId"
+falsepositives:
+  - "Approved security testing, diagnostics or a vendor-specific installation using a nonstandard DLL location."
+level: "high"

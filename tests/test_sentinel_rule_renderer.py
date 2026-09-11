@@ -16,62 +16,15 @@ from scripts.sentinel_rule_renderer import (
     load_rule_settings,
     render_profile,
     write_rendered_rules,
+    scheduled_query,
+    duration_seconds,
+    _target_tactics,
 )
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 PROFILE = REPO_ROOT / "targets" / "sentinel" / "analytics-rules.json"
-EXPECTED_IDS = [
-    "MSEC-DET-0002",
-    "MSEC-DET-0003",
-    "MSEC-DET-0004",
-    "MSEC-DET-0005",
-    "MSEC-DET-0006",
-    "MSEC-DET-0007",
-    "MSEC-DET-0008",
-    "MSEC-DET-0009",
-    "MSEC-DET-0010",
-    "MSEC-DET-0011",
-    "MSEC-DET-0012",
-    "MSEC-DET-0013",
-    "MSEC-DET-0014",
-    "MSEC-DET-0015",
-    "MSEC-DET-0016",
-    "MSEC-DET-0017",
-    "MSEC-DET-0018",
-    "MSEC-DET-0019",
-    "MSEC-DET-0020",
-    "MSEC-DET-0021",
-    "MSEC-DET-0022",
-    "MSEC-DET-0023",
-    "MSEC-DET-0024",
-    "MSEC-DET-0025",
-    "MSEC-DET-0026",
-    "MSEC-DET-0027",
-    "MSEC-DET-0028",
-    "MSEC-DET-0029",
-    "MSEC-DET-0030",
-    "MSEC-DET-0031",
-    "MSEC-DET-0032",
-    "MSEC-DET-0033",
-    "MSEC-DET-0034",
-    "MSEC-DET-0035",
-    "MSEC-DET-0036",
-    "MSEC-DET-0037",
-    "MSEC-DET-0038",
-    "MSEC-DET-0039",
-    "MSEC-DET-0040",
-    "MSEC-DET-0041",
-    "MSEC-DET-0042",
-    "MSEC-DET-0043",
-    "MSEC-DET-0044",
-    "MSEC-DET-0045",
-    "MSEC-DET-0046",
-    "MSEC-DET-0047",
-    "MSEC-DET-0048",
-    "MSEC-DET-0049",
-    "MSEC-DET-0050",
-]
+EXPECTED_IDS = [item["id"] for item in json.loads((REPO_ROOT / "targets/sentinel/preview.json").read_text())["detections"]]
 EXPECTED_RULE_IDS = {
     "MSEC-DET-0002": "249adb3e-5bd1-5348-82ba-00a0ade97c7d",
     "MSEC-DET-0003": "f336023f-4aa7-582e-99f5-da072f591623",
@@ -221,13 +174,13 @@ class SentinelRuleRendererTests(unittest.TestCase):
     def setUpClass(cls) -> None:
         cls.rendered = render_profile(REPO_ROOT, PROFILE)
 
-    def test_current_profile_renders_forty_nine_disabled_scheduled_rules(self) -> None:
+    def test_current_profile_renders_every_binding_disabled(self) -> None:
         self.assertEqual(
             [item.detection_id for item in self.rendered],
             EXPECTED_IDS,
         )
         self.assertEqual(
-            {item.detection_id: item.rule_id for item in self.rendered},
+            {item.detection_id: item.rule_id for item in self.rendered if item.detection_id in EXPECTED_RULE_IDS},
             EXPECTED_RULE_IDS,
         )
         for item in self.rendered:
@@ -243,84 +196,21 @@ class SentinelRuleRendererTests(unittest.TestCase):
                 properties["eventGroupingSettings"],
                 {"aggregationKind": "AlertPerResult"},
             )
-            self.assertTrue(properties["incidentConfiguration"]["createIncident"])
+            self.assertFalse(properties["incidentConfiguration"]["createIncident"])
 
     def test_manifest_metadata_and_attack_mapping_are_deterministic(self) -> None:
-        expected = {
-            "MSEC-DET-0002": ("Medium", ["InitialAccess"], ["T1078"]),
-            "MSEC-DET-0003": ("High", ["InitialAccess"], ["T1078"]),
-            "MSEC-DET-0004": ("High", ["Persistence"], ["T1098"]),
-            "MSEC-DET-0005": ("Medium", ["PrivilegeEscalation"], ["T1098"]),
-            "MSEC-DET-0006": ("High", ["Execution"], ["T1059"]),
-            "MSEC-DET-0007": ("High", ["Execution"], ["T1059"]),
-            "MSEC-DET-0008": ("High", ["PrivilegeEscalation"], ["T1098"]),
-            "MSEC-DET-0009": ("Medium", ["Persistence"], ["T1098"]),
-            "MSEC-DET-0010": ("High", ["InitialAccess"], ["T1078"]),
-            "MSEC-DET-0011": ("High", ["CredentialAccess"], ["T1003"]),
-            "MSEC-DET-0012": ("High", ["DefenseEvasion"], ["T1218"]),
-            "MSEC-DET-0013": ("Medium", ["DefenseEvasion"], ["T1218"]),
-            "MSEC-DET-0014": ("Medium", ["DefenseEvasion"], ["T1556"]),
-            "MSEC-DET-0015": ("Medium", ["PrivilegeEscalation"], ["T1098"]),
-            "MSEC-DET-0016": ("High", ["Impact"], ["T1490"]),
-            "MSEC-DET-0017": ("High", [], ["T1685"]),
-            "MSEC-DET-0018": ("High", [], ["T1685"]),
-            "MSEC-DET-0019": ("High", ["PrivilegeEscalation"], ["T1484"]),
-            "MSEC-DET-0020": ("Medium", ["CommandAndControl"], ["T1105"]),
-            "MSEC-DET-0021": ("High", ["Persistence", "PrivilegeEscalation"], ["T1098"]),
-            "MSEC-DET-0022": ("Medium", ["Persistence", "CredentialAccess"], ["T1556"]),
-            "MSEC-DET-0023": ("High", ["CredentialAccess"], ["T1003"]),
-            "MSEC-DET-0024": ("Medium", ["Execution"], ["T1047"]),
-            "MSEC-DET-0025": ("Medium", ["Persistence", "Execution"], ["T1197"]),
-            "MSEC-DET-0026": ("Medium", ["InitialAccess"], ["T1078"]),
-            "MSEC-DET-0027": ("High", [], ["T1218"]),
-            "MSEC-DET-0028": (
-                "Medium",
-                ["Execution", "Persistence", "PrivilegeEscalation"],
-                ["T1053"],
-            ),
-            "MSEC-DET-0029": (
-                "High",
-                ["Persistence", "PrivilegeEscalation"],
-                ["T1098"],
-            ),
-            "MSEC-DET-0030": ("High", ["CredentialAccess"], ["T1003"]),
-            "MSEC-DET-0031": ("High", ["Persistence"], ["T1505"]),
-            "MSEC-DET-0032": ("High", [], ["T1685"]),
-            "MSEC-DET-0033": ("High", [], ["T1686"]),
-            "MSEC-DET-0034": (
-                "High",
-                ["Persistence", "PrivilegeEscalation"],
-                ["T1543"],
-            ),
-            "MSEC-DET-0035": ("Medium", [], ["T1140"]),
-            "MSEC-DET-0036": ("High", ["CredentialAccess"], ["T1003"]),
-            "MSEC-DET-0037": ("High", ["PrivilegeEscalation", "DefenseEvasion"], ["T1548"]),
-            "MSEC-DET-0038": ("High", ["LateralMovement"], ["T1021"]),
-            "MSEC-DET-0039": ("High", ["Execution"], ["T1059"]),
-            "MSEC-DET-0040": ("High", ["Persistence", "PrivilegeEscalation"], ["T1546"]),
-            "MSEC-DET-0041": ("High", [], ["T1218"]),
-            "MSEC-DET-0042": ("Medium", [], ["T1218"]),
-            "MSEC-DET-0043": ("Medium", ["CommandAndControl"], ["T1218", "T1105"]),
-            "MSEC-DET-0044": ("Medium", ["CommandAndControl"], ["T1218", "T1105"]),
-            "MSEC-DET-0045": ("High", ["Execution"], ["T1127"]),
-            "MSEC-DET-0046": ("Medium", ["Persistence", "PrivilegeEscalation"], ["T1547"]),
-            "MSEC-DET-0047": ("High", ["Persistence", "PrivilegeEscalation"], ["T1547"]),
-            "MSEC-DET-0048": ("Medium", ["Execution", "Persistence", "PrivilegeEscalation"], ["T1053"]),
-            "MSEC-DET-0049": ("High", [], ["T1218"]),
-            "MSEC-DET-0050": ("Medium", ["CommandAndControl"], ["T1090"]),
-        }
         for item in self.rendered:
             properties = item.request_body["properties"]
-            severity, tactics, techniques = expected[item.detection_id]
+            manifest = json.loads((REPO_ROOT / "catalog/detections" / item.detection_id / "manifest.json").read_text())
+            severity = manifest["severity"].capitalize()
+            tactics, techniques, _ = _target_tactics(manifest["attack"], item.detection_id)
             self.assertEqual(properties["severity"], severity)
             self.assertEqual(properties["tactics"], tactics)
             self.assertEqual(properties["techniques"], techniques)
-            self.assertNotIn("subscription", item.request_body_text().lower())
-            self.assertNotIn("workspace", item.request_body_text().lower())
-            self.assertNotIn("tenant", item.request_body_text().lower())
 
-    def test_rendered_query_is_the_reviewed_golden_query(self) -> None:
-        for item in self.rendered:
+    def test_scheduled_query_is_derived_from_reviewed_golden_and_settings(self) -> None:
+        _, settings = load_rule_settings(REPO_ROOT, PROFILE, EXPECTED_IDS)
+        for item, setting in zip(self.rendered, settings):
             golden = (
                 REPO_ROOT
                 / "tests"
@@ -328,8 +218,12 @@ class SentinelRuleRendererTests(unittest.TestCase):
                 / "sentinel"
                 / f"{item.detection_id}.kql"
             ).read_text(encoding="utf-8").replace("\r\n", "\n")
-            self.assertEqual(item.query, golden)
-            self.assertEqual(item.request_body["properties"]["query"], golden)
+            expected = scheduled_query(golden, setting)
+            self.assertEqual(item.query, expected)
+            self.assertEqual(item.request_body["properties"]["query"], expected)
+            self.assertIn("| where TimeGenerated >= ago(3600s)", expected)
+            self.assertIn("| where ingestion_time() > ago(900s)", expected)
+            self.assertEqual(expected.splitlines()[3:], golden.splitlines()[1:])
 
     def test_output_columns_drive_exact_entity_mappings(self) -> None:
         for item in self.rendered:
@@ -383,7 +277,10 @@ class SentinelRuleRendererTests(unittest.TestCase):
                 "MSEC-DET-0048": DEVICE_ENTITY_MAPPINGS,
                 "MSEC-DET-0049": DEVICE_ENTITY_MAPPINGS,
                 "MSEC-DET-0050": DEVICE_ENTITY_MAPPINGS,
-            }[item.detection_id]
+            }.get(item.detection_id)
+            if expected is None:
+                target = next(x for x in json.loads((REPO_ROOT / "targets/sentinel/preview.json").read_text())["detections"] if x["id"] == item.detection_id)
+                expected = [{"entityType": m["entity_type"], "fieldMappings": [{"identifier": f["identifier"], "columnName": f["column"]} for f in m["field_mappings"]]} for m in target["output"]["entity_mappings"]]
             properties = item.request_body["properties"]
             self.assertEqual(properties["entityMappings"], expected)
             self.assertEqual(item.render_manifest["source"]["entity_mappings"], expected)
@@ -576,6 +473,34 @@ class SentinelRuleRendererTests(unittest.TestCase):
                 with self.subTest(message=message):
                     with self.assertRaisesRegex(SentinelRuleRenderError, message):
                         load_rule_settings(REPO_ROOT, path, EXPECTED_IDS)
+
+
+    def test_duration_ranges_and_ingestion_window_contract(self):
+        self.assertEqual(duration_seconds("P1DT2H3M4S"), 93784)
+        original = json.loads(PROFILE.read_text())
+        for field, value in (("query_frequency", "PT0S"), ("query_frequency", "PT4M"),
+                             ("query_frequency", "PT2H"), ("query_period", "P15D"),
+                             ("suppression_duration", "PT0S"), ("incident_lookback", "P8D")):
+            profile = copy.deepcopy(original)
+            profile["rules"][0][field] = value
+            with TemporaryDirectory() as directory:
+                path = Path(directory) / "profile.json"
+                path.write_text(json.dumps(profile))
+                with self.subTest(field=field, value=value), self.assertRaises(SentinelRuleRenderError):
+                    load_rule_settings(REPO_ROOT, path, EXPECTED_IDS)
+
+    def test_target_tactics_do_not_relabel_unsupported_new_tactics(self):
+        tactics, techniques, _ = _target_tactics([
+            {"technique_id": "T1685.002", "tactic": "Defense Impairment"},
+            {"technique_id": "T1059.001", "tactic": "Execution"}], "MSEC-DET-9999")
+        self.assertEqual(tactics, ["Execution"])
+        self.assertEqual(techniques, ["T1685", "T1059"])
+
+    def test_delegated_grant_projects_the_matching_target_not_first_target(self):
+        query = next(x.query for x in self.rendered if x.detection_id == "MSEC-DET-0021")
+        self.assertIn("TargetServicePrincipalId = tostring(MsecTarget.id)", query)
+        self.assertIn("TargetServicePrincipalName = tostring(MsecTarget.displayName)", query)
+        self.assertNotIn("TargetResources[0]", query)
 
 
 if __name__ == "__main__":

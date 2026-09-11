@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "detection_id": "MSEC-DET-0066",
+  "implementation": "content/portable/sigma/MSEC-DET-0066/rule.yml",
+  "cases": [
+    {
+      "id": "bounded-positive",
+      "expectation": "match",
+      "fixture": "fixtures/bounded-positive.json",
+      "description": "Synthetic complete event matches the stated bounded predicate."
+    },
+    {
+      "id": "success-status-alias",
+      "expectation": "match",
+      "fixture": "fixtures/success-status-alias.json",
+      "description": "Synthetic positive variant: success status alias."
+    },
+    {
+      "id": "case-insensitive-operation",
+      "expectation": "match",
+      "fixture": "fixtures/case-insensitive-operation.json",
+      "description": "Synthetic positive variant: case insensitive operation."
+    },
+    {
+      "id": "failed-operation",
+      "expectation": "no_match",
+      "fixture": "fixtures/failed-operation.json",
+      "description": "Synthetic one-field boundary: failed operation."
+    },
+    {
+      "id": "started-operation",
+      "expectation": "no_match",
+      "fixture": "fixtures/started-operation.json",
+      "description": "Synthetic one-field boundary: started operation."
+    },
+    {
+      "id": "unrelated-operation",
+      "expectation": "no_match",
+      "fixture": "fixtures/unrelated-operation.json",
+      "description": "Synthetic one-field boundary: unrelated operation."
+    },
+    {
+      "id": "wrong-category",
+      "expectation": "no_match",
+      "fixture": "fixtures/wrong-category.json",
+      "description": "Synthetic one-field boundary: wrong category."
+    },
+    {
+      "id": "missing-categoryvalue",
+      "expectation": "no_match",
+      "fixture": "fixtures/missing-categoryvalue.json",
+      "description": "Synthetic event is missing required predicate field CategoryValue."
+    },
+    {
+      "id": "missing-operationnamevalue",
+      "expectation": "no_match",
+      "fixture": "fixtures/missing-operationnamevalue.json",
+      "description": "Synthetic event is missing required predicate field OperationNameValue."
+    },
+    {
+      "id": "missing-activitystatusvalue",
+      "expectation": "no_match",
+      "fixture": "fixtures/missing-activitystatusvalue.json",
+      "description": "Synthetic event is missing required predicate field ActivityStatusValue."
+    }
+  ]
+}

@@ -104,7 +104,7 @@
       "id": "MSEC-SDS-0005",
       "table": "DeviceRegistryEvents",
       "display_name": "Microsoft Defender for Endpoint registry events",
-      "consumers": ["MSEC-DET-0040", "MSEC-DET-0046", "MSEC-DET-0047"],
+      "consumers": ["MSEC-DET-0040","MSEC-DET-0046","MSEC-DET-0047","MSEC-DET-0055","MSEC-DET-0064","MSEC-DET-0068","MSEC-DET-0073","MSEC-DET-0080","MSEC-DET-0085","MSEC-DET-0089","MSEC-DET-0100"],
       "event_time_column": "Timestamp",
       "required_columns": [
         {"name": "TimeGenerated", "type": "datetime"},
@@ -121,6 +121,325 @@
         {"name": "InitiatingProcessFileName", "type": "string"},
         {"name": "InitiatingProcessCommandLine", "type": "string"},
         {"name": "ReportId", "type": "long"}
+      ],
+      "freshness": {
+        "degraded_after": "PT6H",
+        "unavailable_after": "P1D"
+      }
+    },
+    {
+      "id": "MSEC-SDS-0006",
+      "table": "AzureActivity",
+      "display_name": "Azure administrative activity",
+      "consumers": [
+        "MSEC-DET-0054",
+        "MSEC-DET-0066",
+        "MSEC-DET-0083"
+      ],
+      "event_time_column": "TimeGenerated",
+      "required_columns": [
+        {
+          "name": "TimeGenerated",
+          "type": "datetime"
+        },
+        {
+          "name": "ActivityStatusValue",
+          "type": "string"
+        },
+        {
+          "name": "Caller",
+          "type": "string"
+        },
+        {
+          "name": "CallerIpAddress",
+          "type": "string"
+        },
+        {
+          "name": "CategoryValue",
+          "type": "string"
+        },
+        {
+          "name": "CorrelationId",
+          "type": "string"
+        },
+        {
+          "name": "EventDataId",
+          "type": "string"
+        },
+        {
+          "name": "OperationNameValue",
+          "type": "string"
+        },
+        {
+          "name": "ResourceId",
+          "type": "string"
+        },
+        {
+          "name": "SubscriptionId",
+          "type": "string"
+        }
+      ],
+      "freshness": {
+        "degraded_after": "PT6H",
+        "unavailable_after": "P1D"
+      }
+    },
+    {
+      "id": "MSEC-SDS-0007",
+      "table": "DeviceImageLoadEvents",
+      "display_name": "Microsoft Defender for Endpoint image-load events",
+      "consumers": [
+        "MSEC-DET-0056",
+        "MSEC-DET-0063"
+      ],
+      "event_time_column": "TimeGenerated",
+      "required_columns": [
+        {
+          "name": "TimeGenerated",
+          "type": "datetime"
+        },
+        {
+          "name": "ActionType",
+          "type": "string"
+        },
+        {
+          "name": "DeviceId",
+          "type": "string"
+        },
+        {
+          "name": "DeviceName",
+          "type": "string"
+        },
+        {
+          "name": "FileName",
+          "type": "string"
+        },
+        {
+          "name": "FolderPath",
+          "type": "string"
+        },
+        {
+          "name": "InitiatingProcessAccountName",
+          "type": "string"
+        },
+        {
+          "name": "InitiatingProcessCommandLine",
+          "type": "string"
+        },
+        {
+          "name": "InitiatingProcessFileName",
+          "type": "string"
+        },
+        {
+          "name": "InitiatingProcessFolderPath",
+          "type": "string"
+        },
+        {
+          "name": "ReportId",
+          "type": "long"
+        },
+        {
+          "name": "SHA1",
+          "type": "string"
+        }
+      ],
+      "freshness": {
+        "degraded_after": "PT6H",
+        "unavailable_after": "P1D"
+      }
+    },
+    {
+      "id": "MSEC-SDS-0008",
+      "table": "DeviceNetworkEvents",
+      "display_name": "Microsoft Defender for Endpoint network events",
+      "consumers": [
+        "MSEC-DET-0057"
+      ],
+      "event_time_column": "TimeGenerated",
+      "required_columns": [
+        {
+          "name": "TimeGenerated",
+          "type": "datetime"
+        },
+        {
+          "name": "ActionType",
+          "type": "string"
+        },
+        {
+          "name": "DeviceId",
+          "type": "string"
+        },
+        {
+          "name": "DeviceName",
+          "type": "string"
+        },
+        {
+          "name": "InitiatingProcessAccountName",
+          "type": "string"
+        },
+        {
+          "name": "InitiatingProcessCommandLine",
+          "type": "string"
+        },
+        {
+          "name": "InitiatingProcessFileName",
+          "type": "string"
+        },
+        {
+          "name": "InitiatingProcessFolderPath",
+          "type": "string"
+        },
+        {
+          "name": "RemoteIP",
+          "type": "string"
+        },
+        {
+          "name": "RemoteIPType",
+          "type": "string"
+        },
+        {
+          "name": "RemotePort",
+          "type": "int"
+        },
+        {
+          "name": "ReportId",
+          "type": "long"
+        }
+      ],
+      "freshness": {
+        "degraded_after": "PT6H",
+        "unavailable_after": "P1D"
+      }
+    },
+    {
+      "id": "MSEC-SDS-0009",
+      "table": "DeviceFileEvents",
+      "display_name": "Microsoft Defender for Endpoint file events",
+      "consumers": [
+        "MSEC-DET-0060"
+      ],
+      "event_time_column": "TimeGenerated",
+      "required_columns": [
+        {
+          "name": "TimeGenerated",
+          "type": "datetime"
+        },
+        {
+          "name": "ActionType",
+          "type": "string"
+        },
+        {
+          "name": "DeviceId",
+          "type": "string"
+        },
+        {
+          "name": "DeviceName",
+          "type": "string"
+        },
+        {
+          "name": "FileName",
+          "type": "string"
+        },
+        {
+          "name": "FolderPath",
+          "type": "string"
+        },
+        {
+          "name": "InitiatingProcessAccountName",
+          "type": "string"
+        },
+        {
+          "name": "InitiatingProcessCommandLine",
+          "type": "string"
+        },
+        {
+          "name": "InitiatingProcessFileName",
+          "type": "string"
+        },
+        {
+          "name": "InitiatingProcessFolderPath",
+          "type": "string"
+        },
+        {
+          "name": "ReportId",
+          "type": "long"
+        },
+        {
+          "name": "SHA1",
+          "type": "string"
+        }
+      ],
+      "freshness": {
+        "degraded_after": "PT6H",
+        "unavailable_after": "P1D"
+      }
+    },
+    {
+      "id": "MSEC-SDS-0010",
+      "table": "AWSCloudTrail",
+      "display_name": "AWS CloudTrail management events",
+      "consumers": [
+        "MSEC-DET-0076",
+        "MSEC-DET-0081"
+      ],
+      "event_time_column": "TimeGenerated",
+      "required_columns": [
+        {
+          "name": "TimeGenerated",
+          "type": "datetime"
+        },
+        {
+          "name": "AwsEventId",
+          "type": "string"
+        },
+        {
+          "name": "AWSRegion",
+          "type": "string"
+        },
+        {
+          "name": "ErrorCode",
+          "type": "string"
+        },
+        {
+          "name": "ErrorMessage",
+          "type": "string"
+        },
+        {
+          "name": "EventName",
+          "type": "string"
+        },
+        {
+          "name": "EventSource",
+          "type": "string"
+        },
+        {
+          "name": "EventTypeName",
+          "type": "string"
+        },
+        {
+          "name": "ManagementEvent",
+          "type": "bool"
+        },
+        {
+          "name": "ReadOnly",
+          "type": "bool"
+        },
+        {
+          "name": "RecipientAccountId",
+          "type": "string"
+        },
+        {
+          "name": "SourceIpAddress",
+          "type": "string"
+        },
+        {
+          "name": "UserIdentityArn",
+          "type": "string"
+        },
+        {
+          "name": "UserIdentityType",
+          "type": "string"
+        }
       ],
       "freshness": {
         "degraded_after": "PT6H",

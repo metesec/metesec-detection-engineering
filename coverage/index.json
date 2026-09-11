@@ -6,13 +6,13 @@
     "sentinel_data_sources": "targets/sentinel/data-sources.json"
   },
   "summary": {
-    "detections": 50,
-    "attack_mappings": 69,
-    "attack_techniques": 39,
+    "detections": 67,
+    "attack_mappings": 86,
+    "attack_techniques": 49,
     "attack_tactics": 11,
-    "logical_data_sources": 6,
-    "sentinel_preview_bindings": 49,
-    "sentinel_data_source_contracts": 5,
+    "logical_data_sources": 11,
+    "sentinel_preview_bindings": 66,
+    "sentinel_data_source_contracts": 10,
     "detections_without_sentinel_binding": 1
   },
   "attack": {
@@ -42,7 +42,8 @@
           "Credential Access"
         ],
         "detections": [
-          "MSEC-DET-0030"
+          "MSEC-DET-0030",
+          "MSEC-DET-0060"
         ]
       },
       {
@@ -52,6 +53,15 @@
         ],
         "detections": [
           "MSEC-DET-0038"
+        ]
+      },
+      {
+        "technique_id": "T1036.005",
+        "tactics": [
+          "Defense Evasion"
+        ],
+        "detections": [
+          "MSEC-DET-0057"
         ]
       },
       {
@@ -135,7 +145,8 @@
           "MSEC-DET-0005",
           "MSEC-DET-0008",
           "MSEC-DET-0015",
-          "MSEC-DET-0021"
+          "MSEC-DET-0021",
+          "MSEC-DET-0083"
         ]
       },
       {
@@ -272,6 +283,15 @@
         ]
       },
       {
+        "technique_id": "T1485",
+        "tactics": [
+          "Impact"
+        ],
+        "detections": [
+          "MSEC-DET-0066"
+        ]
+      },
+      {
         "technique_id": "T1490",
         "tactics": [
           "Impact"
@@ -301,6 +321,15 @@
         ]
       },
       {
+        "technique_id": "T1546.007",
+        "tactics": [
+          "Persistence"
+        ],
+        "detections": [
+          "MSEC-DET-0085"
+        ]
+      },
+      {
         "technique_id": "T1546.008",
         "tactics": [
           "Persistence",
@@ -308,6 +337,24 @@
         ],
         "detections": [
           "MSEC-DET-0040"
+        ]
+      },
+      {
+        "technique_id": "T1546.009",
+        "tactics": [
+          "Persistence"
+        ],
+        "detections": [
+          "MSEC-DET-0100"
+        ]
+      },
+      {
+        "technique_id": "T1546.012",
+        "tactics": [
+          "Persistence"
+        ],
+        "detections": [
+          "MSEC-DET-0055"
         ]
       },
       {
@@ -331,6 +378,24 @@
         ]
       },
       {
+        "technique_id": "T1547.005",
+        "tactics": [
+          "Persistence"
+        ],
+        "detections": [
+          "MSEC-DET-0056"
+        ]
+      },
+      {
+        "technique_id": "T1547.010",
+        "tactics": [
+          "Persistence"
+        ],
+        "detections": [
+          "MSEC-DET-0089"
+        ]
+      },
+      {
         "technique_id": "T1548.002",
         "tactics": [
           "Defense Evasion",
@@ -338,6 +403,15 @@
         ],
         "detections": [
           "MSEC-DET-0037"
+        ]
+      },
+      {
+        "technique_id": "T1553",
+        "tactics": [
+          "Defense Evasion"
+        ],
+        "detections": [
+          "MSEC-DET-0080"
         ]
       },
       {
@@ -361,12 +435,25 @@
         ]
       },
       {
+        "technique_id": "T1574.001",
+        "tactics": [
+          "Persistence"
+        ],
+        "detections": [
+          "MSEC-DET-0063"
+        ]
+      },
+      {
         "technique_id": "T1685",
         "tactics": [
           "Defense Impairment"
         ],
         "detections": [
-          "MSEC-DET-0018"
+          "MSEC-DET-0018",
+          "MSEC-DET-0064",
+          "MSEC-DET-0068",
+          "MSEC-DET-0073",
+          "MSEC-DET-0081"
         ]
       },
       {
@@ -376,6 +463,16 @@
         ],
         "detections": [
           "MSEC-DET-0032"
+        ]
+      },
+      {
+        "technique_id": "T1685.002",
+        "tactics": [
+          "Defense Impairment"
+        ],
+        "detections": [
+          "MSEC-DET-0054",
+          "MSEC-DET-0076"
         ]
       },
       {
@@ -424,22 +521,27 @@
           "MSEC-DET-0022",
           "MSEC-DET-0023",
           "MSEC-DET-0030",
-          "MSEC-DET-0036"
+          "MSEC-DET-0036",
+          "MSEC-DET-0060"
         ]
       },
       {
         "tactic": "Defense Evasion",
         "techniques": [
+          "T1036.005",
           "T1218.005",
           "T1218.010",
           "T1548.002",
+          "T1553",
           "T1556.009"
         ],
         "detections": [
           "MSEC-DET-0012",
           "MSEC-DET-0013",
           "MSEC-DET-0014",
-          "MSEC-DET-0037"
+          "MSEC-DET-0037",
+          "MSEC-DET-0057",
+          "MSEC-DET-0080"
         ]
       },
       {
@@ -449,6 +551,7 @@
           "T1556.006",
           "T1685",
           "T1685.001",
+          "T1685.002",
           "T1685.005",
           "T1686.003"
         ],
@@ -458,7 +561,13 @@
           "MSEC-DET-0019",
           "MSEC-DET-0022",
           "MSEC-DET-0032",
-          "MSEC-DET-0033"
+          "MSEC-DET-0033",
+          "MSEC-DET-0054",
+          "MSEC-DET-0064",
+          "MSEC-DET-0068",
+          "MSEC-DET-0073",
+          "MSEC-DET-0076",
+          "MSEC-DET-0081"
         ]
       },
       {
@@ -485,10 +594,12 @@
       {
         "tactic": "Impact",
         "techniques": [
+          "T1485",
           "T1490"
         ],
         "detections": [
-          "MSEC-DET-0016"
+          "MSEC-DET-0016",
+          "MSEC-DET-0066"
         ]
       },
       {
@@ -522,10 +633,16 @@
           "T1197",
           "T1505.003",
           "T1543.003",
+          "T1546.007",
           "T1546.008",
+          "T1546.009",
+          "T1546.012",
           "T1547.001",
           "T1547.004",
-          "T1556.006"
+          "T1547.005",
+          "T1547.010",
+          "T1556.006",
+          "T1574.001"
         ],
         "detections": [
           "MSEC-DET-0001",
@@ -541,7 +658,13 @@
           "MSEC-DET-0040",
           "MSEC-DET-0046",
           "MSEC-DET-0047",
-          "MSEC-DET-0048"
+          "MSEC-DET-0048",
+          "MSEC-DET-0055",
+          "MSEC-DET-0056",
+          "MSEC-DET-0063",
+          "MSEC-DET-0085",
+          "MSEC-DET-0089",
+          "MSEC-DET-0100"
         ]
       },
       {
@@ -570,7 +693,8 @@
           "MSEC-DET-0040",
           "MSEC-DET-0046",
           "MSEC-DET-0047",
-          "MSEC-DET-0048"
+          "MSEC-DET-0048",
+          "MSEC-DET-0083"
         ]
       },
       {
@@ -602,6 +726,115 @@
   },
   "data_sources": {
     "logical": [
+      {
+        "name": "AWS CloudTrail management events",
+        "category": "AWS control-plane administration",
+        "detections": [
+          "MSEC-DET-0076",
+          "MSEC-DET-0081"
+        ],
+        "required_fields": [
+          "AwsEventId",
+          "AWSRegion",
+          "ErrorCode",
+          "ErrorMessage",
+          "EventName",
+          "EventSource",
+          "EventTypeName",
+          "ManagementEvent",
+          "ReadOnly",
+          "RecipientAccountId",
+          "SourceIpAddress",
+          "TimeGenerated",
+          "UserIdentityArn",
+          "UserIdentityType"
+        ]
+      },
+      {
+        "name": "Azure Activity administrative events",
+        "category": "Azure control-plane administration",
+        "detections": [
+          "MSEC-DET-0054",
+          "MSEC-DET-0066",
+          "MSEC-DET-0083"
+        ],
+        "required_fields": [
+          "ActivityStatusValue",
+          "Caller",
+          "CallerIpAddress",
+          "CategoryValue",
+          "CorrelationId",
+          "EventDataId",
+          "OperationNameValue",
+          "ResourceId",
+          "SubscriptionId",
+          "TimeGenerated"
+        ]
+      },
+      {
+        "name": "Microsoft Defender for Endpoint file events",
+        "category": "Endpoint file activity",
+        "detections": [
+          "MSEC-DET-0060"
+        ],
+        "required_fields": [
+          "ActionType",
+          "DeviceId",
+          "DeviceName",
+          "FileName",
+          "FolderPath",
+          "InitiatingProcessAccountName",
+          "InitiatingProcessCommandLine",
+          "InitiatingProcessFileName",
+          "InitiatingProcessFolderPath",
+          "ReportId",
+          "SHA1",
+          "TimeGenerated"
+        ]
+      },
+      {
+        "name": "Microsoft Defender for Endpoint image-load events",
+        "category": "Endpoint DLL loading",
+        "detections": [
+          "MSEC-DET-0056",
+          "MSEC-DET-0063"
+        ],
+        "required_fields": [
+          "ActionType",
+          "DeviceId",
+          "DeviceName",
+          "FileName",
+          "FolderPath",
+          "InitiatingProcessAccountName",
+          "InitiatingProcessCommandLine",
+          "InitiatingProcessFileName",
+          "InitiatingProcessFolderPath",
+          "ReportId",
+          "SHA1",
+          "TimeGenerated"
+        ]
+      },
+      {
+        "name": "Microsoft Defender for Endpoint network events",
+        "category": "Endpoint network connection",
+        "detections": [
+          "MSEC-DET-0057"
+        ],
+        "required_fields": [
+          "ActionType",
+          "DeviceId",
+          "DeviceName",
+          "InitiatingProcessAccountName",
+          "InitiatingProcessCommandLine",
+          "InitiatingProcessFileName",
+          "InitiatingProcessFolderPath",
+          "RemoteIP",
+          "RemoteIPType",
+          "RemotePort",
+          "ReportId",
+          "TimeGenerated"
+        ]
+      },
       {
         "name": "Microsoft Defender for Endpoint process events",
         "category": "Endpoint process creation",
@@ -660,13 +893,23 @@
         "detections": [
           "MSEC-DET-0040",
           "MSEC-DET-0046",
-          "MSEC-DET-0047"
+          "MSEC-DET-0047",
+          "MSEC-DET-0055",
+          "MSEC-DET-0064",
+          "MSEC-DET-0068",
+          "MSEC-DET-0073",
+          "MSEC-DET-0080",
+          "MSEC-DET-0085",
+          "MSEC-DET-0089",
+          "MSEC-DET-0100"
         ],
         "required_fields": [
           "ActionType",
           "DeviceId",
           "DeviceName",
+          "InitiatingProcessAccountDomain",
           "InitiatingProcessAccountName",
+          "InitiatingProcessAccountSid",
           "InitiatingProcessCommandLine",
           "InitiatingProcessFileName",
           "RegistryKey",
@@ -1045,7 +1288,15 @@
         "detections": [
           "MSEC-DET-0040",
           "MSEC-DET-0046",
-          "MSEC-DET-0047"
+          "MSEC-DET-0047",
+          "MSEC-DET-0055",
+          "MSEC-DET-0064",
+          "MSEC-DET-0068",
+          "MSEC-DET-0073",
+          "MSEC-DET-0080",
+          "MSEC-DET-0085",
+          "MSEC-DET-0089",
+          "MSEC-DET-0100"
         ],
         "event_time_column": "Timestamp",
         "required_columns": [
@@ -1104,6 +1355,325 @@
           {
             "name": "ReportId",
             "type": "long"
+          }
+        ],
+        "freshness": {
+          "degraded_after": "PT6H",
+          "unavailable_after": "P1D"
+        }
+      },
+      {
+        "source_id": "MSEC-SDS-0006",
+        "table": "AzureActivity",
+        "display_name": "Azure administrative activity",
+        "detections": [
+          "MSEC-DET-0054",
+          "MSEC-DET-0066",
+          "MSEC-DET-0083"
+        ],
+        "event_time_column": "TimeGenerated",
+        "required_columns": [
+          {
+            "name": "TimeGenerated",
+            "type": "datetime"
+          },
+          {
+            "name": "ActivityStatusValue",
+            "type": "string"
+          },
+          {
+            "name": "Caller",
+            "type": "string"
+          },
+          {
+            "name": "CallerIpAddress",
+            "type": "string"
+          },
+          {
+            "name": "CategoryValue",
+            "type": "string"
+          },
+          {
+            "name": "CorrelationId",
+            "type": "string"
+          },
+          {
+            "name": "EventDataId",
+            "type": "string"
+          },
+          {
+            "name": "OperationNameValue",
+            "type": "string"
+          },
+          {
+            "name": "ResourceId",
+            "type": "string"
+          },
+          {
+            "name": "SubscriptionId",
+            "type": "string"
+          }
+        ],
+        "freshness": {
+          "degraded_after": "PT6H",
+          "unavailable_after": "P1D"
+        }
+      },
+      {
+        "source_id": "MSEC-SDS-0007",
+        "table": "DeviceImageLoadEvents",
+        "display_name": "Microsoft Defender for Endpoint image-load events",
+        "detections": [
+          "MSEC-DET-0056",
+          "MSEC-DET-0063"
+        ],
+        "event_time_column": "TimeGenerated",
+        "required_columns": [
+          {
+            "name": "TimeGenerated",
+            "type": "datetime"
+          },
+          {
+            "name": "ActionType",
+            "type": "string"
+          },
+          {
+            "name": "DeviceId",
+            "type": "string"
+          },
+          {
+            "name": "DeviceName",
+            "type": "string"
+          },
+          {
+            "name": "FileName",
+            "type": "string"
+          },
+          {
+            "name": "FolderPath",
+            "type": "string"
+          },
+          {
+            "name": "InitiatingProcessAccountName",
+            "type": "string"
+          },
+          {
+            "name": "InitiatingProcessCommandLine",
+            "type": "string"
+          },
+          {
+            "name": "InitiatingProcessFileName",
+            "type": "string"
+          },
+          {
+            "name": "InitiatingProcessFolderPath",
+            "type": "string"
+          },
+          {
+            "name": "ReportId",
+            "type": "long"
+          },
+          {
+            "name": "SHA1",
+            "type": "string"
+          }
+        ],
+        "freshness": {
+          "degraded_after": "PT6H",
+          "unavailable_after": "P1D"
+        }
+      },
+      {
+        "source_id": "MSEC-SDS-0008",
+        "table": "DeviceNetworkEvents",
+        "display_name": "Microsoft Defender for Endpoint network events",
+        "detections": [
+          "MSEC-DET-0057"
+        ],
+        "event_time_column": "TimeGenerated",
+        "required_columns": [
+          {
+            "name": "TimeGenerated",
+            "type": "datetime"
+          },
+          {
+            "name": "ActionType",
+            "type": "string"
+          },
+          {
+            "name": "DeviceId",
+            "type": "string"
+          },
+          {
+            "name": "DeviceName",
+            "type": "string"
+          },
+          {
+            "name": "InitiatingProcessAccountName",
+            "type": "string"
+          },
+          {
+            "name": "InitiatingProcessCommandLine",
+            "type": "string"
+          },
+          {
+            "name": "InitiatingProcessFileName",
+            "type": "string"
+          },
+          {
+            "name": "InitiatingProcessFolderPath",
+            "type": "string"
+          },
+          {
+            "name": "RemoteIP",
+            "type": "string"
+          },
+          {
+            "name": "RemoteIPType",
+            "type": "string"
+          },
+          {
+            "name": "RemotePort",
+            "type": "int"
+          },
+          {
+            "name": "ReportId",
+            "type": "long"
+          }
+        ],
+        "freshness": {
+          "degraded_after": "PT6H",
+          "unavailable_after": "P1D"
+        }
+      },
+      {
+        "source_id": "MSEC-SDS-0009",
+        "table": "DeviceFileEvents",
+        "display_name": "Microsoft Defender for Endpoint file events",
+        "detections": [
+          "MSEC-DET-0060"
+        ],
+        "event_time_column": "TimeGenerated",
+        "required_columns": [
+          {
+            "name": "TimeGenerated",
+            "type": "datetime"
+          },
+          {
+            "name": "ActionType",
+            "type": "string"
+          },
+          {
+            "name": "DeviceId",
+            "type": "string"
+          },
+          {
+            "name": "DeviceName",
+            "type": "string"
+          },
+          {
+            "name": "FileName",
+            "type": "string"
+          },
+          {
+            "name": "FolderPath",
+            "type": "string"
+          },
+          {
+            "name": "InitiatingProcessAccountName",
+            "type": "string"
+          },
+          {
+            "name": "InitiatingProcessCommandLine",
+            "type": "string"
+          },
+          {
+            "name": "InitiatingProcessFileName",
+            "type": "string"
+          },
+          {
+            "name": "InitiatingProcessFolderPath",
+            "type": "string"
+          },
+          {
+            "name": "ReportId",
+            "type": "long"
+          },
+          {
+            "name": "SHA1",
+            "type": "string"
+          }
+        ],
+        "freshness": {
+          "degraded_after": "PT6H",
+          "unavailable_after": "P1D"
+        }
+      },
+      {
+        "source_id": "MSEC-SDS-0010",
+        "table": "AWSCloudTrail",
+        "display_name": "AWS CloudTrail management events",
+        "detections": [
+          "MSEC-DET-0076",
+          "MSEC-DET-0081"
+        ],
+        "event_time_column": "TimeGenerated",
+        "required_columns": [
+          {
+            "name": "TimeGenerated",
+            "type": "datetime"
+          },
+          {
+            "name": "AwsEventId",
+            "type": "string"
+          },
+          {
+            "name": "AWSRegion",
+            "type": "string"
+          },
+          {
+            "name": "ErrorCode",
+            "type": "string"
+          },
+          {
+            "name": "ErrorMessage",
+            "type": "string"
+          },
+          {
+            "name": "EventName",
+            "type": "string"
+          },
+          {
+            "name": "EventSource",
+            "type": "string"
+          },
+          {
+            "name": "EventTypeName",
+            "type": "string"
+          },
+          {
+            "name": "ManagementEvent",
+            "type": "bool"
+          },
+          {
+            "name": "ReadOnly",
+            "type": "bool"
+          },
+          {
+            "name": "RecipientAccountId",
+            "type": "string"
+          },
+          {
+            "name": "SourceIpAddress",
+            "type": "string"
+          },
+          {
+            "name": "UserIdentityArn",
+            "type": "string"
+          },
+          {
+            "name": "UserIdentityType",
+            "type": "string"
           }
         ],
         "freshness": {

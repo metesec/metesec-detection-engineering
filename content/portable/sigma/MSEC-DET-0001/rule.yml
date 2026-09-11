@@ -5,10 +5,11 @@ description: Detects a new Windows service whose image path points into a select
 references:
   - https://attack.mitre.org/techniques/T1543/003/
 author: MeteSec Detection Engineering
+license: Apache-2.0
 date: 2026-09-03
+modified: 2026-09-11
 tags:
   - attack.persistence
-  - attack.privilege-escalation
   - attack.t1543.003
 logsource:
   product: windows
@@ -18,10 +19,7 @@ detection:
     Provider_Name: Service Control Manager
     EventID: 7045
   selection_path:
-    ImagePath|contains:
-      - '\Users\Public\'
-      - '\Windows\Temp\'
-      - '\AppData\Local\Temp\'
+    ImagePath|re: '(?i)^\s*"?(?:[a-z]:\\|\\\?\?\\[a-z]:\\)(?:Users\\Public\\|Windows\\Temp\\|Users\\[^\\"]+\\AppData\\Local\\Temp\\)'
   condition: selection_event and selection_path
 fields:
   - Computer

@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0054",
+  "title": "Azure diagnostic or Activity Log export deleted",
+  "description": "Detects a successful administrative deletion of an Azure diagnostic setting or legacy Activity Log export profile.",
+  "hypothesis": {
+    "summary": "An adversary may delete diagnostic settings or Activity Log export to interrupt an established external audit trail and reduce visibility of subsequent actions.",
+    "rationale": "Deleting one export configuration does not prove logging ceased elsewhere. Resource retirement and replacement can emit the same event.",
+    "detection_goal": "Detects a successful administrative deletion of an Azure diagnostic setting or legacy Activity Log export profile."
+  },
+  "ownership": {
+    "owner": "MeteSec Detection Engineering",
+    "reviewers": []
+  },
+  "lifecycle": {
+    "status": "experimental",
+    "created": "2026-09-11",
+    "modified": "2026-09-11",
+    "review_interval_days": 90
+  },
+  "severity": "medium",
+  "confidence": "medium",
+  "data_sources": [
+    {
+      "name": "Azure Activity administrative events",
+      "category": "Azure control-plane administration",
+      "required_fields": [
+        "TimeGenerated",
+        "OperationNameValue",
+        "ActivityStatusValue",
+        "CategoryValue",
+        "Caller",
+        "CallerIpAddress",
+        "CorrelationId",
+        "EventDataId",
+        "ResourceId",
+        "SubscriptionId"
+      ]
+    }
+  ],
+  "attack": [
+    {
+      "technique_id": "T1685.002",
+      "tactic": "Defense Impairment"
+    }
+  ],
+  "triage": {
+    "summary": "Deleting one export configuration does not prove logging ceased elsewhere. Resource retirement and replacement can emit the same event.",
+    "steps": [
+      "Review the operation, resource, caller, source address and correlation ID; establish the approved change or recovery owner.",
+      "Inspect effective post-change configuration and independent controls, then correlate related role, resource and logging changes.",
+      "Validate the business justification and restore the affected control or contain unauthorized access through the consumer's approved process."
+    ],
+    "false_positives": [
+      "Approved diagnostic-setting replacement, resource decommissioning or retirement of a legacy Activity Log profile."
+    ]
+  },
+  "validation": {
+    "expected_outcome": "Match the bounded event, key/action/path or successful operation combination; reject one-field mutations, lookalikes and absent required fields. Synthetic tests do not establish live telemetry or production performance.",
+    "positive_tests": true,
+    "negative_tests": true
+  },
+  "implementations": [
+    {
+      "type": "sigma",
+      "path": "content/portable/sigma/MSEC-DET-0054/rule.yml",
+      "targets": [
+        "sentinel"
+      ],
+      "status": "active"
+    }
+  ],
+  "quality": {
+    "reviewed_on": "2026-09-11",
+    "signal_type": "configuration-change",
+    "limitations": [
+      "Deleting one export configuration does not prove logging ceased elsewhere. Resource retirement and replacement can emit the same event.",
+      "Current-revision evidence is synthetic only. Validate full generated KQL, source fields, ingestion delay, alert volume and scoped exclusions in the target before enabling."
+    ],
+    "validation_level": "synthetic-only",
+    "provenance": {
+      "origin": "reworked-supplied",
+      "license": "Apache-2.0",
+      "review": "docs/reviews/candidates-0051-0100.md"
+    }
+  }
+}

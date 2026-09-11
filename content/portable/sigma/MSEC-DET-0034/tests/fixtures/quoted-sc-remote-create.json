@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "event": {
+    "FileName": "sc.exe",
+    "ProcessCommandLine": "\"C:\\Windows\\System32\\sc.exe\" \\\\synthetic-host create Synthetic binpath= C:\\ProgramData\\Synthetic.exe"
+  }
+}

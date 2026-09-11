@@ -1,7 +1,7 @@
-title: Netsh Creates a Windows PortProxy Rule
+title: Netsh PortProxy addition command
 id: b826e110-cae0-47a3-b7bd-4e83c32fbe10
 status: experimental
-description: Detects Netsh or a renamed Netsh binary adding a Windows interface PortProxy forwarding rule.
+description: Detects a Netsh command requesting an interface PortProxy forwarding-rule addition, including explicit -c context syntax. Verify the resulting configuration and traffic before concluding that a proxy was established.
 references:
   - https://attack.mitre.org/techniques/T1090/001/
   - https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/netsh-interface
@@ -9,7 +9,9 @@ references:
   - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1090.001/T1090.001.md
   - https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table
 author: MeteSec Detection Engineering
+license: Apache-2.0
 date: 2026-09-03
+modified: 2026-09-11
 tags:
   - attack.command-and-control
   - attack.t1090.001
@@ -22,10 +24,7 @@ detection:
   selection_original:
     ProcessVersionInfoOriginalFileName: netsh.exe
   selection_command:
-    ProcessCommandLine|contains|all:
-      - interface
-      - portproxy
-      - ' add '
+    ProcessCommandLine|re|i: '(?:^|\s)(?:interface\s+portproxy|-c\s+"?interface\s+portproxy"?)\s+add\s+(?:v4tov4|v4tov6|v6tov4|v6tov6)(?:\s|$)'
   condition: (selection_image or selection_original) and selection_command
 fields:
   - TimeGenerated

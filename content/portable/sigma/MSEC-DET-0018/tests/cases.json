@@ -3,12 +3,21 @@
   "detection_id": "MSEC-DET-0018",
   "implementation": "content/portable/sigma/MSEC-DET-0018/rule.yml",
   "cases": [
-    {"id": "disable-realtime-monitoring", "expectation": "match", "fixture": "fixtures/disable-realtime-monitoring.json", "description": "Synthetic Set-MpPreference command attempts to disable real-time monitoring."},
-    {"id": "add-process-exclusion", "expectation": "match", "fixture": "fixtures/add-process-exclusion.json", "description": "Synthetic Add-MpPreference command attempts to add a process exclusion."},
-    {"id": "exclusion-path-with-context", "expectation": "match", "fixture": "fixtures/exclusion-path-with-context.json", "description": "Synthetic Defender exclusion command includes bounded endpoint context."},
-    {"id": "defender-status-query", "expectation": "no_match", "fixture": "fixtures/defender-status-query.json", "description": "Synthetic Defender status query is outside the rule."},
-    {"id": "enable-realtime-monitoring", "expectation": "no_match", "fixture": "fixtures/enable-realtime-monitoring.json", "description": "Synthetic command setting the disable switch false does not match."},
-    {"id": "other-preference", "expectation": "no_match", "fixture": "fixtures/other-preference.json", "description": "Synthetic unrelated Defender preference is outside the rule."},
-    {"id": "other-process-defender-command", "expectation": "no_match", "fixture": "fixtures/other-process-defender-command.json", "description": "Synthetic non-PowerShell process containing the pattern fails closed."}
+    {"id":"disable-realtime-monitoring","expectation":"match","fixture":"fixtures/disable-realtime-monitoring.json","description":"Synthetic Set-MpPreference command attempts to disable real-time monitoring."},
+    {"id":"add-process-exclusion","expectation":"match","fixture":"fixtures/add-process-exclusion.json","description":"Synthetic Add-MpPreference command attempts to add a process exclusion."},
+    {"id":"exclusion-path-with-context","expectation":"match","fixture":"fixtures/exclusion-path-with-context.json","description":"Synthetic Defender exclusion command includes bounded endpoint context."},
+    {"id":"defender-status-query","expectation":"no_match","fixture":"fixtures/defender-status-query.json","description":"Synthetic Defender status query is outside the rule."},
+    {"id":"enable-realtime-monitoring","expectation":"no_match","fixture":"fixtures/enable-realtime-monitoring.json","description":"Synthetic command setting the disable switch false does not match."},
+    {"id":"other-preference","expectation":"no_match","fixture":"fixtures/other-preference.json","description":"Synthetic unrelated Defender preference is outside the rule."},
+    {"id":"other-process-defender-command","expectation":"no_match","fixture":"fixtures/other-process-defender-command.json","description":"Synthetic non-PowerShell process containing the pattern fails closed."},
+    {"id":"disable-false-other-true","expectation":"no_match","fixture":"fixtures/disable-false-other-true.json","description":"Synthetic regression: true must belong to the selected disable parameter."},
+    {"id":"separate-command-true","expectation":"no_match","fixture":"fixtures/separate-command-true.json","description":"Synthetic regression: an unrelated statement cannot supply the disable value."},
+    {"id":"numeric-disable-value","expectation":"match","fixture":"fixtures/numeric-disable-value.json","description":"Synthetic regression: numeric true directly follows the selected parameter."},
+    {"id":"colon-disable-value","expectation":"match","fixture":"fixtures/colon-disable-value.json","description":"Synthetic regression: PowerShell cmdlet parameter colon syntax."},
+    {"id":"clear-exclusions-null","expectation":"no_match","fixture":"fixtures/clear-exclusions-null.json","description":"Synthetic regression: resetting exclusions to null does not add an exclusion."},
+    {"id":"clear-exclusions-empty-array","expectation":"no_match","fixture":"fixtures/clear-exclusions-empty-array.json","description":"Synthetic regression: empty exclusions do not weaken protection."},
+    {"id":"empty-exclusion-string","expectation":"no_match","fixture":"fixtures/empty-exclusion-string.json","description":"Synthetic regression: empty string is not a non-empty exclusion literal."},
+    {"id":"quoted-exclusion","expectation":"match","fixture":"fixtures/quoted-exclusion.json","description":"Synthetic regression: explicit quoted exclusion path with spaces."},
+    {"id":"variable-exclusion-outside-scope","expectation":"no_match","fixture":"fixtures/variable-exclusion-outside-scope.json","description":"Synthetic regression: variable resolution is explicitly outside the bounded rule."}
   ]
 }

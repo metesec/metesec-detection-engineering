@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0083",
+  "title": "Azure tenant-root access elevation succeeded",
+  "description": "Detects successful use of the Azure administrative elevateAccess operation at tenant root.",
+  "hypothesis": {
+    "summary": "A privileged actor may use tenant-root access elevation to gain Azure resource-management access across subscriptions; the event also occurs during legitimate recovery.",
+    "rationale": "The operation records an elevation workflow, not compromise. Global administrators may legitimately elevate for recovery and access management.",
+    "detection_goal": "Detects successful use of the Azure administrative elevateAccess operation at tenant root."
+  },
+  "ownership": {
+    "owner": "MeteSec Detection Engineering",
+    "reviewers": []
+  },
+  "lifecycle": {
+    "status": "experimental",
+    "created": "2026-09-11",
+    "modified": "2026-09-11",
+    "review_interval_days": 90
+  },
+  "severity": "high",
+  "confidence": "medium",
+  "data_sources": [
+    {
+      "name": "Azure Activity administrative events",
+      "category": "Azure control-plane administration",
+      "required_fields": [
+        "TimeGenerated",
+        "OperationNameValue",
+        "ActivityStatusValue",
+        "CategoryValue",
+        "Caller",
+        "CallerIpAddress",
+        "CorrelationId",
+        "EventDataId",
+        "ResourceId",
+        "SubscriptionId"
+      ]
+    }
+  ],
+  "attack": [
+    {
+      "technique_id": "T1098.003",
+      "tactic": "Privilege Escalation"
+    }
+  ],
+  "triage": {
+    "summary": "The operation records an elevation workflow, not compromise. Global administrators may legitimately elevate for recovery and access management.",
+    "steps": [
+      "Review the operation, resource, caller, source address and correlation ID; establish the approved change or recovery owner.",
+      "Inspect effective post-change configuration and independent controls, then correlate related role, resource and logging changes.",
+      "Validate the business justification and restore the affected control or contain unauthorized access through the consumer's approved process."
+    ],
+    "false_positives": [
+      "Approved Global Administrator recovery, tenant access review or emergency access management."
+    ]
+  },
+  "validation": {
+    "expected_outcome": "Match the bounded event, key/action/path or successful operation combination; reject one-field mutations, lookalikes and absent required fields. Synthetic tests do not establish live telemetry or production performance.",
+    "positive_tests": true,
+    "negative_tests": true
+  },
+  "implementations": [
+    {
+      "type": "sigma",
+      "path": "content/portable/sigma/MSEC-DET-0083/rule.yml",
+      "targets": [
+        "sentinel"
+      ],
+      "status": "active"
+    }
+  ],
+  "quality": {
+    "reviewed_on": "2026-09-11",
+    "signal_type": "administrative-activity",
+    "limitations": [
+      "The operation records an elevation workflow, not compromise. Global administrators may legitimately elevate for recovery and access management.",
+      "Current-revision evidence is synthetic only. Validate full generated KQL, source fields, ingestion delay, alert volume and scoped exclusions in the target before enabling."
+    ],
+    "validation_level": "synthetic-only",
+    "provenance": {
+      "origin": "reworked-supplied",
+      "license": "Apache-2.0",
+      "review": "docs/reviews/candidates-0051-0100.md"
+    }
+  }
+}

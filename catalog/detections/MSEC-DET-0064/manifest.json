@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0064",
+  "title": "RunAsPPL explicitly zeroed or removed",
+  "description": "Detects RunAsPPL set to a decimal or hexadecimal zero, or deleted at its machine registry configuration location.",
+  "hypothesis": {
+    "summary": "An adversary may weaken LSASS protection by zeroing or removing RunAsPPL before attempting credential access; registry state alone does not establish effective protection.",
+    "rationale": "Effective LSASS protection depends on operating-system defaults, policy, reboot state and UEFI lock; deleting a value does not prove protection was disabled.",
+    "detection_goal": "Detects RunAsPPL set to a decimal or hexadecimal zero, or deleted at its machine registry configuration location."
+  },
+  "ownership": {
+    "owner": "MeteSec Detection Engineering",
+    "reviewers": []
+  },
+  "lifecycle": {
+    "status": "experimental",
+    "created": "2026-09-11",
+    "modified": "2026-09-11",
+    "review_interval_days": 90
+  },
+  "severity": "medium",
+  "confidence": "medium",
+  "data_sources": [
+    {
+      "name": "Microsoft Defender for Endpoint registry events",
+      "category": "Endpoint registry modification",
+      "required_fields": [
+        "TimeGenerated",
+        "Timestamp",
+        "DeviceId",
+        "DeviceName",
+        "ActionType",
+        "InitiatingProcessAccountDomain",
+        "InitiatingProcessAccountName",
+        "InitiatingProcessAccountSid",
+        "InitiatingProcessFileName",
+        "InitiatingProcessCommandLine",
+        "RegistryKey",
+        "RegistryValueName",
+        "RegistryValueData",
+        "ReportId"
+      ]
+    }
+  ],
+  "attack": [
+    {
+      "technique_id": "T1685",
+      "tactic": "Defense Impairment"
+    }
+  ],
+  "triage": {
+    "summary": "Effective LSASS protection depends on operating-system defaults, policy, reboot state and UEFI lock; deleting a value does not prove protection was disabled.",
+    "steps": [
+      "Review the exact value, previous state where available, actor, initiating process and associated management-policy changes.",
+      "Verify effective protection on the device, including policy precedence, tamper protection, UEFI lock and reboot requirements.",
+      "Confirm the change owner and correlate with credential-access activity before escalation or an approved restoration."
+    ],
+    "false_positives": [
+      "Approved security-policy rollback, compatibility troubleshooting or repeated application of an already-disabled configuration."
+    ]
+  },
+  "validation": {
+    "expected_outcome": "Match the bounded event, key/action/path or successful operation combination; reject one-field mutations, lookalikes and absent required fields. Synthetic tests do not establish live telemetry or production performance.",
+    "positive_tests": true,
+    "negative_tests": true
+  },
+  "implementations": [
+    {
+      "type": "sigma",
+      "path": "content/portable/sigma/MSEC-DET-0064/rule.yml",
+      "targets": [
+        "sentinel"
+      ],
+      "status": "active"
+    }
+  ],
+  "quality": {
+    "reviewed_on": "2026-09-11",
+    "signal_type": "configuration-change",
+    "limitations": [
+      "Effective LSASS protection depends on operating-system defaults, policy, reboot state and UEFI lock; deleting a value does not prove protection was disabled.",
+      "Current-revision evidence is synthetic only. Validate full generated KQL, source fields, ingestion delay, alert volume and scoped exclusions in the target before enabling."
+    ],
+    "validation_level": "synthetic-only",
+    "provenance": {
+      "origin": "reworked-supplied",
+      "license": "Apache-2.0",
+      "review": "docs/reviews/candidates-0051-0100.md"
+    }
+  }
+}

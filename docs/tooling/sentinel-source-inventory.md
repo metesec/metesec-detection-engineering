@@ -84,9 +84,16 @@ A rule enters an implementation wave only when its hypothesis is useful, its
 required fields are observable and its logic can be represented in Sigma. A
 table name alone is not sufficient evidence.
 
-## Current repository boundary
+## Historical v1.0 observed boundary and 1.1 additions
 
 `SigninLogs`, `AuditLogs`, `DeviceProcessEvents`, `DeviceRegistryEvents` and
-`AADUserRiskEvents` have explicit contracts and forty-nine reviewed Sentinel preview consumers. The
+`AADUserRiskEvents` had explicit contracts and forty-nine reviewed Sentinel preview consumers in v1.0. The
 Windows service-installation detection remains portable but intentionally
 unbound because the available target has no suitable Windows event telemetry.
+
+The current 1.1 candidate has 66 bindings and ten contracts. Added AzureActivity,
+AWSCloudTrail, DeviceFileEvents, DeviceImageLoadEvents and DeviceNetworkEvents
+contracts are documentation-backed and require target verification. Sentinel's
+new endpoint-table profiles use TimeGenerated, not an assumed Defender XDR
+Timestamp field. Historical queryability does not validate rewritten predicates,
+the 0021 adapter, final output projection or ingestion-aware schedules.

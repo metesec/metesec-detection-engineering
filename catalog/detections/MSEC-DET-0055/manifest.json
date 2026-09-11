@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "id": "MSEC-DET-0055",
+  "title": "SilentProcessExit monitor configured with an interpreter or staging path",
+  "description": "Detects a machine-wide SilentProcessExit MonitorProcess value whose command starts with a selected interpreter or a rooted staging path.",
+  "hypothesis": {
+    "summary": "An adversary may configure a SilentProcessExit monitor command to launch an interpreter or payload from a staging directory when the monitored process exits.",
+    "rationale": "The value is configuration evidence; GlobalFlag, ReportingMode, the monitored exit and actual process execution are not proven.",
+    "detection_goal": "Detects a machine-wide SilentProcessExit MonitorProcess value whose command starts with a selected interpreter or a rooted staging path."
+  },
+  "ownership": {
+    "owner": "MeteSec Detection Engineering",
+    "reviewers": []
+  },
+  "lifecycle": {
+    "status": "experimental",
+    "created": "2026-09-11",
+    "modified": "2026-09-11",
+    "review_interval_days": 90
+  },
+  "severity": "high",
+  "confidence": "medium",
+  "data_sources": [
+    {
+      "name": "Microsoft Defender for Endpoint registry events",
+      "category": "Endpoint registry modification",
+      "required_fields": [
+        "TimeGenerated",
+        "Timestamp",
+        "DeviceId",
+        "DeviceName",
+        "ActionType",
+        "InitiatingProcessAccountDomain",
+        "InitiatingProcessAccountName",
+        "InitiatingProcessAccountSid",
+        "InitiatingProcessFileName",
+        "InitiatingProcessCommandLine",
+        "RegistryKey",
+        "RegistryValueName",
+        "RegistryValueData",
+        "ReportId"
+      ]
+    }
+  ],
+  "attack": [
+    {
+      "technique_id": "T1546.012",
+      "tactic": "Persistence"
+    }
+  ],
+  "triage": {
+    "summary": "The value is configuration evidence; GlobalFlag, ReportingMode, the monitored exit and actual process execution are not proven.",
+    "steps": [
+      "Inspect the complete MonitorProcess command and the exact application key, actor and parent process.",
+      "Verify the associated Image File Execution Options GlobalFlag and SilentProcessExit ReportingMode, then check observed monitor execution.",
+      "Confirm an approved diagnostic owner and investigate the referenced executable and adjacent persistence changes."
+    ],
+    "false_positives": [
+      "Authorized crash diagnostics, debugging or compatibility tooling using a selected interpreter or staging path."
+    ]
+  },
+  "validation": {
+    "expected_outcome": "Match the bounded event, key/action/path or successful operation combination; reject one-field mutations, lookalikes and absent required fields. Synthetic tests do not establish live telemetry or production performance.",
+    "positive_tests": true,
+    "negative_tests": true
+  },
+  "implementations": [
+    {
+      "type": "sigma",
+      "path": "content/portable/sigma/MSEC-DET-0055/rule.yml",
+      "targets": [
+        "sentinel"
+      ],
+      "status": "active"
+    }
+  ],
+  "quality": {
+    "reviewed_on": "2026-09-11",
+    "signal_type": "configuration-change",
+    "limitations": [
+      "The value is configuration evidence; GlobalFlag, ReportingMode, the monitored exit and actual process execution are not proven.",
+      "Current-revision evidence is synthetic only. Validate full generated KQL, source fields, ingestion delay, alert volume and scoped exclusions in the target before enabling."
+    ],
+    "validation_level": "synthetic-only",
+    "provenance": {
+      "origin": "reworked-supplied",
+      "license": "Apache-2.0",
+      "review": "docs/reviews/candidates-0051-0100.md"
+    }
+  }
+}

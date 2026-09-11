@@ -2,7 +2,7 @@
   "schema_version": 1,
   "id": "MSEC-DET-0004",
   "title": "Credential added to a Microsoft Entra service principal",
-  "description": "Detects a successful Microsoft Entra audit event that adds authentication credentials to a service principal.",
+  "description": "Detects successful addition of credentials to a Microsoft Entra service principal. This broad change-monitoring signal includes normal provisioning and rotation and needs application and actor context.",
   "hypothesis": {
     "summary": "An adversary may add a credential to a service principal to establish persistent cloud access.",
     "rationale": "A new certificate or secret can let its holder authenticate as the service principal and inherit the application's effective access, although legitimate provisioning and rotation create the same audit activity.",
@@ -15,16 +15,23 @@
   "lifecycle": {
     "status": "experimental",
     "created": "2026-09-03",
-    "modified": "2026-09-03",
+    "modified": "2026-09-11",
     "review_interval_days": 90
   },
-  "severity": "high",
-  "confidence": "medium",
+  "severity": "medium",
+  "confidence": "low",
   "data_sources": [
     {
       "name": "Microsoft Entra audit logs",
       "category": "Identity directory audit",
-      "required_fields": ["TimeGenerated", "OperationName", "Result", "InitiatedBy", "TargetResources", "CorrelationId"]
+      "required_fields": [
+        "TimeGenerated",
+        "OperationName",
+        "Result",
+        "InitiatedBy",
+        "TargetResources",
+        "CorrelationId"
+      ]
     }
   ],
   "attack": [
@@ -38,7 +45,8 @@
     "steps": [
       "Identify the initiating user or workload and the target service principal from InitiatedBy and TargetResources.",
       "Confirm the credential type, creation time, expiration, owner, effective permissions, and whether the change is covered by approved provisioning or rotation.",
-      "Review adjacent application and service-principal changes, then remove unauthorized credentials and investigate the initiating identity when the change is unexplained."
+      "Review adjacent application and service-principal changes, then remove unauthorized credentials and investigate the initiating identity when the change is unexplained.",
+      "Treat this as change or policy monitoring; correlate with actor risk and an approved change record before opening an incident."
     ],
     "false_positives": [
       "Approved application onboarding, certificate renewal, secret rotation, or automated identity-lifecycle activity"
@@ -53,8 +61,24 @@
     {
       "type": "sigma",
       "path": "content/portable/sigma/MSEC-DET-0004/rule.yml",
-      "targets": ["sentinel"],
+      "targets": [
+        "sentinel"
+      ],
       "status": "active"
     }
-  ]
+  ],
+  "quality": {
+    "reviewed_on": "2026-09-11",
+    "signal_type": "administrative-activity",
+    "limitations": [
+      "Authorized administration can produce this event. The rule does not independently establish compromise or completion of a command; assess identity, target and change approval.",
+      "Current-revision evidence is synthetic only. Validate full generated KQL, source fields, ingestion delay, alert volume and scoped exclusions in the target before enabling."
+    ],
+    "validation_level": "synthetic-only",
+    "provenance": {
+      "origin": "reviewed-existing",
+      "license": "Apache-2.0",
+      "review": "docs/reviews/existing-0001-0025.md"
+    }
+  }
 }
