@@ -2536,3 +2536,45 @@ No Sentinel rule was deployed or enabled, no live telemetry was published and
 no target-validation or production-readiness claim was added. Existing v1.0.0
 and v0.1.0 tags/assets remain unchanged. No v1.1.0 tag or release asset was
 created; ignored local build outputs were not committed as authored source.
+
+## 2026-09-12 — Publish Detection Pack v1.1.0
+
+### Protected release path
+
+The owner approved the versioned release after the reviewed 67-rule baseline was
+already present on protected main. PR #13 changed only the release-facing README
+and v1.1 notes, preserving the explicit source-and-evidence boundary. Branch run
+#25 passed at `96a9330497f784ba524cc9a17a6fd9eeb74768c4`; the protected merge
+created `d78f1f016442065cdc4d009508881302b38e1508`, and canonical-main run #26
+passed. Annotated tag `v1.1.0` targets that exact commit and tag run #27 passed.
+The public GitHub main mirror resolved to the same commit at publication.
+
+### Reproducibility and publication
+
+Two builds from the exact tag content produced identical files. The final ZIP is
+2,399,861 bytes with 1,098 members and SHA-256
+`eca1901a061503f8e91536189f58b88324481eb1abbc525931ff6b2f555a7b9c`.
+Its internal manifest lists 67 detections, 67 implementations, 264 positive and
+441 negative synthetic cases, 66 Sentinel preview bindings and no SIEM
+deployment. The stable Forgejo release hides automatic source archives and
+contains exactly `metesec-detection-pack-v1.1.0.zip` plus the 100-byte
+`SHA256SUMS`. Authenticated draft downloads and anonymous published downloads
+matched the reviewed sizes and digests.
+
+### Corrections and operating boundary
+
+The first focused release-builder test used system Python 3.14 without the pinned
+Sigma packages and therefore failed at the expected missing-module boundary. It
+was repeated successfully with Python 3.12 and the exact dependency lock. A first
+draft-download comparison contained an incorrectly transcribed expected digest
+for `SHA256SUMS`; the local digest was recomputed before the corrected comparison,
+and neither uploaded asset was changed. During publication, the workstation's
+private Headscale route was temporarily unavailable. The existing 1Password SSH
+agent and administrative SSH path provided a local tunnel to the same internal
+Forgejo Service; authentication and protected-branch controls were unchanged.
+
+No Sentinel rule was deployed or enabled. No cloud credential, live telemetry,
+customer tuning, production claim, target-validation claim or separate target
+archive was published. Existing `v1.0.0` and `v0.1.0` tags and assets remain
+immutable. Full generated-query target validation and a controlled pilot remain
+separate future milestones.

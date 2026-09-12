@@ -4,8 +4,7 @@ The roadmap describes intended capability, not current implementation. Verified 
 
 ## 1.1 — Reviewed enterprise baseline
 
-Status: **candidate source published on protected main and mirrored; versioned
-release and target pilot pending**.
+Status: **versioned source-and-evidence release published; target pilot pending**.
 
 - [x] Review all 50 existing rules and all 50 additional candidate IDs.
 - [x] Admit 17 bounded additions; record 33 deferred candidates.
@@ -16,7 +15,7 @@ release and target pilot pending**.
 - [x] Canonical Forgejo review and trusted branch/main CI for this revision.
 - [x] Publish candidate source on protected main and verify the GitHub mirror.
 - [ ] Full generated-query target tests, source/ingestion verification and pilot.
-- [ ] Publish a versioned v1.1.0 tag and checksummed release assets.
+- [x] Publish a versioned v1.1.0 tag and checksummed release assets.
 
 No fixed future rule-count target. Existing v1.0 milestones below are historical;
 their live-query results and counts do not certify current rewritten content.

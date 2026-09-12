@@ -123,3 +123,15 @@ reviewed 1,040,114-byte ZIP and SHA-256
 `4565d5001281d0694c3891337fc362b1e8ad0b29b6957433ff6ce5bc7773703d`. The
 GitHub distribution mirror resolved `main` to the same merge commit. These
 checks publish no CI credential and deploy no Sentinel resource.
+
+For `v1.1.0`, release branch run `#25` validated commit
+`96a9330497f784ba524cc9a17a6fd9eeb74768c4`. Pull Request `#13` merged through
+protected main as `d78f1f016442065cdc4d009508881302b38e1508`; canonical-main run
+`#26` and annotated-tag run `#27` passed on that exact commit. The Forgejo
+release hides automatic source archives and exposes only
+`metesec-detection-pack-v1.1.0.zip` plus `SHA256SUMS`. Two exact tag builds and
+the authenticated draft downloads matched. Anonymous post-publication downloads
+matched the 2,399,861-byte ZIP with SHA-256
+`eca1901a061503f8e91536189f58b88324481eb1abbc525931ff6b2f555a7b9c` and the
+100-byte checksum file. The ZIP contains 1,098 members, including its internal
+manifest, and explicitly records `siem_deployment` as false.
