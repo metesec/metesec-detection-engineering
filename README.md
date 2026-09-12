@@ -4,7 +4,7 @@ A reviewable detection-as-code baseline for enterprise security teams.
 One authored Sigma source per detection, executable regression tests, explicit
 telemetry contracts and reproducible Microsoft Sentinel output.
 
-**Current development: 1.1.0 release candidate — 67 experimental rules,
+**Current release: 1.1.0 — 67 experimental rules,
 66 disabled Sentinel bindings, 10 source contracts.** This is an engineering
 baseline, not a production-certified detection service.
 
@@ -93,10 +93,10 @@ MeteSec Forgejo is the canonical authoring/review source. The
 [GitHub repository](https://github.com/metesec/metesec-detection-engineering)
 is a read-only distribution mirror of reviewed main. The trusted Forgejo
 workflow has no deployment credentials and does not execute untrusted PR code.
-The 1.1 candidate source is published on protected canonical `main` and mirrored
-to GitHub. [PR #11](https://git.metesec.com/metesec/metesec-detection-engineering/pulls/11)
-passed trusted branch and merged-main validation. A v1.1.0 tag/release has not
-been published. Published v1.0.0 and v0.1.0 tags/assets remain immutable.
+The reviewed 1.1 source is published on protected canonical `main`, mirrored to
+GitHub and packaged by the versioned `v1.1.0` release. [PR #11](https://git.metesec.com/metesec/metesec-detection-engineering/pulls/11)
+passed trusted branch and merged-main validation. Published v1.0.0 and v0.1.0
+tags/assets remain immutable.
 
 Licensed under [Apache-2.0](LICENSE); retain [NOTICE](NOTICE) and source
 attributions. The overlap audit is scoped to a pinned public corpus and does
