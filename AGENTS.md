@@ -1,6 +1,6 @@
 # MeteSec Detection Engineering — Project Handoff
 
-Last updated: 2026-09-11 (Europe/Berlin)
+Last updated: 2026-09-12 (Europe/Berlin)
 
 Read this file completely before changing the repository, its pipeline, public mirror, schemas, or detection content. Keep `LOGBOOK.md` and `ROADMAP.md` accurate after every completed and verified milestone.
 
@@ -34,11 +34,11 @@ multi-implementation resolver belongs in the active version 1 design.
 
 ## Current state
 
-The current development baseline is **1.1.0, repository-published release
-candidate** on protected canonical `main` and the GitHub distribution mirror.
-PR #11 published the reviewed source as merge commit
-`5f45542ace6108230bd41fb7daf4d8c460cbf52d`. This section supersedes historical
-1.0 counts and the former fifty-rule scope below.
+The current published baseline is **v1.1.0**. PR #13 finalized the release
+boundary through protected canonical `main` as merge commit
+`d78f1f016442065cdc4d009508881302b38e1508`; annotated tag `v1.1.0` targets that
+exact commit, and the GitHub distribution mirror matched it at publication.
+This section supersedes historical 1.0 counts and the former fifty-rule scope.
 
 - All 50 existing and 50 supplied additional candidate IDs reviewed; 17 new
   packages admitted, 33 deferred with reasons. The hardened archive overlaps IDs.
@@ -65,6 +65,11 @@ PR #11 published the reviewed source as merge commit
   The full aggregate check also passes from a freshly extracted 1.1 source pack
   with independently installed JavaScript dependencies and no Git directory.
   Release tests verify deterministic rebuilds and packaged evaluator imports.
+- Release branch run #25, canonical-main run #26 and annotated-tag run #27 all
+  passed. The public release exposes only the 2,399,861-byte source ZIP and
+  `SHA256SUMS`, hides automatic source archives and reproduces ZIP SHA-256
+  `eca1901a061503f8e91536189f58b88324481eb1abbc525931ff6b2f555a7b9c`.
+  Anonymous downloads matched both uploaded files. No SIEM resource was deployed.
 - The pinned SigmaHQ audit covers 4,045 rule documents; no exact matches for
   original 50/current 67 under the recorded metrics. Normalized comparison has
   279 explicit upstream gaps. No internet-wide uniqueness or rights guarantee.
@@ -225,10 +230,9 @@ After every completed milestone:
 
 ## Immediate next milestone
 
-Keep published tags/assets immutable. The 1.1 candidate source has passed
-canonical Forgejo review/CI and is public on main and its mirror. Versioned
-v1.1.0 tag/asset publication remains a separate milestone. Full-query target
-validation and a controlled pilot remain required before production claims.
+Keep published tags/assets immutable. Versioned `v1.1.0` source and evidence
+assets are public and reproducible. Full-query target validation and a controlled
+pilot remain required before production claims.
 Use the explicit adoption/evidence gates, not historical predicate probes.
 Do not deploy or enable rules, publish a
 separate target archive or store raw live query output as an inferred next step.
